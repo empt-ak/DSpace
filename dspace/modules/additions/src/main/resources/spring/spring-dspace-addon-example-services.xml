@@ -11,14 +11,50 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:util="http://www.springframework.org/schema/util"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/util
+            http://www.springframework.org/schema/util/spring-util-2.5.xsd
            http://www.springframework.org/schema/context
-           http://www.springframework.org/schema/context/spring-context-2.5.xsd"
-    default-autowire-candidates="*Service,*DAO,javax.sql.DataSource">
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
     <context:annotation-config /> <!-- allows us to use spring annotations in beans -->
+    <context:component-scan base-package="cz.muni.ics" /> 
 
-    <bean id="org.dspace.example.Example" class="org.dspace.example.impl.ExampleImpl" />
+    <!--<bean id="org.dspace.example.Example" class="org.dspace.example.impl.ExampleImpl" />-->
+    
+    <bean
+        id="commandLineParser"
+        class="org.apache.commons.cli.DefaultParser"
+    />
 
+    <bean
+        id="helpFormatter"
+        class="org.apache.commons.cli.HelpFormatter"
+    />
+    
+    <bean
+        id="jaxbc"
+        class="javax.xml.bind.JAXBContext"
+        factory-method="newInstance"
+    >
+        <constructor-arg>
+            <list>
+                <value>cz.muni.ics.digilib.domain.Periodical</value>
+            </list>
+        </constructor-arg>
+    </bean>
+    
+    <bean
+        id="unmarshaller"
+        class="javax.xml.bind.Unmarshaller"
+        factory-bean="jaxbc"
+        factory-method="createUnmarshaller"
+    />
+    
+    <bean
+        id="dspaceKernel"
+        class="org.dspace.utils.DSpace"
+    />
 </beans>
