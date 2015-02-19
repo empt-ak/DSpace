@@ -57,4 +57,20 @@
         id="dspaceKernel"
         class="org.dspace.utils.DSpace"
     />
+    
+    <bean
+        id="objectWrapper"
+        class="cz.muni.ics.dspace5.impl.ObjectWrapperImpl"
+        scope="prototype"
+    />
+    
+    <bean
+        id="objectWrapperFactory"
+        class="cz.muni.ics.dspace5.impl.ObjectWrapperFactory"
+    >
+        <lookup-method
+            name="createObjectWrapper"
+            bean="objectWrapper"
+        />
+    </bean>
 </beans>

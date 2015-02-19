@@ -5,6 +5,7 @@
  */
 package cz.muni.ics.dspace5.impl;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.log4j.Logger;
@@ -25,26 +26,55 @@ public class InputArguments
         argumentMap.put(key, value);
     }
     
+    /**
+     * Gets value from input arguments based on passed key. Call this method only when you are sure that the value is {@code String}
+     * @param key of which value is to be obtained
+     * @return String representation of value for given key.
+     */
     public String getValue(String key)
     {
         return (String) argumentMap.get(key);
     }
     
+    /**
+     * Gets value from input arguments based on passed key. Value is automatically cast to given {@code T} type.
+     * @param <T> return type
+     * @param key of value to be obtained
+     * @return value cast to {@code T} type
+     */
     public <T> T getTypedValue(String key)
     {
         return (T) argumentMap.get(key);
     }
     
+    /**
+     * Gets value from input arguments based on passed key. Value is automatically cast to given type of {@code clazz} argument.
+     * @param <T> return type
+     * @param key key of value to be obtained
+     * @param clazz type of return type
+     * @return return value based on {@code key} and {@code clazz}
+     */
     public <T> T getTypedValue(String key, Class<T> clazz)
     {
         return (T) argumentMap.get(key);
     }
     
+    /**
+     * Method returns whole argument map.
+     * @return argument map.
+     */
     public Map<String,Object> getArgumentMap()
     {
-        return argumentMap;
+        return Collections.unmodifiableMap(argumentMap); //just in case
     }
     
+    /**
+     * Method dumps all values passed from command line in following form:
+     * <pre>
+     * key;className;value
+     * </pre>
+     * All values are put into {@code Logger} at info level.
+     */
     public void dump()
     {
         for(String s : argumentMap.keySet())

@@ -12,7 +12,7 @@ import cz.muni.ics.dspace5.core.ObjectWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.impl.FolderProvider;
 import cz.muni.ics.dspace5.impl.InputArguments;
-import cz.muni.ics.dspace5.impl.ObjectWrapperImpl;
+import cz.muni.ics.dspace5.impl.ObjectWrapperFactory;
 import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -34,9 +34,13 @@ public class ImportServiceImpl implements ImportService
 {
 
     private static final Logger logger = Logger.getLogger(ImportServiceImpl.class);
-    @Autowired
-    private CommandLineService commandLineService;
     private Context context;
+    
+    //awires
+    @Autowired
+    private ObjectWrapperFactory objectWrapperFactory;
+    @Autowired
+    private CommandLineService commandLineService;    
     @Autowired
     private ImportCommunity importCommunity;
     @Autowired
@@ -89,8 +93,9 @@ public class ImportServiceImpl implements ImportService
             {
                 case 0:
                 {
-                    ObjectWrapper ow = new ObjectWrapperImpl(inputArguments.getTypedValue("path", Path.class),
-                            handleService.getHandleForPath(inputArguments.getTypedValue("path", Path.class)), null, null);
+                    ObjectWrapper ow = objectWrapperFactory.createObjectWrapper();
+                    ow.setPath(inputArguments.getTypedValue("path", Path.class));
+                    ow.setHandle(handleService.getHandleForPath(inputArguments.getTypedValue("path", Path.class)));
 
                     resolveChildren(ow, level + 1);
 
@@ -149,16 +154,41 @@ public class ImportServiceImpl implements ImportService
 
                 for (Path p : paths)
                 {
-                    ObjectWrapper ow = new ObjectWrapperImpl(p, handleService.getHandleForPath(p), null, null);
-                    ObjectWrapper volume = new ObjectWrapperImpl(p, handleService.getVolumeHandle(p), null, null);
+//                    ObjectWrapper ow = new ObjectWrapperImpl(p, handleService.getHandleForPath(p), null, null);
+//                    ObjectWrapper volume = new ObjectWrapperImpl(p, handleService.getVolumeHandle(p), null, null);
+                    ObjectWrapper ow = objectWrapperFactory.createObjectWrapper();
+                    ow.setPath(p);
+                    ow.setHandle(handleService.getHandleForPath(p));
+                    
+                    ObjectWrapper volume = objectWrapperFactory.createObjectWrapper();
+                    volume.setPath(p);
+                    volume.setHandle(handleService.getVolumeHandle(p));
 
                     resolveChildren(ow, level - 1);
 
                     volumes.add(volume);
                     issues.add(ow);
                 }
+                
+                for(ObjectWrapper volume : volumes)
+                {
+                    List<ObjectWrapper> toAddIssues = new ArrayList<>();
+                    
+                    String volumeNumber = volume.getPath().getFileName()
+                            .toString().split("-")[0];
+                    
+                    for(ObjectWrapper issue : issues)
+                    {
+                        if(issue.getPath().getFileName().toString().startsWith(volumeNumber))
+                        {
+                            toAddIssues.add(issue);
+                        }
+                    }
+                    
+                    volume.setChildren(toAddIssues);
+                }
 
-                //objectWrapper.setChildren(volumes);
+                objectWrapper.setChildren(new ArrayList<>(volumes));
             }
             else
             {
@@ -167,7 +197,9 @@ public class ImportServiceImpl implements ImportService
 
                 for (Path p : paths)
                 {
-                    ObjectWrapper ow = new ObjectWrapperImpl(p, handleService.getHandleForPath(p), null, null);
+                    ObjectWrapper ow = objectWrapperFactory.createObjectWrapper();
+                    ow.setPath(p);
+                    ow.setHandle(handleService.getHandleForPath(p));
 
                     resolveChildren(ow, level);
                     children.add(ow);
