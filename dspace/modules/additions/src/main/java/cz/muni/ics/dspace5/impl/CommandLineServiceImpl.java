@@ -66,18 +66,7 @@ public class CommandLineServiceImpl implements CommandLineService
             }   
             
             inputArguments.put("mode", importMode);
-                    
-            int commitAfter = 0;
-            try
-            {
-                commitAfter = Integer.parseInt(cmd.getOptionValue("ca", "0"));
-            }
-            catch(NumberFormatException nfe)
-            {
-                throw new IllegalArgumentException(nfe.getMessage());
-            }
             
-            inputArguments.put("commitAfter", commitAfter);
             inputArguments.put("failOnError", Boolean.parseBoolean(cmd.getOptionValue("foe", "false")));
             
             inputArguments.dump();

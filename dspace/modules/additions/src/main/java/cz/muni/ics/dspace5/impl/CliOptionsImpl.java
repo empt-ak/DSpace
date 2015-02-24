@@ -55,20 +55,7 @@ public class CliOptionsImpl implements CliOptions
                                     + "value is 'update'")
                             .build()
             );
-
-            options.addOption(
-                    Option.builder("ca")
-                            .longOpt("commit-after")
-                            .argName("ca")
-                            .hasArg(true)
-                            .type(Integer.class)
-                            .required(false)
-                            .desc("Integer value specifying after how many operation (create,update,delete) "
-                                    + "commit to database is made. Default value is 0, which means that commit "
-                                    + "is made after every tier is processed (eg all articles in issue). If "
-                                    + "value is set to -1 then commit is made after everything has been procesed.")
-                            .build()
-            );
+            
             options.addOption(
                     Option.builder("foe")
                             .longOpt("fail-on-error")

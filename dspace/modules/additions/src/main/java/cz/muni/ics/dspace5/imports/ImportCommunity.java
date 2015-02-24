@@ -5,7 +5,6 @@
  */
 package cz.muni.ics.dspace5.imports;
 
-import cz.muni.ics.dspace5.core.HandleService;
 import cz.muni.ics.dspace5.core.ObjectWrapper;
 import cz.muni.ics.dspace5.core.post.CommunityPostProcessor;
 import cz.muni.ics.dspace5.impl.InputArguments;
@@ -63,7 +62,7 @@ public class ImportCommunity
         Community comm = findCommunity(objectWrapper, isTopComm);
         if (comm == null)
         {
-            logger.debug("Community with handle ["+objectWrapper.getHandle()+"] not found. Community will be created");
+            logger.debug("Community with handle [" + objectWrapper.getHandle() + "] not found. Community will be created");
             try
             {
                 comm = Community.create(null, context, objectWrapper.getHandle());
@@ -78,22 +77,45 @@ public class ImportCommunity
         {
             List<MetadataRow> metadata = communityPostProcessor.processMetadata(objectWrapper, isTopComm);
 
+            //values have to be cleared first because there may be multiple values
+            // e.g. dc.title.alternative
             for (MetadataRow mr : metadata)
             {
-                //clear data && store data
                 comm.clearMetadata(mr.getSchema(), mr.getElement(), mr.getQualifier(), ANY);
+            }
+            
+            for (MetadataRow mr : metadata)
+            {
                 comm.addMetadata(mr.getSchema(), mr.getElement(), mr.getQualifier(), mr.getLanguage(), mr.getValue());
             }
 
             communityPostProcessor.processCommunity(objectWrapper, comm);
 
             saveAndCommit(comm);
-            
-            if(inputArguments.getValue("mode").equals("update"))
+
+            if (inputArguments.getValue("mode").equals("update"))
             {
-                for(ObjectWrapper child : objectWrapper.getChildren())
+                if(objectWrapper.getChildren() != null && !objectWrapper.getChildren().isEmpty())
                 {
-                    importToDspace(child, false, context);
+                    /*
+                    @meditor: add some kind of resolver which will say what will be imported based on 
+                    path level. e.g. /a/b is comunity a/b/c is subcomunity a/b/c/d sub too
+                    but a/b/c/d/e will resolve to collection
+                    */
+                    if(objectWrapper.getChildren().get(0).isVolume())
+                    {
+                        for(ObjectWrapper child : objectWrapper.getChildren())
+                        {
+                            importToDspace(child, false, context);
+                        }
+                    }
+                    else
+                    {
+                        for(ObjectWrapper child : objectWrapper.getChildren())
+                        {
+                            importCollection.importToDspace(child, context);
+                        }
+                    }
                 }
             }
 
@@ -140,7 +162,7 @@ public class ImportCommunity
             {
                 if (topComm.getHandle().equals(objectWrapper.getHandle()))
                 {
-                    logger.debug("Community with handle ["+objectWrapper.getHandle()+"] found. Community will be updated");
+                    logger.debug("Community with handle [" + objectWrapper.getHandle() + "] found. Community will be updated");
                     result = topComm;
                     break;
                 }
@@ -164,30 +186,11 @@ public class ImportCommunity
         try
         {
             community.update();
+            context.commit();
         }
         catch (SQLException | AuthorizeException ex)
         {
             safeFailLog(ex);
-        }
-
-//        if (inputArguments.getCommitAfterNumber() == 0
-//                || inputArguments.getCommitAfterNumber()
-//                == inputArguments.getCurentCommitNumber())
-        //TODO import monitor
-        if(inputArguments.getTypedValue("commitAfter",Integer.class) == 0)
-        {
-            try
-            {
-                context.commit();
-            }
-            catch (SQLException ex)
-            {
-                safeFailLog(ex);
-            }
-        }
-        else
-        {
-            //inputArguments.incrementCommitNumber();
         }
     }
 

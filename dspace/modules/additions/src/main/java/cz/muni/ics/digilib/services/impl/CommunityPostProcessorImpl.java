@@ -15,14 +15,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import org.apache.log4j.Logger;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Community;
+import org.dspace.content.Metadatum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -55,10 +54,24 @@ public class CommunityPostProcessorImpl implements CommunityPostProcessor
             {
                 logger.error(ex,ex.getCause());
             }
-            
             if(p != null)
             {
                 resultList.add(new MetadataRow("dc", "title", null, null, p.getTitleMain()));
+                
+                for(String publisher : p.getPublisher())
+                {
+                    resultList.add(new MetadataRow("dc", "publisher", null, null, publisher));
+                }
+                
+                for(String s : p.getTitleVariant())
+                {
+                    resultList.add(new MetadataRow("dc", "title","alternative",null,s));
+                }
+                
+                for(String issn : p.getISSN())
+                {
+                    resultList.add(new MetadataRow("dc", "identifier", "issn", null, issn));
+                }
             }         
             else
             {

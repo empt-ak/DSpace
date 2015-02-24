@@ -50,4 +50,26 @@ public class DSpaceTools
     {
         return ByteBuffer.allocate(Long.SIZE).putLong(value).array();
     }
+    
+    //@meditor: not needed
+    /**
+     * Method selects volume number out of given path.
+     * @param p path of issue
+     * @return volume number for given issue
+     */
+    public String getVolumeNumber(Path p)
+    {
+        return p.getFileName().toString().split("-")[0];
+    }
+    
+    //@meditor
+    /**
+     * Method selects issue number out of given path.
+     * @param p of collection (issue)
+     * @return issue number.
+     */
+    public String getIssueNumber(Path p)
+    {
+        return p.getFileName().toString().split("-")[2];
+    }
 }

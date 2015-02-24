@@ -95,7 +95,7 @@ public class ImportServiceImpl implements ImportService
                 {
                     ObjectWrapper ow = objectWrapperFactory.createObjectWrapper();
                     ow.setPath(inputArguments.getTypedValue("path", Path.class));
-                    ow.setHandle(handleService.getHandleForPath(inputArguments.getTypedValue("path", Path.class)));
+                    ow.setHandle(handleService.getHandleForPath(inputArguments.getTypedValue("path", Path.class), context));
 
                     resolveChildren(ow, level + 1);
 
@@ -158,11 +158,11 @@ public class ImportServiceImpl implements ImportService
 //                    ObjectWrapper volume = new ObjectWrapperImpl(p, handleService.getVolumeHandle(p), null, null);
                     ObjectWrapper ow = objectWrapperFactory.createObjectWrapper();
                     ow.setPath(p);
-                    ow.setHandle(handleService.getHandleForPath(p));
+                    ow.setHandle(handleService.getHandleForPath(p,context));
                     
                     ObjectWrapper volume = objectWrapperFactory.createObjectWrapper();
                     volume.setPath(p);
-                    volume.setHandle(handleService.getVolumeHandle(p));
+                    volume.setHandle(handleService.getVolumeHandle(p,context));
 
                     resolveChildren(ow, level - 1);
 
@@ -199,7 +199,7 @@ public class ImportServiceImpl implements ImportService
                 {
                     ObjectWrapper ow = objectWrapperFactory.createObjectWrapper();
                     ow.setPath(p);
-                    ow.setHandle(handleService.getHandleForPath(p));
+                    ow.setHandle(handleService.getHandleForPath(p,context));
 
                     resolveChildren(ow, level);
                     children.add(ow);

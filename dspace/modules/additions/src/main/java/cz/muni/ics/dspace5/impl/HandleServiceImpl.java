@@ -9,10 +9,14 @@ import cz.muni.ics.dspace5.core.HandleService;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import org.apache.commons.lang3.StringUtils;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
 import org.apache.log4j.Logger;
+import org.dspace.core.Context;
 import org.dspace.services.ConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,136 +28,216 @@ import org.springframework.stereotype.Component;
 @Component
 public class HandleServiceImpl implements HandleService
 {
+
     private String handleFile = null;
     private String globalHandleFile = null;
     private String handlePrefix = null;
     
     @Autowired
-    private DSpaceTools dspaceTools;
-    @Autowired
     private ConfigurationService configurationService;
-    
-    
+    @Autowired
+    private VolumeFolderProvider volumeFolderProvider;
+
     private static final Logger logger = Logger.getLogger(HandleServiceImpl.class);
-    
+
     @Override
-    public synchronized String getHandleForPath(Path path)
+    public String getHandleForPath(Path path, Context context) throws IllegalArgumentException
     {
+        if (context == null)
+        {
+            throw new IllegalArgumentException("Passed Context is null.");
+        }
+        
         init();
-        
-        Path handlePath = path.resolve(handleFile);
-        
-        if(Files.exists(handlePath))
+
+        Path dspaceFile = path.resolve(handleFile);
+
+        String suffix = null;
+
+        if (Files.exists(dspaceFile))
         {
             try
             {
-                String suffix = new String(Files.readAllBytes(handlePath));
-            
-                return handlePrefix+suffix;
+                suffix = new String(Files.readAllBytes(dspaceFile));
             }
-            catch(IOException ex)
+            catch (IOException ex)
             {
-                logger.error(ex, ex.getCause());
-                //TODO: Fail on error via system.exit ??
+                logger.error(ex);
             }
-            
-            return StringUtils.EMPTY;            
         }
         else
         {
-            return handlePrefix+createAndProvideNewHandle(path);
-        }
-    }
-    
-    /**
-     * Method ensures that new id is created. Below is workflow used by method:
-     * <ol>
-     * <li>if file with global id exists then read it</li>
-     * <li>otherwise create it and write new id 0</li>
-     * <li>increment current id by 1</li>
-     * <li>write to global file</li>
-     * <li>write to single file for given object</li>
-     * <li>return new value</li>
-     * </ol>
-     * 
-     * TODO: volume handling
-     * @param path
-     * @return 
-     */
-    private String createAndProvideNewHandle(Path path)
-    {
-        
-        Long lastId = null;
-        try
-        {
-            lastId = Long.valueOf(new String(Files.readAllBytes(Paths.get(globalHandleFile))));
-        }
-        catch(IOException ex)
-        {
-            logger.warn("No global handle file found.");
-        }
-        
-        // first time run~>no id yet
-        if(lastId == null)
-        {
-            lastId = Long.valueOf("0");            
-            
-            try
+            String newSuffix = getNewHandle(context.getDBConnection()).toString();
+
+            if (newSuffix == null)
             {
-                Files.write(Paths.get(globalHandleFile), dspaceTools.longToByte(lastId), StandardOpenOption.CREATE_NEW);
+                throw new RuntimeException("FATAL ERROR CREATING HANDLE.");
             }
-            catch(IOException ex)
+            else
             {
-                logger.fatal(ex);
+                try
+                {
+                    Files.write(dspaceFile, newSuffix.getBytes(), StandardOpenOption.CREATE_NEW);
+                }
+                catch (IOException ex)
+                {
+                    logger.error(ex);
+                    throw new RuntimeException("FATAL ERROR CREATING HANDLE FILE.");
+                }
+
+                suffix = newSuffix;
             }
         }
-        
-        //increment id and save it to global file first
-        Long newId = lastId + 1;
-        try
-        {
-            Files.write(Paths.get(globalHandleFile), dspaceTools.longToByte(newId), StandardOpenOption.CREATE_NEW);
-        }
-        catch(IOException ex)
-        {
-            logger.fatal(ex);
-        }
-        
-        // save for given object
-        // TODO: handle 
-        try
-        {
-            Files.write(path.resolve(handleFile), dspaceTools.longToByte(newId), StandardOpenOption.CREATE_NEW);
-        }
-        catch(IOException ex)
-        {
-            logger.fatal(ex);
-        }
-        
-        return newId.toString();
-    }
-    
-    private void init()
-    {
-        if(globalHandleFile == null)
-        {
-            globalHandleFile = configurationService.getProperty("meditor.handle.file.global");
-        }
-        
-        if(handleFile == null)
-        {
-            handleFile = configurationService.getProperty("meditor.handle.file");
-        }
-        
-        if(handlePrefix == null)
-        {
-            handlePrefix = configurationService.getProperty("handle.prefix")+"/";
-        }
+
+        return handlePrefix + suffix;
     }
 
     @Override
-    public String getVolumeHandle(Path path)
+    public String getVolumeHandle(Path path, Context context) throws IllegalArgumentException
     {
-        return handlePrefix+"12315zz";
+        if(context == null)
+        {
+            throw new IllegalArgumentException("Given context is null.");
+        }
+        
+        init();
+        
+        List<Path> volume = volumeFolderProvider.getVolumesFromIssue(path);
+
+        String volumeSuffix = null;
+        boolean missing = false;
+
+        for (Path p : volume)
+        {
+            Path dspaceVolumeID = p.resolve("dspace_volume_id.txt");
+
+            if (!Files.exists(dspaceVolumeID))
+            {
+                missing = true;
+            }
+            else
+            {
+                if (volumeSuffix == null)
+                {
+                    try
+                    {
+                        volumeSuffix = new String(Files.readAllBytes(dspaceVolumeID));
+                    }
+                    catch (IOException ex)
+                    {
+                        logger.error(ex, ex.getCause());
+                        throw new RuntimeException("ERROR WHILE READING FROM dspace_volume_id.txt at path [" + dspaceVolumeID + "]");
+                    }
+                }
+            }
+        }
+
+        if (volumeSuffix == null)
+        {
+            volumeSuffix = getNewHandle(context.getDBConnection()).toString();
+        }
+
+        if (missing)
+        {
+            for (Path p : volume)
+            {
+                Path dspaceVolumeID = p.resolve("dspace_volume_id.txt");
+
+                if (!Files.exists(dspaceVolumeID))
+                {
+                    try
+                    {
+                        Files.write(dspaceVolumeID, volumeSuffix.getBytes(), StandardOpenOption.CREATE_NEW);
+                    }
+                    catch (IOException ex)
+                    {
+                        logger.fatal(ex, ex.getCause());
+                        throw new RuntimeException("ERROR WHILE WRITING TO dspace_volume_id.txt at path [" + dspaceVolumeID + "]");
+                    }
+                }
+            }
+        }
+
+        return handlePrefix + volumeSuffix;
+    }
+
+    /**
+     * Method obtains new handle ID from database by running following
+     * <b>PostgreSQL</b> Query:
+     * <pre>
+     *  select max(substring(handle from ?)::bigint)+1 as new_handle from handle
+     * </pre>.
+     *
+     * This is created as Prepared statement with argument of
+     * <i>handlePrefix.length()</i> then cast to long and selected maximum value
+     * incremented by one. This method is forbidden to close obtained as method
+     * argument.
+     *
+     * @param connection obtained from {@link Context#getDBConnection() }
+     *
+     * @return new handle suffix id, null if error occurred during execution
+     *
+     * @throws IllegalArgumentException if connection is null
+     * @throws IllegalStateException    if connection is closed
+     */
+    private synchronized Long getNewHandle(Connection connection) throws IllegalArgumentException, IllegalStateException
+    {
+        if (connection == null)
+        {
+            throw new IllegalArgumentException("Connection is null.");
+        }
+
+        try
+        {
+            if (connection.isClosed())
+            {
+                throw new IllegalStateException("Connection is closed.");
+            }
+        }
+        catch (SQLException ex)
+        {
+            throw new IllegalStateException("Connection is closed.", ex.getCause());
+        }        
+
+        Long resultID = null;
+
+        try (PreparedStatement ps = connection.prepareStatement("select max(substring(handle from ?)::int)+1 as new_handle from handle"))
+        {
+            ps.setInt(1, handlePrefix.length());
+
+            try (ResultSet rs = ps.executeQuery())
+            {
+                rs.next();
+
+                resultID = rs.getLong(1);
+            }
+        }
+        catch (SQLException ex)
+        {
+            logger.error(ex);
+        }
+
+        return resultID;
+    }
+
+    /**
+     * Method initializes field variables of this class.
+     */
+    private void init()
+    {
+        if (globalHandleFile == null)
+        {
+            globalHandleFile = configurationService.getProperty("meditor.handle.file.global");
+        }
+
+        if (handleFile == null)
+        {
+            handleFile = configurationService.getProperty("meditor.handle.file");
+        }
+
+        if (handlePrefix == null)
+        {
+            handlePrefix = configurationService.getProperty("handle.prefix") + "/";
+        }
     }
 }

@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -23,13 +24,19 @@ public class VolumeFolderProvider
 {
 
     private static final Logger logger = Logger.getLogger(VolumeFolderProvider.class);
+    
+    @Autowired
+    private DSpaceTools dSpaceTools;
 
+    /**
+     * Method returns list of paths of issues that belong to the same volume.
+     * @param issuePath 
+     * @return 
+     */
     public List<Path> getVolumesFromIssue(Path issuePath)
     {
-        return getVolumes(issuePath.getParent(), issuePath.getFileName().toString().split("-")[0]);
+        return getVolumes(issuePath.getParent(), dSpaceTools.getVolumeNumber(issuePath));
     }
-    
-    
 
     public List<Path> getVolumes(Path rootPath, final String issueNumber)
     {

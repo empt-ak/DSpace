@@ -5,6 +5,9 @@
  */
 package cz.muni.ics.dspace5.imports;
 
+import cz.muni.ics.dspace5.core.ObjectWrapper;
+import org.dspace.content.Collection;
+import org.dspace.core.Context;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,5 +17,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class ImportCollection
 {
-    
+    public Collection importToDspace(ObjectWrapper objectWrapper, Context context)
+    {
+        return null;
+    }
 }

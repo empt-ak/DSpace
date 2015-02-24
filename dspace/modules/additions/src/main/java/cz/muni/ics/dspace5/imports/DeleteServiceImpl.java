@@ -94,7 +94,7 @@ public class DeleteServiceImpl implements DeleteService
                     Path deletePath = Paths.get(inputArguments.getValue("value"));
                     logger.info("Delete by path was selected [" + deletePath.toString() + "].");
 
-                    handleService.getHandleForPath(null);
+                    handleService.getHandleForPath(deletePath,context);
                 }
                 else
                 {
@@ -138,7 +138,7 @@ public class DeleteServiceImpl implements DeleteService
                             deleteItem(null, (Item) object);
                         }
                         break;
-                    }                    
+                    }
                 }
 
                 context.restoreAuthSystemState();
@@ -324,9 +324,13 @@ public class DeleteServiceImpl implements DeleteService
     }
 
     /**
-     * Method executes deletes from <code>handle</code> table. Method does not use try/w/resources statement because
-     * we <b>cannot close</b> connection, because if its closed later the work with <code>Context</code> class may fail with <code>SQLException</code>.
+     * Method executes deletes from {@code handle} table. Method does not use
+     * try/w/resources statement because we <b>cannot close</b> connection,
+     * because if its closed later the work with {@code Context} class may fail
+     * with {@code SQLException}.
+     *
      * @param connection connection to database
+     *
      * @throws SQLException if any error occurs.
      */
     private void executeBatchDelete(Connection connection) throws SQLException
@@ -336,44 +340,17 @@ public class DeleteServiceImpl implements DeleteService
         logger.info("Batch delete is being prepared.");
 
         PreparedStatement ps = connection.prepareStatement(sql);
-        
-        for(String s : handles)
+
+        for (String s : handles)
         {
             ps.setString(1, s);
             ps.addBatch();
         }
-        
+
         ps.executeBatch();
-        
+
         connection.commit();
         
-//        try (Connection connection = context.getDBConnection();
-//                PreparedStatement ps = connection.prepareStatement(sql))
-//        {
-//            for (String s : handles)
-//            {
-//                ps.setString(1, s);
-//                ps.addBatch();
-//            }
-//            ps.executeBatch();
-////            for(String s : handles)
-////            {
-////                try (PreparedStatement ps = connection.prepareStatement(sql))
-////                {
-////                    ps.setString(1, s);
-////                    logger.info(ps.toString());
-////                    ps.executeUpdate();
-////                }
-////            }
-////            {
-////                connection.commit();
-////            }
-//        }
-//        catch (SQLException ex)
-//        {
-//            logger.error(ex);
-//        }
-
         logger.info("Batch delete executed, if no error has has appeared.");
     }
 }
