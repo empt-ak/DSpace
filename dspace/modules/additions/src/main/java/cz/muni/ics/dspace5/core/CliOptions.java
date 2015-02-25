@@ -5,6 +5,7 @@
  */
 package cz.muni.ics.dspace5.core;
 
+import cz.muni.ics.dspace5.core.CommandLineService.Mode;
 import org.apache.commons.cli.Options;
 
 /**
@@ -20,5 +21,5 @@ public interface CliOptions
      *
      * @return options based on {@code mode} value
      */
-    Options getOptions(CommandLineService.Mode mode);
+    Options getOptions(Mode mode);
 }

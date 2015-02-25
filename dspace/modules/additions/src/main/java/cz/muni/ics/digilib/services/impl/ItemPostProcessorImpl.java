@@ -7,10 +7,10 @@ package cz.muni.ics.digilib.services.impl;
 
 import cz.muni.ics.dspace5.core.ObjectWrapper;
 import cz.muni.ics.dspace5.core.post.ItemPostProcessor;
-import cz.muni.ics.dspace5.impl.MetadataRow;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.dspace.content.Item;
+import org.dspace.content.Metadatum;
 
 /**
  *
@@ -21,7 +21,7 @@ public class ItemPostProcessorImpl implements ItemPostProcessor
     private static final Logger logger = Logger.getLogger(ItemPostProcessorImpl.class);
     
     @Override
-    public List<MetadataRow> processMetadata(ObjectWrapper objectWrapper) throws IllegalArgumentException
+    public List<Metadatum> processMetadata(ObjectWrapper objectWrapper) throws IllegalArgumentException
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

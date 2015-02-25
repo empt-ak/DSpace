@@ -10,7 +10,7 @@ import cz.muni.ics.dspace5.core.HandleService;
 import cz.muni.ics.dspace5.core.ImportService;
 import cz.muni.ics.dspace5.core.ObjectWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
-import cz.muni.ics.dspace5.impl.FolderProvider;
+import cz.muni.ics.dspace5.impl.io.FolderProvider;
 import cz.muni.ics.dspace5.impl.InputArguments;
 import cz.muni.ics.dspace5.impl.ObjectWrapperFactory;
 import java.nio.file.Path;

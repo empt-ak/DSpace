@@ -6,9 +6,9 @@
 package cz.muni.ics.dspace5.core.post;
 
 import cz.muni.ics.dspace5.core.ObjectWrapper;
-import cz.muni.ics.dspace5.impl.MetadataRow;
 import java.util.List;
 import org.dspace.content.Item;
+import org.dspace.content.Metadatum;
 
 /**
  *
@@ -31,7 +31,7 @@ public interface ItemPostProcessor
      * @throws IllegalArgumentException if objectwrapper is null, or does not
      *                                  have a path
      */
-    List<MetadataRow> processMetadata(ObjectWrapper objectWrapper) throws IllegalArgumentException;
+    List<Metadatum> processMetadata(ObjectWrapper objectWrapper) throws IllegalArgumentException;
 
     /**
      * If anything else need to be done to {@code Item} object, then call this

@@ -73,4 +73,27 @@
             bean="objectWrapper"
         />
     </bean>
+    
+    <bean
+        id="mapper"
+        class="org.dozer.DozerBeanMapper"
+        scope="singleton"
+    >
+        <property name="mappingFiles">
+            <list>
+                <value>dozer-mapping.xml</value>
+            </list>
+        </property>
+        <property name="customConvertersWithId">
+            <map>
+                <!-- if @Component("someThinG") is defined spring translates it into something -->
+                <entry key="basicmetadataconverter" value-ref="basicMetadataConverter" />
+            </map>
+        </property>
+    </bean> 
+    
+    <bean
+        id="basicMetadataConverter"
+        class="cz.muni.ics.dspace5.impl.BasicMetadataConverter"
+    />              
 </beans>

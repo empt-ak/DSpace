@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.ics.dspace5.impl;
+package cz.muni.ics.dspace5.impl.io;
 
 import cz.muni.ics.dspace5.core.HandleService;
 import java.io.IOException;

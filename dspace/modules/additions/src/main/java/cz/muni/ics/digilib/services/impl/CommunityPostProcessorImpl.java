@@ -6,19 +6,18 @@
 package cz.muni.ics.digilib.services.impl;
 
 import cz.muni.ics.digilib.domain.Periodical;
-import cz.muni.ics.digilib.domain.Volume;
 import cz.muni.ics.dspace5.core.ObjectMapper;
 import cz.muni.ics.dspace5.core.post.CommunityPostProcessor;
-import cz.muni.ics.dspace5.impl.MetadataRow;
 import cz.muni.ics.dspace5.core.ObjectWrapper;
+import cz.muni.ics.dspace5.impl.MetadataWrapper;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
+import org.dozer.Mapper;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Community;
 import org.dspace.content.Metadatum;
@@ -37,11 +36,14 @@ public class CommunityPostProcessorImpl implements CommunityPostProcessor
     private static final String COVER_FILENAME = "cover_thumb.png";
     @Autowired
     private ObjectMapper objectMapper;
+    @Autowired
+    private Mapper mapper;
+    
 
     @Override
-    public List<MetadataRow> processMetadata(ObjectWrapper objectWrapper, boolean isTopCommunity) throws IllegalArgumentException
+    public List<Metadatum> processMetadata(ObjectWrapper objectWrapper, boolean isTopCommunity) throws IllegalArgumentException
     {
-        List<MetadataRow> resultList = new ArrayList<>();
+        MetadataWrapper metadataWrapper = new MetadataWrapper();
 
         if (isTopCommunity)
         {
@@ -56,22 +58,7 @@ public class CommunityPostProcessorImpl implements CommunityPostProcessor
             }
             if(p != null)
             {
-                resultList.add(new MetadataRow("dc", "title", null, null, p.getTitleMain()));
-                
-                for(String publisher : p.getPublisher())
-                {
-                    resultList.add(new MetadataRow("dc", "publisher", null, null, publisher));
-                }
-                
-                for(String s : p.getTitleVariant())
-                {
-                    resultList.add(new MetadataRow("dc", "title","alternative",null,s));
-                }
-                
-                for(String issn : p.getISSN())
-                {
-                    resultList.add(new MetadataRow("dc", "identifier", "issn", null, issn));
-                }
+                mapper.map(p, metadataWrapper);
             }         
             else
             {
@@ -80,11 +67,11 @@ public class CommunityPostProcessorImpl implements CommunityPostProcessor
         }
         else
         {
-            Volume v = objectWrapper.getObject();
-            resultList.add(new MetadataRow("dc", "title", null, null, v.getVolumeName()));
+//            Volume v = objectWrapper.getObject();
+//            resultList.add(new MetadataRow("dc", "title", null, null, v.getVolumeName()));
         }
 
-        return resultList;
+        return metadataWrapper.getMetadata();
     }
 
     @Override

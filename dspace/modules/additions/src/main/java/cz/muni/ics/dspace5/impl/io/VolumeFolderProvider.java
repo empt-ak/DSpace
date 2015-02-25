@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.ics.dspace5.impl;
+package cz.muni.ics.dspace5.impl.io;
 
+import cz.muni.ics.dspace5.impl.DSpaceTools;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;

@@ -8,12 +8,12 @@ package cz.muni.ics.dspace5.imports;
 import cz.muni.ics.dspace5.core.ObjectWrapper;
 import cz.muni.ics.dspace5.core.post.CommunityPostProcessor;
 import cz.muni.ics.dspace5.impl.InputArguments;
-import cz.muni.ics.dspace5.impl.MetadataRow;
 import java.sql.SQLException;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Community;
+import org.dspace.content.Metadatum;
 import org.dspace.core.Context;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -75,18 +75,19 @@ public class ImportCommunity
 
         if (comm != null)
         {
-            List<MetadataRow> metadata = communityPostProcessor.processMetadata(objectWrapper, isTopComm);
+            List<Metadatum> metadata = communityPostProcessor.processMetadata(objectWrapper, isTopComm);
 
             //values have to be cleared first because there may be multiple values
             // e.g. dc.title.alternative
-            for (MetadataRow mr : metadata)
+            for (Metadatum m : metadata)
             {
-                comm.clearMetadata(mr.getSchema(), mr.getElement(), mr.getQualifier(), ANY);
+                comm.clearMetadata(m.schema, m.element, m.qualifier, ANY);
             }
             
-            for (MetadataRow mr : metadata)
+            for (Metadatum m : metadata)
             {
-                comm.addMetadata(mr.getSchema(), mr.getElement(), mr.getQualifier(), mr.getLanguage(), mr.getValue());
+                logger.info(m.getField()+m.value);
+                comm.addMetadata(m.schema, m.element, m.qualifier, m.language, m.value);
             }
 
             communityPostProcessor.processCommunity(objectWrapper, comm);

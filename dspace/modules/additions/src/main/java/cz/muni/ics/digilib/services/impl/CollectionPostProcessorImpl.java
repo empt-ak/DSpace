@@ -6,7 +6,6 @@
 package cz.muni.ics.digilib.services.impl;
 
 import cz.muni.ics.dspace5.core.post.CollectionPostProcessor;
-import cz.muni.ics.dspace5.impl.MetadataRow;
 import cz.muni.ics.dspace5.core.ObjectWrapper;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -16,6 +15,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Collection;
+import org.dspace.content.Metadatum;
 
 /**
  *
@@ -26,7 +26,7 @@ public class CollectionPostProcessorImpl implements CollectionPostProcessor
     private static final Logger logger = Logger.getLogger(CollectionPostProcessorImpl.class);
 
     @Override
-    public List<MetadataRow> processMetadata(ObjectWrapper objectWrapper) throws IllegalArgumentException
+    public List<Metadatum> processMetadata(ObjectWrapper objectWrapper) throws IllegalArgumentException
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
