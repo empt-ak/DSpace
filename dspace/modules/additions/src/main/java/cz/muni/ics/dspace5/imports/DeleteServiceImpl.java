@@ -13,12 +13,10 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.sql.DataSource;
 import org.apache.commons.cli.ParseException;
 import org.apache.log4j.Logger;
 import org.dspace.authorize.AuthorizeException;
@@ -31,7 +29,7 @@ import org.dspace.content.ItemIterator;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
 import org.dspace.handle.HandleManager;
-import org.dspace.storage.rdbms.DatabaseManager;
+import org.dspace.services.ConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -52,6 +50,8 @@ public class DeleteServiceImpl implements DeleteService
     private InputArguments inputArguments;
     @Autowired
     private HandleService handleService;
+    @Autowired
+    private ConfigurationService configurationService;
 
     private final List<String> handles = new ArrayList<>();
 
@@ -91,10 +91,13 @@ public class DeleteServiceImpl implements DeleteService
                 if (inputArguments.getValue("mode").equals("path"))
                 {
                     //TODO
-                    Path deletePath = Paths.get(inputArguments.getValue("value"));
+                    Path deletePath = Paths.get(configurationService
+                            .getProperty("meditor.rootbase"))
+                            .resolve(inputArguments.getValue("value"));
+                    
                     logger.info("Delete by path was selected [" + deletePath.toString() + "].");
 
-                    handleService.getHandleForPath(deletePath,context);
+                    handle = handleService.getHandleForPath(deletePath,context);
                 }
                 else
                 {

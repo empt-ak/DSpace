@@ -7,7 +7,6 @@ package cz.muni.ics.dspace5.impl.io;
 
 import cz.muni.ics.dspace5.core.CommandLineService;
 import cz.muni.ics.dspace5.impl.InputArguments;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -74,7 +73,7 @@ public class CommandLineServiceImpl implements CommandLineService
         }
         else
         {
-            String importMode = cmd.getOptionValue("mode", "update");
+            String importMode = cmd.getOptionValue("mode", "handle");
             switch(importMode)
             {
                 case "handle":
