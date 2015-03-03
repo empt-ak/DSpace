@@ -10,16 +10,17 @@ import cz.muni.ics.dspace5.core.HandleService;
 import cz.muni.ics.dspace5.core.ImportService;
 import cz.muni.ics.dspace5.core.ObjectWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
-import cz.muni.ics.dspace5.impl.io.FolderProvider;
 import cz.muni.ics.dspace5.impl.InputArguments;
 import cz.muni.ics.dspace5.impl.ObjectWrapperFactory;
+import cz.muni.ics.dspace5.impl.io.FolderProvider;
 import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+import java.util.SortedSet;
 import java.util.TreeSet;
 import org.apache.commons.cli.ParseException;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.dspace.core.Context;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,41 +87,13 @@ public class ImportServiceImpl implements ImportService
                 }
             }
             context.turnOffAuthorisationSystem();
-
-            int level = dspaceTools.getPathLevel(inputArguments.getTypedValue("path", Path.class));
-
-            switch (level)
-            {
-                case 0:
-                {
-                    ObjectWrapper ow = objectWrapperFactory.createObjectWrapper();
-                    ow.setPath(inputArguments.getTypedValue("path", Path.class));
-                    ow.setHandle(handleService.getHandleForPath(inputArguments.getTypedValue("path", Path.class), context));
-
-                    resolveChildren(ow, level + 1);
-
-                    importCommunity.importToDspace(ow, true, context);
-                }
-                break;
-                case 1:
-                {
-                    // import collection and handle volume
-                }
-                break;
-                case 2:
-                {
-                    //import item
-                }
-                break;
-                case 3:
-                {
-                    //import item
-                }
-                break;
-                default:
-                    throw new IllegalArgumentException("Given path is not valid. Level should be [0/1/2] but was [" + level + "]");
-            }
-
+            
+            ObjectWrapper ow = objectWrapperFactory.createObjectWrapper();
+            ow.setPath(inputArguments.getTypedValue("path", Path.class));
+            
+            resolveObjectWrapper(ow, true);
+            
+            
             context.restoreAuthSystemState();
             try
             {
@@ -140,72 +113,109 @@ public class ImportServiceImpl implements ImportService
      * @param objectWrapper target object of which children (in directory tree
      *                      structure) we would like to retrieve
      */
-    private void resolveChildren(ObjectWrapper objectWrapper, int level)
-    {
-        if (inputArguments.getValue("mode").equals("update"))
+    private void resolveObjectWrapper(ObjectWrapper objectWrapper, boolean mainCall)
+    {           
+        int level = dspaceTools.getPathLevel(objectWrapper.getPath());
+        boolean updateMode = inputArguments.getValue("mode").equals("update"); 
+        
+        if(level == 0)
         {
-            if (level == 1 || level == 0)
+            objectWrapper.setHandle(handleService.getHandleForPath(objectWrapper.getPath(), context));
+            //special handling of top comm
+            objectWrapper.setLevel(ObjectWrapper.LEVEL.COM);
+            
+            logger.info("@level "+level+" @path ["+objectWrapper.getPath()+"] resolved as "+ObjectWrapper.LEVEL.COM+" with handle @"+objectWrapper.getHandle());
+            
+            if(updateMode)
             {
-                level--;
-                List<ObjectWrapper> issues = new ArrayList<>();
-                Set<ObjectWrapper> volumes = new TreeSet<>();
-
                 List<Path> paths = fileProvider.getFoldersFromPath(objectWrapper.getPath());
+                List<ObjectWrapper> issues = new ArrayList<>(paths.size());
+                SortedSet<ObjectWrapper> volumes = new TreeSet<>();
 
-                for (Path p : paths)
+                for(Path p : paths)
                 {
-//                    ObjectWrapper ow = new ObjectWrapperImpl(p, handleService.getHandleForPath(p), null, null);
-//                    ObjectWrapper volume = new ObjectWrapperImpl(p, handleService.getVolumeHandle(p), null, null);
-                    ObjectWrapper ow = objectWrapperFactory.createObjectWrapper();
-                    ow.setPath(p);
-                    ow.setHandle(handleService.getHandleForPath(p,context));
-                    
-                    ObjectWrapper volume = objectWrapperFactory.createObjectWrapper();
-                    volume.setPath(p);
-                    volume.setHandle(handleService.getVolumeHandle(p,context));
+                    ObjectWrapper issue = objectWrapperFactory.createObjectWrapper(p,
+                            false,
+                            handleService.getHandleForPath(objectWrapper.getPath(), context));
+                    // recreate articles
+                    resolveObjectWrapper(issue, false);
 
-                    resolveChildren(ow, level - 1);
+                    issues.add(issue);
 
+                    ObjectWrapper volume = objectWrapperFactory.createObjectWrapper(p,
+                            true,
+                            handleService.getVolumeHandle(p, context));
                     volumes.add(volume);
-                    issues.add(ow);
                 }
                 
                 for(ObjectWrapper volume : volumes)
                 {
-                    List<ObjectWrapper> toAddIssues = new ArrayList<>();
+                    logger.info("Mapping volume "+volume.getPath()+" @handle ["+objectWrapper.getHandle()+"]");
+                    List<ObjectWrapper> volumeIssues = new ArrayList<>();
                     
-                    String volumeNumber = volume.getPath().getFileName()
-                            .toString().split("-")[0];
+                    
+                    String volumeNumber = StringUtils.substringBefore(volume.getPath().getFileName().toString(), ".xml");
                     
                     for(ObjectWrapper issue : issues)
                     {
-                        if(issue.getPath().getFileName().toString().startsWith(volumeNumber))
+                        if(dspaceTools.getVolumeNumber(issue.getPath()).equals(volumeNumber))
                         {
-                            toAddIssues.add(issue);
+                            logger.info("Issue ["+issue.getPath()+"] belongs to volume "+volumeNumber);
+                            volumeIssues.add(issue);
                         }
                     }
                     
-                    volume.setChildren(toAddIssues);
+                    volume.setChildren(volumeIssues);
                 }
-
+                
+                //resolve volume to issue
+                
                 objectWrapper.setChildren(new ArrayList<>(volumes));
+            }            
+        }
+        else if(level == 1)
+        {
+            if(mainCall)
+            {
+                // this means we called this from {#execute} method therefire we 
+                // have to recreate Volume aswell.
+                // TODO
+                // from given object we create volume by redefining path and handle
+                // and add children as issue
             }
             else
             {
-                List<ObjectWrapper> children = new ArrayList<>();
-                List<Path> paths = fileProvider.getFoldersFromPath(objectWrapper.getPath());
-
-                for (Path p : paths)
+                
+                logger.info("@level "+level+" @path ["+objectWrapper.getPath()+"] resolved as "+ObjectWrapper.LEVEL.COL+" with handle @"+objectWrapper.getHandle());
+                
+                if(updateMode)
                 {
-                    ObjectWrapper ow = objectWrapperFactory.createObjectWrapper();
-                    ow.setPath(p);
-                    ow.setHandle(handleService.getHandleForPath(p,context));
+                    List<Path> paths = fileProvider.getFoldersFromPath(objectWrapper.getPath());
+                    List<ObjectWrapper> articles = new ArrayList<>(paths.size());
 
-                    resolveChildren(ow, level);
-                    children.add(ow);
-                }
-                objectWrapper.setChildren(children);
+                    for(Path p : paths)
+                    {
+                        ObjectWrapper article = objectWrapperFactory.createObjectWrapper(p,
+                                false,
+                                handleService.getHandleForPath(objectWrapper.getPath(), context));
+
+                        resolveObjectWrapper(article, false);
+
+                        articles.add(article);
+                    }
+
+                    objectWrapper.setChildren(articles);
+                }                
             }
+        }
+        else if(level == 2)
+        {
+            if(mainCall)
+            {
+                //TODO
+            }
+            
+            logger.info("@level "+level+" @path ["+objectWrapper.getPath()+"] resolved as "+ObjectWrapper.LEVEL.ITEM+" with handle @"+objectWrapper.getHandle());
         }
     }
 }

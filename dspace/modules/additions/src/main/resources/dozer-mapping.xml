@@ -22,4 +22,12 @@
             <b>metadata</b>
         </field>
     </mapping> 
+    <mapping>
+        <class-a>cz.muni.ics.digilib.domain.Volume</class-a>
+        <class-b>cz.muni.ics.dspace5.impl.MetadataWrapper</class-b>
+        <field custom-converter-id="basicmetadataconverter" custom-converter-param="dc.title">
+            <a>volumeName</a>
+            <b>metadata</b>
+        </field>
+    </mapping> 
 </mappings> 

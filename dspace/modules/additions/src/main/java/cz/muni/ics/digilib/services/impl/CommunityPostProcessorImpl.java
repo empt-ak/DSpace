@@ -6,9 +6,12 @@
 package cz.muni.ics.digilib.services.impl;
 
 import cz.muni.ics.digilib.domain.Periodical;
+import cz.muni.ics.digilib.domain.Volume;
+import cz.muni.ics.dspace5.core.MetadatumFactory;
 import cz.muni.ics.dspace5.core.ObjectMapper;
 import cz.muni.ics.dspace5.core.post.CommunityPostProcessor;
 import cz.muni.ics.dspace5.core.ObjectWrapper;
+import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.impl.MetadataWrapper;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -38,11 +41,18 @@ public class CommunityPostProcessorImpl implements CommunityPostProcessor
     private ObjectMapper objectMapper;
     @Autowired
     private Mapper mapper;
-    
+    @Autowired
+    private MetadatumFactory metadatumFactory;
+    @Autowired
+    private DSpaceTools dSpaceTools;
 
     @Override
-    public List<Metadatum> processMetadata(ObjectWrapper objectWrapper, boolean isTopCommunity) throws IllegalArgumentException
+    public List<Metadatum> processMetadata(ObjectWrapper objectWrapper, List<ObjectWrapper> parents) throws IllegalArgumentException
     {
+        //@meditor: need for same resolver which will decide what will be converted
+        //based on path
+        boolean isTopCommunity = (parents == null || parents.isEmpty());
+
         MetadataWrapper metadataWrapper = new MetadataWrapper();
 
         if (isTopCommunity)
@@ -54,21 +64,43 @@ public class CommunityPostProcessorImpl implements CommunityPostProcessor
             }
             catch (FileNotFoundException ex)
             {
-                logger.error(ex,ex.getCause());
+                logger.error(ex, ex.getCause());
             }
-            if(p != null)
+            if (p != null)
             {
                 mapper.map(p, metadataWrapper);
-            }         
+            }
             else
             {
-                logger.info("Object at path ["+objectWrapper.getPath()+"] was not found");
+                logger.info("Object at path [" + objectWrapper.getPath() + "] was not found");
+                metadataWrapper.getMetadata().add(metadatumFactory.createMetadatum("dc", "title", null, null, "NO-TITLE"));
             }
         }
         else
         {
-//            Volume v = objectWrapper.getObject();
-//            resultList.add(new MetadataRow("dc", "title", null, null, v.getVolumeName()));
+            logger.info("its volume!");
+            logger.info("huehue$ "+objectWrapper.getPath());
+            Volume v = null;
+            try
+            {
+                v = objectMapper.convertPathToObject(
+                        dSpaceTools.getRoot(objectWrapper.getPath()), 
+                        dSpaceTools.getVolumeNumber(objectWrapper.getPath())+".xml");
+            }
+            catch (FileNotFoundException nfe)
+            {
+                logger.error(nfe, nfe.getCause());
+            }
+
+            if (v != null)
+            {
+                mapper.map(v, metadataWrapper);
+            }
+            else
+            {
+                logger.info("Object at path [" + objectWrapper.getPath() + "] was not found");
+                metadataWrapper.getMetadata().add(metadatumFactory.createMetadatum("dc", "title", null, null, "NO-TITLE"));
+            }
         }
 
         return metadataWrapper.getMetadata();

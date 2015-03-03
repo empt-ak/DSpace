@@ -9,23 +9,25 @@ import cz.muni.ics.dspace5.core.ObjectWrapper;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
  * @author Dominik Szalai - emptulik at gmail.com
  */
-public class ObjectWrapperImpl implements ObjectWrapper, Comparable<ObjectWrapper>
+public class ObjectWrapperImpl implements ObjectWrapper
 {
+
     @Autowired
     private DSpaceTools dSpaceTools;
-    
+
     private Path path;
     private String handle;
     private Object object;
-    private boolean isVolume;
     private List<ObjectWrapper> children;
-    
+    private LEVEL level;
+
     @Override
     public void setPath(Path path)
     {
@@ -45,15 +47,21 @@ public class ObjectWrapperImpl implements ObjectWrapper, Comparable<ObjectWrappe
     }
 
     @Override
-    public void setVolume(boolean isVolume)
-    {
-        this.isVolume = isVolume;
-    }
-
-    @Override
     public void setChildren(List<ObjectWrapper> children)
     {
         this.children = children;
+    }
+
+    @Override
+    public void setLevel(LEVEL level)
+    {
+        this.level = level;
+    }
+
+    @Override
+    public LEVEL getLevel()
+    {
+        return level;
     }
 
     @Override
@@ -66,12 +74,6 @@ public class ObjectWrapperImpl implements ObjectWrapper, Comparable<ObjectWrappe
     public String getHandle()
     {
         return handle;
-    }
-
-    @Override
-    public boolean isVolume()
-    {
-        return isVolume;
     }
 
     @Override
@@ -112,57 +114,49 @@ public class ObjectWrapperImpl implements ObjectWrapper, Comparable<ObjectWrappe
     @Override
     public int compareTo(ObjectWrapper o)
     {
-        // fileName has following format: volumeNumber-Year-IssueNumber
-        String[] arrayFileName1 = this.path.getFileName().toString().split("-");
-        String[] arrayFileName2 = o.getPath().getFileName().toString().split("-");
-        if(this.isVolume != o.isVolume())
+        // level.COM itself will never be compared
+        // against any other top community
+
+        // volume
+        if (this.getLevel().equals(LEVEL.SUBCOM))
         {
-            return -1;
+            if (!o.getLevel().equals(LEVEL.SUBCOM))
+            {
+                throw new ClassCastException("Trying to compare SUBCOM with " + o.getLevel());
+            }
+
+            int volume1 = Integer.parseInt(StringUtils
+                    .substringBefore(this.getPath().getFileName()
+                            .toString(), ".xml"));
+
+            int volume2 = Integer.parseInt(StringUtils
+                    .substringBefore(o.getPath().getFileName()
+                            .toString(), ".xml"));
+
+            return volume1 - volume2;
         }
-        
-        if(this.isVolume)
-        { 
-            //volume number is @first place
-            Integer volume1number = Integer.parseInt(arrayFileName1[0]);
-            Integer volume2number = Integer.parseInt(arrayFileName2[0]);
+        else if(this.getLevel().equals(LEVEL.COL))
+        {
+            if(!o.getLevel().equals(LEVEL.COL))
+            {
+                throw new ClassCastException("Trying to compare COL with "+o.getLevel());
+            }
             
-            //p1 and p2 now contains 2 numbers which we only have to compare.
+            int issue1 = Integer.parseInt(dSpaceTools.getIssueNumber(this.getPath()));
+            int issue2 = Integer.parseInt(dSpaceTools.getIssueNumber(o.getPath()));
             
-            return volume1number.compareTo(volume2number);
+            return issue1 - issue2;
+        }
+        else if( this.getLevel().equals(LEVEL.ITEM))
+        {
+            int article1 = Integer.parseInt(this.getPath().getFileName().toString().substring(1));
+            int article2 = Integer.parseInt(o.getPath().getFileName().toString().substring(1));
+            
+            return article1-article2;
         }
         else
         {
-            int level = dSpaceTools.getPathLevel(this.path);
-            
-            //level cannot be 0 or at least shouldn't be comparable.
-            //0 means object wrapper points to serial folder e.g. serial/0_Thisisnice
-            
-            if(level == 1)
-            {
-                //collection
-                Integer prefix1 = Integer.parseInt(arrayFileName1[2]);
-                Integer prefix2 = Integer.parseInt(arrayFileName2[2]);
-                
-                return prefix1.compareTo(prefix2);
-            }
-            else if(level == 2) //@meditor: NOVY MEDITOR BUDE MAT NA LVL 2 VOLUME !!!!
-            {
-                //item (article) starts with #
-                //having "#1","#3","#26","#16","#2"
-                //will by default sort as #1, #16, #2, #26, #3
-                //because of lexicographical order 
-                //so we trim # out and then compare them as numbers
-                Integer article1 = Integer.parseInt(this.path.getFileName().toString().substring(1));
-                Integer article2 = Integer.parseInt(o.getPath().getFileName().toString().substring(1));
-                
-                return article1.compareTo(article2);
-            }
-            else if(level == 3)
-            {
-                return -1;
-            }
-            
-            return -1;
+            throw new ClassCastException("Trying to compare "+this.getLevel()+" with "+o.getLevel());
         }
     }
 }

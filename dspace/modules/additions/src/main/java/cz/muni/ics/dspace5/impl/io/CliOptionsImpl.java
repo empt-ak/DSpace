@@ -56,6 +56,8 @@ public class CliOptionsImpl implements CliOptions
                             .build()
             );
             
+            logger.debug(options.getOption("m"));
+            
             options.addOption(
                     Option.builder("foe")
                             .longOpt("fail-on-error")
@@ -66,6 +68,8 @@ public class CliOptionsImpl implements CliOptions
                             .desc("Flag specifying whether import should fail, if there is any error, or can continue. Default value is false.")
                             .build()
             );
+            
+            logger.debug(options.getOption("foe"));
         }
         else
         {
@@ -82,6 +86,8 @@ public class CliOptionsImpl implements CliOptions
                         .build()
             );
             
+            logger.debug(options.getOption("m"));
+            
             options.addOption(
                 Option.builder("v")
                         .longOpt("value")
@@ -94,6 +100,8 @@ public class CliOptionsImpl implements CliOptions
                                 + "to be handle value, otherwise path is expected.")
                         .build()
             );
+            
+            logger.debug(options.getOption("v"));
         }
         
         return options;

@@ -42,6 +42,7 @@
         <constructor-arg>
             <list>
                 <value>cz.muni.ics.digilib.domain.Periodical</value>
+                <value>cz.muni.ics.digilib.domain.Volume</value>
             </list>
         </constructor-arg>
     </bean>

@@ -6,9 +6,11 @@
 package cz.muni.ics.dspace5.imports;
 
 import cz.muni.ics.dspace5.core.ObjectWrapper;
+import cz.muni.ics.dspace5.core.ObjectWrapper.LEVEL;
 import cz.muni.ics.dspace5.core.post.CommunityPostProcessor;
 import cz.muni.ics.dspace5.impl.InputArguments;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.dspace.authorize.AuthorizeException;
@@ -49,33 +51,62 @@ public class ImportCommunity
      *
      * @param objectWrapper target object wrapping required values which are
      *                      converted into community
-     * @param isTopComm     flag specifying whether given object is topcommunity
-     *                      or not
+     * @param parents
      * @param context       context responsible for Database operations
      *
      * @return created Community stored by this method
      */
-    public Community importToDspace(ObjectWrapper objectWrapper, boolean isTopComm, Context context)
+    public Community importToDspace(ObjectWrapper objectWrapper, List<ObjectWrapper> parents, Context context)
     {
         this.context = context;
+        
+        boolean isTopComm = objectWrapper.getLevel().equals(LEVEL.COM);
 
         Community comm = findCommunity(objectWrapper, isTopComm);
         if (comm == null)
         {
             logger.debug("Community with handle [" + objectWrapper.getHandle() + "] not found. Community will be created");
-            try
+            if(isTopComm)
             {
-                comm = Community.create(null, context, objectWrapper.getHandle());
+                try
+                {
+                    comm = Community.create(null, context, objectWrapper.getHandle());
+                }
+                catch (AuthorizeException | SQLException ex)
+                {
+                    safeFailLog(ex);
+                }
             }
-            catch (AuthorizeException | SQLException ex)
+            else
             {
-                safeFailLog(ex);
+                //TODO this is a bit nasty workaround shouldn't be isVolume
+                //but something more intelligent like OW should have stored
+                //what kind of object it is mapped to
+                
+//                Community parent = findCommunity(parents.get(parents.size()-1), false);
+//                
+//                if(parent == null)
+//                {
+//                    throw new RuntimeException("Parent of child ["+objectWrapper.getHandle()+"] does not exist.");
+//                }
+//                else
+//                {
+//                    try
+//                    {
+//                        comm = parent.createSubcommunity(objectWrapper.getHandle());
+//                    }
+//                    catch (SQLException | AuthorizeException ex)
+//                    {
+//                        logger.fatal(ex,ex.getCause());
+//                    }
+//                }                
             }
+            
         }
 
         if (comm != null)
         {
-            List<Metadatum> metadata = communityPostProcessor.processMetadata(objectWrapper, isTopComm);
+            List<Metadatum> metadata = communityPostProcessor.processMetadata(objectWrapper, parents);
 
             //values have to be cleared first because there may be multiple values
             // e.g. dc.title.alternative
@@ -86,40 +117,49 @@ public class ImportCommunity
             
             for (Metadatum m : metadata)
             {
-                logger.info(m.getField()+m.value);
+                logger.info(m.getField()+":- "+m.value);
                 comm.addMetadata(m.schema, m.element, m.qualifier, m.language, m.value);
             }
 
             communityPostProcessor.processCommunity(objectWrapper, comm);
 
             saveAndCommit(comm);
-
-            if (inputArguments.getValue("mode").equals("update"))
+            
+            if(objectWrapper.getChildren() != null && !objectWrapper.getChildren().isEmpty())
             {
-                if(objectWrapper.getChildren() != null && !objectWrapper.getChildren().isEmpty())
+                if(isTopComm)
                 {
-                    /*
-                    @meditor: add some kind of resolver which will say what will be imported based on 
-                    path level. e.g. /a/b is comunity a/b/c is subcomunity a/b/c/d sub too
-                    but a/b/c/d/e will resolve to collection
-                    */
-                    if(objectWrapper.getChildren().get(0).isVolume())
+                    for(ObjectWrapper volume : objectWrapper.getChildren())
                     {
-                        for(ObjectWrapper child : objectWrapper.getChildren())
-                        {
-                            importToDspace(child, false, context);
-                        }
+                        List<ObjectWrapper> parentz = new ArrayList<>(1);
+                        parentz.add(objectWrapper);
+                        
+                        importToDspace(volume, parentz, context);
                     }
-                    else
+                }
+                else
+                { 
+                    // just to be sure, otherwise there is a error
+                    // @meditor: moze to by inac kedze tam bude povoleno viacero
+                    // vnorenych podkomunit.
+                    if(objectWrapper.getChildren().get(0).getLevel().equals(LEVEL.COL))
                     {
-                        for(ObjectWrapper child : objectWrapper.getChildren())
+                        for(ObjectWrapper issue : objectWrapper.getChildren())
                         {
-                            importCollection.importToDspace(child, context);
+                            List<ObjectWrapper> parentz = new ArrayList<>();
+                            if(parents != null)
+                            {
+                                parentz.addAll(parents);
+                            }
+                            
+                            parentz.add(objectWrapper);
+                            
+                            importCollection.importToDspace(issue, parentz, context);
                         }
                     }
                 }
             }
-
+            
             return comm;
         }
         else
@@ -159,12 +199,20 @@ public class ImportCommunity
 
         if (communities != null && communities.length > 0)
         {
-            for (Community topComm : communities)
+            for (Community comm : communities)
             {
-                if (topComm.getHandle().equals(objectWrapper.getHandle()))
+                if (comm.getHandle().equals(objectWrapper.getHandle()))
                 {
-                    logger.debug("Community with handle [" + objectWrapper.getHandle() + "] found. Community will be updated");
-                    result = topComm;
+                    if(findInTop)
+                    {
+                        logger.debug("Community with handle [" + objectWrapper.getHandle() + "] found. Community will be updated");
+                    }
+                    else
+                    {
+                        logger.debug("Any parent community with handle [" + objectWrapper.getHandle() + "] found.");
+                    }
+                    
+                    result = comm;
                     break;
                 }
             }

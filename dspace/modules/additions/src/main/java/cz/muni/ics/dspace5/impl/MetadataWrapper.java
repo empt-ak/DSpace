@@ -5,6 +5,7 @@
  */
 package cz.muni.ics.dspace5.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.dspace.content.Metadatum;
 
@@ -18,6 +19,10 @@ public class MetadataWrapper
 
     public List<Metadatum> getMetadata()
     {
+        if(metadata == null)
+        {
+            metadata = new ArrayList<>();
+        }
         return metadata;
     }
 

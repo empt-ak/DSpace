@@ -12,8 +12,22 @@ import java.util.List;
  *
  * @author Dominik Szalai - emptulik at gmail.com
  */
-public interface ObjectWrapper
+public interface ObjectWrapper extends Comparable<ObjectWrapper>
 {
+    public enum LEVEL
+    {
+        COM(1),
+        SUBCOM(2),
+        COL(3),
+        ITEM(4);
+        
+        private final int mask;
+        
+        private LEVEL(int mask)
+        {
+            this.mask = mask;
+        }
+    }
 
     /**
      * Method sets path for this object wrapper
@@ -40,13 +54,6 @@ public interface ObjectWrapper
     void setObject(Object object);
 
     /**
-     * Method sets flag whether this objectwrapper is volume or not
-     *
-     * @param isVolume
-     */
-    void setVolume(boolean isVolume);
-
-    /**
      * Method adds children to this wrapper.
      *
      * @param children children of this object. If
@@ -55,14 +62,16 @@ public interface ObjectWrapper
      * they exists.
      */
     void setChildren(List<ObjectWrapper> children);
+    
+    void setLevel(LEVEL level);
 
     Path getPath();
 
     String getHandle();
 
-    boolean isVolume();
-
     List<ObjectWrapper> getChildren();
 
     <T> T getObject();
+    
+    LEVEL getLevel();
 }

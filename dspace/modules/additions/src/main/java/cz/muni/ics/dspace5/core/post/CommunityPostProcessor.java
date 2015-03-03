@@ -25,15 +25,14 @@ public interface CommunityPostProcessor
      * <b>.xml</b> file.
      *
      * @param objectWrapper  from which we extract metadata
-     * @param isTopCommunity flag whether we import topcomm, or volume, or
-     *                       something lower.
+     * @param parents previous processed parents of {@code objectWrapper}
      *
      * @return List of metadata from given objectwrapper.
      *
      * @throws IllegalArgumentException if objectwrapper is null, or does not
      *                                  have a path
      */
-    List<Metadatum> processMetadata(ObjectWrapper objectWrapper, boolean isTopCommunity) throws IllegalArgumentException;
+    List<Metadatum> processMetadata(ObjectWrapper objectWrapper, List<ObjectWrapper> parents) throws IllegalArgumentException;
 
     /**
      * If anything else need to be done to {@code Community} object, then call

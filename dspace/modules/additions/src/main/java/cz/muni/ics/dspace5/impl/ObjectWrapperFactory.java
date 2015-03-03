@@ -6,6 +6,8 @@
 package cz.muni.ics.dspace5.impl;
 
 import cz.muni.ics.dspace5.core.ObjectWrapper;
+import java.nio.file.Path;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -13,5 +15,62 @@ import cz.muni.ics.dspace5.core.ObjectWrapper;
  */
 public abstract class ObjectWrapperFactory
 {
+
+    @Autowired
+    private DSpaceTools dSpaceTools;
+
+    /**
+     * Method used by spring to create {@code prototype} bean. Calling this
+     * method creates plain object without any values set.
+     *
+     * @return ObjectWrapper with set dependencies.
+     */
     public abstract ObjectWrapper createObjectWrapper();
+
+    /**
+     * Method creates ObjectWrapper out of given path. Only path and level is
+     * set, according to given {@code isVolume} value.
+     *
+     * @param path     target object in folder hierarchy
+     * @param isVolume flag specifying whether issue path should be resolved
+     *                 into volume
+     * @param handle   handle to be set
+     *
+     * @return ObjectWrapper pointing to given path
+     */
+    public ObjectWrapper createObjectWrapper(Path path, boolean isVolume, String handle)
+    {
+        ObjectWrapper ow = createObjectWrapper();
+        if (isVolume)
+        {
+            ow.setPath(dSpaceTools.getRoot(path).resolve(dSpaceTools.getVolumeNumber(path) + ".xml"));
+            ow.setLevel(ObjectWrapper.LEVEL.SUBCOM);
+
+        }
+        else
+        {
+            int level = dSpaceTools.getPathLevel(path);
+
+            switch (level)
+            {
+                case 0:
+                    ow.setLevel(ObjectWrapper.LEVEL.COM);
+                    break;
+                case 1:
+                    ow.setLevel(ObjectWrapper.LEVEL.COL);
+                    break;
+                case 2:
+                    ow.setLevel(ObjectWrapper.LEVEL.ITEM);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Given level is out of range. @path [" + path + "] @level " + level);
+            }
+
+            ow.setPath(path);
+        }
+        
+        ow.setHandle(handle);
+
+        return ow;
+    }
 }
