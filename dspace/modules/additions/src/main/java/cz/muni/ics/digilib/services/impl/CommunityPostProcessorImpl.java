@@ -9,8 +9,8 @@ import cz.muni.ics.digilib.domain.Periodical;
 import cz.muni.ics.digilib.domain.Volume;
 import cz.muni.ics.dspace5.core.MetadatumFactory;
 import cz.muni.ics.dspace5.core.ObjectMapper;
-import cz.muni.ics.dspace5.core.post.CommunityPostProcessor;
 import cz.muni.ics.dspace5.core.ObjectWrapper;
+import cz.muni.ics.dspace5.core.post.CommunityPostProcessor;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.impl.MetadataWrapper;
 import java.io.FileInputStream;
@@ -83,9 +83,7 @@ public class CommunityPostProcessorImpl implements CommunityPostProcessor
             Volume v = null;
             try
             {
-                v = objectMapper.convertPathToObject(
-                        dSpaceTools.getRoot(objectWrapper.getPath()), 
-                        dSpaceTools.getVolumeNumber(objectWrapper.getPath())+".xml");
+                v = objectMapper.convertPathToObject(objectWrapper.getPath(), "");
             }
             catch (FileNotFoundException nfe)
             {

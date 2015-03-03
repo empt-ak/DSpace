@@ -74,4 +74,6 @@ public interface ObjectWrapper extends Comparable<ObjectWrapper>
     <T> T getObject();
     
     LEVEL getLevel();
+    
+    void print();
 }

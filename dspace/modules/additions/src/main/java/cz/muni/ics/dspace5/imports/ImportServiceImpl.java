@@ -9,6 +9,7 @@ import cz.muni.ics.dspace5.core.CommandLineService;
 import cz.muni.ics.dspace5.core.HandleService;
 import cz.muni.ics.dspace5.core.ImportService;
 import cz.muni.ics.dspace5.core.ObjectWrapper;
+import cz.muni.ics.dspace5.core.ObjectWrapper.LEVEL;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.impl.InputArguments;
 import cz.muni.ics.dspace5.impl.ObjectWrapperFactory;
@@ -92,6 +93,13 @@ public class ImportServiceImpl implements ImportService
             ow.setPath(inputArguments.getTypedValue("path", Path.class));
             
             resolveObjectWrapper(ow, true);
+            
+            
+            
+            if(ow.getLevel().equals(LEVEL.COM))
+            {
+                importCommunity.importToDspace(ow, null, context);
+            }
             
             
             context.restoreAuthSystemState();

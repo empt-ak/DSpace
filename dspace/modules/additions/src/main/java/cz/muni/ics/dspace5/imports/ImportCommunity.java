@@ -5,6 +5,7 @@
  */
 package cz.muni.ics.dspace5.imports;
 
+import cz.muni.ics.dspace5.core.HandleService;
 import cz.muni.ics.dspace5.core.ObjectWrapper;
 import cz.muni.ics.dspace5.core.ObjectWrapper.LEVEL;
 import cz.muni.ics.dspace5.core.post.CommunityPostProcessor;
@@ -37,6 +38,8 @@ public class ImportCommunity
     private InputArguments inputArguments;
     @Autowired
     private ImportCollection importCollection;
+    @Autowired
+    private HandleService handleService;
 
     private Context context;
 
@@ -58,139 +61,194 @@ public class ImportCommunity
      */
     public Community importToDspace(ObjectWrapper objectWrapper, List<ObjectWrapper> parents, Context context)
     {
-        this.context = context;
+        logger.info("Commencing import of Community type.");
+        logger.info(objectWrapper.getLevel()+" with handle@"+objectWrapper.getHandle()+" having following parents: "+parents);
+        if(this.context == null)
+        {
+            this.context = context;
+        }
         
         boolean isTopComm = objectWrapper.getLevel().equals(LEVEL.COM);
-
-        Community comm = findCommunity(objectWrapper, isTopComm);
-        if (comm == null)
+        
+        Community workingCommunity = null;
+        
+        logger.info("Given community is topComm? "+isTopComm);        
+        if(isTopComm)
         {
-            logger.debug("Community with handle [" + objectWrapper.getHandle() + "] not found. Community will be created");
-            if(isTopComm)
-            {
-                try
-                {
-                    comm = Community.create(null, context, objectWrapper.getHandle());
-                }
-                catch (AuthorizeException | SQLException ex)
-                {
-                    safeFailLog(ex);
-                }
-            }
-            else
-            {
-                //TODO this is a bit nasty workaround shouldn't be isVolume
-                //but something more intelligent like OW should have stored
-                //what kind of object it is mapped to
-                
-//                Community parent = findCommunity(parents.get(parents.size()-1), false);
-//                
-//                if(parent == null)
-//                {
-//                    throw new RuntimeException("Parent of child ["+objectWrapper.getHandle()+"] does not exist.");
-//                }
-//                else
-//                {
-//                    try
-//                    {
-//                        comm = parent.createSubcommunity(objectWrapper.getHandle());
-//                    }
-//                    catch (SQLException | AuthorizeException ex)
-//                    {
-//                        logger.fatal(ex,ex.getCause());
-//                    }
-//                }                
-            }
-            
+            workingCommunity = findOrCreateTopCommunity(objectWrapper);
         }
-
-        if (comm != null)
+        else
+        {
+            workingCommunity = findOrCreateCommunity(parents.get(parents.size()-1), objectWrapper);
+        }
+        
+        if(workingCommunity == null)
+        {
+            throw new RuntimeException("Something wrent wrong as working community was not created.");
+        }
+        else
         {
             List<Metadatum> metadata = communityPostProcessor.processMetadata(objectWrapper, parents);
-
+            
             //values have to be cleared first because there may be multiple values
             // e.g. dc.title.alternative
             for (Metadatum m : metadata)
             {
-                comm.clearMetadata(m.schema, m.element, m.qualifier, ANY);
+                workingCommunity.clearMetadata(m.schema, m.element, m.qualifier, ANY);
             }
             
             for (Metadatum m : metadata)
             {
                 logger.info(m.getField()+":- "+m.value);
-                comm.addMetadata(m.schema, m.element, m.qualifier, m.language, m.value);
+                workingCommunity.addMetadata(m.schema, m.element, m.qualifier, m.language, m.value);
             }
-
-            communityPostProcessor.processCommunity(objectWrapper, comm);
-
-            saveAndCommit(comm);
+            
+            communityPostProcessor.processCommunity(objectWrapper, workingCommunity);
+            
+            saveAndCommit(workingCommunity);
             
             if(objectWrapper.getChildren() != null && !objectWrapper.getChildren().isEmpty())
             {
-                if(isTopComm)
+                if(objectWrapper.getChildren().get(0).getLevel().equals(LEVEL.COL))
                 {
-                    for(ObjectWrapper volume : objectWrapper.getChildren())
+                    for(ObjectWrapper issue : objectWrapper.getChildren())
                     {
-                        List<ObjectWrapper> parentz = new ArrayList<>(1);
-                        parentz.add(objectWrapper);
+                        List<ObjectWrapper> newParents = new ArrayList<>();
+                        if(parents != null)
+                        {
+                            newParents.addAll(parents);
+                        }
+                        newParents.add(objectWrapper);
                         
-                        importToDspace(volume, parentz, context);
-                    }
+                        importCollection.importToDspace(issue, newParents, context);
+                    }                    
                 }
                 else
-                { 
-                    // just to be sure, otherwise there is a error
-                    // @meditor: moze to by inac kedze tam bude povoleno viacero
-                    // vnorenych podkomunit.
-                    if(objectWrapper.getChildren().get(0).getLevel().equals(LEVEL.COL))
+                {
+                    for(ObjectWrapper subComm : objectWrapper.getChildren())
                     {
-                        for(ObjectWrapper issue : objectWrapper.getChildren())
+                        List<ObjectWrapper> newParents = new ArrayList<>();
+                        if(parents != null)
                         {
-                            List<ObjectWrapper> parentz = new ArrayList<>();
-                            if(parents != null)
-                            {
-                                parentz.addAll(parents);
-                            }
-                            
-                            parentz.add(objectWrapper);
-                            
-                            importCollection.importToDspace(issue, parentz, context);
+                            newParents.addAll(parents);
                         }
+                        newParents.add(objectWrapper);
+                        
+                        importToDspace(subComm, newParents, context);
+                    } 
+                }
+            }
+        }
+        
+        return workingCommunity;
+    }
+    
+    /**
+     * Calling method finds Parent community specified by {@code parent} and trying to find its child as subcommunity specified by {@code child}.
+     * If child does not exist yet, then it is created and returned. Any failure results in {@link RuntimeException}.
+     * @param parent parent wrapper
+     * @param child child wrapper
+     * @return community, existing or created, representing child wrapper
+     */
+    private Community findOrCreateCommunity(ObjectWrapper parent, ObjectWrapper child)
+    {
+        Community[] communities = new Community[0];
+        Community parentCommunity = null;
+        try
+        {
+            communities = Community.findAll(context);
+            logger.debug(communities.length+" communities found via findAll");
+        }
+        catch(SQLException ex)
+        {
+            safeFailLog(ex);
+        }
+        
+        if(communities != null && communities.length > 0)
+        {
+            for(Community comm : communities)
+            {
+                logger.debug("Comparing "+comm.getHandle()+ " against "+parent.getHandle() +"@level"+parent.getLevel());
+                if(comm.getHandle().equals(parent.getHandle()))
+                {
+                    logger.debug("Parent found");
+                    parentCommunity = comm;
+                    break;
+                }
+            }
+        }
+        
+        if(parentCommunity != null)
+        {
+            logger.debug("Resolving children for parent community "+parent.getHandle());
+            Community[] children = null;
+            
+            Community result = null;
+            
+            try
+            {
+                children = parentCommunity.getSubcommunities();
+                logger.debug(children.length + " children communities found.");
+            }
+            catch(SQLException ex)
+            {
+                safeFailLog(ex);
+            }
+            
+            if(children != null && children.length > 0)
+            {
+                for(Community childComm : children)
+                {
+                    logger.debug("Matching subCommunity "+childComm.getHandle()+" against "+child.getHandle());
+                    if(childComm.getHandle().equals(child.getHandle()))
+                    {
+                        logger.debug("Match found !");
+                        result = childComm;
+                        break;
                     }
                 }
             }
             
-            return comm;
+            if(result == null)
+            {
+                logger.error("Given subcommunity does not exist yet. Attempting to create.");
+                try
+                {
+                    result = parentCommunity.createSubcommunity(child.getHandle());    
+                    logger.debug("Subcommunity "+child.getHandle()+" was created.");
+                }
+                catch(SQLException | AuthorizeException ex)
+                {
+                    logger.error("Error creating subcommunity "+child.getHandle()+" for parent "+parent.getHandle());
+                    safeFailLog(ex);
+                }
+            }
+            
+            return result;            
         }
         else
         {
-            throw new RuntimeException("FATAL ERROR: It was not possible to create community.");
+            logger.error("No parent community found.");
+            throw new RuntimeException("Parent does not exist !");
         }
     }
 
     /**
      * Method finds related community to given {@code ObjectWrapper}. If none is
-     * found (does not exist yet) then null is returned.
+     * found (does not exist yet) then it is created.
      *
      * @param objectWrapper wrapper holding handle to community to be found
      *
      * @return Community with given handle, null if there is none yet
      */
-    private Community findCommunity(ObjectWrapper objectWrapper, boolean findInTop)
+    private Community findOrCreateTopCommunity(ObjectWrapper objectWrapper)
     {
         Community[] communities = new Community[0];
         Community result = null;
         try
         {
-            if (findInTop)
-            {
-                communities = Community.findAllTop(context);
-            }
-            else
-            {
-                communities = Community.findAll(context);
-                //result.getSubcommunities()
-            }
+            communities = Community.findAllTop(context);
+            logger.debug(communities.length+" communities obtained via findAllTop");            
         }
         catch (SQLException exception)
         {
@@ -201,21 +259,27 @@ public class ImportCommunity
         {
             for (Community comm : communities)
             {
+                logger.debug("Comparing "+comm.getHandle()+" against "+objectWrapper.getHandle());
                 if (comm.getHandle().equals(objectWrapper.getHandle()))
                 {
-                    if(findInTop)
-                    {
-                        logger.debug("Community with handle [" + objectWrapper.getHandle() + "] found. Community will be updated");
-                    }
-                    else
-                    {
-                        logger.debug("Any parent community with handle [" + objectWrapper.getHandle() + "] found.");
-                    }
+                    logger.debug("Community with handle [" + objectWrapper.getHandle() + "] found. Community will be updated");                   
                     
                     result = comm;
                     break;
                 }
             }
+        }
+        
+        if(result == null)
+        {
+            try
+            {
+                result = Community.create(null, context, objectWrapper.getHandle());
+            }
+            catch(SQLException | AuthorizeException ex)
+            {
+                safeFailLog(ex);
+            }            
         }
 
         return result;

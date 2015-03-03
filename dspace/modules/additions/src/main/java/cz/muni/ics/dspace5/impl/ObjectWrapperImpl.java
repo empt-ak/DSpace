@@ -159,4 +159,46 @@ public class ObjectWrapperImpl implements ObjectWrapper
             throw new ClassCastException("Trying to compare "+this.getLevel()+" with "+o.getLevel());
         }
     }
+
+    @Override
+    public String toString()
+    {
+        return "ObjectWrapperImpl{" + "handle=" + handle + ", level=" + level + '}';
+    }
+
+    @Override
+    public void print()
+    {
+        int times = 0;
+        
+        switch(getLevel())
+        {
+            case COM:
+                times = 0;
+                break;
+            case SUBCOM:
+                times = 1;
+                break;
+            case COL:
+                times = 2;
+                break;
+            case ITEM:
+                times = 3;                
+        }
+        
+        for(int i = 0; i < times; i++)
+        {
+            System.out.print("\t");
+        }
+        
+        System.out.println(getLevel()+"@path "+getPath());
+        
+        if(children != null)
+        {
+            for(ObjectWrapper ow : children)
+            {
+                ow.print();
+            }
+        }        
+    }
 }
