@@ -5,30 +5,71 @@
  */
 package cz.muni.ics.digilib.services.impl;
 
-import cz.muni.ics.dspace5.core.post.CollectionPostProcessor;
+import cz.muni.ics.digilib.domain.Issue;
+import cz.muni.ics.dspace5.core.MetadatumFactory;
+import cz.muni.ics.dspace5.core.ObjectMapper;
 import cz.muni.ics.dspace5.core.ObjectWrapper;
+import cz.muni.ics.dspace5.core.post.CollectionPostProcessor;
+import cz.muni.ics.dspace5.impl.MetadataWrapper;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.sql.SQLException;
 import java.util.List;
 import org.apache.log4j.Logger;
+import org.dozer.Mapper;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Collection;
 import org.dspace.content.Metadatum;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author Dominik Szalai - emptulik at gmail.com
  */
+@Component
 public class CollectionPostProcessorImpl implements CollectionPostProcessor
 {
     private static final Logger logger = Logger.getLogger(CollectionPostProcessorImpl.class);
+    private static final String COVER_FILENAME = "cover_thumb.png";
 
+    @Autowired
+    private ObjectMapper objectMapper;
+    @Autowired
+    private Mapper mapper;
+    @Autowired
+    private MetadatumFactory metadatumFactory;
+    
     @Override
-    public List<Metadatum> processMetadata(ObjectWrapper objectWrapper) throws IllegalArgumentException
+    public List<Metadatum> processMetadata(ObjectWrapper objectWrapper, List<ObjectWrapper> parents) throws IllegalArgumentException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        MetadataWrapper metadataWrapper = new MetadataWrapper();
+        
+        Issue issue = null;
+        
+        try
+        {
+            issue = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
+        }
+        catch(FileNotFoundException ex)
+        {
+            logger.error(ex,ex.getCause());
+        }
+        
+        if(issue != null)
+        {
+            mapper.map(issue,metadataWrapper);
+        }
+        else
+        {
+            logger.info("Object at path [" + objectWrapper.getPath() + "] was not found");
+            metadataWrapper.getMetadata().add(metadatumFactory.createMetadatum("dc", "title", null, null, "NO-TITLE"));
+        }
+        
+        
+        return metadataWrapper.getMetadata();
     }
 
     @Override
@@ -36,7 +77,7 @@ public class CollectionPostProcessorImpl implements CollectionPostProcessor
     {
         if(Files.exists(objectWrapper.getPath()))
         {
-            try(FileInputStream fis = new FileInputStream(objectWrapper.getPath().toFile()))
+            try(FileInputStream fis = new FileInputStream(objectWrapper.getPath().resolve(COVER_FILENAME).toFile()))
             {
                 collection.setLogo(fis);
             }

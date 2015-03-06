@@ -35,7 +35,7 @@ public class ImportCommunity
     @Autowired
     private CommunityPostProcessor communityPostProcessor;
     @Autowired
-    private InputArguments inputArguments;
+    private ImportTools importTools;
     @Autowired
     private ImportCollection importCollection;
     @Autowired
@@ -59,7 +59,7 @@ public class ImportCommunity
      *
      * @return created Community stored by this method
      */
-    public Community importToDspace(ObjectWrapper objectWrapper, List<ObjectWrapper> parents, Context context)
+    public Community importToDspace(ObjectWrapper objectWrapper, List<ObjectWrapper> parents, final Context context)
     {
         logger.info("Commencing import of Community type.");
         logger.info(objectWrapper.getLevel()+" with handle@"+objectWrapper.getHandle()+" having following parents: "+parents);
@@ -84,7 +84,7 @@ public class ImportCommunity
         
         if(workingCommunity == null)
         {
-            throw new RuntimeException("Something wrent wrong as working community was not created.");
+            throw new RuntimeException("Something went wrong as working community was not created.");
         }
         else
         {
@@ -105,7 +105,7 @@ public class ImportCommunity
             
             communityPostProcessor.processCommunity(objectWrapper, workingCommunity);
             
-            saveAndCommit(workingCommunity);
+            importTools.saveAndCommit(workingCommunity,this.context);
             
             if(objectWrapper.getChildren() != null && !objectWrapper.getChildren().isEmpty())
             {
@@ -118,6 +118,7 @@ public class ImportCommunity
                         {
                             newParents.addAll(parents);
                         }
+                        objectWrapper.setObject(workingCommunity);
                         newParents.add(objectWrapper);
                         
                         importCollection.importToDspace(issue, newParents, context);
@@ -132,6 +133,7 @@ public class ImportCommunity
                         {
                             newParents.addAll(parents);
                         }
+                        objectWrapper.setObject(workingCommunity);
                         newParents.add(objectWrapper);
                         
                         importToDspace(subComm, newParents, context);
@@ -161,7 +163,7 @@ public class ImportCommunity
         }
         catch(SQLException ex)
         {
-            safeFailLog(ex);
+            importTools.safeFailLog(ex);
         }
         
         if(communities != null && communities.length > 0)
@@ -192,7 +194,7 @@ public class ImportCommunity
             }
             catch(SQLException ex)
             {
-                safeFailLog(ex);
+                importTools.safeFailLog(ex);
             }
             
             if(children != null && children.length > 0)
@@ -220,7 +222,7 @@ public class ImportCommunity
                 catch(SQLException | AuthorizeException ex)
                 {
                     logger.error("Error creating subcommunity "+child.getHandle()+" for parent "+parent.getHandle());
-                    safeFailLog(ex);
+                    importTools.safeFailLog(ex);
                 }
             }
             
@@ -252,7 +254,7 @@ public class ImportCommunity
         }
         catch (SQLException exception)
         {
-            safeFailLog(exception);
+            importTools.safeFailLog(exception);
         }
 
         if (communities != null && communities.length > 0)
@@ -278,47 +280,10 @@ public class ImportCommunity
             }
             catch(SQLException | AuthorizeException ex)
             {
-                safeFailLog(ex);
+                importTools.safeFailLog(ex);
             }            
         }
 
         return result;
-    }
-
-    /**
-     * Method saves given community inside database, and if it's proper time
-     * then executes commit. Proper time is when
-     * {@link ImportConfig#getCommitAfterNumber() } equals 0 or the same value
-     * equals {@link ImportConfig#getCurentCommitNumber() }. Otherwise {@link ImportConfig#incrementCommitNumber()
-     * } is called to increase current counter.
-     *
-     * @param community to be stored
-     */
-    private void saveAndCommit(Community community)
-    {
-        try
-        {
-            community.update();
-            context.commit();
-        }
-        catch (SQLException | AuthorizeException ex)
-        {
-            safeFailLog(ex);
-        }
-    }
-
-    /**
-     * Method logs occurred exception and closes application if {@link ImportConfig#failsOnError()
-     * } returns true.
-     *
-     * @param ex to be logged.
-     */
-    private void safeFailLog(Exception ex)
-    {
-        logger.error(ex, ex.getCause());
-        if (inputArguments.getTypedValue("failOnError"))
-        {
-            System.exit(1);
-        }
     }
 }

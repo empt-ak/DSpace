@@ -25,13 +25,14 @@ public interface CollectionPostProcessor
      * <b>.xml</b> file.
      *
      * @param objectWrapper from which we extract metadata
+     * @param parents
      *
      * @return List of metadata from given objectwrapper.
      *
      * @throws IllegalArgumentException if objectwrapper is null, or does not
      *                                  have a path
      */
-    List<Metadatum> processMetadata(ObjectWrapper objectWrapper) throws IllegalArgumentException;
+    List<Metadatum> processMetadata(ObjectWrapper objectWrapper, List<ObjectWrapper> parents) throws IllegalArgumentException;
 
     /**
      * If anything else need to be done to {@code Collection} object, then call

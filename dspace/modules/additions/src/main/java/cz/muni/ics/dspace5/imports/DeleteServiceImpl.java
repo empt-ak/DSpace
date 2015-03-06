@@ -14,7 +14,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.cli.ParseException;
@@ -94,10 +96,10 @@ public class DeleteServiceImpl implements DeleteService
                     Path deletePath = Paths.get(configurationService
                             .getProperty("meditor.rootbase"))
                             .resolve(inputArguments.getValue("value"));
-                    
+
                     logger.info("Delete by path was selected [" + deletePath.toString() + "].");
 
-                    handle = handleService.getHandleForPath(deletePath,context);
+                    handle = handleService.getHandleForPath(deletePath, context);
                 }
                 else
                 {
@@ -353,7 +355,65 @@ public class DeleteServiceImpl implements DeleteService
         ps.executeBatch();
 
         connection.commit();
-        
+
+        logger.info("Batch delete executed, if no error has has appeared.");
+    }
+
+    /**
+     * Method finds all handles that do not have set its its resource_id
+     * (targets that are not pointing to any object).
+     *
+     * @param connection from which statement is obtained
+     *
+     * @return list of handle IDs that do not have target in DSpace.
+     *
+     * @throws SQLException if error occurs
+     */
+    private List<Integer> findUnassignedHandles(Connection connection) throws SQLException
+    {
+        final String sql = "SELECT handle_id FROM handle WHERE resource_id IS NULL";
+        List<Integer> resultList = new ArrayList<>();
+
+        try (Statement statement = connection.createStatement();
+                ResultSet rs = statement.executeQuery(sql))
+        {
+            while (rs.next())
+            {
+                resultList.add(rs.getInt(1));
+            }
+        }
+        catch (SQLException ex)
+        {
+            logger.error(ex, ex.getCause());
+        }
+
+        return resultList;
+    }
+
+    /**
+     * Method deletes all handles that are set set in {@code handlesToDelete}. 
+     * @param connection connection from which statement is obtained
+     * @param handlesToDelete list of IDs that will be deleted. List must contain IDs not handles itself.
+     * @throws SQLException if any error occurs
+     */
+    private void deleteUnassignedHandles(Connection connection, List<Integer> handlesToDelete) throws SQLException
+    {
+        final String sql = "DELETE FROM handle WHERE handle_id = ?";
+
+        logger.info("Batch delete is being prepared.");
+
+        PreparedStatement ps = connection.prepareStatement(sql);
+
+        for (Integer i : handlesToDelete)
+        {
+            ps.setInt(1, i);
+            ps.addBatch();
+        }
+
+        ps.executeBatch();
+
+        connection.commit();
+
         logger.info("Batch delete executed, if no error has has appeared.");
     }
 }

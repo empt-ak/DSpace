@@ -94,6 +94,8 @@ public class ImportServiceImpl implements ImportService
             
             resolveObjectWrapper(ow, true);
             
+            ow.print();
+            
             
             
             if(ow.getLevel().equals(LEVEL.COM))
@@ -144,7 +146,7 @@ public class ImportServiceImpl implements ImportService
                 {
                     ObjectWrapper issue = objectWrapperFactory.createObjectWrapper(p,
                             false,
-                            handleService.getHandleForPath(objectWrapper.getPath(), context));
+                            handleService.getHandleForPath(p, context));
                     // recreate articles
                     resolveObjectWrapper(issue, false);
 
@@ -158,7 +160,7 @@ public class ImportServiceImpl implements ImportService
                 
                 for(ObjectWrapper volume : volumes)
                 {
-                    logger.info("Mapping volume "+volume.getPath()+" @handle ["+objectWrapper.getHandle()+"]");
+                    logger.info("Mapping volume "+volume.getPath()+" @handle ["+volume.getHandle()+"]");
                     List<ObjectWrapper> volumeIssues = new ArrayList<>();
                     
                     
@@ -205,7 +207,7 @@ public class ImportServiceImpl implements ImportService
                     {
                         ObjectWrapper article = objectWrapperFactory.createObjectWrapper(p,
                                 false,
-                                handleService.getHandleForPath(objectWrapper.getPath(), context));
+                                handleService.getHandleForPath(p, context));
 
                         resolveObjectWrapper(article, false);
 
