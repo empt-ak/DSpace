@@ -50,7 +50,7 @@ public class VolumeFolderProvider
             {
                 if(Files.isDirectory(entry))
                 {                    
-                    return entry.getFileName().toString().startsWith(issueNumber);
+                    return dSpaceTools.getVolumeNumber(entry).equals(issueNumber);
                 }
                 else
                 {
