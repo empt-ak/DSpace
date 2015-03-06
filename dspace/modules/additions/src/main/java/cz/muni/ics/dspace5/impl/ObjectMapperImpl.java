@@ -32,13 +32,15 @@ public class ObjectMapperImpl implements ObjectMapper
     public <T> T convertPathToObject(Path p, String fileName) throws IllegalArgumentException, FileNotFoundException
     {
         Path workingPath = p.resolve(fileName);
-        logger.info("Converting path : "+p);
+        
         
         T t = null;
         
         try(InputStream is = Files.newInputStream(workingPath))
         {
+            logger.info("Converting path : "+p);
             t = (T) unmarshaller.unmarshal(is);
+            logger.info("Success");
         }
         catch(IOException | JAXBException ex)
         {

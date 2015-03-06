@@ -12,7 +12,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.dozer.ConfigurableCustomConverter;
 import org.dspace.content.Metadatum;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -26,17 +25,23 @@ public class BasicMetadataConverter implements ConfigurableCustomConverter
     private String element;
     private String qualifier;
 
-    @Autowired
     private MetadatumFactory metadatumFactory;
+
+    public void setMetadatumFactory(MetadatumFactory metadatumFactory)
+    {
+        this.metadatumFactory = metadatumFactory;
+    }   
 
     @Override
     public void setParameter(String parameter)
     {
+        cleanup();
+        logger.debug("setParameter() called with following argument: "+parameter);
         String[] splitValue = parameter.split("\\.");
 
         if (splitValue.length < 2 || splitValue.length > 3)
         {
-            throw new IllegalArgumentException("Given parameter has invalid values. ");
+            throw new IllegalArgumentException("Given parameter has invalid value.");
         }
         else
         {
@@ -46,6 +51,7 @@ public class BasicMetadataConverter implements ConfigurableCustomConverter
             {
                 qualifier = splitValue[2];
             }
+            logger.debug("Values set to schema@"+this.schema+" element@"+this.element+" qualifier@"+this.qualifier);
         }
     }
 
@@ -92,5 +98,12 @@ public class BasicMetadataConverter implements ConfigurableCustomConverter
             
             return resultList;
         }
+    }
+    
+    private void cleanup()
+    {
+        this.element = null;
+        this.qualifier = null;
+        this.schema = null;
     }
 }

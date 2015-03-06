@@ -7,16 +7,16 @@ package cz.muni.ics.dspace5.impl;
 
 import cz.muni.ics.dspace5.core.MetadatumFactory;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.dspace.content.Metadatum;
-import org.springframework.stereotype.Component;
 
 /**
  *
  * @author Dominik Szalai - emptulik at gmail.com
  */
-@Component("metadatumFactory")
 public class MetaDatumFactoryImpl implements MetadatumFactory
 {
+    private static final Logger logger = Logger.getLogger(MetaDatumFactoryImpl.class);
 
     @Override
     public Metadatum createMetadatum(String schema, String element, String qualifier, String language, String value) throws IllegalArgumentException
@@ -40,6 +40,8 @@ public class MetaDatumFactoryImpl implements MetadatumFactory
         metadatum.qualifier = qualifier;
         metadatum.language = language;
         metadatum.value = value;
+        
+        logger.info("+"+metadatum.getField()+":- "+metadatum.value);
         
         return metadatum;
     }
