@@ -41,7 +41,7 @@ public class MetaDatumFactoryImpl implements MetadatumFactory
         metadatum.language = language;
         metadatum.value = value;
         
-        logger.info("+"+metadatum.getField()+":- "+metadatum.value);
+        logger.debug("+"+metadatum.getField()+":- "+metadatum.value);
         
         return metadatum;
     }

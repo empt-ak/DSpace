@@ -45,6 +45,7 @@
                 <value>cz.muni.ics.digilib.domain.Periodical</value>
                 <value>cz.muni.ics.digilib.domain.Volume</value>
                 <value>cz.muni.ics.digilib.domain.Issue</value>
+                <value>cz.muni.ics.digilib.domain.Article</value>
             </list>
         </constructor-arg>
     </bean>
@@ -89,7 +90,8 @@
         </property>
         <property name="customConvertersWithId">
             <map>
-                <entry key="basicmetadataconverter" value-ref="basicMetadataConverter" />
+                <entry key="simpleconverter" value-ref="simpleElementConverter" />
+                <entry key="composedconverter" value-ref="composedElementConverter" />
             </map>
         </property>
     </bean> 
@@ -100,9 +102,13 @@
     />
     
     <bean
-        id="basicMetadataConverter"
-        class="cz.muni.ics.dspace5.impl.BasicMetadataConverter"
+        id="simpleElementConverter"
+        class="cz.muni.ics.dspace5.impl.convertors.SimpleElementConverter"
         p:metadatumFactory-ref="metadatumFactory"
-        scope="prototype"
+    />              
+    <bean
+        id="composedElementConverter"
+        class="cz.muni.ics.dspace5.impl.convertors.ComposedElementConverter"
+        p:metadatumFactory-ref="metadatumFactory"
     />              
 </beans>

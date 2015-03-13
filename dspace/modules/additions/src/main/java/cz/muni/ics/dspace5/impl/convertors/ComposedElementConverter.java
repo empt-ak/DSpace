@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.ics.dspace5.impl;
+package cz.muni.ics.dspace5.impl.convertors;
 
 import cz.muni.ics.dspace5.core.MetadatumFactory;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
 import org.dozer.ConfigurableCustomConverter;
 import org.dspace.content.Metadatum;
@@ -17,9 +19,9 @@ import org.dspace.content.Metadatum;
  *
  * @author Dominik Szalai - emptulik at gmail.com
  */
-public class BasicMetadataConverter implements ConfigurableCustomConverter
+public class ComposedElementConverter implements ConfigurableCustomConverter
 {
-    private static final Logger logger = Logger.getLogger(BasicMetadataConverter.class);
+    private static final Logger logger = Logger.getLogger(ComposedElementConverter.class);
 
     private String schema;
     private String element;
@@ -56,48 +58,35 @@ public class BasicMetadataConverter implements ConfigurableCustomConverter
     }
 
     @Override
-    public Object convert(Object destination, Object source, Class<?> destinationClass, Class<?> sourceClass)
+    public Object convert(Object existingDestinationFieldValue, Object sourceFieldValue, Class<?> destinationClass, Class<?> sourceClass)
     {
-        if (source instanceof Collection)
+        if(sourceFieldValue != null)
         {
-            logger.debug("Source is collection type.");
             List<Metadatum> resultList = new ArrayList<>();
-
-            if (source.getClass().equals(ArrayList.class))
+            
+            if(existingDestinationFieldValue != null)
             {
-                List temp = (List) source;
-
-                for (Object o : temp)
+                resultList.addAll((List<Metadatum>) existingDestinationFieldValue);
+            }
+            
+            if(sourceFieldValue instanceof Collection)
+            {
+                List sourceList = (List) sourceFieldValue;
+                
+                for(Object o : sourceList)
                 {
-                    resultList.add(metadatumFactory.createMetadatum(schema, element, qualifier, null, o.toString()));
+                    resultList.add(convertObject(o));
                 }
-            }
-
-            if (destination != null)
-            {
-                List<Metadatum> temp = (List<Metadatum>) destination;
-                resultList.addAll(temp);
-            }
-
-            return resultList;
-        }
-        else
-        {
-            List<Metadatum> resultList;
-            if(destination == null)
-            {
-                resultList = new ArrayList<>();
             }
             else
             {
-                resultList = (List<Metadatum>) destination;
+                resultList.add(convertObject(sourceFieldValue));
             }
-            
-            logger.debug("Source is single type.");
-            resultList.add(metadatumFactory.createMetadatum(schema, element, qualifier, null, source.toString()));
             
             return resultList;
         }
+        
+        return null;
     }
     
     private void cleanup()
@@ -106,4 +95,25 @@ public class BasicMetadataConverter implements ConfigurableCustomConverter
         this.qualifier = null;
         this.schema = null;
     }
+    
+    
+    private Metadatum convertObject(Object inputValue)
+    {
+        try
+        {
+            return metadatumFactory.createMetadatum(schema, 
+                element, 
+                qualifier, 
+                (String) PropertyUtils.getProperty(inputValue, "lang"),
+                (String) PropertyUtils.getProperty(inputValue, "value")
+            );
+        }
+        catch(IllegalAccessException | InvocationTargetException | NoSuchMethodException ex)
+        {
+            logger.error(ex,ex.getCause());
+        }
+        
+        return null;
+    }
+    
 }

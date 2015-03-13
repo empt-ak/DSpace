@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Collection;
 import org.dspace.content.Community;
+import org.dspace.content.Item;
 import org.dspace.core.Context;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -55,6 +56,19 @@ public class ImportTools
         try
         {
             collection.update();
+            context.commit();
+        }
+        catch(SQLException | AuthorizeException ex)
+        {
+            safeFailLog(ex);
+        }
+    }
+    
+    public void saveAndCommit(Item item, Context context)
+    {
+        try
+        {
+            item.update();
             context.commit();
         }
         catch(SQLException | AuthorizeException ex)

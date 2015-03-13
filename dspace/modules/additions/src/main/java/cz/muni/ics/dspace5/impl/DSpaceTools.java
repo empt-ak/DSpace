@@ -5,9 +5,16 @@
  */
 package cz.muni.ics.dspace5.impl;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import org.apache.log4j.Logger;
 import org.dspace.services.ConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,6 +27,7 @@ import org.springframework.stereotype.Component;
 public class DSpaceTools
 {
 
+    private static final Logger logger = Logger.getLogger(DSpaceTools.class);
     @Autowired
     private ConfigurationService configurationService;
 
@@ -126,5 +134,86 @@ public class DSpaceTools
         }
 
         return meditorPath.resolve(result);
+    }
+
+    /**
+     * Out of given path (somewhere in ME) method recreates name for its PDF
+     * file. For example <b>serial/1_SuperMag/14-1765-2/#3</b> the filename will
+     * be <b>1_SuperMag_14-1765-2_3</b>
+     *
+     * @param path to be converted into PDF file name
+     *
+     * @return name for PDF file belonging to article
+     */
+    public String getNameForPDF(Path path)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        Path n = Paths.get(configurationService.getProperty("meditor.rootbase")).relativize(path);
+
+        for (int i = 1; i < n.getNameCount() - 1; i++)
+        {
+            sb.append(n.getName(i)).append("_");
+        }
+
+        sb.append(n.getName(n.getNameCount() - 1).toString().replace("#", ""));
+
+        return sb.toString();
+    }
+
+    /**
+     * Method calculates hash of given file passed as {@code path} with given
+     * algorithm.
+     *
+     * @param path      of file to be calculated
+     * @param algorithm used for calculation
+     *
+     * @return
+     *
+     * @throws IllegalArgumentException
+     */
+    public String calculateHash(Path path, String algorithm) throws IllegalArgumentException
+    {
+        MessageDigest md = null;
+
+        String result = null;
+
+        try
+        {
+            md = MessageDigest.getInstance(algorithm);
+        }
+        catch (NoSuchAlgorithmException ex)
+        {
+            throw new IllegalArgumentException(ex.getMessage());
+        }
+
+        if (md != null)
+        {
+            try (InputStream is = Files.newInputStream(path, StandardOpenOption.READ))
+            {
+                byte[] buffer = new byte[1024];
+                int num;
+
+                while ((num = is.read(buffer)) != -1)
+                {
+                    md.update(buffer, 0, num);
+                }
+            }
+            catch (IOException ex)
+            {
+                logger.error(ex, ex.getCause());
+            }
+            
+            byte[] bytes = md.digest();
+            StringBuilder sb = new StringBuilder();
+            for(int i =0 ; i < bytes.length; i++)
+            {
+                sb.append(Integer.toString((bytes[i] & 0xff)+0x100,16).substring(1));
+            }
+            
+            result = sb.toString();
+        }
+
+        return result;
     }
 }

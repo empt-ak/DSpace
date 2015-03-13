@@ -154,6 +154,8 @@ public class ImportCommunity
      */
     private Community findOrCreateCommunity(ObjectWrapper parent, ObjectWrapper child)
     {
+        //@TODO speedup process by checking if parent has object stored int #getObject();
+        //if so select to db is not required.
         Community[] communities = new Community[0];
         Community parentCommunity = null;
         try

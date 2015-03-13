@@ -9,6 +9,7 @@ import cz.muni.ics.dspace5.core.ObjectWrapper;
 import java.util.List;
 import org.dspace.content.Item;
 import org.dspace.content.Metadatum;
+import org.dspace.core.Context;
 
 /**
  *
@@ -45,5 +46,5 @@ public interface ItemPostProcessor
      *                                       community is null.
      * @throws UnsupportedOperationException if method is not implemented.
      */
-    void processItem(ObjectWrapper objectWrapper, Item item) throws IllegalArgumentException;
+    void processItem(ObjectWrapper objectWrapper, Item item, Context context) throws IllegalArgumentException;
 }
