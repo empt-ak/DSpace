@@ -40,6 +40,7 @@ import org.springframework.stereotype.Component;
 public class ItemPostProcessorImpl implements ItemPostProcessor
 {
     private static final Logger logger = Logger.getLogger(ItemPostProcessorImpl.class);
+    private static final String ORIGINAL = "ORIGINAL";
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
@@ -83,13 +84,15 @@ public class ItemPostProcessorImpl implements ItemPostProcessor
     public void processItem(ObjectWrapper objectWrapper, Item item, Context context) throws IllegalArgumentException
     {
         // referencie, pdf atd, pre dmlcz .matematika a ine
-        // @TODO cleanup stareho
+        // @TODO improve by checking dates ?
         
         Bundle[] oldBundles = null;
         
         try
         {
-            oldBundles = item.getBundles();
+            // there might be other files like license text
+            // thus we remove only ORIGINAL
+            oldBundles = item.getBundles(ORIGINAL);
         }
         catch(SQLException ex)
         {
@@ -114,7 +117,7 @@ public class ItemPostProcessorImpl implements ItemPostProcessor
         Bundle bundle = null;
         try
         {
-            bundle = item.createBundle("ORIGINAL");
+            bundle = item.createBundle(ORIGINAL);
         }
         catch(SQLException | AuthorizeException ex)
         {
@@ -148,7 +151,7 @@ public class ItemPostProcessorImpl implements ItemPostProcessor
                     pdfBitstream = bundle.createBitstream(bis);
                     
                     pdfBitstream.setName(dSpaceTools.getNameForPDF(objectWrapper.getPath()));
-                    pdfBitstream.setDescription("fulltext");
+                    pdfBitstream.setDescription("Full-text");
                     pdfBitstream.setFormat(BitstreamFormat.findByMIMEType(context, "application/pdf"));
                     pdfBitstream.update();
                 }

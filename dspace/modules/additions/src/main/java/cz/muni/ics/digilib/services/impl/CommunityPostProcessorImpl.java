@@ -78,8 +78,6 @@ public class CommunityPostProcessorImpl implements CommunityPostProcessor
         }
         else
         {
-            logger.info("its volume!");
-            logger.info("huehue$ "+objectWrapper.getPath());
             Volume v = null;
             try
             {
