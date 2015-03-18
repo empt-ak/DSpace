@@ -7,17 +7,20 @@ package cz.muni.ics.digilib.services.impl;
 
 import cz.muni.ics.digilib.domain.Periodical;
 import cz.muni.ics.digilib.domain.Volume;
+import cz.muni.ics.dspace5.comparators.ComparatorFactory;
 import cz.muni.ics.dspace5.core.MetadatumFactory;
 import cz.muni.ics.dspace5.core.ObjectMapper;
 import cz.muni.ics.dspace5.core.ObjectWrapper;
 import cz.muni.ics.dspace5.core.post.CommunityPostProcessor;
-import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.impl.MetadataWrapper;
+import cz.muni.ics.dspace5.impl.io.FolderProvider;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.dozer.Mapper;
@@ -44,7 +47,9 @@ public class CommunityPostProcessorImpl implements CommunityPostProcessor
     @Autowired
     private MetadatumFactory metadatumFactory;
     @Autowired
-    private DSpaceTools dSpaceTools;
+    private FolderProvider folderProvider;
+    @Autowired
+    private ComparatorFactory comparatorFactory;
 
     @Override
     public List<Metadatum> processMetadata(ObjectWrapper objectWrapper, List<ObjectWrapper> parents) throws IllegalArgumentException
@@ -105,9 +110,62 @@ public class CommunityPostProcessorImpl implements CommunityPostProcessor
     @Override
     public void processCommunity(ObjectWrapper objectWrapper, Community community) throws IllegalArgumentException
     {
-        if (Files.exists(objectWrapper.getPath()))
+        Path coverPath = null;
+        if (objectWrapper.getLevel().equals(ObjectWrapper.LEVEL.COM))
         {
-            try (FileInputStream fis = new FileInputStream(objectWrapper.getPath().resolve(COVER_FILENAME).toFile()))
+            coverPath = objectWrapper.getPath();
+        }
+        else if (objectWrapper.getLevel().equals(ObjectWrapper.LEVEL.SUBCOM))
+        {
+            // this is the case of volume
+            List<Path> issues = folderProvider.getIssuesFromPath(objectWrapper.getPath());
+
+            if (!issues.isEmpty())
+            {
+                Collections.sort(issues, comparatorFactory.provideIssuePathComparator());
+
+                coverPath = issues.get(0);
+            }
+            else
+            {
+                // this should not occur since if volume exists, then at least one 
+                // issue exists
+                logger.error("There are no issues for given volume.");
+            }
+        }
+        else
+        {
+            throw new IllegalArgumentException("Given objectWrapper does not have supported level [COM/SUBCOM], but was [" + objectWrapper.getLevel() + "]");
+        }
+
+        if (coverPath != null)
+        {
+            coverPath = coverPath.resolve(COVER_FILENAME);
+            try
+            {
+                setCover(coverPath, community);
+            }
+            catch (IllegalArgumentException iax)
+            {
+                logger.info("For handle@" + objectWrapper.getHandle() + iax.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Sets cover for given community. Cover is specified by {@code coverPath}.
+     *
+     * @param coverPath path to cover file.
+     * @param community target community for which we are setting the cover
+     *
+     * @throws IllegalArgumentException if cover does not exist on given
+     *                                  {@code coverPath}
+     */
+    private void setCover(Path coverPath, Community community) throws IllegalArgumentException
+    {
+        if (Files.exists(coverPath))
+        {
+            try (FileInputStream fis = new FileInputStream(coverPath.toFile()))
             {
                 community.setLogo(fis);
             }
@@ -118,7 +176,7 @@ public class CommunityPostProcessorImpl implements CommunityPostProcessor
         }
         else
         {
-            logger.info("There is no file on given path. Bundle will be not set for [" + objectWrapper.getHandle() + "] at path " + objectWrapper.getPath().toString());
+            throw new IllegalArgumentException("Cover was not found @path [" + coverPath + "]");
         }
     }
 }

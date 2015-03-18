@@ -69,6 +69,21 @@
     />
     
     <bean
+        id="issuePathComparator"
+        class="cz.muni.ics.dspace5.comparators.IssuePathComparator"
+    />
+    
+    <bean
+        id="comparatorFactory"
+        class="cz.muni.ics.dspace5.comparators.ComparatorFactory"
+    >
+        <lookup-method
+            name="provideIssuePathComparator"
+            bean="issuePathComparator"
+        />        
+    </bean>
+    
+    <bean
         id="objectWrapperFactory"
         class="cz.muni.ics.dspace5.impl.ObjectWrapperFactory"
     >

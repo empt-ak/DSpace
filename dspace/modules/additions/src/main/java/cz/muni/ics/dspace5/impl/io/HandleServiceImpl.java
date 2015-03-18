@@ -36,7 +36,7 @@ public class HandleServiceImpl implements HandleService
     @Autowired
     private ConfigurationService configurationService;
     @Autowired
-    private VolumeFolderProvider volumeFolderProvider;
+    private FolderProvider folderProvider;
 
     private static final Logger logger = Logger.getLogger(HandleServiceImpl.class);
 
@@ -102,7 +102,7 @@ public class HandleServiceImpl implements HandleService
         
         init();
         
-        List<Path> volume = volumeFolderProvider.getVolumesFromIssue(path);
+        List<Path> volume = folderProvider.getIssuesFromPath(path);
 
         String volumeSuffix = null;
         boolean missing = false;
