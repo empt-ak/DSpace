@@ -103,12 +103,12 @@
     
     <bean
         id="simpleElementConverter"
-        class="cz.muni.ics.dspace5.impl.convertors.SimpleElementConverter"
+        class="cz.muni.ics.digilib.services.convertors.SimpleElementConverter"
         p:metadatumFactory-ref="metadatumFactory"
     />              
     <bean
         id="composedElementConverter"
-        class="cz.muni.ics.dspace5.impl.convertors.ComposedElementConverter"
+        class="cz.muni.ics.digilib.services.convertors.ComposedElementConverter"
         p:metadatumFactory-ref="metadatumFactory"
     />              
 </beans>
