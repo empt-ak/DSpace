@@ -5,9 +5,9 @@
  */
 package cz.muni.ics.digilib.services.convertors;
 
+import cz.muni.ics.digilib.domain.Author;
 import cz.muni.ics.dspace5.core.DSpaceDozerConvertor;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.dspace.content.Metadatum;
@@ -16,10 +16,10 @@ import org.dspace.content.Metadatum;
  *
  * @author Dominik Szalai - emptulik at gmail.com
  */
-public class SimpleElementConverter extends DSpaceDozerConvertor
+public class AuthorConverter extends DSpaceDozerConvertor
 {
-    private static final Logger logger = Logger.getLogger(SimpleElementConverter.class);
-
+    private static final Logger logger = Logger.getLogger(AuthorConverter.class);
+    
     @Override
     public Object convert(Object destination, Object source, Class<?> destinationClass, Class<?> sourceClass)
     {
@@ -30,20 +30,14 @@ public class SimpleElementConverter extends DSpaceDozerConvertor
             resultList.addAll(temp2);
         }
         
-        if (source instanceof Collection)
-        {          
-            List temp = (List) source;                 
-
-            for (Object o : temp)
-            {
-                resultList.add(metadatumFactory.createMetadatum(schema, element, qualifier, null, o.toString()));
-            }
-        }
-        else
+        List<Author> authors = (List<Author>) source;
+        
+        for(Author a : authors)
         {
-            resultList.add(metadatumFactory.createMetadatum(schema, element, qualifier, null, source.toString()));
+            resultList.add(metadatumFactory.createMetadatum(schema, element, qualifier, null, a.getValue()));
         }
         
         return resultList;
     }
+    
 }

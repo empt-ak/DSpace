@@ -50,8 +50,10 @@ public class ImportItem
         
         if(workingItem != null)
         {
+            logger.info("Processing metadata for handle:"+objectWrapper.getHandle()+" @path:- "+objectWrapper.getPath());
             List<Metadatum> metadata = itemPostProcessor.processMetadata(objectWrapper);
             
+            logger.info("Clearing metadata.");
             for(Metadatum m : metadata)
             {
                 workingItem.clearMetadata(m.schema, m.element, m.qualifier, ANY);
@@ -59,7 +61,7 @@ public class ImportItem
             
             for(Metadatum m : metadata)
             {
-                logger.info(m.getField()+":- "+m.value);
+                logger.info("Setting metadata: "+m.getField()+":- "+m.value);
                 workingItem.addMetadata(m.schema, m.element, m.qualifier, m.language, m.value);
             }
             

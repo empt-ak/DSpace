@@ -5,9 +5,9 @@
  */
 package cz.muni.ics.digilib.services.convertors;
 
+import cz.muni.ics.digilib.domain.Contributor;
 import cz.muni.ics.dspace5.core.DSpaceDozerConvertor;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.dspace.content.Metadatum;
@@ -16,10 +16,17 @@ import org.dspace.content.Metadatum;
  *
  * @author Dominik Szalai - emptulik at gmail.com
  */
-public class SimpleElementConverter extends DSpaceDozerConvertor
+public class ContributorConvertor extends DSpaceDozerConvertor
 {
-    private static final Logger logger = Logger.getLogger(SimpleElementConverter.class);
+    private static final Logger logger = Logger.getLogger(ContributorConvertor.class);
+    
+    private List<String> allowedRoles;
 
+    public void setAllowedRoles(List<String> allowedRoles)
+    {
+        this.allowedRoles = allowedRoles;
+    }
+    
     @Override
     public Object convert(Object destination, Object source, Class<?> destinationClass, Class<?> sourceClass)
     {
@@ -30,18 +37,14 @@ public class SimpleElementConverter extends DSpaceDozerConvertor
             resultList.addAll(temp2);
         }
         
-        if (source instanceof Collection)
-        {          
-            List temp = (List) source;                 
-
-            for (Object o : temp)
-            {
-                resultList.add(metadatumFactory.createMetadatum(schema, element, qualifier, null, o.toString()));
-            }
-        }
-        else
+        List<Contributor> contributors = (List<Contributor>) source;
+        
+        for(Contributor c : contributors)
         {
-            resultList.add(metadatumFactory.createMetadatum(schema, element, qualifier, null, source.toString()));
+            if(allowedRoles.contains(c.getRole().value()))
+            {
+                resultList.add(metadatumFactory.createMetadatum(schema, element, c.getRole().value(), null, c.getValue()));
+            }            
         }
         
         return resultList;

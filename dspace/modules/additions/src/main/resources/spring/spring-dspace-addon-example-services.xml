@@ -107,6 +107,8 @@
             <map>
                 <entry key="simpleconverter" value-ref="simpleElementConverter" />
                 <entry key="composedconverter" value-ref="composedElementConverter" />
+                <entry key="contributorconverter" value-ref="contributorConverter" />
+                <entry key="authorconverter" value-ref="authorConverter" />
             </map>
         </property>
     </bean> 
@@ -120,10 +122,33 @@
         id="simpleElementConverter"
         class="cz.muni.ics.digilib.services.convertors.SimpleElementConverter"
         p:metadatumFactory-ref="metadatumFactory"
-    />              
+    />      
+            
     <bean
         id="composedElementConverter"
         class="cz.muni.ics.digilib.services.convertors.ComposedElementConverter"
         p:metadatumFactory-ref="metadatumFactory"
-    />              
+    />
+    
+    <bean 
+        id="contributorConverter"
+        class="cz.muni.ics.digilib.services.convertors.ContributorConvertor"
+        p:metadatumFactory-ref="metadatumFactory"
+    >
+        <property name="allowedRoles">
+            <list>
+                <value>advisor</value>
+                <value>author</value>
+                <value>editor</value>
+                <value>illustrator</value>
+                <value>other</value>
+            </list>
+        </property>
+    </bean> 
+    
+    <bean
+        id="authorConverter"
+        class="cz.muni.ics.digilib.services.convertors.AuthorConverter"
+        p:metadatumFactory-ref="metadatumFactory"
+    />            
 </beans>

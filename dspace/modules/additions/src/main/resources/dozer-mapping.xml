@@ -65,5 +65,13 @@
             <a>note</a>
             <b>metadata</b>
         </field>
+        <field custom-converter-id="contributorconverter" custom-converter-param="dc.contributor">
+            <a>contributor</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="authorconverter" custom-converter-param="dc.contributor.author">
+            <a>author</a>
+            <b>metadata</b>
+        </field>
     </mapping> 
 </mappings> 
