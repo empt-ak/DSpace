@@ -23,19 +23,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class ImportTools
 {
+
     @Autowired
     private InputArguments inputArguments;
     private static final Logger logger = Logger.getLogger(ImportTools.class);
-    
+
     /**
-     * Method saves given community inside database, and if it's proper time
-     * then executes commit. Proper time is when
-     * {@link ImportConfig#getCommitAfterNumber() } equals 0 or the same value
-     * equals {@link ImportConfig#getCurentCommitNumber() }. Otherwise {@link ImportConfig#incrementCommitNumber()
-     * } is called to increase current counter.
+     * Method updates given community inside database and commits context.
      *
-     * @param community to be stored
-     * @param context
+     * @param community to be updated (saved)
+     * @param context   context upon which is operation executed.
+     *
+     * @see Community#update()
+     * @see Context#commit()
      */
     public void saveAndCommit(Community community, Context context)
     {
@@ -44,13 +44,21 @@ public class ImportTools
             community.update();
             context.commit();
         }
-        catch(SQLException | AuthorizeException ex)
+        catch (SQLException | AuthorizeException ex)
         {
             safeFailLog(ex);
         }
     }
-    
-    
+
+    /**
+     * Method updates given collection inside database and commits context.
+     *
+     * @param collection to be updated (saved)
+     * @param context    context upon which is operation executed
+     *
+     * @see Context#commit()
+     * @see Collection#update()
+     */
     public void saveAndCommit(Collection collection, Context context)
     {
         try
@@ -58,17 +66,30 @@ public class ImportTools
             collection.update();
             context.commit();
         }
-        catch(SQLException | AuthorizeException ex)
+        catch (SQLException | AuthorizeException ex)
         {
             safeFailLog(ex);
         }
     }
-    
+
+    /**
+     * Method updates given item inside database, commits context and removes
+     * {@code item} from context {@code cache}. Removing item from context cache
+     * is crucial as cache would be populated with items and never removed. This
+     * would result in extremely big {@code HashMap} which would hold not only
+     * Items, but all sublevels such as {@code Bundle} and {@code Bitstream}. If
+     * {@code -Xmx} flag is not set high enough, then populating cache leads to
+     * {@link OutOfMemoryError}. Therefore after we are done with {@code Item}
+     * then calling {@link Item#decache() } is required.
+     *
+     * @param item
+     * @param context
+     */
     public void saveAndCommit(Item item, Context context)
     {
         try
         {
-            item.update();            
+            item.update();
             context.commit();
             // DO NOT EVER REMOVE THIS LINE
             // once object is loaded out of database then its stored inside
@@ -77,14 +98,12 @@ public class ImportTools
             // if item would not be decached then OutOfMemoryError WILL occur.
             item.decache();
         }
-        catch(SQLException | AuthorizeException ex)
+        catch (SQLException | AuthorizeException ex)
         {
             safeFailLog(ex);
         }
     }
-    
-    
-    
+
     /**
      * Method logs occurred exception and closes application if {@link ImportConfig#failsOnError()
      * } returns true.
@@ -93,9 +112,10 @@ public class ImportTools
      */
     public void safeFailLog(Exception ex)
     {
-        logger.error(ex,ex.getCause());
-        if(inputArguments.getTypedValue("failOnError"))
+        logger.error(ex, ex.getCause());
+        if (inputArguments.getTypedValue("failOnError"))
         {
+            // TODO ?
             // rework into runtime exception
             System.exit(1);
         }

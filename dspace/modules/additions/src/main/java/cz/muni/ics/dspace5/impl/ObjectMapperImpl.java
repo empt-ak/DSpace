@@ -31,8 +31,7 @@ public class ObjectMapperImpl implements ObjectMapper
     @Override
     public <T> T convertPathToObject(Path p, String fileName) throws IllegalArgumentException, FileNotFoundException
     {
-        Path workingPath = p.resolve(fileName);
-        
+        Path workingPath = p.resolve(fileName);        
         
         T t = null;
         

@@ -27,6 +27,11 @@ public interface ObjectWrapper extends Comparable<ObjectWrapper>
         {
             this.mask = mask;
         }
+        
+        public int mask()
+        {
+            return this.mask;
+        }
     }
 
     /**

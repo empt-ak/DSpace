@@ -6,7 +6,6 @@
 package cz.muni.ics.digilib.services.impl;
 
 import cz.muni.ics.digilib.domain.Article;
-import cz.muni.ics.dspace5.core.MetadatumFactory;
 import cz.muni.ics.dspace5.core.ObjectMapper;
 import cz.muni.ics.dspace5.core.ObjectWrapper;
 import cz.muni.ics.dspace5.core.post.ItemPostProcessor;
@@ -44,10 +43,7 @@ public class ItemPostProcessorImpl implements ItemPostProcessor
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
-    private Mapper mapper;
-    @Autowired
-    private MetadatumFactory metadatumFactory;
-    
+    private Mapper mapper;    
     @Autowired
     private DSpaceTools dSpaceTools;
     //@TODO set tru spring
