@@ -68,8 +68,14 @@ public class ImportTools
     {
         try
         {
-            item.update();
+            item.update();            
             context.commit();
+            // DO NOT EVER REMOVE THIS LINE
+            // once object is loaded out of database then its stored inside
+            // context cache, however it is never deleted.
+            // the only way how ot remove it calling this method
+            // if item would not be decached then OutOfMemoryError WILL occur.
+            item.decache();
         }
         catch(SQLException | AuthorizeException ex)
         {
