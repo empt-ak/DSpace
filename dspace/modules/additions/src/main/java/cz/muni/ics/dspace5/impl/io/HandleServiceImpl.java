@@ -6,6 +6,7 @@
 package cz.muni.ics.dspace5.impl.io;
 
 import cz.muni.ics.dspace5.core.HandleService;
+import cz.muni.ics.dspace5.impl.ContextWrapper;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -37,17 +38,14 @@ public class HandleServiceImpl implements HandleService
     private ConfigurationService configurationService;
     @Autowired
     private FolderProvider folderProvider;
+    @Autowired
+    private ContextWrapper contextWrapper;
 
     private static final Logger logger = Logger.getLogger(HandleServiceImpl.class);
 
     @Override
-    public String getHandleForPath(Path path, Context context) throws IllegalArgumentException
-    {
-        if (context == null)
-        {
-            throw new IllegalArgumentException("Passed Context is null.");
-        }
-        
+    public String getHandleForPath(Path path, boolean createIfMissing) throws IllegalArgumentException
+    {        
         init();
 
         Path dspaceFile = path.resolve(handleFile);
@@ -65,9 +63,9 @@ public class HandleServiceImpl implements HandleService
                 logger.error(ex);
             }
         }
-        else
+        else if(createIfMissing)
         {
-            String newSuffix = getNewHandle(context.getDBConnection()).toString();
+            String newSuffix = getNewHandle(contextWrapper.getContext().getDBConnection()).toString();
 
             if (newSuffix == null)
             {
@@ -88,18 +86,20 @@ public class HandleServiceImpl implements HandleService
                 suffix = newSuffix;
             }
         }
-
-        return handlePrefix + suffix;
+        
+        if(suffix == null)
+        {
+            return null;
+        }
+        else
+        {
+            return handlePrefix + suffix;
+        }
     }
 
     @Override
-    public String getVolumeHandle(Path path, Context context) throws IllegalArgumentException
-    {
-        if(context == null)
-        {
-            throw new IllegalArgumentException("Given context is null.");
-        }
-        
+    public String getVolumeHandle(Path path) throws IllegalArgumentException
+    {        
         init();
         
         List<Path> volume = folderProvider.getIssuesFromPath(path);
@@ -134,7 +134,7 @@ public class HandleServiceImpl implements HandleService
 
         if (volumeSuffix == null)
         {
-            volumeSuffix = getNewHandle(context.getDBConnection()).toString();
+            volumeSuffix = getNewHandle(contextWrapper.getContext().getDBConnection()).toString();
         }
 
         if (missing)

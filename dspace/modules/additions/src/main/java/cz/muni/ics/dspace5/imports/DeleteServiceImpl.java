@@ -8,6 +8,7 @@ package cz.muni.ics.dspace5.imports;
 import cz.muni.ics.dspace5.core.CommandLineService;
 import cz.muni.ics.dspace5.core.DeleteService;
 import cz.muni.ics.dspace5.core.HandleService;
+import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.InputArguments;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -44,8 +45,7 @@ public class DeleteServiceImpl implements DeleteService
 {
 
     private static final Logger logger = Logger.getLogger(DeleteServiceImpl.class);
-    private Context context = null;
-
+    
     @Autowired
     private CommandLineService commandLineService;
     @Autowired
@@ -54,6 +54,8 @@ public class DeleteServiceImpl implements DeleteService
     private HandleService handleService;
     @Autowired
     private ConfigurationService configurationService;
+    @Autowired
+    private ContextWrapper contextWrapper;
 
     private final List<String> handles = new ArrayList<>();
 
@@ -75,90 +77,87 @@ public class DeleteServiceImpl implements DeleteService
         {
             try
             {
-                context = new Context();
+                contextWrapper.setContext(new Context());
+                logger.debug("Context created.");
             }
             catch (SQLException ex)
             {
                 logger.fatal(ex, ex.getCause());
             }
+            
+            contextWrapper.getContext().turnOffAuthorisationSystem();
+            logger.debug("Disabled AuthorisationSystem.");
 
-            if (context != null)
+            String handle = null;
+
+            if (inputArguments.getValue("mode").equals("path"))
             {
-                logger.debug("Context created.");
-                context.turnOffAuthorisationSystem();
-                logger.debug("Disabled AuthorisationSystem.");
+                //TODO
+                Path deletePath = Paths.get(configurationService
+                        .getProperty("meditor.rootbase"))
+                        .resolve(inputArguments.getValue("value"));
 
-                String handle = null;
+                logger.info("Delete by path was selected [" + deletePath.toString() + "].");
 
-                if (inputArguments.getValue("mode").equals("path"))
+                handle = handleService.getHandleForPath(deletePath, false);
+            }
+            else
+            {
+                handle = inputArguments.getValue("value");
+                logger.info("Delete by handle was selected [" + handle + "]");
+            }
+
+            DSpaceObject object = null;
+
+            try
+            {
+                object = HandleManager.resolveToObject(contextWrapper.getContext(), handle);
+            }
+            catch (SQLException ex)
+            {
+                logger.error(ex, ex.getCause());
+            }
+
+            if (object != null)
+            {
+                logger.debug("Object was found.");
+                handles.clear();
+
+                switch (object.getType())
                 {
-                    //TODO
-                    Path deletePath = Paths.get(configurationService
-                            .getProperty("meditor.rootbase"))
-                            .resolve(inputArguments.getValue("value"));
-
-                    logger.info("Delete by path was selected [" + deletePath.toString() + "].");
-
-                    handle = handleService.getHandleForPath(deletePath, context);
-                }
-                else
-                {
-                    handle = inputArguments.getValue("value");
-                    logger.info("Delete by handle was selected [" + handle + "]");
-                }
-
-                DSpaceObject object = null;
-
-                try
-                {
-                    object = HandleManager.resolveToObject(context, handle);
-                }
-                catch (SQLException ex)
-                {
-                    logger.error(ex, ex.getCause());
-                }
-
-                if (object != null)
-                {
-                    logger.debug("Object was found.");
-                    handles.clear();
-
-                    switch (object.getType())
+                    case Constants.COMMUNITY:
                     {
-                        case Constants.COMMUNITY:
-                        {
-                            logger.debug("Matched object is community.");
-                            deleteCommunity((Community) object);
-                        }
-                        break;
-                        case Constants.COLLECTION:
-                        {
-                            logger.debug("Matched object is collection.");
-                            deleteCollection(null, (Collection) object);
-                        }
-                        break;
-                        case Constants.ITEM:
-                        {
-                            logger.debug("Matched object is item.");
-                            deleteItem(null, (Item) object);
-                        }
-                        break;
+                        logger.debug("Matched object is community.");
+                        deleteCommunity((Community) object);
                     }
+                    break;
+                    case Constants.COLLECTION:
+                    {
+                        logger.debug("Matched object is collection.");
+                        deleteCollection(null, (Collection) object);
+                    }
+                    break;
+                    case Constants.ITEM:
+                    {
+                        logger.debug("Matched object is item.");
+                        deleteItem(null, (Item) object);
+                    }
+                    break;
                 }
+            }
 
-                context.restoreAuthSystemState();
-                logger.debug("Restored AuthorisationSystem");
+            contextWrapper.getContext().restoreAuthSystemState();
+            logger.debug("Restored AuthorisationSystem");
 
-                try
-                {
-                    executeBatchDelete(context.getDBConnection());
-                    context.complete();
-                    logger.info("Context closed.");
-                }
-                catch (SQLException ex)
-                {
-                    logger.fatal(ex, ex.getCause());
-                }
+            try
+            {
+                executeBatchDelete(contextWrapper.getContext().getDBConnection());
+                contextWrapper.getContext().complete();
+                logger.info("Context closed.");
+            }
+            catch (SQLException ex)
+            {
+                logger.fatal(ex, ex.getCause());
             }
         }
     }

@@ -16,7 +16,6 @@ import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Collection;
 import org.dspace.content.Community;
 import org.dspace.content.Metadatum;
-import org.dspace.core.Context;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -39,15 +38,8 @@ public class ImportCollection
     @Autowired
     private ImportTools importTools;
     
-    private Context context;
-    
-    public Collection importToDspace(ObjectWrapper objectWrapper, List<ObjectWrapper> parents, final Context context)
-    {
-        if(this.context == null)
-        {
-            this.context = context;
-        }
-        
+    public Collection importToDspace(ObjectWrapper objectWrapper, List<ObjectWrapper> parents)
+    {        
         Collection workingCollection = findOrCreateCollection(parents.get(parents.size() - 1), objectWrapper);
         
         if(workingCollection != null)
@@ -67,7 +59,7 @@ public class ImportCollection
             
             collectionPostProcessor.processCollection(objectWrapper, workingCollection);
             
-            importTools.saveAndCommit(workingCollection, context);
+            importTools.saveAndCommit(workingCollection);
             
             if(objectWrapper.getChildren() != null && !objectWrapper.getChildren().isEmpty())
             {
@@ -78,7 +70,7 @@ public class ImportCollection
                     objectWrapper.setObject(workingCollection);
                     newParents.add(objectWrapper);
                     
-                    importItem.importToDspace(article, newParents, context);
+                    importItem.importToDspace(article, newParents);
                 }
             }
             

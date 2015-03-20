@@ -7,6 +7,7 @@ package cz.muni.ics.dspace5.imports;
 
 import cz.muni.ics.dspace5.core.ObjectWrapper;
 import cz.muni.ics.dspace5.core.post.ItemPostProcessor;
+import cz.muni.ics.dspace5.impl.ContextWrapper;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -18,7 +19,6 @@ import org.dspace.content.Item;
 import org.dspace.content.ItemIterator;
 import org.dspace.content.Metadatum;
 import org.dspace.content.WorkspaceItem;
-import org.dspace.core.Context;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -36,16 +36,11 @@ public class ImportItem
     private ItemPostProcessor itemPostProcessor;
     @Autowired
     private ImportTools importTools;
-    
-    private Context context;
+    @Autowired
+    private ContextWrapper contextWrapper;
      
-    public Item importToDspace(ObjectWrapper objectWrapper, List<ObjectWrapper> parents, final Context context)
+    public Item importToDspace(ObjectWrapper objectWrapper, List<ObjectWrapper> parents)
     {
-        if(this.context == null)
-        {
-            this.context = context;
-        }
-        
         Item workingItem = findOrCreateItem(parents.get(parents.size() - 1 ), objectWrapper);
         
         if(workingItem != null)
@@ -65,9 +60,9 @@ public class ImportItem
                 workingItem.addMetadata(m.schema, m.element, m.qualifier, m.language, m.value);
             }
             
-            itemPostProcessor.processItem(objectWrapper, workingItem, context);
+            itemPostProcessor.processItem(objectWrapper, workingItem);
             
-            importTools.saveAndCommit(workingItem, context);
+            importTools.saveAndCommit(workingItem);
             
             // so there are no unneeded references to this list
             // if we are working with big tree
@@ -115,9 +110,9 @@ public class ImportItem
                 logger.debug("No entry found yet. "+target.getHandle()+" will be created.");
                 try
                 {
-                    WorkspaceItem wi = WorkspaceItem.create(context, parentCollection, false);
+                    WorkspaceItem wi = WorkspaceItem.create(contextWrapper.getContext(), parentCollection, false);
                     logger.info("Installing " + target.getHandle());
-                    result = InstallItem.installItem(context, wi, target.getHandle());
+                    result = InstallItem.installItem(contextWrapper.getContext(), wi, target.getHandle());
                 }
                 catch(SQLException | AuthorizeException | IOException ex)
                 {

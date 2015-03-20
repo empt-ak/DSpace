@@ -6,22 +6,29 @@
 package cz.muni.ics.digilib.services.impl;
 
 import cz.muni.ics.digilib.domain.Issue;
+import cz.muni.ics.dspace5.core.HandleService;
 import cz.muni.ics.dspace5.core.MetadatumFactory;
 import cz.muni.ics.dspace5.core.ObjectMapper;
 import cz.muni.ics.dspace5.core.ObjectWrapper;
 import cz.muni.ics.dspace5.core.post.CollectionPostProcessor;
+import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.MetadataWrapper;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.List;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.dozer.Mapper;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Collection;
+import org.dspace.content.ItemIterator;
 import org.dspace.content.Metadatum;
+import org.dspace.handle.HandleManager;
+import org.dspace.services.ConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -41,6 +48,12 @@ public class CollectionPostProcessorImpl implements CollectionPostProcessor
     private Mapper mapper;
     @Autowired
     private MetadatumFactory metadatumFactory;
+    @Autowired
+    private HandleService handleService;
+    @Autowired
+    private ConfigurationService configurationService;
+    @Autowired
+    private ContextWrapper contextWrapper;
     
     @Override
     public List<Metadatum> processMetadata(ObjectWrapper objectWrapper, List<ObjectWrapper> parents) throws IllegalArgumentException
@@ -89,6 +102,60 @@ public class CollectionPostProcessorImpl implements CollectionPostProcessor
         else
         {
             logger.info("There is no file on given path. Bundle will be not set for ["+objectWrapper.getHandle()+"] at path "+objectWrapper.getPath().toString());
+        }
+        
+        Issue issue = null;
+        
+        try
+        {
+            issue = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
+        }
+        catch(FileNotFoundException ex)
+        {
+            logger.error(ex,ex.getCause());
+        }
+        
+        if(issue != null)
+        {
+            if(!StringUtils.isEmpty(issue.getLinkToReal()))
+            {
+                String realHandle = handleService.getHandleForPath(Paths
+                        .get(configurationService.getProperty("meditor.rootbase"))
+                        .resolve(issue.getLinkToReal()), true);
+                
+                Collection realCollection = null;
+                try
+                {
+                    realCollection = (Collection) HandleManager.resolveToObject(contextWrapper.getContext(), realHandle);
+                }
+                catch(SQLException | ClassCastException ex)
+                {
+                    logger.error(ex,ex.getCause());
+                }
+                
+                if(realCollection != null)
+                {
+                    try
+                    {
+                        ItemIterator ii = realCollection.getAllItems();
+                        while(ii.hasNext())
+                        {
+                            collection.addItem(ii.next());
+                            logger.info("VIRTUAL:: "+ii.next().getHandle()+" mapped to "+collection.getHandle());
+                        }
+                    }
+                    catch(SQLException | AuthorizeException ex)
+                    {
+                        logger.error(ex,ex.getCause());
+                    }
+                }
+                else
+                {
+                    logger.warn("For "+objectWrapper.getHandle()+" @path: "+objectWrapper.getPath()
+                            +" there is no real target Collection imported yet. Target handle is ["
+                            +realHandle+"] but returned object is null. No subitems from real Collection will be attached to this one.");
+                }
+            }
         }
     }    
 }

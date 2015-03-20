@@ -9,6 +9,7 @@ import cz.muni.ics.digilib.domain.Article;
 import cz.muni.ics.dspace5.core.ObjectMapper;
 import cz.muni.ics.dspace5.core.ObjectWrapper;
 import cz.muni.ics.dspace5.core.post.ItemPostProcessor;
+import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.impl.MetadataWrapper;
 import java.io.BufferedInputStream;
@@ -27,7 +28,6 @@ import org.dspace.content.BitstreamFormat;
 import org.dspace.content.Bundle;
 import org.dspace.content.Item;
 import org.dspace.content.Metadatum;
-import org.dspace.core.Context;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -46,6 +46,8 @@ public class ItemPostProcessorImpl implements ItemPostProcessor
     private Mapper mapper;    
     @Autowired
     private DSpaceTools dSpaceTools;
+    @Autowired
+    private ContextWrapper contextWrapper;
     //@TODO set tru spring
     private final String[] pdfFileNames = {"enhanced.pdf", "source-enhanced.pdf", "source.pdf", "item.pdf"};
     
@@ -77,7 +79,7 @@ public class ItemPostProcessorImpl implements ItemPostProcessor
     }
 
     @Override
-    public void processItem(ObjectWrapper objectWrapper, Item item, Context context) throws IllegalArgumentException
+    public void processItem(ObjectWrapper objectWrapper, Item item) throws IllegalArgumentException
     {
         // referencie, pdf atd, pre dmlcz .matematika a ine
         // @TODO improve by checking dates ?
@@ -148,7 +150,7 @@ public class ItemPostProcessorImpl implements ItemPostProcessor
                     
                     pdfBitstream.setName(dSpaceTools.getNameForPDF(objectWrapper.getPath()));
                     pdfBitstream.setDescription("Full-text");
-                    pdfBitstream.setFormat(BitstreamFormat.findByMIMEType(context, "application/pdf"));
+                    pdfBitstream.setFormat(BitstreamFormat.findByMIMEType(contextWrapper.getContext(), "application/pdf"));
                     pdfBitstream.update();
                 }
                 catch(IOException | AuthorizeException | SQLException ex)

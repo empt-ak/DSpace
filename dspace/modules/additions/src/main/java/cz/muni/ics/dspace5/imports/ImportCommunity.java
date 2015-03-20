@@ -9,6 +9,7 @@ import cz.muni.ics.dspace5.core.HandleService;
 import cz.muni.ics.dspace5.core.ObjectWrapper;
 import cz.muni.ics.dspace5.core.ObjectWrapper.LEVEL;
 import cz.muni.ics.dspace5.core.post.CommunityPostProcessor;
+import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.InputArguments;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,7 +18,6 @@ import org.apache.log4j.Logger;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Community;
 import org.dspace.content.Metadatum;
-import org.dspace.core.Context;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -39,9 +39,9 @@ public class ImportCommunity
     @Autowired
     private ImportCollection importCollection;
     @Autowired
+    private ContextWrapper contextWrapper;
+    @Autowired
     private HandleService handleService;
-
-    private Context context;
 
     /**
      * Method takes given objectWrapper (which has contain path to target object
@@ -55,18 +55,13 @@ public class ImportCommunity
      * @param objectWrapper target object wrapping required values which are
      *                      converted into community
      * @param parents
-     * @param context       context responsible for Database operations
      *
      * @return created Community stored by this method
      */
-    public Community importToDspace(ObjectWrapper objectWrapper, List<ObjectWrapper> parents, final Context context)
+    public Community importToDspace(ObjectWrapper objectWrapper, List<ObjectWrapper> parents)
     {
         logger.info("Commencing import of Community type.");
-        logger.info(objectWrapper.getLevel()+" with handle@"+objectWrapper.getHandle()+" having following parents: "+parents);
-        if(this.context == null)
-        {
-            this.context = context;
-        }
+        logger.info(objectWrapper.getLevel()+" with handle@"+objectWrapper.getHandle()+" having following parents: "+parents);        
         
         boolean isTopComm = objectWrapper.getLevel().equals(LEVEL.COM);
         
@@ -105,7 +100,7 @@ public class ImportCommunity
             
             communityPostProcessor.processCommunity(objectWrapper, workingCommunity);
             
-            importTools.saveAndCommit(workingCommunity,this.context);
+            importTools.saveAndCommit(workingCommunity);
             
             if(objectWrapper.getChildren() != null && !objectWrapper.getChildren().isEmpty())
             {
@@ -121,7 +116,7 @@ public class ImportCommunity
                         objectWrapper.setObject(workingCommunity);
                         newParents.add(objectWrapper);
                         
-                        importCollection.importToDspace(issue, newParents, context);
+                        importCollection.importToDspace(issue, newParents);
                     }                    
                 }
                 else
@@ -136,7 +131,7 @@ public class ImportCommunity
                         objectWrapper.setObject(workingCommunity);
                         newParents.add(objectWrapper);
                         
-                        importToDspace(subComm, newParents, context);
+                        importToDspace(subComm, newParents);
                     } 
                 }
             }
@@ -160,7 +155,7 @@ public class ImportCommunity
         Community parentCommunity = null;
         try
         {
-            communities = Community.findAll(context);
+            communities = Community.findAll(contextWrapper.getContext());
             logger.debug(communities.length+" communities found via findAll");
         }
         catch(SQLException ex)
@@ -251,7 +246,7 @@ public class ImportCommunity
         Community result = null;
         try
         {
-            communities = Community.findAllTop(context);
+            communities = Community.findAllTop(contextWrapper.getContext());
             logger.debug(communities.length+" communities obtained via findAllTop");            
         }
         catch (SQLException exception)
@@ -278,7 +273,7 @@ public class ImportCommunity
         {
             try
             {
-                result = Community.create(null, context, objectWrapper.getHandle());
+                result = Community.create(null, contextWrapper.getContext(), objectWrapper.getHandle());
             }
             catch(SQLException | AuthorizeException ex)
             {

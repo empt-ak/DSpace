@@ -5,6 +5,7 @@
  */
 package cz.muni.ics.dspace5.imports;
 
+import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.InputArguments;
 import java.sql.SQLException;
 import org.apache.log4j.Logger;
@@ -26,23 +27,24 @@ public class ImportTools
 
     @Autowired
     private InputArguments inputArguments;
+    @Autowired
+    private ContextWrapper contextWrapper;
     private static final Logger logger = Logger.getLogger(ImportTools.class);
 
     /**
      * Method updates given community inside database and commits context.
      *
      * @param community to be updated (saved)
-     * @param context   context upon which is operation executed.
      *
      * @see Community#update()
      * @see Context#commit()
      */
-    public void saveAndCommit(Community community, Context context)
+    public void saveAndCommit(Community community)
     {
         try
         {
             community.update();
-            context.commit();
+            contextWrapper.getContext().commit();
         }
         catch (SQLException | AuthorizeException ex)
         {
@@ -54,17 +56,16 @@ public class ImportTools
      * Method updates given collection inside database and commits context.
      *
      * @param collection to be updated (saved)
-     * @param context    context upon which is operation executed
      *
      * @see Context#commit()
      * @see Collection#update()
      */
-    public void saveAndCommit(Collection collection, Context context)
+    public void saveAndCommit(Collection collection)
     {
         try
         {
             collection.update();
-            context.commit();
+            contextWrapper.getContext().commit();
         }
         catch (SQLException | AuthorizeException ex)
         {
@@ -85,12 +86,12 @@ public class ImportTools
      * @param item
      * @param context
      */
-    public void saveAndCommit(Item item, Context context)
+    public void saveAndCommit(Item item)
     {
         try
         {
             item.update();
-            context.commit();
+            contextWrapper.getContext().commit();
             // DO NOT EVER REMOVE THIS LINE
             // once object is loaded out of database then its stored inside
             // context cache, however it is never deleted.

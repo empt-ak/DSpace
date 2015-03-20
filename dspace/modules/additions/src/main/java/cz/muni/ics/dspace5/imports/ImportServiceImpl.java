@@ -10,6 +10,7 @@ import cz.muni.ics.dspace5.core.HandleService;
 import cz.muni.ics.dspace5.core.ImportService;
 import cz.muni.ics.dspace5.core.ObjectWrapper;
 import cz.muni.ics.dspace5.core.ObjectWrapper.LEVEL;
+import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.impl.InputArguments;
 import cz.muni.ics.dspace5.impl.ObjectWrapperFactory;
@@ -35,9 +36,7 @@ import org.springframework.stereotype.Component;
 public class ImportServiceImpl implements ImportService
 {
 
-    private static final Logger logger = Logger.getLogger(ImportServiceImpl.class);
-    private Context context;
-    
+    private static final Logger logger = Logger.getLogger(ImportServiceImpl.class);    
     //awires
     @Autowired
     private ObjectWrapperFactory objectWrapperFactory;
@@ -57,6 +56,8 @@ public class ImportServiceImpl implements ImportService
     private FolderProvider fileProvider;
     @Autowired
     private HandleService handleService;
+    @Autowired
+    private ContextWrapper contextWrapper;
 
     @Override
     public void execute(String[] args)
@@ -74,20 +75,15 @@ public class ImportServiceImpl implements ImportService
 
         if (!error)
         {
-            // this will be always null until i find out
-            // how to call synchronized method in spring
-            if (context == null)
+            try
             {
-                try
-                {
-                    context = new Context();
-                }
-                catch (SQLException ex)
-                {
-                    logger.info(ex, ex.getCause());
-                }
+                contextWrapper.setContext(new Context());
             }
-            context.turnOffAuthorisationSystem();
+            catch (SQLException ex)
+            {
+                logger.info(ex, ex.getCause());
+            }
+            contextWrapper.getContext().turnOffAuthorisationSystem();
             
             ObjectWrapper ow = objectWrapperFactory.createObjectWrapper();
             ow.setPath(inputArguments.getTypedValue("path", Path.class));
@@ -100,15 +96,14 @@ public class ImportServiceImpl implements ImportService
             
             if(ow.getLevel().equals(LEVEL.COM))
             {
-                importCommunity.importToDspace(ow, null, context);
+                importCommunity.importToDspace(ow, null);
             }
             
             
-            context.restoreAuthSystemState();
+            contextWrapper.getContext().restoreAuthSystemState();
             try
             {
-                context.commit();
-                context.complete();
+                contextWrapper.getContext().complete();
             }
             catch (SQLException ex)
             {
@@ -130,7 +125,7 @@ public class ImportServiceImpl implements ImportService
         
         if(level == 0)
         {
-            objectWrapper.setHandle(handleService.getHandleForPath(objectWrapper.getPath(), context));
+            objectWrapper.setHandle(handleService.getHandleForPath(objectWrapper.getPath(), true));
             //special handling of top comm
             objectWrapper.setLevel(ObjectWrapper.LEVEL.COM);
             
@@ -146,7 +141,7 @@ public class ImportServiceImpl implements ImportService
                 {
                     ObjectWrapper issue = objectWrapperFactory.createObjectWrapper(p,
                             false,
-                            handleService.getHandleForPath(p, context));
+                            handleService.getHandleForPath(p, true));
                     // recreate articles
                     resolveObjectWrapper(issue, false);
 
@@ -154,7 +149,7 @@ public class ImportServiceImpl implements ImportService
 
                     ObjectWrapper volume = objectWrapperFactory.createObjectWrapper(p,
                             true,
-                            handleService.getVolumeHandle(p, context));
+                            handleService.getVolumeHandle(p));
                     volumes.add(volume);
                 }
                 
@@ -207,7 +202,7 @@ public class ImportServiceImpl implements ImportService
                     {
                         ObjectWrapper article = objectWrapperFactory.createObjectWrapper(p,
                                 false,
-                                handleService.getHandleForPath(p, context));
+                                handleService.getHandleForPath(p, true));
 
                         resolveObjectWrapper(article, false);
 
