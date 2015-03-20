@@ -11,5 +11,11 @@ package cz.muni.ics.dspace5.core;
  */
 public interface ObjectWrapperResolverFactory
 {
+    /**
+     * Method returns specific resolver strategy used for object tree resolving. Based on given input proper strategy is returned.
+     * @param type of strategy to be returned
+     * @return strategy based on {@code type} value
+     * @throws IllegalArgumentException if type is not supported.
+     */
     ObjectWrapperResolver provideObjectWrapperResolver(String type) throws IllegalArgumentException;
 }

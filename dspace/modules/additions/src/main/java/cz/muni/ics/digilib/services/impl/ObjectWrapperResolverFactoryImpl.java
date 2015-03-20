@@ -7,7 +7,6 @@ package cz.muni.ics.digilib.services.impl;
 
 import cz.muni.ics.dspace5.core.ObjectWrapperResolver;
 import cz.muni.ics.dspace5.core.ObjectWrapperResolverFactory;
-import org.apache.commons.lang.StringUtils;
 
 /**
  *
@@ -20,12 +19,7 @@ public abstract class ObjectWrapperResolverFactoryImpl implements ObjectWrapperR
     
     @Override
     public ObjectWrapperResolver provideObjectWrapperResolver(String type) throws IllegalArgumentException
-    {
-        if(StringUtils.isEmpty(type))
-        {
-            throw new IllegalArgumentException("Empty String was passed as method argument.");
-        }
-        
+    {        
         switch(type)
         {
             case "serial": return provideSerialResolver();
