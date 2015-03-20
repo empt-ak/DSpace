@@ -150,5 +150,29 @@
         id="authorConverter"
         class="cz.muni.ics.digilib.services.convertors.AuthorConverter"
         p:metadatumFactory-ref="metadatumFactory"
-    />            
+    />  
+    
+    <bean
+        id="monographResolver"
+        class="cz.muni.ics.digilib.services.impl.MonographResolver"
+    />
+    
+    <bean 
+        id="serialResolver"
+        class="cz.muni.ics.digilib.services.impl.SerialResolver"
+    />
+    
+    <bean
+        id="objectWrapperResolverFactory"
+        class="cz.muni.ics.digilib.services.impl.ObjectWrapperResolverFactoryImpl"
+    >
+        <lookup-method
+            name="provideMonographyResolver"
+            bean="monographResolver"
+        />
+        <lookup-method
+            name="provideSerialResolver"
+            bean="serialResolver"
+        />
+    </bean>      
 </beans>

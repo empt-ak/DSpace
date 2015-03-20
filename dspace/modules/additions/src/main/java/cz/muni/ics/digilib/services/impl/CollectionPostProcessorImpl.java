@@ -25,6 +25,7 @@ import org.apache.log4j.Logger;
 import org.dozer.Mapper;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Collection;
+import org.dspace.content.Item;
 import org.dspace.content.ItemIterator;
 import org.dspace.content.Metadatum;
 import org.dspace.handle.HandleManager;
@@ -140,8 +141,11 @@ public class CollectionPostProcessorImpl implements CollectionPostProcessor
                         ItemIterator ii = realCollection.getAllItems();
                         while(ii.hasNext())
                         {
-                            collection.addItem(ii.next());
-                            logger.info("VIRTUAL:: "+ii.next().getHandle()+" mapped to "+collection.getHandle());
+                            Item next = ii.next();
+                            logger.debug("$next" + next);
+                            
+                            collection.addItem(next);
+                            logger.info("VIRTUAL:: "+next.getHandle()+" mapped to "+collection.getHandle());
                         }
                     }
                     catch(SQLException | AuthorizeException ex)
