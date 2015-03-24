@@ -35,7 +35,7 @@ public class SerialResolver implements ObjectWrapperResolver
     @Autowired
     private HandleService handleService;
     @Autowired
-    private FolderProvider fileProvider;
+    private FolderProvider folderProvider;
     @Autowired
     private ObjectWrapperFactory objectWrapperFactory;
 
@@ -51,11 +51,11 @@ public class SerialResolver implements ObjectWrapperResolver
             //special handling of top comm
             objectWrapper.setLevel(ObjectWrapper.LEVEL.COM);
             
-            logger.info("@level "+level+" @path ["+objectWrapper.getPath()+"] resolved as "+ObjectWrapper.LEVEL.COM+" with handle @"+objectWrapper.getHandle());
+            logger.debug("@level "+level+" @path ["+objectWrapper.getPath()+"] resolved as "+ObjectWrapper.LEVEL.COM+" with handle @"+objectWrapper.getHandle());
             
             if(updateMode)
             {
-                List<Path> paths = fileProvider.getFoldersFromPath(objectWrapper.getPath());
+                List<Path> paths = folderProvider.getFoldersFromPath(objectWrapper.getPath());
                 List<ObjectWrapper> issues = new ArrayList<>(paths.size());
                 SortedSet<ObjectWrapper> volumes = new TreeSet<>();
 
@@ -77,7 +77,7 @@ public class SerialResolver implements ObjectWrapperResolver
                 
                 for(ObjectWrapper volume : volumes)
                 {
-                    logger.info("Mapping volume "+volume.getPath()+" @handle ["+volume.getHandle()+"]");
+                    logger.debug("Mapping volume "+volume.getPath()+" @handle ["+volume.getHandle()+"]");
                     List<ObjectWrapper> volumeIssues = new ArrayList<>();
                     
                     
@@ -87,7 +87,7 @@ public class SerialResolver implements ObjectWrapperResolver
                     {
                         if(dspaceTools.getVolumeNumber(issue.getPath()).equals(volumeNumber))
                         {
-                            logger.info("Issue ["+issue.getPath()+"] belongs to volume "+volumeNumber);
+                            logger.debug("Issue ["+issue.getPath()+"] belongs to volume "+volumeNumber);
                             volumeIssues.add(issue);
                         }
                     }
@@ -113,11 +113,11 @@ public class SerialResolver implements ObjectWrapperResolver
             else
             {
                 
-                logger.info("@level "+level+" @path ["+objectWrapper.getPath()+"] resolved as "+ObjectWrapper.LEVEL.COL+" with handle @"+objectWrapper.getHandle());
+                logger.debug("@level "+level+" @path ["+objectWrapper.getPath()+"] resolved as "+ObjectWrapper.LEVEL.COL+" with handle @"+objectWrapper.getHandle());
                 
                 if(updateMode)
                 {
-                    List<Path> paths = fileProvider.getFoldersFromPath(objectWrapper.getPath());
+                    List<Path> paths = folderProvider.getFoldersFromPath(objectWrapper.getPath());
                     List<ObjectWrapper> articles = new ArrayList<>(paths.size());
 
                     for(Path p : paths)
@@ -142,7 +142,7 @@ public class SerialResolver implements ObjectWrapperResolver
                 //TODO
             }
             
-            logger.info("@level "+level+" @path ["+objectWrapper.getPath()+"] resolved as "+ObjectWrapper.LEVEL.ITEM+" with handle @"+objectWrapper.getHandle());
+            logger.debug("@level "+level+" @path ["+objectWrapper.getPath()+"] resolved as "+ObjectWrapper.LEVEL.ITEM+" with handle @"+objectWrapper.getHandle());
         }
     }
     

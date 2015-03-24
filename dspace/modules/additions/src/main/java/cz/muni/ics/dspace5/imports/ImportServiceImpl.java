@@ -73,7 +73,7 @@ public class ImportServiceImpl implements ImportService
             ObjectWrapper ow = objectWrapperFactory.createObjectWrapper();
             ow.setPath(inputArguments.getTypedValue("path", Path.class));
             
-            objectWrapperResolverFactory.provideObjectWrapperResolver("serial").resolveObjectWrapper(ow, true);
+            objectWrapperResolverFactory.provideObjectWrapperResolver(ow.getPath()).resolveObjectWrapper(ow, true);
             
             //ow.print();
             

@@ -5,6 +5,7 @@
  */
 package cz.muni.ics.digilib.services.impl;
 
+import cz.muni.ics.digilib.domain.MonographicSeries;
 import cz.muni.ics.digilib.domain.Periodical;
 import cz.muni.ics.digilib.domain.Volume;
 import cz.muni.ics.dspace5.comparators.ComparatorFactory;
@@ -54,32 +55,57 @@ public class CommunityPostProcessorImpl implements CommunityPostProcessor
     @Override
     public List<Metadatum> processMetadata(ObjectWrapper objectWrapper, List<ObjectWrapper> parents) throws IllegalArgumentException
     {
-        //@meditor: need for same resolver which will decide what will be converted
-        //based on path
-        boolean isTopCommunity = (parents == null || parents.isEmpty());
-
         MetadataWrapper metadataWrapper = new MetadataWrapper();
 
-        if (isTopCommunity)
+        if (objectWrapper.getLevel().equals(ObjectWrapper.LEVEL.COM))
         {
-            Periodical p = null;
-            try
+            //TODO: not sure if this is good solution but works
+            if(objectWrapper.getPath().toString().contains("serial"))
             {
-                p = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
+                Periodical p = null;
+                try
+                {
+                    p = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
+                }
+                catch (FileNotFoundException ex)
+                {
+                    logger.error(ex, ex.getCause());
+                }
+                if (p != null)
+                {
+                    mapper.map(p, metadataWrapper);
+                }
+                else
+                {
+                    logger.info("'detail.xml' at path [" + objectWrapper.getPath() + "] was not found");
+                    metadataWrapper.getMetadata().add(metadatumFactory.createMetadatum("dc", "title", null, null, "NO-TITLE"));
+                }
             }
-            catch (FileNotFoundException ex)
+            else if(objectWrapper.getPath().toString().contains("monograph"))
             {
-                logger.error(ex, ex.getCause());
-            }
-            if (p != null)
-            {
-                mapper.map(p, metadataWrapper);
+                MonographicSeries mono = null;
+                try
+                {
+                    mono = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
+                }
+                catch(FileNotFoundException ex)
+                {
+                    logger.error(ex,ex.getCause());
+                }
+                if(mono != null)
+                {
+                    mapper.map(mono, metadataWrapper);
+                }
+                else
+                {
+                    logger.info("'detail.xml' at path [" + objectWrapper.getPath() + "] was not found");
+                    metadataWrapper.getMetadata().add(metadatumFactory.createMetadatum("dc", "title", null, null, "NO-TITLE"));
+                }
             }
             else
             {
-                logger.info("Object at path [" + objectWrapper.getPath() + "] was not found");
-                metadataWrapper.getMetadata().add(metadatumFactory.createMetadatum("dc", "title", null, null, "NO-TITLE"));
-            }
+                throw new IllegalArgumentException("Given input is not a valid path. Path should contain [serial/monography] but it did not.");
+            }            
         }
         else
         {

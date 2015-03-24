@@ -46,6 +46,9 @@
                 <value>cz.muni.ics.digilib.domain.Volume</value>
                 <value>cz.muni.ics.digilib.domain.Issue</value>
                 <value>cz.muni.ics.digilib.domain.Article</value>
+                <value>cz.muni.ics.digilib.domain.MonographicSeries</value>
+                <value>cz.muni.ics.digilib.domain.Monography</value>
+                <value>cz.muni.ics.digilib.domain.MonographyChapter</value>
             </list>
         </constructor-arg>
     </bean>

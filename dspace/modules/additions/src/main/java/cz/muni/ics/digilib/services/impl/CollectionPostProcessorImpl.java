@@ -6,6 +6,7 @@
 package cz.muni.ics.digilib.services.impl;
 
 import cz.muni.ics.digilib.domain.Issue;
+import cz.muni.ics.digilib.domain.Monography;
 import cz.muni.ics.dspace5.core.HandleService;
 import cz.muni.ics.dspace5.core.MetadatumFactory;
 import cz.muni.ics.dspace5.core.ObjectMapper;
@@ -61,27 +62,56 @@ public class CollectionPostProcessorImpl implements CollectionPostProcessor
     {
         MetadataWrapper metadataWrapper = new MetadataWrapper();
         
-        Issue issue = null;
+        if(objectWrapper.getPath().toString().contains("serial"))
+        {
+            Issue issue = null;
         
-        try
-        {
-            issue = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
+            try
+            {
+                issue = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
+            }
+            catch(FileNotFoundException ex)
+            {
+                logger.error(ex,ex.getCause());
+            }
+
+            if(issue != null)
+            {
+                mapper.map(issue,metadataWrapper);
+            }
+            else
+            {
+                logger.info("'detail.xml' at path [" + objectWrapper.getPath() + "] was not found");
+                metadataWrapper.getMetadata().add(metadatumFactory.createMetadatum("dc", "title", null, null, "NO-TITLE"));
+            }
         }
-        catch(FileNotFoundException ex)
+        else if(objectWrapper.getPath().toString().contains("monograph"))
         {
-            logger.error(ex,ex.getCause());
-        }
-        
-        if(issue != null)
-        {
-            mapper.map(issue,metadataWrapper);
+            Monography mono = null;
+            
+            try
+            {
+                mono = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
+            }
+            catch(FileNotFoundException nfe)
+            {
+                logger.error(nfe,nfe.getCause());
+            }
+            
+            if(mono != null)
+            {
+                mapper.map(mono, metadataWrapper);
+            }
+            else
+            {
+                logger.info("'detail.xml' at path [" + objectWrapper.getPath() + "] was not found");
+                metadataWrapper.getMetadata().add(metadatumFactory.createMetadatum("dc", "title", null, null, "NO-TITLE"));
+            }
         }
         else
         {
-            logger.info("Object at path [" + objectWrapper.getPath() + "] was not found");
-            metadataWrapper.getMetadata().add(metadatumFactory.createMetadatum("dc", "title", null, null, "NO-TITLE"));
+            throw new IllegalArgumentException("Given input is not a valid path. Path should contain [serial/monography] but it did not.");
         }
-        
         
         return metadataWrapper.getMetadata();
     }
@@ -105,61 +135,68 @@ public class CollectionPostProcessorImpl implements CollectionPostProcessor
             logger.info("There is no file on given path. Bundle will be not set for ["+objectWrapper.getHandle()+"] at path "+objectWrapper.getPath().toString());
         }
         
-        Issue issue = null;
+        if(objectWrapper.getPath().toString().contains("serial"))
+        {
+            Issue issue = null;
         
-        try
-        {
-            issue = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
-        }
-        catch(FileNotFoundException ex)
-        {
-            logger.error(ex,ex.getCause());
-        }
-        
-        if(issue != null)
-        {
-            if(!StringUtils.isEmpty(issue.getLinkToReal()))
+            try
             {
-                String realHandle = handleService.getHandleForPath(Paths
-                        .get(configurationService.getProperty("meditor.rootbase"))
-                        .resolve(issue.getLinkToReal()), true);
-                
-                Collection realCollection = null;
-                try
+                issue = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
+            }
+            catch(FileNotFoundException ex)
+            {
+                logger.error(ex,ex.getCause());
+            }
+
+            if(issue != null)
+            {
+                if(!StringUtils.isEmpty(issue.getLinkToReal()))
                 {
-                    realCollection = (Collection) HandleManager.resolveToObject(contextWrapper.getContext(), realHandle);
-                }
-                catch(SQLException | ClassCastException ex)
-                {
-                    logger.error(ex,ex.getCause());
-                }
-                
-                if(realCollection != null)
-                {
+                    String realHandle = handleService.getHandleForPath(Paths
+                            .get(configurationService.getProperty("meditor.rootbase"))
+                            .resolve(issue.getLinkToReal()), true);
+
+                    Collection realCollection = null;
                     try
                     {
-                        ItemIterator ii = realCollection.getAllItems();
-                        while(ii.hasNext())
-                        {
-                            Item next = ii.next();
-                            logger.debug("$next" + next);
-                            
-                            collection.addItem(next);
-                            logger.info("VIRTUAL:: "+next.getHandle()+" mapped to "+collection.getHandle());
-                        }
+                        realCollection = (Collection) HandleManager.resolveToObject(contextWrapper.getContext(), realHandle);
                     }
-                    catch(SQLException | AuthorizeException ex)
+                    catch(SQLException | ClassCastException ex)
                     {
                         logger.error(ex,ex.getCause());
                     }
-                }
-                else
-                {
-                    logger.warn("For "+objectWrapper.getHandle()+" @path: "+objectWrapper.getPath()
-                            +" there is no real target Collection imported yet. Target handle is ["
-                            +realHandle+"] but returned object is null. No subitems from real Collection will be attached to this one.");
+
+                    if(realCollection != null)
+                    {
+                        try
+                        {
+                            ItemIterator ii = realCollection.getAllItems();
+                            while(ii.hasNext())
+                            {
+                                Item next = ii.next();
+                                logger.debug("$next" + next);
+
+                                collection.addItem(next);
+                                logger.info("VIRTUAL:: "+next.getHandle()+" mapped to "+collection.getHandle());
+                            }
+                        }
+                        catch(SQLException | AuthorizeException ex)
+                        {
+                            logger.error(ex,ex.getCause());
+                        }
+                    }
+                    else
+                    {
+                        logger.warn("For "+objectWrapper.getHandle()+" @path: "+objectWrapper.getPath()
+                                +" there is no real target Collection imported yet. Target handle is ["
+                                +realHandle+"] but returned object is null. No subitems from real Collection will be attached to this one.");
+                    }
                 }
             }
+        }
+        else if(objectWrapper.getPath().toString().contains("monograph"))
+        {
+            //TODO
         }
     }    
 }

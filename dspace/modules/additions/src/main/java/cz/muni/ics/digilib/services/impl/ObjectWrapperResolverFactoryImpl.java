@@ -7,6 +7,7 @@ package cz.muni.ics.digilib.services.impl;
 
 import cz.muni.ics.dspace5.core.ObjectWrapperResolver;
 import cz.muni.ics.dspace5.core.ObjectWrapperResolverFactory;
+import java.nio.file.Path;
 
 /**
  *
@@ -27,5 +28,26 @@ public abstract class ObjectWrapperResolverFactoryImpl implements ObjectWrapperR
             default: throw new IllegalArgumentException("Invalid type. Expected [serial/monograph] but was ["+type+"]");
         }
     }
-    
+
+    @Override
+    public ObjectWrapperResolver provideObjectWrapperResolver(Path path) throws IllegalArgumentException
+    {
+        if(path == null)
+        {
+            throw new IllegalArgumentException("Given path is null.");
+        }
+        
+        if(path.toString().contains("serial"))
+        {
+            return provideObjectWrapperResolver("serial");
+        }
+        else if(path.toString().contains("monograph"))
+        {
+            return provideObjectWrapperResolver("monograph");
+        }
+        else
+        {
+            throw new IllegalArgumentException("Invalid path. Path should contain [serial/monograph] but it didn't.");
+        }
+    }
 }

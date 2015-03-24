@@ -21,7 +21,16 @@
             <a>titleVariant</a>
             <b>metadata</b>
         </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.title.alternative">
+            <a>issn</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="composedconverter" custom-converter-param="dc.description.abstract">
+            <a>description</a>
+            <b>metadata</b>
+        </field>
     </mapping> 
+    
     <mapping>
         <class-a>cz.muni.ics.digilib.domain.Volume</class-a>
         <class-b>cz.muni.ics.dspace5.impl.MetadataWrapper</class-b>
@@ -30,6 +39,7 @@
             <b>metadata</b>
         </field>
     </mapping> 
+    
     <mapping>
         <class-a>cz.muni.ics.digilib.domain.Issue</class-a>
         <class-b>cz.muni.ics.dspace5.impl.MetadataWrapper</class-b>
@@ -42,6 +52,7 @@
             <b>metadata</b>
         </field>
     </mapping> 
+    
     <mapping>
         <class-a>cz.muni.ics.digilib.domain.Article</class-a>
         <class-b>cz.muni.ics.dspace5.impl.MetadataWrapper</class-b>        
@@ -74,4 +85,64 @@
             <b>metadata</b>
         </field>
     </mapping> 
+    
+    
+    <mapping>
+        <class-a>cz.muni.ics.digilib.domain.MonographicSeries</class-a>
+        <class-b>cz.muni.ics.dspace5.impl.MetadataWrapper</class-b>
+        <field custom-converter-id="composedconverter" custom-converter-param="dc.title">
+            <a>title</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.publisher">
+            <a>publisher</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="composedconverter" custom-converter-param="dc.description.abstract">
+            <a>description</a>
+            <b>metadata</b>
+        </field>
+    </mapping>
+    
+    <mapping>
+        <class-a>cz.muni.ics.digilib.domain.Monography</class-a>
+        <class-b>cz.muni.ics.dspace5.impl.MetadataWrapper</class-b>
+        <field custom-converter-id="composedconverter" custom-converter-param="dc.title">
+            <a>title</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.publisher">
+            <a>publisher</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="composedconverter" custom-converter-param="dc.description.abstract">
+            <a>description</a>
+            <b>metadata</b>
+        </field>
+    </mapping>
+    
+    <mapping>
+        <class-a>cz.muni.ics.digilib.domain.MonographyChapter</class-a>
+        <class-b>cz.muni.ics.dspace5.impl.MetadataWrapper</class-b>
+        <field custom-converter-id="composedconverter" custom-converter-param="dc.title">
+            <a>title</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="composedconverter" custom-converter-param="dc.description.abstract">
+            <a>description</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="contributorconverter" custom-converter-param="dc.contributor">
+            <a>contributor</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="authorconverter" custom-converter-param="dc.contributor.author">
+            <a>author</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="composedconverter" custom-converter-param="dc.subject">
+            <a>keyword</a>
+            <b>metadata</b>
+        </field>
+    </mapping>
 </mappings> 

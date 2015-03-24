@@ -6,6 +6,7 @@
 package cz.muni.ics.digilib.services.impl;
 
 import cz.muni.ics.digilib.domain.Article;
+import cz.muni.ics.digilib.domain.MonographyChapter;
 import cz.muni.ics.dspace5.core.ObjectMapper;
 import cz.muni.ics.dspace5.core.ObjectWrapper;
 import cz.muni.ics.dspace5.core.post.ItemPostProcessor;
@@ -56,24 +57,52 @@ public class ItemPostProcessorImpl implements ItemPostProcessor
     {
         MetadataWrapper metadataWrapper = new MetadataWrapper();
         
-        Article article = null;
-        try
+        if(objectWrapper.getPath().toString().contains("serial"))
         {
-            article = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
+            Article article = null;
+            try
+            {
+                article = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
+            }
+            catch(FileNotFoundException nfe)
+            {
+                logger.error(nfe,nfe.getCause());
+            }
+
+            if(article != null)
+            {
+                mapper.map(article, metadataWrapper);
+            }
+            else
+            {
+                logger.fatal("huehue");
+            }
         }
-        catch(FileNotFoundException nfe)
+        else if(objectWrapper.getPath().toString().contains("monograph"))
         {
-            logger.error(nfe,nfe.getCause());
-        }
-        
-        if(article != null)
-        {
-            mapper.map(article, metadataWrapper);
+            MonographyChapter chapter = null;
+            try
+            {
+                chapter = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
+            }
+            catch(FileNotFoundException nfe)
+            {
+                logger.error(nfe,nfe.getCause());
+            }
+            if(chapter != null)
+            {
+                mapper.map(chapter,metadataWrapper);
+            }
+            else
+            {
+                logger.fatal("k");
+            }
         }
         else
         {
-            logger.fatal("huehue");
+            throw new IllegalArgumentException("Given input is not a valid path. Path should contain [serial/monography] but it did not.");
         }
+        
         
         return metadataWrapper.getMetadata();
     }
