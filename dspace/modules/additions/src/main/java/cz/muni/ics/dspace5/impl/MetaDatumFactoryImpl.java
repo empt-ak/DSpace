@@ -29,10 +29,11 @@ public class MetaDatumFactoryImpl implements MetadatumFactory
         {
             throw new IllegalArgumentException("Given element is empty.");
         }
-        if(StringUtils.isEmpty(value))
-        {
-            throw new IllegalArgumentException("Given value is empty.");
-        }
+        //TODO: remove empty element ? 
+//        if(StringUtils.isEmpty(value))
+//        {
+//            throw new IllegalArgumentException("Given value is empty.");
+//        }
         
         Metadatum metadatum = new Metadatum();
         metadatum.schema = schema;

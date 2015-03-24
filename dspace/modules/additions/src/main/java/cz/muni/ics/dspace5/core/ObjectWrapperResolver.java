@@ -16,5 +16,5 @@ public interface ObjectWrapperResolver
      * @param objectWrapper target point in ME structure
      * @param mainCall whether we directly called this method, or not.
      */
-    void resolveObjectWrapper(ObjectWrapper objectWrapper, boolean mainCall);
+    ObjectWrapper resolveObjectWrapper(ObjectWrapper objectWrapper, boolean mainCall);
 }

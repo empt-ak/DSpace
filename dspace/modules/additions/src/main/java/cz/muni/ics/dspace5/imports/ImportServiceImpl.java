@@ -8,7 +8,6 @@ package cz.muni.ics.dspace5.imports;
 import cz.muni.ics.dspace5.core.CommandLineService;
 import cz.muni.ics.dspace5.core.ImportService;
 import cz.muni.ics.dspace5.core.ObjectWrapper;
-import cz.muni.ics.dspace5.core.ObjectWrapper.LEVEL;
 import cz.muni.ics.dspace5.core.ObjectWrapperResolverFactory;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.InputArguments;
@@ -70,30 +69,35 @@ public class ImportServiceImpl implements ImportService
             }
             contextWrapper.getContext().turnOffAuthorisationSystem();
             
-            ObjectWrapper ow = objectWrapperFactory.createObjectWrapper();
-            ow.setPath(inputArguments.getTypedValue("path", Path.class));
+            ObjectWrapper importTarget = objectWrapperFactory.createObjectWrapper();
+            importTarget.setPath(inputArguments.getTypedValue("path", Path.class));
             
-            objectWrapperResolverFactory.provideObjectWrapperResolver(ow.getPath()).resolveObjectWrapper(ow, true);
+            ObjectWrapper realImport = objectWrapperResolverFactory.provideObjectWrapperResolver(importTarget.getPath()).resolveObjectWrapper(importTarget, true);
             
-            //ow.print();
-            
-            
-            
-            if(ow.getLevel().equals(LEVEL.COM))
+            try
             {
-                importCommunity.importToDspace(ow, null);
+                importCommunity.importToDspace(realImport, null);
+            }
+            catch(Exception e)
+            {
+                logger.fatal(e,e.getCause());
+                contextWrapper.getContext().abort();
+            }
+            finally
+            {
+                try
+                {
+                    contextWrapper.getContext().complete();
+                }
+                catch (SQLException ex)
+                {
+                    logger.error(ex, ex.getCause());
+                }
             }
             
             
             contextWrapper.getContext().restoreAuthSystemState();
-            try
-            {
-                contextWrapper.getContext().complete();
-            }
-            catch (SQLException ex)
-            {
-                logger.error(ex, ex.getCause());
-            }
+            contextWrapper.setContext(null);
         }
     }
 }
