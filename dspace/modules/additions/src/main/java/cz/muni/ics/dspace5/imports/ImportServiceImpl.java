@@ -72,7 +72,9 @@ public class ImportServiceImpl implements ImportService
             ObjectWrapper importTarget = objectWrapperFactory.createObjectWrapper();
             importTarget.setPath(inputArguments.getTypedValue("path", Path.class));
             
-            ObjectWrapper realImport = objectWrapperResolverFactory.provideObjectWrapperResolver(importTarget.getPath()).resolveObjectWrapper(importTarget, true);
+            ObjectWrapper realImport = objectWrapperResolverFactory
+                    .provideObjectWrapperResolver(importTarget.getPath())
+                    .resolveObjectWrapper(importTarget, true);
             
             try
             {

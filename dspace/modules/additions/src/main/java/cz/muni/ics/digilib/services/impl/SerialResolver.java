@@ -14,7 +14,6 @@ import cz.muni.ics.dspace5.impl.ObjectWrapperFactory;
 import cz.muni.ics.dspace5.impl.io.FolderProvider;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -46,6 +45,8 @@ public class SerialResolver implements ObjectWrapperResolver
     {
         int level = dspaceTools.getPathLevel(objectWrapper.getPath());
         boolean updateMode = inputArguments.getValue("mode").equals("update");
+        
+        ObjectWrapper topLevelResult = null;
 
         if (level == 0)
         {
@@ -99,19 +100,35 @@ public class SerialResolver implements ObjectWrapperResolver
                 //resolve volume to issue
                 objectWrapper.setChildren(new ArrayList<>(volumes));
             }
+            
+            topLevelResult = objectWrapper;
         }
         else if (level == 1)
         {
             if (mainCall)
             {
                 Path root = dspaceTools.getRoot(objectWrapper.getPath());
+                
+                objectWrapper.setHandle(handleService.getHandleForPath(objectWrapper.getPath(), true));
+                objectWrapper.setLevel(ObjectWrapper.LEVEL.COL);
 
                 ObjectWrapper rootObject = objectWrapperFactory.createObjectWrapper(root, false, handleService.getHandleForPath(root, true));
                 ObjectWrapper volume = objectWrapperFactory.createObjectWrapper(objectWrapper.getPath(), true, handleService.getVolumeHandle(objectWrapper.getPath()));
+                
                 resolveObjectWrapper(objectWrapper, false);
-                volume.setChildren(Arrays.asList(objectWrapper));
-                rootObject.setChildren(Arrays.asList(volume));
-                // TODO
+                List<ObjectWrapper> issues = new ArrayList<>();
+                List<ObjectWrapper> volumes = new ArrayList<>();
+                // add issue to list of issue for volume
+                issues.add(objectWrapper);              
+                //add issues to volume
+                volume.setChildren(issues);
+                //add volume into volumes
+                volumes.add(volume);     
+                //set volumes for root
+                rootObject.setChildren(volumes);
+                
+                
+                topLevelResult = rootObject;
             }
             else
             {
@@ -142,12 +159,36 @@ public class SerialResolver implements ObjectWrapperResolver
         {
             if (mainCall)
             {
-                //TODO
+                Path root = dspaceTools.getRoot(objectWrapper.getPath());
+                Path issuePath = dspaceTools.getIssue(objectWrapper.getPath());
+                
+                objectWrapper.setHandle(handleService.getHandleForPath(objectWrapper.getPath(), true));
+                objectWrapper.setLevel(ObjectWrapper.LEVEL.ITEM);
+
+                ObjectWrapper rootObject = objectWrapperFactory.createObjectWrapper(root, false, handleService.getHandleForPath(root, true));
+                ObjectWrapper volume = objectWrapperFactory.createObjectWrapper(issuePath, true, handleService.getVolumeHandle(issuePath));
+                ObjectWrapper issue = objectWrapperFactory.createObjectWrapper(issuePath, false, handleService.getHandleForPath(issuePath, true));
+                List<ObjectWrapper> articles = new ArrayList<>();
+                List<ObjectWrapper> issues = new ArrayList<>();
+                List<ObjectWrapper> volumes = new ArrayList<>();
+                
+                articles.add(objectWrapper);
+                issue.setChildren(articles);
+                // add issue to list of issue for volume
+                issues.add(issue);              
+                //add issues to volume
+                volume.setChildren(issues);
+                //add volume into volumes
+                volumes.add(volume);     
+                //set volumes for root
+                rootObject.setChildren(volumes);
+                
+                topLevelResult = rootObject;
             }
 
             logger.debug("@level " + level + " @path [" + objectWrapper.getPath() + "] resolved as " + ObjectWrapper.LEVEL.ITEM + " with handle @" + objectWrapper.getHandle());
         }
 
-        return null;
+        return topLevelResult;
     }
 }
