@@ -49,6 +49,7 @@ public class HandleServiceImpl implements HandleService
         init();
 
         Path dspaceFile = path.resolve(handleFile);
+        logger.debug("Attempting to read dspaceID from "+dspaceFile);
 
         String suffix = null;
 
@@ -57,6 +58,7 @@ public class HandleServiceImpl implements HandleService
             try
             {
                 suffix = new String(Files.readAllBytes(dspaceFile));
+                logger.debug("File found. Suffix is set as: "+suffix);
             }
             catch (IOException ex)
             {
@@ -65,6 +67,7 @@ public class HandleServiceImpl implements HandleService
         }
         else if(createIfMissing)
         {
+            logger.debug("File was not found. Creating new suffix.");
             String newSuffix = getNewHandle(contextWrapper.getContext().getDBConnection()).toString();
 
             if (newSuffix == null)
@@ -76,6 +79,7 @@ public class HandleServiceImpl implements HandleService
                 try
                 {
                     Files.write(dspaceFile, newSuffix.getBytes(), StandardOpenOption.CREATE_NEW);
+                    logger.debug("File with suffix ["+newSuffix+" created.");
                 }
                 catch (IOException ex)
                 {
@@ -203,13 +207,14 @@ public class HandleServiceImpl implements HandleService
 
         try (PreparedStatement ps = connection.prepareStatement("select max(substring(handle from ?)::int)+1 as new_handle from handle"))
         {
-            ps.setInt(1, handlePrefix.length());
+            ps.setInt(1, handlePrefix.length()+1);
 
             try (ResultSet rs = ps.executeQuery())
             {
                 rs.next();
 
                 resultID = rs.getLong(1);
+                logger.info("New handle suffix will be: "+resultID);
             }
         }
         catch (SQLException ex)
@@ -227,16 +232,19 @@ public class HandleServiceImpl implements HandleService
     {
         if (globalHandleFile == null)
         {
+            logger.trace("Setting global handle file.");
             globalHandleFile = configurationService.getProperty("meditor.handle.file.global");
         }
 
         if (handleFile == null)
         {
+            logger.trace("Setting handle file.");
             handleFile = configurationService.getProperty("meditor.handle.file");
         }
 
         if (handlePrefix == null)
         {
+            logger.trace("Setting handle prefix.");
             handlePrefix = configurationService.getProperty("handle.prefix") + "/";
         }
     }
