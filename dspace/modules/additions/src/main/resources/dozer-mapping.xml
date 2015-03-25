@@ -21,7 +21,7 @@
             <a>titleVariant</a>
             <b>metadata</b>
         </field>
-        <field custom-converter-id="simpleconverter" custom-converter-param="dc.title.alternative">
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.identifier.issn">
             <a>issn</a>
             <b>metadata</b>
         </field>
