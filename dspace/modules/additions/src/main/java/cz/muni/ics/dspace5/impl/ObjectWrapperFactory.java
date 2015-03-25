@@ -5,12 +5,13 @@
  */
 package cz.muni.ics.dspace5.impl;
 
+import cz.muni.ics.dspace5.core.HandleService;
 import cz.muni.ics.dspace5.core.ObjectWrapper;
 import java.nio.file.Path;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- *
+ * 
  * @author Dominik Szalai - emptulik at gmail.com
  */
 public abstract class ObjectWrapperFactory
@@ -18,6 +19,8 @@ public abstract class ObjectWrapperFactory
 
     @Autowired
     private DSpaceTools dSpaceTools;
+    @Autowired
+    private HandleService handleService;
 
     /**
      * Method used by spring to create {@code prototype} bean. Calling this
@@ -72,5 +75,35 @@ public abstract class ObjectWrapperFactory
         ow.setHandle(handle);
 
         return ow;
+    }
+    
+    //todo in future maybe refactor
+    /**
+     * Calling method creates {@code ObjectWrapper} specified by input parameters.
+     * @param path path of object
+     * @param isVolume flag specifying whether on path is volume or not
+     * @param attachHandle if method should set {@code handle} for result
+     * @param createHandleIfMissing if handle should be created when missing
+     * @return ObjectWrapper created according given parameters
+     * @see #createObjectWrapper(java.nio.file.Path, boolean, java.lang.String) 
+     * @see #createObjectWrapper() 
+     */
+    public ObjectWrapper createObjectWrapper(Path path, boolean isVolume, boolean attachHandle, boolean createHandleIfMissing)
+    {
+        if(attachHandle)
+        {
+            if(isVolume)
+            {
+                return createObjectWrapper(path, isVolume, handleService.getVolumeHandle(path));
+            }
+            else
+            {
+                return createObjectWrapper(path, isVolume, handleService.getHandleForPath(path, createHandleIfMissing));
+            }
+        }
+        else
+        {
+            return createObjectWrapper(path, isVolume, null);
+        }        
     }
 }

@@ -58,10 +58,7 @@ public class MonographResolver implements ObjectWrapperResolver
 
                 for (Path monoPath : monographyPaths)
                 {
-                    ObjectWrapper monography = objectWrapperFactory
-                            .createObjectWrapper(monoPath,
-                                    false,
-                                    handleService.getHandleForPath(monoPath, true));
+                    ObjectWrapper monography = objectWrapperFactory.createObjectWrapper(monoPath, false, true, true);
 
                     resolveObjectWrapper(monography, false);
 
@@ -80,7 +77,7 @@ public class MonographResolver implements ObjectWrapperResolver
                 objectWrapper.setLevel(ObjectWrapper.LEVEL.COL);
                 objectWrapper.setHandle(handleService.getHandleForPath(objectWrapper.getPath(), true));
                 
-                ObjectWrapper rootObject  = objectWrapperFactory.createObjectWrapper(root, false, handleService.getHandleForPath(root, true));
+                ObjectWrapper rootObject = objectWrapperFactory.createObjectWrapper(root, false, true, true);
                 
                 resolveObjectWrapper(objectWrapper, false);
                 
@@ -102,10 +99,7 @@ public class MonographResolver implements ObjectWrapperResolver
 
                     for (Path monoPath : monoChapterPaths)
                     {
-                        ObjectWrapper monographyChapter = objectWrapperFactory
-                                .createObjectWrapper(monoPath,
-                                        false,
-                                        handleService.getHandleForPath(monoPath, true));
+                        ObjectWrapper monographyChapter = objectWrapperFactory.createObjectWrapper(monoPath, false, true, true);
 
                         resolveObjectWrapper(monographyChapter, false);
                         monographyChapters.add(monographyChapter);
@@ -124,8 +118,8 @@ public class MonographResolver implements ObjectWrapperResolver
                 objectWrapper.setLevel(ObjectWrapper.LEVEL.ITEM);
                 objectWrapper.setHandle(handleService.getHandleForPath(objectWrapper.getPath(), true));
                 
-                ObjectWrapper monoSeries = objectWrapperFactory.createObjectWrapper(root, false, handleService.getHandleForPath(root, true));
-                ObjectWrapper mono = objectWrapperFactory.createObjectWrapper(monographyPath, false, handleService.getHandleForPath(monographyPath, true));
+                ObjectWrapper monoSeries = objectWrapperFactory.createObjectWrapper(root, false, true, true);
+                ObjectWrapper mono = objectWrapperFactory.createObjectWrapper(monographyPath, false, true, true);
                 
                 List<ObjectWrapper> articles = new ArrayList<>(1);
                 List<ObjectWrapper> monographies = new ArrayList<>(1);

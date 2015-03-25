@@ -45,7 +45,7 @@ public class SerialResolver implements ObjectWrapperResolver
     {
         int level = dspaceTools.getPathLevel(objectWrapper.getPath());
         boolean updateMode = inputArguments.getValue("mode").equals("update");
-        
+
         ObjectWrapper topLevelResult = null;
 
         if (level == 0)
@@ -64,17 +64,14 @@ public class SerialResolver implements ObjectWrapperResolver
 
                 for (Path p : paths)
                 {
-                    ObjectWrapper issue = objectWrapperFactory.createObjectWrapper(p,
-                            false,
-                            handleService.getHandleForPath(p, true));
+                    ObjectWrapper issue = objectWrapperFactory.createObjectWrapper(p, false, true, true);
                     // recreate articles
                     resolveObjectWrapper(issue, false);
 
                     issues.add(issue);
 
-                    ObjectWrapper volume = objectWrapperFactory.createObjectWrapper(p,
-                            true,
-                            handleService.getVolumeHandle(p));
+                    ObjectWrapper volume = objectWrapperFactory.createObjectWrapper(p, true, true, true);
+
                     volumes.add(volume);
                 }
 
@@ -100,7 +97,7 @@ public class SerialResolver implements ObjectWrapperResolver
                 //resolve volume to issue
                 objectWrapper.setChildren(new ArrayList<>(volumes));
             }
-            
+
             topLevelResult = objectWrapper;
         }
         else if (level == 1)
@@ -108,26 +105,25 @@ public class SerialResolver implements ObjectWrapperResolver
             if (mainCall)
             {
                 Path root = dspaceTools.getRoot(objectWrapper.getPath());
-                
+
                 objectWrapper.setHandle(handleService.getHandleForPath(objectWrapper.getPath(), true));
                 objectWrapper.setLevel(ObjectWrapper.LEVEL.COL);
 
-                ObjectWrapper rootObject = objectWrapperFactory.createObjectWrapper(root, false, handleService.getHandleForPath(root, true));
-                ObjectWrapper volume = objectWrapperFactory.createObjectWrapper(objectWrapper.getPath(), true, handleService.getVolumeHandle(objectWrapper.getPath()));
-                
+                ObjectWrapper rootObject = objectWrapperFactory.createObjectWrapper(root, false, true, true);
+                ObjectWrapper volume = objectWrapperFactory.createObjectWrapper(objectWrapper.getPath(), true, true, true);
+
                 resolveObjectWrapper(objectWrapper, false);
                 List<ObjectWrapper> issues = new ArrayList<>();
                 List<ObjectWrapper> volumes = new ArrayList<>();
                 // add issue to list of issue for volume
-                issues.add(objectWrapper);              
+                issues.add(objectWrapper);
                 //add issues to volume
                 volume.setChildren(issues);
                 //add volume into volumes
-                volumes.add(volume);     
+                volumes.add(volume);
                 //set volumes for root
                 rootObject.setChildren(volumes);
-                
-                
+
                 topLevelResult = rootObject;
             }
             else
@@ -142,9 +138,7 @@ public class SerialResolver implements ObjectWrapperResolver
 
                     for (Path p : paths)
                     {
-                        ObjectWrapper article = objectWrapperFactory.createObjectWrapper(p,
-                                false,
-                                handleService.getHandleForPath(p, true));
+                        ObjectWrapper article = objectWrapperFactory.createObjectWrapper(p, false, true, true);
 
                         resolveObjectWrapper(article, false);
 
@@ -161,28 +155,29 @@ public class SerialResolver implements ObjectWrapperResolver
             {
                 Path root = dspaceTools.getRoot(objectWrapper.getPath());
                 Path issuePath = dspaceTools.getIssue(objectWrapper.getPath());
-                
+
                 objectWrapper.setHandle(handleService.getHandleForPath(objectWrapper.getPath(), true));
                 objectWrapper.setLevel(ObjectWrapper.LEVEL.ITEM);
 
-                ObjectWrapper rootObject = objectWrapperFactory.createObjectWrapper(root, false, handleService.getHandleForPath(root, true));
-                ObjectWrapper volume = objectWrapperFactory.createObjectWrapper(issuePath, true, handleService.getVolumeHandle(issuePath));
-                ObjectWrapper issue = objectWrapperFactory.createObjectWrapper(issuePath, false, handleService.getHandleForPath(issuePath, true));
+                ObjectWrapper rootObject = objectWrapperFactory.createObjectWrapper(root, false, true, true);
+                ObjectWrapper volume = objectWrapperFactory.createObjectWrapper(issuePath, true, true, true);
+                ObjectWrapper issue = objectWrapperFactory.createObjectWrapper(issuePath, false, true, true);
+
                 List<ObjectWrapper> articles = new ArrayList<>();
                 List<ObjectWrapper> issues = new ArrayList<>();
                 List<ObjectWrapper> volumes = new ArrayList<>();
-                
+
                 articles.add(objectWrapper);
                 issue.setChildren(articles);
                 // add issue to list of issue for volume
-                issues.add(issue);              
+                issues.add(issue);
                 //add issues to volume
                 volume.setChildren(issues);
                 //add volume into volumes
-                volumes.add(volume);     
+                volumes.add(volume);
                 //set volumes for root
                 rootObject.setChildren(volumes);
-                
+
                 topLevelResult = rootObject;
             }
 
