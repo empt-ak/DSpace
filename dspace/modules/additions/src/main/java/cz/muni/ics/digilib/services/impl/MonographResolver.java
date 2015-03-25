@@ -42,6 +42,7 @@ public class MonographResolver implements ObjectWrapperResolver
     {
         int level = dspaceTools.getPathLevel(objectWrapper.getPath());
         boolean updateMode = inputArguments.getValue("mode").equals("update");
+        ObjectWrapper topLevelResult = null;
 
         if (level == 0)
         {
@@ -69,12 +70,26 @@ public class MonographResolver implements ObjectWrapperResolver
 
                 objectWrapper.setChildren(monographies);
             }
+            topLevelResult = objectWrapper;
         }
         if (level == 1)
         {
             if (mainCall)
             {
-                //TODO
+                Path root = dspaceTools.getRoot(objectWrapper.getPath());
+                objectWrapper.setLevel(ObjectWrapper.LEVEL.COL);
+                objectWrapper.setHandle(handleService.getHandleForPath(objectWrapper.getPath(), true));
+                
+                ObjectWrapper rootObject  = objectWrapperFactory.createObjectWrapper(root, false, handleService.getHandleForPath(root, true));
+                
+                resolveObjectWrapper(objectWrapper, false);
+                
+                List<ObjectWrapper> monographies = new ArrayList<>(1);
+                monographies.add(objectWrapper);
+                
+                rootObject.setChildren(monographies);
+                
+                topLevelResult = rootObject;
             }
             else
             {
@@ -103,12 +118,29 @@ public class MonographResolver implements ObjectWrapperResolver
         {
             if (mainCall)
             {
-                // todo
+                Path root = dspaceTools.getRoot(objectWrapper.getPath());
+                Path monographyPath = dspaceTools.getIssue(objectWrapper.getPath());
+                
+                objectWrapper.setLevel(ObjectWrapper.LEVEL.ITEM);
+                objectWrapper.setHandle(handleService.getHandleForPath(objectWrapper.getPath(), true));
+                
+                ObjectWrapper monoSeries = objectWrapperFactory.createObjectWrapper(root, false, handleService.getHandleForPath(root, true));
+                ObjectWrapper mono = objectWrapperFactory.createObjectWrapper(monographyPath, false, handleService.getHandleForPath(monographyPath, true));
+                
+                List<ObjectWrapper> articles = new ArrayList<>(1);
+                List<ObjectWrapper> monographies = new ArrayList<>(1);
+                articles.add(objectWrapper);
+                mono.setChildren(articles);
+                monographies.add(mono);
+                
+                monoSeries.setChildren(monographies);
+                
+                topLevelResult = monoSeries;
             }
 
             logger.debug("@level " + level + " @path [" + objectWrapper.getPath() + "] resolved as " + ObjectWrapper.LEVEL.ITEM + " with handle @" + objectWrapper.getHandle());
         }
 
-        return null;
+        return topLevelResult;
     }
 }
