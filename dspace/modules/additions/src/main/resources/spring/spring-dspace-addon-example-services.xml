@@ -177,5 +177,31 @@
             name="provideSerialResolver"
             bean="serialResolver"
         />
-    </bean>      
+    </bean>  
+    
+    <bean
+        id="documentBuilderFactory"
+        class="javax.xml.parsers.DocumentBuilderFactory"
+        factory-method="newInstance"
+    />
+    
+    <bean
+        id="documentBuilder"
+        class="javax.xml.parsers.DocumentBuilder"
+        factory-bean="documentBuilderFactory"
+        factory-method="newDocumentBuilder"
+    />
+    
+    <bean
+        id="xPathFactory"
+        class="javax.xml.xpath.XPathFactory"
+        factory-method="newInstance"
+    />
+    
+    <bean
+        id="xPath"
+        class="javax.xml.xpath.XPath"
+        factory-bean="xPathFactory"
+        factory-method="newXPath"
+    />    
 </beans>
