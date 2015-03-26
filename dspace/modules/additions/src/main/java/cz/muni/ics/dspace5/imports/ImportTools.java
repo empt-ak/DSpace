@@ -106,8 +106,7 @@ public class ImportTools
     }
 
     /**
-     * Method logs occurred exception and closes application if {@link ImportConfig#failsOnError()
-     * } returns true.
+     * Method logs occurred exception and closes application if {@code fail-on-error} argument was passed.
      *
      * @param ex to be logged.
      */
