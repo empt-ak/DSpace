@@ -68,6 +68,7 @@ public class CommandLineServiceImpl implements CommandLineService
             inputArguments.put("mode", importMode);
             
             inputArguments.put("failOnError", Boolean.parseBoolean(cmd.getOptionValue("foe", "false")));
+            inputArguments.put("user",cmd.getOptionValue("u"));
             
             inputArguments.dump();
         }

@@ -70,6 +70,16 @@ public class CliOptionsImpl implements CliOptions
             );
             
             logger.debug(options.getOption("foe"));
+            
+            options.addOption(Option.builder("u")
+                                .longOpt("user")
+                                .argName("u")
+                                .hasArg(true)
+                                .type(String.class)
+                                .required(false)
+                                .desc("Flag specifying user executing import. The value is email set when creating the user.")
+                                .build()
+            );
         }
         else
         {
