@@ -81,7 +81,7 @@ public class ImportServiceImpl implements ImportService
             
             try
             {
-                importCommunity.importToDspace(realImport, null);
+                importCommunity.importToDspace(realImport, null, null);
             }
             catch(Exception e)
             {

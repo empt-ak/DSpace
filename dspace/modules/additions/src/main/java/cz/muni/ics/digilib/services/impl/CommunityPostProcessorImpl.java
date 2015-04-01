@@ -23,6 +23,7 @@ import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import org.apache.log4j.Logger;
 import org.dozer.Mapper;
 import org.dspace.authorize.AuthorizeException;
@@ -53,7 +54,7 @@ public class CommunityPostProcessorImpl implements CommunityPostProcessor
     private ComparatorFactory comparatorFactory;
 
     @Override
-    public List<Metadatum> processMetadata(ObjectWrapper objectWrapper, List<ObjectWrapper> parents) throws IllegalArgumentException
+    public List<Metadatum> processMetadata(ObjectWrapper objectWrapper, List<ObjectWrapper> parents, Map<String,Object> dataMap) throws IllegalArgumentException
     {
         MetadataWrapper metadataWrapper = new MetadataWrapper();
 
@@ -134,7 +135,7 @@ public class CommunityPostProcessorImpl implements CommunityPostProcessor
     }
 
     @Override
-    public void processCommunity(ObjectWrapper objectWrapper, Community community) throws IllegalArgumentException
+    public void processCommunity(ObjectWrapper objectWrapper, Community community, List<ObjectWrapper> parents, Map<String,Object> dataMap) throws IllegalArgumentException
     {
         Path coverPath = null;
         if (objectWrapper.getLevel().equals(ObjectWrapper.LEVEL.COM))

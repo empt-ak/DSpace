@@ -21,6 +21,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import org.apache.log4j.Logger;
 import org.dozer.Mapper;
 import org.dspace.authorize.AuthorizeException;
@@ -53,7 +54,7 @@ public class ItemPostProcessorImpl implements ItemPostProcessor
     private final String[] pdfFileNames = {"enhanced.pdf", "source-enhanced.pdf", "source.pdf", "item.pdf"};
     
     @Override
-    public List<Metadatum> processMetadata(ObjectWrapper objectWrapper) throws IllegalArgumentException
+    public List<Metadatum> processMetadata(ObjectWrapper objectWrapper, List<ObjectWrapper> parents, Map<String,Object> dataMap) throws IllegalArgumentException
     {
         MetadataWrapper metadataWrapper = new MetadataWrapper();
         
@@ -108,7 +109,7 @@ public class ItemPostProcessorImpl implements ItemPostProcessor
     }
 
     @Override
-    public void processItem(ObjectWrapper objectWrapper, Item item) throws IllegalArgumentException
+    public void processItem(ObjectWrapper objectWrapper, Item item, List<ObjectWrapper> parents, Map<String,Object> dataMap) throws IllegalArgumentException
     {
         // referencie, pdf atd, pre dmlcz .matematika a ine
         // @TODO improve by checking dates ?

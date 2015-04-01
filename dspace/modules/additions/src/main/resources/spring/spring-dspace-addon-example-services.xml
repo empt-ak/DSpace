@@ -203,5 +203,11 @@
         class="javax.xml.xpath.XPath"
         factory-bean="xPathFactory"
         factory-method="newXPath"
-    />    
+    />  
+    
+    <bean
+        id="calendar"
+        class="java.util.Calendar"
+        factory-method="getInstance"
+    />      
 </beans>

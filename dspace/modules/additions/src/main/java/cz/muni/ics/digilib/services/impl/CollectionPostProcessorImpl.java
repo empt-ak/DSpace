@@ -21,6 +21,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.dozer.Mapper;
@@ -58,7 +59,7 @@ public class CollectionPostProcessorImpl implements CollectionPostProcessor
     private ContextWrapper contextWrapper;
     
     @Override
-    public List<Metadatum> processMetadata(ObjectWrapper objectWrapper, List<ObjectWrapper> parents) throws IllegalArgumentException
+    public List<Metadatum> processMetadata(ObjectWrapper objectWrapper, List<ObjectWrapper> parents, Map<String,Object> dataMap) throws IllegalArgumentException
     {
         MetadataWrapper metadataWrapper = new MetadataWrapper();
         
@@ -117,7 +118,7 @@ public class CollectionPostProcessorImpl implements CollectionPostProcessor
     }
 
     @Override
-    public void processCollection(ObjectWrapper objectWrapper, Collection collection) throws IllegalArgumentException, UnsupportedOperationException
+    public void processCollection(ObjectWrapper objectWrapper, Collection collection, List<ObjectWrapper> parents, Map<String,Object> dataMap) throws IllegalArgumentException, UnsupportedOperationException
     {
         if(Files.exists(objectWrapper.getPath()))
         {

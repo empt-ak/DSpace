@@ -14,6 +14,7 @@ import cz.muni.ics.dspace5.impl.InputArguments;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import org.apache.log4j.Logger;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Community;
@@ -58,7 +59,7 @@ public class ImportCommunity
      *
      * @return created Community stored by this method
      */
-    public Community importToDspace(ObjectWrapper objectWrapper, List<ObjectWrapper> parents)
+    public Community importToDspace(ObjectWrapper objectWrapper, List<ObjectWrapper> parents, Map<String,Object> dataMap)
     {
         logger.info("Commencing import of Community type.");
         logger.info(objectWrapper.getLevel()+" with handle@"+objectWrapper.getHandle()+" having following parents: "+parents);        
@@ -83,7 +84,7 @@ public class ImportCommunity
         }
         else
         {
-            List<Metadatum> metadata = communityPostProcessor.processMetadata(objectWrapper, parents);
+            List<Metadatum> metadata = communityPostProcessor.processMetadata(objectWrapper, parents, null);
             
             //values have to be cleared first because there may be multiple values
             // e.g. dc.title.alternative
@@ -98,7 +99,7 @@ public class ImportCommunity
                 workingCommunity.addMetadata(m.schema, m.element, m.qualifier, m.language, m.value);
             }
             
-            communityPostProcessor.processCommunity(objectWrapper, workingCommunity);
+            communityPostProcessor.processCommunity(objectWrapper, workingCommunity, parents, null);
             
             importTools.saveAndCommit(workingCommunity);
             
@@ -116,7 +117,7 @@ public class ImportCommunity
                         objectWrapper.setObject(workingCommunity);
                         newParents.add(objectWrapper);
                         
-                        importCollection.importToDspace(issue, newParents);
+                        importCollection.importToDspace(issue, newParents, null);
                     }                    
                 }
                 else
@@ -131,7 +132,7 @@ public class ImportCommunity
                         objectWrapper.setObject(workingCommunity);
                         newParents.add(objectWrapper);
                         
-                        importToDspace(subComm, newParents);
+                        importToDspace(subComm, newParents, null);
                     } 
                 }
             }

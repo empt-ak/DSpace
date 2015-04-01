@@ -7,6 +7,7 @@ package cz.muni.ics.dspace5.core.post;
 
 import cz.muni.ics.dspace5.core.ObjectWrapper;
 import java.util.List;
+import java.util.Map;
 import org.dspace.content.Collection;
 import org.dspace.content.Metadatum;
 
@@ -32,7 +33,7 @@ public interface CollectionPostProcessor
      * @throws IllegalArgumentException if objectwrapper is null, or does not
      *                                  have a path
      */
-    List<Metadatum> processMetadata(ObjectWrapper objectWrapper, List<ObjectWrapper> parents) throws IllegalArgumentException;
+    List<Metadatum> processMetadata(ObjectWrapper objectWrapper, List<ObjectWrapper> parents, Map<String,Object> dataMap) throws IllegalArgumentException;
 
     /**
      * If anything else need to be done to {@code Collection} object, then call
@@ -46,5 +47,5 @@ public interface CollectionPostProcessor
      *                                       community is null.
      * @throws UnsupportedOperationException if method is not implemented.
      */
-    void processCollection(ObjectWrapper objectWrapper, Collection collection) throws IllegalArgumentException, UnsupportedOperationException;
+    void processCollection(ObjectWrapper objectWrapper, Collection collection, List<ObjectWrapper> parents, Map<String,Object> dataMap) throws IllegalArgumentException, UnsupportedOperationException;
 }

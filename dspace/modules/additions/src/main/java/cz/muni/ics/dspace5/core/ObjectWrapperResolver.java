@@ -15,6 +15,7 @@ public interface ObjectWrapperResolver
      * Method resolves given {@code objectWrapper} into full (or partial) tree representing given object structure on filesystem.
      * @param objectWrapper target point in ME structure
      * @param mainCall whether we directly called this method, or not.
+     * @return 
      */
     ObjectWrapper resolveObjectWrapper(ObjectWrapper objectWrapper, boolean mainCall);
 }

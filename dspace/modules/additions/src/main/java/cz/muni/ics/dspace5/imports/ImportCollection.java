@@ -11,6 +11,7 @@ import cz.muni.ics.dspace5.impl.InputArguments;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import org.apache.log4j.Logger;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Collection;
@@ -38,13 +39,13 @@ public class ImportCollection
     @Autowired
     private ImportTools importTools;
     
-    public Collection importToDspace(ObjectWrapper objectWrapper, List<ObjectWrapper> parents)
+    public Collection importToDspace(ObjectWrapper objectWrapper, List<ObjectWrapper> parents, Map<String,Object> dataMap)
     {        
         Collection workingCollection = findOrCreateCollection(parents.get(parents.size() - 1), objectWrapper);
         
         if(workingCollection != null)
         {
-            List<Metadatum> metadata = collectionPostProcessor.processMetadata(objectWrapper, parents);
+            List<Metadatum> metadata = collectionPostProcessor.processMetadata(objectWrapper, parents, null);
             
             for(Metadatum m : metadata)
             {
@@ -57,7 +58,7 @@ public class ImportCollection
                 workingCollection.addMetadata(m.schema, m.element, m.qualifier, m.language, m.value);
             }
             
-            collectionPostProcessor.processCollection(objectWrapper, workingCollection);
+            collectionPostProcessor.processCollection(objectWrapper, workingCollection, parents, null);
             
             importTools.saveAndCommit(workingCollection);
             
@@ -70,7 +71,7 @@ public class ImportCollection
                     objectWrapper.setObject(workingCollection);
                     newParents.add(objectWrapper);
                     
-                    importItem.importToDspace(article, newParents);
+                    importItem.importToDspace(article, newParents, null);
                 }
             }
             

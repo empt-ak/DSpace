@@ -5,7 +5,7 @@
  */
 package cz.muni.ics.digilib.services.impl;
 
-import cz.muni.ics.dspace5.core.DSpaceGroupsService;
+import cz.muni.ics.dspace5.core.DSpaceGroupService;
 import cz.muni.ics.dspace5.exceptions.GroupAlreadyExistException;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import java.sql.SQLException;
@@ -20,8 +20,8 @@ import org.springframework.stereotype.Component;
  *
  * @author Dominik Szalai - emptulik at gmail.com
  */
-@Component
-public class DSpaceGroupServiceImpl implements DSpaceGroupsService
+@Component(value = "groupService")
+public class DSpaceGroupServiceImpl implements DSpaceGroupService
 {
     private static final Logger logger = Logger.getLogger(DSpaceGroupServiceImpl.class);    
     private static final String[] builtInGroupNames = new String[]{"Anonymous","Administrator"};

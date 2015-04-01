@@ -11,6 +11,7 @@ import cz.muni.ics.dspace5.impl.ContextWrapper;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import org.apache.log4j.Logger;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Collection;
@@ -39,14 +40,14 @@ public class ImportItem
     @Autowired
     private ContextWrapper contextWrapper;
      
-    public Item importToDspace(ObjectWrapper objectWrapper, List<ObjectWrapper> parents)
+    public Item importToDspace(ObjectWrapper objectWrapper, List<ObjectWrapper> parents, Map<String,Object> dataMap)
     {
         Item workingItem = findOrCreateItem(parents.get(parents.size() - 1 ), objectWrapper);
         
         if(workingItem != null)
         {
             logger.info("Processing metadata for handle:"+objectWrapper.getHandle()+" @path:- "+objectWrapper.getPath());
-            List<Metadatum> metadata = itemPostProcessor.processMetadata(objectWrapper);
+            List<Metadatum> metadata = itemPostProcessor.processMetadata(objectWrapper, parents, null);
             
             logger.info("Clearing metadata.");
             for(Metadatum m : metadata)
@@ -60,7 +61,7 @@ public class ImportItem
                 workingItem.addMetadata(m.schema, m.element, m.qualifier, m.language, m.value);
             }
             
-            itemPostProcessor.processItem(objectWrapper, workingItem);
+            itemPostProcessor.processItem(objectWrapper, workingItem, parents, null);
             
             importTools.saveAndCommit(workingItem);
             
@@ -99,6 +100,7 @@ public class ImportItem
                         break;
                     }
                 }
+                ii.close();
             }
             catch(SQLException ex)
             {
