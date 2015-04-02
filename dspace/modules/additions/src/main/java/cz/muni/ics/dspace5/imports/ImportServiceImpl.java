@@ -79,17 +79,18 @@ public class ImportServiceImpl implements ImportService
                     .provideObjectWrapperResolver(importTarget.getPath())
                     .resolveObjectWrapper(importTarget, true);
             
-            try
-            {
+//            try
+//            {
                 importCommunity.importToDspace(realImport, null, null);
-            }
-            catch(Exception e)
-            {
-                logger.fatal(e,e.getCause());
+//            }
+//            catch(Exception e)
+//            {
+//                logger.fatal(e,e.getCause());
                 contextWrapper.getContext().abort();
-            }
-            finally
-            {
+//                
+//            }
+//            finally
+//            {
                 try
                 {
                     contextWrapper.getContext().complete();
@@ -98,7 +99,7 @@ public class ImportServiceImpl implements ImportService
                 {
                     logger.error(ex, ex.getCause());
                 }
-            }
+//            }
             
             
             contextWrapper.getContext().restoreAuthSystemState();

@@ -10,9 +10,11 @@ import cz.muni.ics.digilib.domain.MonographyChapter;
 import cz.muni.ics.dspace5.core.ObjectMapper;
 import cz.muni.ics.dspace5.core.ObjectWrapper;
 import cz.muni.ics.dspace5.core.post.ItemPostProcessor;
+import cz.muni.ics.dspace5.exceptions.MovingWallException;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.impl.MetadataWrapper;
+import cz.muni.ics.dspace5.movingwall.MovingWallService;
 import java.io.BufferedInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -41,7 +43,7 @@ import org.springframework.stereotype.Component;
 public class ItemPostProcessorImpl implements ItemPostProcessor
 {
     private static final Logger logger = Logger.getLogger(ItemPostProcessorImpl.class);
-    private static final String ORIGINAL = "ORIGINAL";
+    private static final String ORIGINAL = "ORIGINAL";  // TODO configurable
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
@@ -50,6 +52,8 @@ public class ItemPostProcessorImpl implements ItemPostProcessor
     private DSpaceTools dSpaceTools;
     @Autowired
     private ContextWrapper contextWrapper;
+    @Autowired
+    private MovingWallService movingWallService;
     //@TODO set tru spring
     private final String[] pdfFileNames = {"enhanced.pdf", "source-enhanced.pdf", "source.pdf", "item.pdf"};
     
@@ -182,6 +186,10 @@ public class ItemPostProcessorImpl implements ItemPostProcessor
                     pdfBitstream.setDescription("Full-text");
                     pdfBitstream.setFormat(BitstreamFormat.findByMIMEType(contextWrapper.getContext(), "application/pdf"));
                     pdfBitstream.update();
+                    
+                    // TODO
+                    // here is a issue. Imported pdf is not extracted immediately but
+                    // e.g. every midnight therefore 2nd bitstream for "Full-text" does not exist yet    
                 }
                 catch(IOException | AuthorizeException | SQLException ex)
                 {
@@ -192,6 +200,15 @@ public class ItemPostProcessorImpl implements ItemPostProcessor
             {
                 //TODO
             }
+        }
+        
+        try
+        {
+            movingWallService.lock(item, dataMap);
+        }
+        catch(MovingWallException mwe)
+        {
+            logger.error(mwe.getMessage());
         }
     }    
 }

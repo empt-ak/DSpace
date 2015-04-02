@@ -13,7 +13,7 @@ import org.dspace.eperson.Group;
  *
  * @author Dominik Szalai - emptulik at gmail.com
  */
-public interface DSpaceGroupsService
+public interface DSpaceGroupService
 {
 
     /**

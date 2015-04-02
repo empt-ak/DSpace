@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
@@ -151,6 +152,20 @@ public class CollectionPostProcessorImpl implements CollectionPostProcessor
 
             if(issue != null)
             {
+                if(issue.getPublYear() != null && !StringUtils.isEmpty(issue.getPublYear()))
+                {
+                    if(dataMap == null)
+                    {
+                        dataMap = new HashMap<>();
+                    }
+                   
+                    dataMap.put("publYear", issue.getPublYear());
+                    if(!StringUtils.isEmpty(issue.getEmbargoEndDate()))
+                    {
+                        dataMap.put("embargoEndDate", issue.getEmbargoEndDate());
+                    }
+                    
+                }
                 if(!StringUtils.isEmpty(issue.getLinkToReal()))
                 {
                     String realHandle = handleService.getHandleForPath(Paths

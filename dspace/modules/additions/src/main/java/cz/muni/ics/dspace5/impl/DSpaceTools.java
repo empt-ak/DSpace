@@ -5,6 +5,7 @@
  */
 package cz.muni.ics.dspace5.impl;
 
+import cz.muni.ics.dspace5.movingwall.MovingWallService;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -14,8 +15,15 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.PostConstruct;
 import org.apache.log4j.Logger;
 import org.dspace.services.ConfigurationService;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +38,16 @@ public class DSpaceTools
     private static final Logger logger = Logger.getLogger(DSpaceTools.class);
     @Autowired
     private ConfigurationService configurationService;
+
+    private final List<DateTimeFormatter> knownDateFormats = new ArrayList<>();
+
+    @PostConstruct
+    private void init()
+    {
+        knownDateFormats.add(DateTimeFormat.forPattern("yyyy-MM-dd"));
+        knownDateFormats.add(DateTimeFormat.forPattern("yyyy-MM"));
+        knownDateFormats.add(DateTimeFormat.forPattern("yyyy"));
+    }
 
     /**
      * Method returns current level in ME path.
@@ -203,17 +221,79 @@ public class DSpaceTools
             {
                 logger.error(ex, ex.getCause());
             }
-            
+
             byte[] bytes = md.digest();
             StringBuilder sb = new StringBuilder();
-            for(int i =0 ; i < bytes.length; i++)
+            for (int i = 0; i < bytes.length; i++)
             {
-                sb.append(Integer.toString((bytes[i] & 0xff)+0x100,16).substring(1));
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
             }
-            
+
             result = sb.toString();
         }
 
         return result;
+    }
+
+    /**
+     * Method parses given input using given pattern.
+     *
+     * @param input   to be parsed
+     * @param pattern used for parsing
+     *
+     * @return DateTime represented by given input and pattern
+     *
+     * @throws ParseException if any error occurs
+     */
+    public DateTime parseDate(String input, String pattern) throws ParseException
+    {
+        return DateTimeFormat.forPattern(pattern).parseDateTime(input.trim());
+    }
+
+    /**
+     * Method parses given input based on known patterns. Following pattern are
+     * recognized:
+     * <ul>
+     * <li>yyyy-MM-dd</li>
+     * <li>yyyy-MM</li>
+     * <li>yyyy</li>
+     * </ul>. If any of values is missing (month, day) then maximum possible
+     * value is added. So if day is missing then 29/30/31 as day is added. If
+     * month is missing aswell then 12th month is added. The main use this
+     * method is in {@link MovingWallService} where dates are parsed. If none of
+     * patterns is matched towards given input then <b>1900-12-31</b> is
+     * returned.
+     *
+     * @param input to be parsed
+     *
+     * @return DateTime parsed according to known patterns
+     */
+    public DateTime parseDate(String input)
+    {
+        for (DateTimeFormatter dtf : knownDateFormats)
+        {
+            try
+            {
+                DateTime dt = dtf.parseDateTime(input);
+                if (input.length() == 10)
+                {
+                    return dt;
+                }
+                else if (input.length() == 7)
+                {
+                    return dt.dayOfMonth().withMaximumValue();
+                }
+                else if (input.length() == 4)
+                {
+                    return dt.monthOfYear().withMaximumValue().dayOfMonth().withMaximumValue();
+                }
+            }
+            catch (IllegalArgumentException pe)
+            {
+
+            }
+        }
+
+        return knownDateFormats.get(0).parseDateTime("1900-12-31");
     }
 }

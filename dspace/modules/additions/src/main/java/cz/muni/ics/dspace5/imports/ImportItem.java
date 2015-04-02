@@ -8,6 +8,7 @@ package cz.muni.ics.dspace5.imports;
 import cz.muni.ics.dspace5.core.ObjectWrapper;
 import cz.muni.ics.dspace5.core.post.ItemPostProcessor;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
+import cz.muni.ics.dspace5.movingwall.MovingWallService;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -39,6 +40,8 @@ public class ImportItem
     private ImportTools importTools;
     @Autowired
     private ContextWrapper contextWrapper;
+    @Autowired
+    private MovingWallService movingWallService;
      
     public Item importToDspace(ObjectWrapper objectWrapper, List<ObjectWrapper> parents, Map<String,Object> dataMap)
     {
@@ -62,7 +65,7 @@ public class ImportItem
             }
             
             itemPostProcessor.processItem(objectWrapper, workingItem, parents, null);
-            
+                        
             importTools.saveAndCommit(workingItem);
             
             // so there are no unneeded references to this list

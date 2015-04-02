@@ -26,6 +26,8 @@ public interface ItemPostProcessor
      * <b>.xml</b> file.
      *
      * @param objectWrapper from which we extract metadata
+     * @param parents
+     * @param dataMap
      *
      * @return List of metadata from given objectwrapper.
      *
@@ -36,10 +38,12 @@ public interface ItemPostProcessor
 
     /**
      * If anything else need to be done to {@code Item} object, then call this
-     * method.
+     * method. Core functionality for item would be storing Bundles, and handling moving wall.
      *
      * @param objectWrapper holder for current object to be processed
      * @param item          to be modified
+     * @param parents
+     * @param dataMap
      *
      * @throws IllegalArgumentException      if objectWrapper is null or does
      *                                       not have set path. Also thrown when

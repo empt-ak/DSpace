@@ -209,5 +209,38 @@
         id="calendar"
         class="java.util.Calendar"
         factory-method="getInstance"
-    />      
+    />    
+    
+    <bean
+        id="itemLocker"
+        class="cz.muni.ics.digilib.services.impl.movingwall.ItemMWLocker"
+    />
+    
+    <bean
+        id="collectionLocker"
+        class="cz.muni.ics.digilib.services.impl.movingwall.CollectionMWLocker"
+    />
+    
+    <bean
+        id="communityLocker"
+        class="cz.muni.ics.digilib.services.impl.movingwall.CommunityMWLocker"
+    />
+    
+    <bean
+        id="mwLockerProvider"
+        class="cz.muni.ics.digilib.services.impl.movingwall.MWLockerProviderImpl"
+    >
+        <lookup-method
+            name="getItemLocker"
+            bean="itemLocker"
+        />
+        <lookup-method
+            name="getCollectionLocker"
+            bean="collectionLocker"
+        />
+        <lookup-method
+            name="getCommunityLocker"
+            bean="communityLocker"
+        />
+    </bean>
 </beans>

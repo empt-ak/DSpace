@@ -5,6 +5,9 @@
  */
 package cz.muni.ics.dspace5;
 
+import cz.muni.ics.dspace5.core.DSpaceGroupService;
+import cz.muni.ics.dspace5.impl.DSpaceWrapper;
+
 /**
  *
  * @author Dominik Szalai - emptulik at gmail.com
@@ -13,6 +16,6 @@ public class Setup
 {
     public static void main(String[] args)
     {
-        
+        DSpaceWrapper.getInstance().getBean("groupService", DSpaceGroupService.class).createAll();
     }
 }
