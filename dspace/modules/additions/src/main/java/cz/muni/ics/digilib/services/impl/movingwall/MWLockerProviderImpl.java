@@ -7,6 +7,8 @@ package cz.muni.ics.digilib.services.impl.movingwall;
 
 import cz.muni.ics.dspace5.movingwall.MWLocker;
 import cz.muni.ics.dspace5.movingwall.MWLockerProvider;
+import org.dspace.content.Bitstream;
+import org.dspace.content.Bundle;
 import org.dspace.content.Collection;
 import org.dspace.content.Community;
 import org.dspace.content.Item;
@@ -17,6 +19,8 @@ import org.dspace.content.Item;
  */
 public abstract class MWLockerProviderImpl implements MWLockerProvider
 {
+    public abstract MWLocker getBundleLocker();
+    public abstract MWLocker getBitstreamLocker();
     public abstract MWLocker getItemLocker();
     public abstract MWLocker getCollectionLocker();
     public abstract MWLocker getCommunityLocker();
@@ -35,6 +39,14 @@ public abstract class MWLockerProviderImpl implements MWLockerProvider
         else if (clasz.equals(Item.class))
         {
             return getItemLocker();
+        }
+        else if(clasz.equals(Bundle.class))
+        {
+            return getBundleLocker();
+        }
+        else if(clasz.equals(Bitstream.class))
+        {
+            return getBitstreamLocker();
         }
         else
         {

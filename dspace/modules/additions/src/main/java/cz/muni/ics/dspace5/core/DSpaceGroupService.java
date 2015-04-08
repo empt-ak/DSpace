@@ -66,4 +66,10 @@ public interface DSpaceGroupService
      *                                  String.
      */
     Group getGroupByName(String groupName) throws IllegalArgumentException;
+    
+    /**
+     * Method returns anonymous group created by default DSpace setup process.
+     * @return anonymous group.
+     */
+    Group getAnonymousGroup();
 }

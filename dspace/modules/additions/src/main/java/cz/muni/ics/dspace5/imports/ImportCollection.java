@@ -9,7 +9,6 @@ import cz.muni.ics.dspace5.core.ObjectWrapper;
 import cz.muni.ics.dspace5.core.post.CollectionPostProcessor;
 import cz.muni.ics.dspace5.impl.InputArguments;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.apache.log4j.Logger;
@@ -45,7 +44,7 @@ public class ImportCollection
         
         if(workingCollection != null)
         {
-            List<Metadatum> metadata = collectionPostProcessor.processMetadata(objectWrapper, parents, null);
+            List<Metadatum> metadata = collectionPostProcessor.processMetadata(objectWrapper, parents, dataMap);
             
             for(Metadatum m : metadata)
             {
@@ -58,7 +57,7 @@ public class ImportCollection
                 workingCollection.addMetadata(m.schema, m.element, m.qualifier, m.language, m.value);
             }
             
-            collectionPostProcessor.processCollection(objectWrapper, workingCollection, parents, null);
+            collectionPostProcessor.processCollection(objectWrapper, workingCollection, parents, dataMap);
             
             importTools.saveAndCommit(workingCollection);
             
@@ -66,12 +65,9 @@ public class ImportCollection
             {
                 for(ObjectWrapper article : objectWrapper.getChildren())
                 {
-                    List<ObjectWrapper> newParents = new ArrayList<>();
-                    newParents.addAll(parents);
                     objectWrapper.setObject(workingCollection);
-                    newParents.add(objectWrapper);
                     
-                    importItem.importToDspace(article, newParents, null);
+                    importItem.importToDspace(article, importTools.createParentBranch(objectWrapper, parents), dataMap);
                 }
             }
             

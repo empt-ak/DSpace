@@ -13,14 +13,15 @@ import cz.muni.ics.dspace5.core.ObjectMapper;
 import cz.muni.ics.dspace5.core.ObjectWrapper;
 import cz.muni.ics.dspace5.core.post.CollectionPostProcessor;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
+import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.impl.MetadataWrapper;
+import cz.muni.ics.dspace5.movingwall.MovingWallService;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
@@ -33,6 +34,8 @@ import org.dspace.content.ItemIterator;
 import org.dspace.content.Metadatum;
 import org.dspace.handle.HandleManager;
 import org.dspace.services.ConfigurationService;
+import org.joda.time.DateTime;
+import org.joda.time.Months;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -58,6 +61,8 @@ public class CollectionPostProcessorImpl implements CollectionPostProcessor
     private ConfigurationService configurationService;
     @Autowired
     private ContextWrapper contextWrapper;
+    @Autowired
+    private DSpaceTools dSpaceTools;
     
     @Override
     public List<Metadatum> processMetadata(ObjectWrapper objectWrapper, List<ObjectWrapper> parents, Map<String,Object> dataMap) throws IllegalArgumentException
@@ -152,20 +157,37 @@ public class CollectionPostProcessorImpl implements CollectionPostProcessor
 
             if(issue != null)
             {
-                if(issue.getPublYear() != null && !StringUtils.isEmpty(issue.getPublYear()))
+                DateTime publDate;
+                if(issue.getPublicationDate() != null && !issue.getPublicationDate().isEmpty())
                 {
-                    if(dataMap == null)
-                    {
-                        dataMap = new HashMap<>();
-                    }
-                   
-                    dataMap.put("publYear", issue.getPublYear());
-                    if(!StringUtils.isEmpty(issue.getEmbargoEndDate()))
-                    {
-                        dataMap.put("embargoEndDate", issue.getEmbargoEndDate());
-                    }
-                    
+                    publDate = dSpaceTools.parseDate(issue.getPublicationDate());
+                    dSpaceTools.createDataMap(MovingWallService.PUBLICATION_DATE, publDate, dataMap, false);
                 }
+                else
+                {
+                    // if year is set @getPublYear then it is autoset to YEAR-12-31
+                    // or 1900-12-31 if no date is set
+                    publDate = dSpaceTools.parseDate(issue.getPublYear());
+                    dSpaceTools.createDataMap(MovingWallService.PUBLICATION_DATE, publDate, dataMap, false);
+                }
+                
+                if(issue.getEmbargoEndDate() != null && !issue.getEmbargoEndDate().isEmpty())
+                {
+                    dSpaceTools.createDataMap(MovingWallService.END_DATE, dSpaceTools.parseDate(issue.getEmbargoEndDate()), dataMap, false);
+                }
+                else
+                {
+                    if(dataMap.containsKey(MovingWallService.MOVING_WALL))
+                    {
+                        DateTime endDate = publDate.plus(Months.months(Integer.parseInt((String) dataMap.get(MovingWallService.MOVING_WALL))));
+                        dSpaceTools.createDataMap(MovingWallService.END_DATE, endDate, dataMap, false);
+                    }
+                    else
+                    {
+                        logger.debug("No moving wall is stored in dataMap. Assuming there is no movingWall for this branch.");
+                    }
+                }
+                
                 if(!StringUtils.isEmpty(issue.getLinkToReal()))
                 {
                     String realHandle = handleService.getHandleForPath(Paths

@@ -8,7 +8,6 @@ package cz.muni.ics.dspace5.imports;
 import cz.muni.ics.dspace5.core.ObjectWrapper;
 import cz.muni.ics.dspace5.core.post.ItemPostProcessor;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
-import cz.muni.ics.dspace5.movingwall.MovingWallService;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -40,8 +39,6 @@ public class ImportItem
     private ImportTools importTools;
     @Autowired
     private ContextWrapper contextWrapper;
-    @Autowired
-    private MovingWallService movingWallService;
      
     public Item importToDspace(ObjectWrapper objectWrapper, List<ObjectWrapper> parents, Map<String,Object> dataMap)
     {
@@ -50,7 +47,7 @@ public class ImportItem
         if(workingItem != null)
         {
             logger.info("Processing metadata for handle:"+objectWrapper.getHandle()+" @path:- "+objectWrapper.getPath());
-            List<Metadatum> metadata = itemPostProcessor.processMetadata(objectWrapper, parents, null);
+            List<Metadatum> metadata = itemPostProcessor.processMetadata(objectWrapper, parents, dataMap);
             
             logger.info("Clearing metadata.");
             for(Metadatum m : metadata)
@@ -64,7 +61,7 @@ public class ImportItem
                 workingItem.addMetadata(m.schema, m.element, m.qualifier, m.language, m.value);
             }
             
-            itemPostProcessor.processItem(objectWrapper, workingItem, parents, null);
+            itemPostProcessor.processItem(objectWrapper, workingItem, parents, dataMap);
                         
             importTools.saveAndCommit(workingItem);
             

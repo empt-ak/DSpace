@@ -187,9 +187,14 @@ public class ItemPostProcessorImpl implements ItemPostProcessor
                     pdfBitstream.setFormat(BitstreamFormat.findByMIMEType(contextWrapper.getContext(), "application/pdf"));
                     pdfBitstream.update();
                     
-                    // TODO
-                    // here is a issue. Imported pdf is not extracted immediately but
-                    // e.g. every midnight therefore 2nd bitstream for "Full-text" does not exist yet    
+                    try
+                    {
+                        movingWallService.lock(pdfBitstream, dataMap);
+                    }
+                    catch(MovingWallException mwe)
+                    {
+                        logger.fatal(mwe.getMessage());
+                    }
                 }
                 catch(IOException | AuthorizeException | SQLException ex)
                 {
@@ -201,14 +206,13 @@ public class ItemPostProcessorImpl implements ItemPostProcessor
                 //TODO
             }
         }
-        
-        try
-        {
-            movingWallService.lock(item, dataMap);
-        }
-        catch(MovingWallException mwe)
-        {
-            logger.error(mwe.getMessage());
-        }
+//        try
+//        {
+//            movingWallService.unlock(item, dataMap);
+//        }
+//        catch(MovingWallException mwe)
+//        {
+//            logger.error(mwe.getMessage());
+//        }
     }    
 }

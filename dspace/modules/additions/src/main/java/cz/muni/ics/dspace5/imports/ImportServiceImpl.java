@@ -14,6 +14,8 @@ import cz.muni.ics.dspace5.impl.InputArguments;
 import cz.muni.ics.dspace5.impl.ObjectWrapperFactory;
 import java.nio.file.Path;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import org.apache.commons.cli.ParseException;
 import org.apache.log4j.Logger;
 import org.dspace.authorize.AuthorizeException;
@@ -81,7 +83,7 @@ public class ImportServiceImpl implements ImportService
             
 //            try
 //            {
-                importCommunity.importToDspace(realImport, null, null);
+                importCommunity.importToDspace(realImport, new ArrayList<ObjectWrapper>(), new HashMap<String, Object>());
 //            }
 //            catch(Exception e)
 //            {

@@ -122,4 +122,10 @@ public class DSpaceGroupServiceImpl implements DSpaceGroupService
             }            
         }
     }
+
+    @Override
+    public Group getAnonymousGroup()
+    {
+        return getGroupByName(builtInGroupNames[0]);
+    }
 }

@@ -12,7 +12,6 @@ import cz.muni.ics.dspace5.core.post.CommunityPostProcessor;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.InputArguments;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.apache.log4j.Logger;
@@ -56,6 +55,7 @@ public class ImportCommunity
      * @param objectWrapper target object wrapping required values which are
      *                      converted into community
      * @param parents
+     * @param dataMap
      *
      * @return created Community stored by this method
      */
@@ -84,7 +84,7 @@ public class ImportCommunity
         }
         else
         {
-            List<Metadatum> metadata = communityPostProcessor.processMetadata(objectWrapper, parents, null);
+            List<Metadatum> metadata = communityPostProcessor.processMetadata(objectWrapper, parents, dataMap);
             
             //values have to be cleared first because there may be multiple values
             // e.g. dc.title.alternative
@@ -99,7 +99,7 @@ public class ImportCommunity
                 workingCommunity.addMetadata(m.schema, m.element, m.qualifier, m.language, m.value);
             }
             
-            communityPostProcessor.processCommunity(objectWrapper, workingCommunity, parents, null);
+            communityPostProcessor.processCommunity(objectWrapper, workingCommunity, parents, dataMap);
             
             importTools.saveAndCommit(workingCommunity);
             
@@ -109,30 +109,18 @@ public class ImportCommunity
                 {
                     for(ObjectWrapper issue : objectWrapper.getChildren())
                     {
-                        List<ObjectWrapper> newParents = new ArrayList<>();
-                        if(parents != null)
-                        {
-                            newParents.addAll(parents);
-                        }
                         objectWrapper.setObject(workingCommunity);
-                        newParents.add(objectWrapper);
                         
-                        importCollection.importToDspace(issue, newParents, null);
+                        importCollection.importToDspace(issue, importTools.createParentBranch(objectWrapper, parents), dataMap);
                     }                    
                 }
                 else
                 {
                     for(ObjectWrapper subComm : objectWrapper.getChildren())
                     {
-                        List<ObjectWrapper> newParents = new ArrayList<>();
-                        if(parents != null)
-                        {
-                            newParents.addAll(parents);
-                        }
                         objectWrapper.setObject(workingCommunity);
-                        newParents.add(objectWrapper);
                         
-                        importToDspace(subComm, newParents, null);
+                        importToDspace(subComm, importTools.createParentBranch(objectWrapper, parents), dataMap);
                     } 
                 }
             }

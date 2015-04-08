@@ -15,6 +15,10 @@ import org.dspace.content.DSpaceObject;
  */
 public interface MovingWallService
 {
+    public static final String PUBLICATION_DATE = "embargoPublicationDate";
+    public static final String END_DATE = "embargoEndDate";
+    public static final String MOVING_WALL = "embargoMovingWall";
+    
     void execute(String[] args);
     
     void lock(DSpaceObject dSpaceObject, Map<String,Object> dataMap) throws IllegalArgumentException, MovingWallException;

@@ -20,11 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import org.apache.log4j.Logger;
-import org.dspace.services.ConfigurationService;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -32,13 +30,9 @@ import org.springframework.stereotype.Component;
  * @author Dominik Szalai - emptulik at gmail.com
  */
 @Component
-public class DSpaceTools
+public class DSpaceTools extends AbstractTools
 {
-
     private static final Logger logger = Logger.getLogger(DSpaceTools.class);
-    @Autowired
-    private ConfigurationService configurationService;
-
     private final List<DateTimeFormatter> knownDateFormats = new ArrayList<>();
 
     @PostConstruct
@@ -47,6 +41,7 @@ public class DSpaceTools
         knownDateFormats.add(DateTimeFormat.forPattern("yyyy-MM-dd"));
         knownDateFormats.add(DateTimeFormat.forPattern("yyyy-MM"));
         knownDateFormats.add(DateTimeFormat.forPattern("yyyy"));
+        logger.info("@PostConstruct:- knownDateFormats initialized.");
     }
 
     /**
@@ -290,7 +285,7 @@ public class DSpaceTools
             }
             catch (IllegalArgumentException pe)
             {
-
+                logger.trace(pe);
             }
         }
 

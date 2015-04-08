@@ -9,6 +9,8 @@ import cz.muni.ics.dspace5.exceptions.MovingWallException;
 import cz.muni.ics.dspace5.movingwall.MWLockerProvider;
 import cz.muni.ics.dspace5.movingwall.MovingWallService;
 import java.util.Map;
+import org.dspace.content.Bitstream;
+import org.dspace.content.Bundle;
 import org.dspace.content.Collection;
 import org.dspace.content.Community;
 import org.dspace.content.DSpaceObject;
@@ -38,6 +40,12 @@ public class MovingWallServiceImpl implements MovingWallService
     {
         switch(dSpaceObject.getType())
         {
+            case Constants.BUNDLE:
+                mWLockerProvider.getLocker(Bundle.class).lockObject(dSpaceObject, dataMap);
+                break;
+            case Constants.BITSTREAM:
+                mWLockerProvider.getLocker(Bitstream.class).lockObject(dSpaceObject, dataMap);
+                break;
             case Constants.ITEM:
                 mWLockerProvider.getLocker(Item.class).lockObject(dSpaceObject, dataMap);
                 break;
@@ -57,6 +65,12 @@ public class MovingWallServiceImpl implements MovingWallService
     {
         switch(dSpaceObject.getType())
         {
+            case Constants.BUNDLE:
+                mWLockerProvider.getLocker(Bundle.class).unlockObject(dSpaceObject, dataMap);
+                break;
+            case Constants.BITSTREAM:
+                mWLockerProvider.getLocker(Bitstream.class).unlockObject(dSpaceObject, dataMap);
+                break;
             case Constants.ITEM:
                 mWLockerProvider.getLocker(Item.class).unlockObject(dSpaceObject, dataMap);
                 break;

@@ -227,6 +227,11 @@
     />
     
     <bean
+        id="bitstreamLocker"
+        class="cz.muni.ics.digilib.services.impl.movingwall.BitstreamMWLocker"
+    />
+    
+    <bean
         id="mwLockerProvider"
         class="cz.muni.ics.digilib.services.impl.movingwall.MWLockerProviderImpl"
     >
@@ -242,5 +247,10 @@
             name="getCommunityLocker"
             bean="communityLocker"
         />
+        <lookup-method
+            name="getBitstreamLocker"
+            bean="bitstreamLocker"
+        />
+        <!-- bundle is missing -->
     </bean>
 </beans>

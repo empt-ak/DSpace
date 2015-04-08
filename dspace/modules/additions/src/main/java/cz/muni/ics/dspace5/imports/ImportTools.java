@@ -5,8 +5,7 @@
  */
 package cz.muni.ics.dspace5.imports;
 
-import cz.muni.ics.dspace5.impl.ContextWrapper;
-import cz.muni.ics.dspace5.impl.InputArguments;
+import cz.muni.ics.dspace5.impl.AbstractTools;
 import java.sql.SQLException;
 import org.apache.log4j.Logger;
 import org.dspace.authorize.AuthorizeException;
@@ -14,7 +13,6 @@ import org.dspace.content.Collection;
 import org.dspace.content.Community;
 import org.dspace.content.Item;
 import org.dspace.core.Context;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -22,13 +20,8 @@ import org.springframework.stereotype.Component;
  * @author Dominik Szalai - emptulik at gmail.com
  */
 @Component
-public class ImportTools
+public class ImportTools extends AbstractTools
 {
-
-    @Autowired
-    private InputArguments inputArguments;
-    @Autowired
-    private ContextWrapper contextWrapper;
     private static final Logger logger = Logger.getLogger(ImportTools.class);
 
     /**
@@ -84,7 +77,6 @@ public class ImportTools
      * then calling {@link Item#decache() } is required.
      *
      * @param item
-     * @param context
      */
     public void saveAndCommit(Item item)
     {

@@ -6,27 +6,21 @@
 package cz.muni.ics.digilib.services.impl.movingwall;
 
 import cz.muni.ics.dspace5.exceptions.MovingWallException;
-import cz.muni.ics.dspace5.movingwall.MWLocker;
 import java.util.Map;
+import org.apache.log4j.Logger;
 import org.dspace.content.DSpaceObject;
 
 /**
  *
  * @author Dominik Szalai - emptulik at gmail.com
  */
-public class CommunityMWLocker implements MWLocker
+public class CommunityMWLocker extends AbstractLocker
 {
+    private static final Logger logger = Logger.getLogger(CommunityMWLocker.class);
 
     @Override
     public void lockObject(DSpaceObject dSpaceObject, Map<String, Object> dataMap) throws IllegalArgumentException, MovingWallException
     {
         throw new UnsupportedOperationException("Not supported yet."); //TODO
     }
-
-    @Override
-    public void unlockObject(DSpaceObject dSpaceObject, Map<String, Object> dataMap) throws IllegalArgumentException, MovingWallException
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //TODO
-    }
-    
 }

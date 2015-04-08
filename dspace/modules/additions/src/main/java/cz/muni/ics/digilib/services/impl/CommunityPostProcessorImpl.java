@@ -13,8 +13,10 @@ import cz.muni.ics.dspace5.core.MetadatumFactory;
 import cz.muni.ics.dspace5.core.ObjectMapper;
 import cz.muni.ics.dspace5.core.ObjectWrapper;
 import cz.muni.ics.dspace5.core.post.CommunityPostProcessor;
+import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.impl.MetadataWrapper;
 import cz.muni.ics.dspace5.impl.io.FolderProvider;
+import cz.muni.ics.dspace5.movingwall.MovingWallService;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -52,6 +54,8 @@ public class CommunityPostProcessorImpl implements CommunityPostProcessor
     private FolderProvider folderProvider;
     @Autowired
     private ComparatorFactory comparatorFactory;
+    @Autowired
+    private DSpaceTools dSpaceTools;
 
     @Override
     public List<Metadatum> processMetadata(ObjectWrapper objectWrapper, List<ObjectWrapper> parents, Map<String,Object> dataMap) throws IllegalArgumentException
@@ -175,6 +179,24 @@ public class CommunityPostProcessorImpl implements CommunityPostProcessor
             catch (IllegalArgumentException iax)
             {
                 logger.info("For handle@" + objectWrapper.getHandle() + iax.getMessage());
+            }
+        }
+        
+        //TODO better solution
+        if(objectWrapper.getLevel().equals(ObjectWrapper.LEVEL.COM) && objectWrapper.getPath().toString().contains("serial"))
+        {
+            Periodical p = null;
+            try
+            {
+                p = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
+            }
+            catch (FileNotFoundException ex)
+            {
+                logger.error(ex, ex.getCause());
+            }
+            if (p != null)
+            {
+                dSpaceTools.createDataMap(MovingWallService.MOVING_WALL, p.getMovingWall(), dataMap, false);
             }
         }
     }
