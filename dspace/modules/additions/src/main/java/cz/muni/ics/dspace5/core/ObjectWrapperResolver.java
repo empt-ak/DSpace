@@ -11,11 +11,15 @@ package cz.muni.ics.dspace5.core;
  */
 public interface ObjectWrapperResolver
 {
+
     /**
-     * Method resolves given {@code objectWrapper} into full (or partial) tree representing given object structure on filesystem.
+     * Method resolves given {@code objectWrapper} into full (or partial) tree
+     * representing given object structure on filesystem.
+     *
      * @param objectWrapper target point in ME structure
-     * @param mainCall whether we directly called this method, or not.
-     * @return 
+     * @param mainCall      whether we directly called this method, or not.
+     *
+     * @return resolved objectWrapper for given objectwrapper
      */
     ObjectWrapper resolveObjectWrapper(ObjectWrapper objectWrapper, boolean mainCall);
 }

@@ -203,27 +203,11 @@
         class="javax.xml.xpath.XPath"
         factory-bean="xPathFactory"
         factory-method="newXPath"
-    />  
-    
-    <bean
-        id="calendar"
-        class="java.util.Calendar"
-        factory-method="getInstance"
-    />    
-    
-    <bean
-        id="itemLocker"
-        class="cz.muni.ics.digilib.services.impl.movingwall.ItemMWLocker"
-    />
+    /> 
     
     <bean
         id="collectionLocker"
         class="cz.muni.ics.digilib.services.impl.movingwall.CollectionMWLocker"
-    />
-    
-    <bean
-        id="communityLocker"
-        class="cz.muni.ics.digilib.services.impl.movingwall.CommunityMWLocker"
     />
     
     <bean
@@ -235,22 +219,19 @@
         id="mwLockerProvider"
         class="cz.muni.ics.digilib.services.impl.movingwall.MWLockerProviderImpl"
     >
-        <lookup-method
-            name="getItemLocker"
-            bean="itemLocker"
-        />
+        <property name="implementedClasses">
+            <list>
+                <value>org.dspace.content.Bitstream</value>
+                <value>org.dspace.content.Collection</value>
+            </list>
+        </property>
         <lookup-method
             name="getCollectionLocker"
             bean="collectionLocker"
         />
         <lookup-method
-            name="getCommunityLocker"
-            bean="communityLocker"
-        />
-        <lookup-method
             name="getBitstreamLocker"
             bean="bitstreamLocker"
         />
-        <!-- bundle is missing -->
     </bean>
 </beans>

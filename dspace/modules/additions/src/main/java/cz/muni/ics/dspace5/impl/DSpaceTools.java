@@ -32,6 +32,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class DSpaceTools extends AbstractTools
 {
+
     private static final Logger logger = Logger.getLogger(DSpaceTools.class);
     private final List<DateTimeFormatter> knownDateFormats = new ArrayList<>();
 
@@ -123,11 +124,11 @@ public class DSpaceTools extends AbstractTools
      * For given path for example an issue path itself, or article returns
      * issue.
      *
-     * @param p
+     * @param p path to article
      *
-     * @return
+     * @return path to issue if input was an article
      *
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException if path is not a article
      */
     public Path getIssue(Path p) throws IllegalArgumentException
     {
@@ -181,7 +182,8 @@ public class DSpaceTools extends AbstractTools
      * @param path      of file to be calculated
      * @param algorithm used for calculation
      *
-     * @return
+     * @return hash of file for given path with algorithm name provided as
+     *         method arguments
      *
      * @throws IllegalArgumentException
      */

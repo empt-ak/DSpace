@@ -212,8 +212,6 @@ public class CollectionPostProcessorImpl implements CollectionPostProcessor
                             while(ii.hasNext())
                             {
                                 Item next = ii.next();
-                                logger.debug("$next" + next);
-
                                 collection.addItem(next);
                                 logger.info("VIRTUAL:: "+next.getHandle()+" mapped to "+collection.getHandle());
                             }

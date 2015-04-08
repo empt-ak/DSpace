@@ -22,6 +22,6 @@ public class CollectionMWLocker extends AbstractLocker
     public void lockObject(DSpaceObject dSpaceObject, Map<String, Object> dataMap) throws IllegalArgumentException, MovingWallException
     {
         // TODO lock whole book
-        throw new UnsupportedOperationException("Not supported yet."); //TODO
+        logger.error("Operation not supported yet.");
     }
 }

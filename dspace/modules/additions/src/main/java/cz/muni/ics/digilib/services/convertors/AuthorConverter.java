@@ -23,6 +23,8 @@ public class AuthorConverter extends DSpaceDozerConvertor
     @Override
     public Object convert(Object destination, Object source, Class<?> destinationClass, Class<?> sourceClass)
     {
+        logger.trace("dest$"+destination);
+        logger.trace("source$"+source);
         List<Metadatum> resultList = new ArrayList<>();
         if (destination != null)
         {
@@ -34,6 +36,7 @@ public class AuthorConverter extends DSpaceDozerConvertor
         
         for(Author a : authors)
         {
+            logger.trace(a);
             resultList.add(metadatumFactory.createMetadatum(schema, element, qualifier, null, a.getValue()));
         }
         

@@ -32,6 +32,7 @@ import org.dspace.content.BitstreamFormat;
 import org.dspace.content.Bundle;
 import org.dspace.content.Item;
 import org.dspace.content.Metadatum;
+import org.dspace.core.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -43,7 +44,6 @@ import org.springframework.stereotype.Component;
 public class ItemPostProcessorImpl implements ItemPostProcessor
 {
     private static final Logger logger = Logger.getLogger(ItemPostProcessorImpl.class);
-    private static final String ORIGINAL = "ORIGINAL";  // TODO configurable
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
@@ -118,13 +118,15 @@ public class ItemPostProcessorImpl implements ItemPostProcessor
         // referencie, pdf atd, pre dmlcz .matematika a ine
         // @TODO improve by checking dates ?
         
+        dSpaceTools.createDataMap("itemHandle", objectWrapper.getHandle(), dataMap, false);
+        
         Bundle[] oldBundles = null;
         
         try
         {
             // there might be other files like license text
-            // thus we remove only ORIGINAL
-            oldBundles = item.getBundles(ORIGINAL);
+            // thus we remove only DEFAULT
+            oldBundles = item.getBundles(Constants.DEFAULT_BUNDLE_NAME);
         }
         catch(SQLException ex)
         {
@@ -149,7 +151,7 @@ public class ItemPostProcessorImpl implements ItemPostProcessor
         Bundle bundle = null;
         try
         {
-            bundle = item.createBundle(ORIGINAL);
+            bundle = item.createBundle(Constants.DEFAULT_BUNDLE_NAME);
         }
         catch(SQLException | AuthorizeException ex)
         {

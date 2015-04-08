@@ -43,9 +43,17 @@ public class BitstreamMWLocker extends AbstractLocker
                 
                 if(currentPolicies.isEmpty())
                 {
-                    
-                    logger.info("there are no policies. Creating new");
-                    ResourcePolicy rp = AuthorizeManager.createOrModifyPolicy(null, contextWrapper.getContext(), "embargoname", anonGroup.getID(), null, embargoEnd.toDate(), Constants.READ, "embargoryson", dSpaceObject);
+                    logger.info("There are no policies. Creating new");
+                    ResourcePolicy rp = AuthorizeManager.createOrModifyPolicy(null, 
+                            contextWrapper.getContext(), 
+                            "embargoname", 
+                            anonGroup.getID(), 
+                            null, 
+                            embargoEnd.toDate(), 
+                            Constants.READ, 
+                            "embargoryson", 
+                            dSpaceObject
+                    );
                 
                     rp.update(); 
                 }
@@ -56,6 +64,9 @@ public class BitstreamMWLocker extends AbstractLocker
                         logger.debug("Resource policy ID:- "+rp.getID()+" for group ID:- "+rp.getGroupID());
                         if(rp.getGroupID() == anonGroup.getID())
                         {
+                            // we set restriction only to anonymous user, other users
+                            // cant log in anyway.
+                            
                             logger.info("Setting restriction access until "+embargoEnd.toString());
                             if(dataMap.containsKey("itemHandle"))
                             {

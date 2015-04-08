@@ -27,10 +27,10 @@ public class IssuePathComparator implements Comparator<Path>
      * last dash is issue number. So 3 files represent issues <b>1,3,2</b>, or
      * <b>1,2,3</b> in ordered form.
      *
-     * @param o1
-     * @param o2
+     * @param o1 first issue
+     * @param o2 second issue
      *
-     * @return
+     * @return +1 or -1 according to issue order.
      */
     @Override
     public int compare(Path o1, Path o2)

@@ -10,6 +10,7 @@ import cz.muni.ics.dspace5.exceptions.MovingWallException;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.movingwall.MWLocker;
+import cz.muni.ics.dspace5.movingwall.MovingWallService;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
@@ -20,6 +21,7 @@ import org.dspace.authorize.AuthorizeManager;
 import org.dspace.authorize.ResourcePolicy;
 import org.dspace.content.DSpaceObject;
 import org.dspace.eperson.Group;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -52,23 +54,23 @@ public abstract class AbstractLocker implements MWLocker
             {
                 Group anon = dSpaceGroupService.getAnonymousGroup();
                 
-                for(ResourcePolicy rp : policies)
+                if(dataMap != null && dataMap.isEmpty() && !dataMap.isEmpty() && dataMap.containsKey(MovingWallService.END_DATE))
                 {
-                    if(rp.getGroupID() == anon.getID())
+                    DateTime embargoEnd = (DateTime) dataMap.get(MovingWallService.END_DATE);
+                    
+                    if(embargoEnd.isAfter(DateTime.now()))
                     {
-                        rp.setEndDate(null);
-                        rp.setStartDate(null);
-                        
-                        try
-                        {
-                            rp.update();
-                        }
-                        catch(AuthorizeException ex)
-                        {
-                            logger.error(ex);
-                        }                        
+                        removeRestrictions(policies, anon);
+                    }
+                    else
+                    {
+                        logger.error("Unable to remove restrictions because END_DATE is not greater than actual time.");
                     }
                 }
+                else
+                {
+                    removeRestrictions(policies, anon);
+                }           
             }
         }
         catch (SQLException ex)
@@ -98,5 +100,32 @@ public abstract class AbstractLocker implements MWLocker
         }
 
         return Collections.emptyList();
+    }
+    
+    /**
+     * Method removes restriction for given list of policies for anonymousGroup.
+     * @param policies list of policies
+     * @param anonymousGroup anonymous group we work with
+     * @throws SQLException if any error occurs
+     */
+    private void removeRestrictions(List<ResourcePolicy> policies, Group anonymousGroup) throws SQLException
+    {
+        for(ResourcePolicy rp : policies)
+        {
+            if(rp.getGroupID() == anonymousGroup.getID())
+            {
+                rp.setEndDate(null);
+                rp.setStartDate(null);
+
+                try
+                {
+                    rp.update();
+                }
+                catch(AuthorizeException ex)
+                {
+                    logger.error(ex);
+                }                        
+            }
+        }
     }
 }

@@ -7,11 +7,11 @@ package cz.muni.ics.digilib.services.impl.movingwall;
 
 import cz.muni.ics.dspace5.movingwall.MWLocker;
 import cz.muni.ics.dspace5.movingwall.MWLockerProvider;
+import java.util.Arrays;
+import java.util.List;
 import org.dspace.content.Bitstream;
-import org.dspace.content.Bundle;
 import org.dspace.content.Collection;
-import org.dspace.content.Community;
-import org.dspace.content.Item;
+import org.dspace.content.DSpaceObject;
 
 /**
  *
@@ -19,30 +19,22 @@ import org.dspace.content.Item;
  */
 public abstract class MWLockerProviderImpl implements MWLockerProvider
 {
-    public abstract MWLocker getBundleLocker();
     public abstract MWLocker getBitstreamLocker();
-    public abstract MWLocker getItemLocker();
     public abstract MWLocker getCollectionLocker();
-    public abstract MWLocker getCommunityLocker();
+    
+    private List<Class<? extends DSpaceObject>> implementedClasses = Arrays.asList(Bitstream.class,Collection.class);
+
+    public void setImplementedClasses(List<Class<? extends DSpaceObject>> implementedClasses)
+    {
+        this.implementedClasses = implementedClasses;
+    }
     
     @Override
-    public MWLocker getLocker(Class clasz) throws IllegalArgumentException
+    public MWLocker getLocker(Class<? extends DSpaceObject> clasz) throws UnsupportedOperationException
     {
         if(clasz.equals(Collection.class))
         {
             return getCollectionLocker();
-        }
-        else if(clasz.equals(Community.class))
-        {
-            return getCommunityLocker();
-        }
-        else if (clasz.equals(Item.class))
-        {
-            return getItemLocker();
-        }
-        else if(clasz.equals(Bundle.class))
-        {
-            return getBundleLocker();
         }
         else if(clasz.equals(Bitstream.class))
         {
@@ -50,7 +42,13 @@ public abstract class MWLockerProviderImpl implements MWLockerProvider
         }
         else
         {
-            throw new IllegalArgumentException("Given class ["+clasz+" is not supported.");
+            throw new UnsupportedOperationException("Given class ["+clasz+" is not supported.");
         }
     }    
+
+    @Override
+    public boolean isImplemented(Class<? extends DSpaceObject> clasz)
+    {
+        return implementedClasses.contains(clasz);
+    }
 }

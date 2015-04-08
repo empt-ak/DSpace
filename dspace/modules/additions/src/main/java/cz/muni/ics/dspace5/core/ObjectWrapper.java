@@ -61,8 +61,7 @@ public interface ObjectWrapper extends Comparable<ObjectWrapper>
     /**
      * Method adds children to this wrapper.
      *
-     * @param children children of this object. If
-     *                 {@link ImportConfig#importMode} is set to <b>single</b>
+     * @param children children of this object. If importmode is set to <b>single</b>
      * then children may be null. Otherwise list of children is required, if
      * they exists.
      */
