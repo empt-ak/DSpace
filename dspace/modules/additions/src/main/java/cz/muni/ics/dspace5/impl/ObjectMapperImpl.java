@@ -5,7 +5,7 @@
  */
 package cz.muni.ics.dspace5.impl;
 
-import cz.muni.ics.dspace5.core.ObjectMapper;
+import cz.muni.ics.dspace5.api.ObjectMapper;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;

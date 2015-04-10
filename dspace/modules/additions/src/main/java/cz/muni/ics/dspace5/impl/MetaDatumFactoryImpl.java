@@ -5,7 +5,7 @@
  */
 package cz.muni.ics.dspace5.impl;
 
-import cz.muni.ics.dspace5.core.MetadatumFactory;
+import cz.muni.ics.dspace5.api.MetadatumFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.dspace.content.Metadatum;

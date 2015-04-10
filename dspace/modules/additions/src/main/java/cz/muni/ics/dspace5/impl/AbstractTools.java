@@ -5,7 +5,7 @@
  */
 package cz.muni.ics.dspace5.impl;
 
-import cz.muni.ics.dspace5.core.ObjectWrapper;
+import cz.muni.ics.dspace5.api.ObjectWrapper;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

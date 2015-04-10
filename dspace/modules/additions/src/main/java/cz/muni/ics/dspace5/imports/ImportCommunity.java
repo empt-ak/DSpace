@@ -5,10 +5,10 @@
  */
 package cz.muni.ics.dspace5.imports;
 
-import cz.muni.ics.dspace5.core.HandleService;
-import cz.muni.ics.dspace5.core.ObjectWrapper;
-import cz.muni.ics.dspace5.core.ObjectWrapper.LEVEL;
-import cz.muni.ics.dspace5.core.post.CommunityPostProcessor;
+import cz.muni.ics.dspace5.api.HandleService;
+import cz.muni.ics.dspace5.api.ObjectWrapper;
+import cz.muni.ics.dspace5.api.ObjectWrapper.LEVEL;
+import cz.muni.ics.dspace5.api.post.CommunityPostProcessor;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.InputArguments;
 import java.sql.SQLException;

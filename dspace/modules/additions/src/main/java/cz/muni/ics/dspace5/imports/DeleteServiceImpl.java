@@ -5,9 +5,9 @@
  */
 package cz.muni.ics.dspace5.imports;
 
-import cz.muni.ics.dspace5.core.CommandLineService;
-import cz.muni.ics.dspace5.core.DeleteService;
-import cz.muni.ics.dspace5.core.HandleService;
+import cz.muni.ics.dspace5.api.CommandLineService;
+import cz.muni.ics.dspace5.api.DeleteService;
+import cz.muni.ics.dspace5.api.HandleService;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.InputArguments;
 import java.io.IOException;

@@ -5,7 +5,7 @@
  */
 package cz.muni.ics.dspace5.impl.io;
 
-import cz.muni.ics.dspace5.core.CommandLine;
+import cz.muni.ics.dspace5.api.CommandLine;
 import cz.muni.ics.dspace5.impl.InputArguments;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.HelpFormatter;

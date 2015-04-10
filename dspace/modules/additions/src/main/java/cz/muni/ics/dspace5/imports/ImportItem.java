@@ -5,8 +5,8 @@
  */
 package cz.muni.ics.dspace5.imports;
 
-import cz.muni.ics.dspace5.core.ObjectWrapper;
-import cz.muni.ics.dspace5.core.post.ItemPostProcessor;
+import cz.muni.ics.dspace5.api.ObjectWrapper;
+import cz.muni.ics.dspace5.api.post.ItemPostProcessor;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import java.io.IOException;
 import java.sql.SQLException;

@@ -5,10 +5,10 @@
  */
 package cz.muni.ics.dspace5.imports;
 
-import cz.muni.ics.dspace5.core.CommandLineService;
-import cz.muni.ics.dspace5.core.ImportService;
-import cz.muni.ics.dspace5.core.ObjectWrapper;
-import cz.muni.ics.dspace5.core.ObjectWrapperResolverFactory;
+import cz.muni.ics.dspace5.api.CommandLineService;
+import cz.muni.ics.dspace5.api.ImportService;
+import cz.muni.ics.dspace5.api.ObjectWrapper;
+import cz.muni.ics.dspace5.api.ObjectWrapperResolverFactory;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.InputArguments;
 import cz.muni.ics.dspace5.impl.ObjectWrapperFactory;

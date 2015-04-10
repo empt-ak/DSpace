@@ -5,7 +5,7 @@
  */
 package cz.muni.ics.dspace5;
 
-import cz.muni.ics.dspace5.core.DeleteService;
+import cz.muni.ics.dspace5.api.DeleteService;
 import cz.muni.ics.dspace5.impl.DSpaceWrapper;
 
 /**

@@ -36,6 +36,39 @@
     />
     
     <bean
+        id="commandLineService"
+        class="cz.muni.ics.digilib.services.io.CommandLineServiceImpl"
+    >
+        <lookup-method
+            name="getDeleteCommandLine"
+            bean="deleteCommandLine"
+        />
+        <lookup-method
+            name="getImportCommandLine"
+            bean="importCommandLine"
+        />
+        <lookup-method
+            name="getMovingWallCommandLine"
+            bean="movingWallCommandLine"
+        />
+    </bean>
+    
+    <bean
+        id="deleteCommandLine"
+        class="cz.muni.ics.digilib.services.io.DeleteCommandLine"
+    />
+    
+    <bean
+        id="importCommandLine"
+        class="cz.muni.ics.digilib.services.io.InputCommandLine"
+    />
+    
+    <bean
+        id="movingWallCommandLine"
+        class="cz.muni.ics.digilib.services.io.MovingWallCommandLine"
+    />
+    
+    <bean
         id="jaxbc"
         class="javax.xml.bind.JAXBContext"
         factory-method="newInstance"
@@ -67,7 +100,7 @@
     
     <bean
         id="objectWrapper"
-        class="cz.muni.ics.dspace5.impl.ObjectWrapperImpl"
+        class="cz.muni.ics.digilib.ObjectWrapperImpl"
         scope="prototype"
     />
     
@@ -157,17 +190,17 @@
     
     <bean
         id="monographResolver"
-        class="cz.muni.ics.digilib.services.impl.MonographResolver"
+        class="cz.muni.ics.digilib.services.io.MonographResolver"
     />
     
     <bean 
         id="serialResolver"
-        class="cz.muni.ics.digilib.services.impl.SerialResolver"
+        class="cz.muni.ics.digilib.services.io.SerialResolver"
     />
     
     <bean
         id="objectWrapperResolverFactory"
-        class="cz.muni.ics.digilib.services.impl.ObjectWrapperResolverFactoryImpl"
+        class="cz.muni.ics.digilib.services.io.ObjectWrapperResolverFactoryImpl"
     >
         <lookup-method
             name="provideMonographyResolver"
@@ -207,17 +240,17 @@
     
     <bean
         id="collectionLocker"
-        class="cz.muni.ics.digilib.services.impl.movingwall.CollectionMWLocker"
+        class="cz.muni.ics.digilib.movingwall.CollectionMWLocker"
     />
     
     <bean
         id="bitstreamLocker"
-        class="cz.muni.ics.digilib.services.impl.movingwall.BitstreamMWLocker"
+        class="cz.muni.ics.digilib.movingwall.BitstreamMWLocker"
     />
     
     <bean
         id="mwLockerProvider"
-        class="cz.muni.ics.digilib.services.impl.movingwall.MWLockerProviderImpl"
+        class="cz.muni.ics.digilib.movingwall.MWLockerProviderImpl"
     >
         <property name="implementedClasses">
             <list>

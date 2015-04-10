@@ -5,7 +5,7 @@
  */
 package cz.muni.ics.dspace5.impl.io;
 
-import cz.muni.ics.dspace5.core.HandleService;
+import cz.muni.ics.dspace5.api.HandleService;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import java.io.IOException;
 import java.nio.file.Files;
