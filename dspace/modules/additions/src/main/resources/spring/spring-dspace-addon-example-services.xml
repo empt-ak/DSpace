@@ -156,19 +156,19 @@
     
     <bean
         id="simpleElementConverter"
-        class="cz.muni.ics.digilib.services.convertors.SimpleElementConverter"
+        class="cz.muni.ics.digilib.convertors.SimpleElementConverter"
         p:metadatumFactory-ref="metadatumFactory"
     />      
             
     <bean
         id="composedElementConverter"
-        class="cz.muni.ics.digilib.services.convertors.ComposedElementConverter"
+        class="cz.muni.ics.digilib.convertors.ComposedElementConverter"
         p:metadatumFactory-ref="metadatumFactory"
     />
     
     <bean 
         id="contributorConverter"
-        class="cz.muni.ics.digilib.services.convertors.ContributorConvertor"
+        class="cz.muni.ics.digilib.convertors.ContributorConvertor"
         p:metadatumFactory-ref="metadatumFactory"
     >
         <property name="allowedRoles">
@@ -184,7 +184,7 @@
     
     <bean
         id="authorConverter"
-        class="cz.muni.ics.digilib.services.convertors.AuthorConverter"
+        class="cz.muni.ics.digilib.convertors.AuthorConverter"
         p:metadatumFactory-ref="metadatumFactory"
     />  
     
