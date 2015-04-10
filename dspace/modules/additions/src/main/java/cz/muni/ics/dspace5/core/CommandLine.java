@@ -5,21 +5,15 @@
  */
 package cz.muni.ics.dspace5.core;
 
-import cz.muni.ics.dspace5.core.CommandLineService.Mode;
 import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 
 /**
  *
  * @author Dominik Szalai - emptulik at gmail.com
  */
-public interface CliOptions
+public interface CommandLine
 {
-    /**
-     * Method returns Apache CLI options for given mode.
-     *
-     * @param mode which decides about output options
-     *
-     * @return options based on {@code mode} value
-     */
-    Options getOptions(Mode mode);
+    Options getOptions();
+    void process(String[] args) throws IllegalArgumentException, ParseException;
 }

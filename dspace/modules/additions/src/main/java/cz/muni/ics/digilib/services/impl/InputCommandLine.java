@@ -3,33 +3,29 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.ics.dspace5.impl.io;
+package cz.muni.ics.digilib.services.impl;
 
-import cz.muni.ics.dspace5.core.CliOptions;
-import cz.muni.ics.dspace5.core.CommandLineService;
+import cz.muni.ics.dspace5.impl.io.AbstractCommandLine;
+import java.nio.file.Paths;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
 
 /**
  *
  * @author Dominik Szalai - emptulik at gmail.com
  */
-@Component
-public class CliOptionsImpl implements CliOptions
+public class InputCommandLine extends AbstractCommandLine
 {
-    private static final long serialVersionUID = 321670609088875116L;
-    private static final Logger logger = Logger.getLogger(CliOptionsImpl.class);        
+    private static final Logger logger = Logger.getLogger(InputCommandLine.class);
 
     @Override
-    public Options getOptions(CommandLineService.Mode mode)
+    public Options getOptions()
     {
         Options options = new Options();
         
-        if(mode.equals(CommandLineService.Mode.IMPORT))
-        {
-            options.addOption(
+        options.addOption(
                 Option.builder("p")
                         .longOpt("path")
                         .argName("path")
@@ -80,40 +76,39 @@ public class CliOptionsImpl implements CliOptions
                                 .desc("Flag specifying user executing import. The value is email set when creating the user.")
                                 .build()
             );
-        }
-        else
-        {
-            options.addOption(
-                Option.builder("m")
-                        .longOpt("mode")
-                        .argName("mode")
-                        .hasArg(true)
-                        .type(String.class)                        
-                        .required(true)
-                        .desc("Delete mode can has value either 'handle' or 'path'."
-                                + " If set to handle then -v parameter is expected "
-                                + "to be handle value, otherwise path is expected.")
-                        .build()
-            );
             
-            logger.debug(options.getOption("m"));
-            
-            options.addOption(
-                Option.builder("v")
-                        .longOpt("value")
-                        .argName("value")
-                        .hasArg(true)
-                        .type(String.class)                        
-                        .required(true)
-                        .desc("Delete mode can has value either 'handle' or 'path'."
-                                + " If set to handle then -v parameter is expected "
-                                + "to be handle value, otherwise path is expected.")
-                        .build()
-            );
-            
-            logger.debug(options.getOption("v"));
-        }
+            return options;
+    }
+
+    @Override
+    public void process(String[] args) throws IllegalArgumentException, ParseException
+    {
+        org.apache.commons.cli.CommandLine cmd = getParsedCommandLine(args, getOptions());
         
-        return options;
+        inputArguments.put("path", Paths.get(configurationService.getProperty("meditor.rootbase"),
+                cmd.getOptionValue("p"))
+        );
+
+        String importMode = cmd.getOptionValue("mode", "update");
+        switch(importMode)
+        {
+            case "update":
+                break;
+            case "single":
+                break;
+            default:
+                throw new IllegalArgumentException("Unexpected -m argument. Should be [update/single] but was ["+importMode+"]");
+        }   
+
+        inputArguments.put("mode", importMode);
+
+        inputArguments.put("failOnError", Boolean.parseBoolean(cmd.getOptionValue("foe", "false")));
+
+        if(cmd.hasOption("u"))
+        {
+            inputArguments.put("user",cmd.getOptionValue("u"));
+        }
+
+        inputArguments.dump();
     }
 }

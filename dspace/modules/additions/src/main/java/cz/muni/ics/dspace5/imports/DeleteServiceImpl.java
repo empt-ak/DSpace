@@ -66,7 +66,7 @@ public class DeleteServiceImpl implements DeleteService
 
         try
         {
-            commandLineService.parseInput(args, CommandLineService.Mode.DELETE);
+            commandLineService.getCommandLine("delete").process(args);
         }
         catch (ParseException pe)
         {

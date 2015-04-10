@@ -54,7 +54,7 @@ public class ImportServiceImpl implements ImportService
 
         try
         {
-            commandLineService.parseInput(args, CommandLineService.Mode.IMPORT);
+            commandLineService.getCommandLine("import").process(args);
         }
         catch (ParseException pe)
         {
