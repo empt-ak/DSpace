@@ -60,7 +60,7 @@
     
     <bean
         id="importCommandLine"
-        class="cz.muni.ics.digilib.services.io.InputCommandLine"
+        class="cz.muni.ics.digilib.services.io.ImportCommandLine"
     />
     
     <bean

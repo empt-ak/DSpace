@@ -5,7 +5,6 @@
  */
 package cz.muni.ics.dspace5.imports;
 
-import cz.muni.ics.dspace5.api.HandleService;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
 import cz.muni.ics.dspace5.api.ObjectWrapper.LEVEL;
 import cz.muni.ics.dspace5.api.post.CommunityPostProcessor;
@@ -41,7 +40,7 @@ public class ImportCommunity
     @Autowired
     private ContextWrapper contextWrapper;
     @Autowired
-    private HandleService handleService;
+    private InputArguments inputArguments;
 
     /**
      * Method takes given objectWrapper (which has contain path to target object
@@ -84,22 +83,32 @@ public class ImportCommunity
         }
         else
         {
-            List<Metadatum> metadata = communityPostProcessor.processMetadata(objectWrapper, parents, dataMap);
-            
-            //values have to be cleared first because there may be multiple values
-            // e.g. dc.title.alternative
-            for (Metadatum m : metadata)
+            communityPostProcessor.setup(objectWrapper);
+            if(!inputArguments.containsKey("movingWallOnly"))
             {
-                workingCommunity.clearMetadata(m.schema, m.element, m.qualifier, ANY);
+                List<Metadatum> metadata = communityPostProcessor.processMetadata(parents, dataMap);
+            
+                //values have to be cleared first because there may be multiple values
+                // e.g. dc.title.alternative
+                for (Metadatum m : metadata)
+                {
+                    workingCommunity.clearMetadata(m.schema, m.element, m.qualifier, ANY);
+                }
+
+                for (Metadatum m : metadata)
+                {
+                    logger.info(m.getField()+":- "+m.value);
+                    workingCommunity.addMetadata(m.schema, m.element, m.qualifier, m.language, m.value);
+                }
+            }
+            else
+            {
+                // TODO date modified ? 
             }
             
-            for (Metadatum m : metadata)
-            {
-                logger.info(m.getField()+":- "+m.value);
-                workingCommunity.addMetadata(m.schema, m.element, m.qualifier, m.language, m.value);
-            }
+            communityPostProcessor.processCommunity(workingCommunity, parents, dataMap);    
             
-            communityPostProcessor.processCommunity(objectWrapper, workingCommunity, parents, dataMap);
+            communityPostProcessor.clear();
             
             importTools.saveAndCommit(workingCommunity);
             

@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.PathMatcher;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +25,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class FolderProvider
 {
+
+    private static final String REGEX_ARTICLE = "#[\\d]+";
+    private static final String REGEX_ISSUE = "[\\d]+-\\d{4}-[\\d]+";
 
     private static final Logger logger = Logger.getLogger(FolderProvider.class);
     @Autowired
@@ -62,6 +66,69 @@ public class FolderProvider
         }
 
         return resultList;
+    }
+
+    /**
+     * Method returns list of folders inside given {@code path} folder. All
+     * paths inside given directory are filtered by {@code regex}.
+     *
+     * @param path  root path from which we would like to obtain subfolders
+     * @param regex used for filtering the output
+     *
+     * @return List of folders inside given folder meeting {@code} regex}, empty
+     *         list if there are none.
+     */
+    public List<Path> getFoldersFromPath(Path path, String regex)
+    {
+        final List<Path> resultList = new ArrayList<>();
+        final PathMatcher matcher = path.getFileSystem().getPathMatcher("regex:" + regex);
+
+        try (DirectoryStream<Path> ds = Files.newDirectoryStream(path, new DirectoryStream.Filter<Path>()
+        {
+            @Override
+            public boolean accept(Path entry) throws IOException
+            {
+                return Files.isDirectory(entry) && matcher.matches(entry);
+            }
+        }))
+        {
+            for (Path p : ds)
+            {
+                resultList.add(p);
+            }
+        }
+        catch (IOException ex)
+        {
+            logger.error(ex, ex.getCause());
+        }
+
+        return resultList;
+    }
+
+    /**
+     * Method gets only issues from given root path.
+     *
+     * @param rootPath from which issues are obtained
+     *
+     * @return list of issues from given root folder, empty list if there are
+     *         none.
+     */
+    public List<Path> getFoldersAsIssues(Path rootPath)
+    {
+        return getFoldersFromPath(rootPath, REGEX_ISSUE);
+    }
+
+    /**
+     * Method gets only articles (chapters) from given issuePath.
+     *
+     * @param issuePath from which articles are obtained
+     *
+     * @return list of articles from given issue folder, empty list if there are
+     *         none.
+     */
+    public List<Path> getFoldersAsArticles(Path issuePath)
+    {
+        return getFoldersFromPath(issuePath, REGEX_ARTICLE);
     }
 
     /**

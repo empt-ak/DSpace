@@ -57,68 +57,70 @@ public class ItemPostProcessorImpl implements ItemPostProcessor
     //@TODO set tru spring
     private final String[] pdfFileNames = {"enhanced.pdf", "source-enhanced.pdf", "source.pdf", "item.pdf"};
     
+    private Article article;
+    private MonographyChapter monographyChapter;
+    private ObjectWrapper currentWrapper;
+    
+    
     @Override
-    public List<Metadatum> processMetadata(ObjectWrapper objectWrapper, List<ObjectWrapper> parents, Map<String,Object> dataMap) throws IllegalArgumentException
+    public void setup(ObjectWrapper objectWrapper) throws IllegalStateException, IllegalArgumentException
     {
-        MetadataWrapper metadataWrapper = new MetadataWrapper();
-        
+        // TODO state exceptions
+        this.currentWrapper = objectWrapper;
         if(objectWrapper.getPath().toString().contains("serial"))
         {
-            Article article = null;
             try
             {
-                article = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
+                this.article = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
             }
             catch(FileNotFoundException nfe)
             {
                 logger.error(nfe,nfe.getCause());
-            }
-
-            if(article != null)
-            {
-                mapper.map(article, metadataWrapper);
-            }
-            else
-            {
-                logger.fatal("huehue");
             }
         }
         else if(objectWrapper.getPath().toString().contains("monograph"))
         {
-            MonographyChapter chapter = null;
             try
             {
-                chapter = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
+                this.monographyChapter = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
             }
             catch(FileNotFoundException nfe)
             {
                 logger.error(nfe,nfe.getCause());
-            }
-            if(chapter != null)
-            {
-                mapper.map(chapter,metadataWrapper);
-            }
-            else
-            {
-                logger.fatal("k");
             }
         }
         else
         {
             throw new IllegalArgumentException("Given input is not a valid path. Path should contain [serial/monography] but it did not.");
         }
+    }
+
+    @Override
+    public List<Metadatum> processMetadata(List<ObjectWrapper> parents, Map<String, Object> dataMap) throws IllegalArgumentException, IllegalStateException
+    {
+        MetadataWrapper metadataWrapper = new MetadataWrapper();
         
+        if(article != null)
+        {
+            mapper.map(article, metadataWrapper);
+        }
+        else if(monographyChapter != null)
+        {
+            mapper.map(monographyChapter, metadataWrapper);
+        }
+        else
+        {
+            // TODO
+            throw new IllegalStateException();
+        }
         
         return metadataWrapper.getMetadata();
     }
 
     @Override
-    public void processItem(ObjectWrapper objectWrapper, Item item, List<ObjectWrapper> parents, Map<String,Object> dataMap) throws IllegalArgumentException
+    public void processItem(Item item, List<ObjectWrapper> parents, Map<String, Object> dataMap) throws IllegalStateException, IllegalArgumentException
     {
-        // referencie, pdf atd, pre dmlcz .matematika a ine
-        // @TODO improve by checking dates ?
-        
-        dSpaceTools.createDataMap("itemHandle", objectWrapper.getHandle(), dataMap, false);
+        dSpaceTools.createDataMap("itemHandle", currentWrapper.getHandle(), dataMap, false);
         
         Bundle[] oldBundles = null;
         
@@ -166,7 +168,7 @@ public class ItemPostProcessorImpl implements ItemPostProcessor
             
             for(String pdfFileName : pdfFileNames)
             {
-                Path possiblePath = objectWrapper.getPath().resolve(pdfFileName);
+                Path possiblePath = currentWrapper.getPath().resolve(pdfFileName);
                 if(!Files.exists(possiblePath))
                 {
                     logger.debug("No pdf file found at path "+possiblePath);
@@ -184,7 +186,7 @@ public class ItemPostProcessorImpl implements ItemPostProcessor
                 {
                     pdfBitstream = bundle.createBitstream(bis);
                     
-                    pdfBitstream.setName(dSpaceTools.getNameForPDF(objectWrapper.getPath()));
+                    pdfBitstream.setName(dSpaceTools.getNameForPDF(currentWrapper.getPath()));
                     pdfBitstream.setDescription("Full-text");
                     pdfBitstream.setFormat(BitstreamFormat.findByMIMEType(contextWrapper.getContext(), "application/pdf"));
                     pdfBitstream.update();
@@ -208,13 +210,13 @@ public class ItemPostProcessorImpl implements ItemPostProcessor
                 //TODO
             }
         }
-//        try
-//        {
-//            movingWallService.unlock(item, dataMap);
-//        }
-//        catch(MovingWallException mwe)
-//        {
-//            logger.error(mwe.getMessage());
-//        }
-    }    
+    }
+
+    @Override
+    public void clear()
+    {
+        this.currentWrapper = null;
+        this.monographyChapter = null;
+        this.article = null;
+    }
 }

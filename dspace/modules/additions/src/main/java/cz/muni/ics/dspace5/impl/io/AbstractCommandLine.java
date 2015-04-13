@@ -9,6 +9,7 @@ import cz.muni.ics.dspace5.api.CommandLine;
 import cz.muni.ics.dspace5.impl.InputArguments;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.log4j.Logger;
@@ -43,5 +44,34 @@ public abstract class AbstractCommandLine implements CommandLine
         }
         
         return cmd;
+    }
+    
+    protected Options getBasicOptions()
+    {
+        Options options = new Options();
+        
+        options.addOption(
+            Option.builder("p")
+                    .longOpt("path")
+                    .argName("path")
+                    .hasArg(true)
+                    .type(String.class)                        
+                    .required(true)
+                    .desc("Path to be imported.")
+                    .build()
+        );
+
+        logger.debug(options.getOption("p"));
+        
+        options.addOption(Option.builder("u")
+                            .longOpt("user")
+                            .argName("u")
+                            .hasArg(true)
+                            .type(String.class)
+                            .required(false)
+                            .desc("Flag specifying user executing import. The value is email set when creating the user.")
+                            .build());
+        
+        return options;
     }
 }

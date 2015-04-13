@@ -12,6 +12,23 @@ import org.dspace.content.Item;
 import org.dspace.content.Metadatum;
 
 /**
+ * Class which calls implementation of this interface is strongly dependant on
+ * its execution.
+ * <ul>
+ * <ol>First we call method {@link #setup(cz.muni.ics.dspace5.api.ObjectWrapper)
+ * }. Calling method should recreate given object from {@code objectWrapper} For
+ * example if objectwrapper is isssue then it is converted into issue. If we are
+ * not working with domain model we can convert it into {@link Document} or any
+ * other representation we want. </ol>
+ * <ol>Second step is to retrieve metadata out of already prepared source
+ * object. This is done by calling {@link #processMetadata(cz.muni.ics.dspace5.api.ObjectWrapper, java.util.List, java.util.Map)
+ * }</ol>
+ * <ol>In third step we check if anything else has to be done to already created
+ * object inside DSpace. An example might be setting restrictions to object, or
+ * setting its cover picture.</ol>
+ * <ol>In last fourth step we need to clear the source object we created using {@link #setup(cz.muni.ics.dspace5.api.ObjectWrapper)
+ * } method by calling {@link #clear() } method. </ol>
+ * </ul>
  *
  * @author Dominik Szalai - emptulik at gmail.com
  */
@@ -19,36 +36,56 @@ public interface ItemPostProcessor
 {
 
     /**
-     * Method takes given objectWrapper and processes it into {@code List} of
-     * metadata. The way metadata are processed is matter of implementation.
-     * {@code ObjectWrapper} contains all necessary information such as path,
-     * handle and {@code Meta} object. From path we can recreate given
-     * <b>.xml</b> file.
+     * Method takes given input objectWrapper and should convert it into some
+     * kind of representation which will be used in later processing. The
+     * <b>only required action</b> is to stored this object for further
+     * processing as other method do not require passing this object again.
      *
-     * @param objectWrapper from which we extract metadata
-     * @param parents
-     * @param dataMap
+     * @param objectWrapper to be converted
      *
-     * @return List of metadata from given objectwrapper.
-     *
-     * @throws IllegalArgumentException if objectwrapper is null, or does not
-     *                                  have a path
+     * @throws IllegalStateException    if implementation has been already
+     *                                  setup, or previous run did not call {@link #clear()
+     *                                  }.
+     * @throws IllegalArgumentException if objectWrapper is null, does not have
+     *                                  path or handle, or does not have valid
+     * <b>LEVEL</b>.
      */
-    List<Metadatum> processMetadata(ObjectWrapper objectWrapper, List<ObjectWrapper> parents, Map<String,Object> dataMap) throws IllegalArgumentException;
+    void setup(ObjectWrapper objectWrapper) throws IllegalStateException, IllegalArgumentException;
 
     /**
-     * If anything else need to be done to {@code Item} object, then call this
-     * method. Core functionality for item would be storing Bundles, and handling moving wall.
+     * Method converts already setup object into List of metadata objects. If
+     * required for any reason previous parents and universal dataMap may be
+     * provided.
      *
-     * @param objectWrapper holder for current object to be processed
-     * @param item          to be modified
-     * @param parents
-     * @param dataMap
+     * @param parents previous processed branch for current object
+     * @param dataMap extra storage for additional processing
      *
-     * @throws IllegalArgumentException      if objectWrapper is null or does
-     *                                       not have set path. Also thrown when
-     *                                       community is null.
-     * @throws UnsupportedOperationException if method is not implemented.
+     * @return list of metada object, empty if there are none
+     *
+     * @throws IllegalArgumentException TODO?
+     * @throws IllegalStateException    if {@link #setup(cz.muni.ics.dspace5.api.ObjectWrapper)
+     *                                  } was not called before.
      */
-    void processItem(ObjectWrapper objectWrapper, Item item, List<ObjectWrapper> parents, Map<String,Object> dataMap) throws IllegalArgumentException;
+    List<Metadatum> processMetadata(List<ObjectWrapper> parents, Map<String, Object> dataMap) throws IllegalArgumentException, IllegalStateException;
+
+    /**
+     * Calling this method makes additional changes to item in post processing
+     * as metadata were already extracted. This includes activities such as
+     * setting cover picture, or setting extra restriction to object.
+     *
+     * @param item    to be modified in post process
+     * @param parents previous processed branch for current object
+     * @param dataMap extra storage for additional processing
+     *
+     * @throws IllegalArgumentException if item is null
+     * @throws IllegalStateException    if {@link #setup(cz.muni.ics.dspace5.api.ObjectWrapper)
+     *                                  } was not called before
+     */
+    void processItem(Item item, List<ObjectWrapper> parents, Map<String, Object> dataMap) throws IllegalStateException, IllegalArgumentException;
+
+    /**
+     * Calling this method clears object(s) stored, or recreated by {@link #setup(cz.muni.ics.dspace5.api.ObjectWrapper)
+     * } method. Calling this method multiple times has no effect.
+     */
+    void clear();
 }

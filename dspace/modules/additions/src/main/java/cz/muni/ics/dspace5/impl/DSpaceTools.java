@@ -15,11 +15,14 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import org.apache.log4j.Logger;
+import org.dspace.authorize.AuthorizeException;
+import org.dspace.eperson.EPerson;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -292,5 +295,65 @@ public class DSpaceTools extends AbstractTools
         }
 
         return knownDateFormats.get(0).parseDateTime("1900-12-31");
+    }
+    
+    /**
+     * Method finds {@code EPerson} inside system based on given input value. If null, or empty string is passed then first user found is set as current operating DSpace user. Otherwise EPerson (if found) is returned by given input.
+     * @param email of person to be found
+     * @return EPerson with given email, or first one ever created if no input is specified
+     * @throws IllegalStateException if {@code Context} has not been initialized yet
+     * @throws IllegalArgumentException if EPerson with given email does not exist.
+     */
+    public EPerson findEPerson(String email) throws IllegalStateException, IllegalArgumentException
+    {
+        if(contextWrapper.getContext() == null)
+        {
+            throw new IllegalStateException("Context not yet initialized.");
+        }
+        
+        EPerson[] persons = new EPerson[0];
+        
+        if(email == null || email.isEmpty())
+        {
+            persons = new EPerson[0];
+            try
+            {
+                persons = EPerson.findAll(contextWrapper.getContext(), EPerson.ID);
+            }
+            catch(SQLException ex)
+            {
+                logger.error(ex,ex.getCause());
+            }
+            
+            if(persons == null || persons.length == 0)
+            {
+                throw new IllegalStateException("There are no users created yet. Run 'dspace create-administrator' from /bin folder first.");
+            }
+            else
+            {
+                return persons[0];
+            }
+        }
+        else
+        {
+            EPerson person = null;
+            try
+            {
+                person = EPerson.findByEmail(contextWrapper.getContext(), email);
+            }
+            catch(SQLException | AuthorizeException ex)
+            {
+                logger.error(ex,ex.getCause());
+            }
+            
+            if(person == null)
+            {
+                throw new IllegalArgumentException("There is no such user with given email. ["+email+"]");
+            }
+            else
+            {
+                return person;
+            }
+        }
     }
 }

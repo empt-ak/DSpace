@@ -83,4 +83,14 @@ public class InputArguments
             logger.info(s+";"+o.getClass()+";"+o);
         }
     }
+    
+    /**
+     * Method used for fast check whether input map contains given key
+     * @param key to be checked
+     * @return true if key is present, false otherwise
+     */
+    public boolean containsKey(String key)
+    {
+        return argumentMap.containsKey(key);
+    }
 }

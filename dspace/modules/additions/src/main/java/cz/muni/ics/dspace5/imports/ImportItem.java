@@ -8,6 +8,7 @@ package cz.muni.ics.dspace5.imports;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
 import cz.muni.ics.dspace5.api.post.ItemPostProcessor;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
+import cz.muni.ics.dspace5.impl.InputArguments;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -39,29 +40,41 @@ public class ImportItem
     private ImportTools importTools;
     @Autowired
     private ContextWrapper contextWrapper;
-     
+    @Autowired
+    private InputArguments inputArguments;
+    
     public Item importToDspace(ObjectWrapper objectWrapper, List<ObjectWrapper> parents, Map<String,Object> dataMap)
     {
         Item workingItem = findOrCreateItem(parents.get(parents.size() - 1 ), objectWrapper);
         
         if(workingItem != null)
         {
-            logger.info("Processing metadata for handle:"+objectWrapper.getHandle()+" @path:- "+objectWrapper.getPath());
-            List<Metadatum> metadata = itemPostProcessor.processMetadata(objectWrapper, parents, dataMap);
-            
-            logger.info("Clearing metadata.");
-            for(Metadatum m : metadata)
+            itemPostProcessor.setup(objectWrapper);
+            if(!inputArguments.containsKey("movingWallOnly"))
             {
-                workingItem.clearMetadata(m.schema, m.element, m.qualifier, ANY);
+                logger.info("Processing metadata for handle:"+objectWrapper.getHandle()+" @path:- "+objectWrapper.getPath());
+                List<Metadatum> metadata = itemPostProcessor.processMetadata(parents, dataMap);
+
+                logger.info("Clearing metadata.");
+                for(Metadatum m : metadata)
+                {
+                    workingItem.clearMetadata(m.schema, m.element, m.qualifier, ANY);
+                }
+
+                for(Metadatum m : metadata)
+                {
+                    logger.info("Setting metadata: "+m.getField()+":- "+m.value);
+                    workingItem.addMetadata(m.schema, m.element, m.qualifier, m.language, m.value);
+                }
+            }
+            else
+            {
+                // TODO date modified ? 
             }
             
-            for(Metadatum m : metadata)
-            {
-                logger.info("Setting metadata: "+m.getField()+":- "+m.value);
-                workingItem.addMetadata(m.schema, m.element, m.qualifier, m.language, m.value);
-            }
+            itemPostProcessor.processItem(workingItem, parents, dataMap);
             
-            itemPostProcessor.processItem(objectWrapper, workingItem, parents, dataMap);
+            itemPostProcessor.clear();
                         
             importTools.saveAndCommit(workingItem);
             

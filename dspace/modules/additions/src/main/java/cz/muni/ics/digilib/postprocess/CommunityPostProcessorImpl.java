@@ -8,15 +8,14 @@ package cz.muni.ics.digilib.postprocess;
 import cz.muni.ics.digilib.domain.MonographicSeries;
 import cz.muni.ics.digilib.domain.Periodical;
 import cz.muni.ics.digilib.domain.Volume;
-import cz.muni.ics.dspace5.comparators.ComparatorFactory;
 import cz.muni.ics.dspace5.api.MetadatumFactory;
 import cz.muni.ics.dspace5.api.ObjectMapper;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
 import cz.muni.ics.dspace5.api.post.CommunityPostProcessor;
-import cz.muni.ics.dspace5.impl.DSpaceTools;
+import cz.muni.ics.dspace5.comparators.ComparatorFactory;
+import cz.muni.ics.dspace5.impl.InputArguments;
 import cz.muni.ics.dspace5.impl.MetadataWrapper;
 import cz.muni.ics.dspace5.impl.io.FolderProvider;
-import cz.muni.ics.dspace5.movingwall.MovingWallService;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -55,101 +54,102 @@ public class CommunityPostProcessorImpl implements CommunityPostProcessor
     @Autowired
     private ComparatorFactory comparatorFactory;
     @Autowired
-    private DSpaceTools dSpaceTools;
+    private InputArguments inputArguments;
+
+    private ObjectWrapper currentWrapper;
+    private Periodical periodical;
+    private MonographicSeries monographicSeries;
+    private Volume volume;
 
     @Override
-    public List<Metadatum> processMetadata(ObjectWrapper objectWrapper, List<ObjectWrapper> parents, Map<String,Object> dataMap) throws IllegalArgumentException
+    public void setup(ObjectWrapper objectWrapper) throws IllegalStateException, IllegalArgumentException
     {
-        MetadataWrapper metadataWrapper = new MetadataWrapper();
-
+        //TODO exceptions
+        this.currentWrapper = objectWrapper;
         if (objectWrapper.getLevel().equals(ObjectWrapper.LEVEL.COM))
         {
-            //TODO: not sure if this is good solution but works
-            if(objectWrapper.getPath().toString().contains("serial"))
+            if (objectWrapper.getPath().toString().contains("serial"))
             {
-                Periodical p = null;
                 try
                 {
-                    p = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
+                    this.periodical = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
                 }
                 catch (FileNotFoundException ex)
                 {
                     logger.error(ex, ex.getCause());
                 }
-                if (p != null)
-                {
-                    mapper.map(p, metadataWrapper);
-                }
-                else
-                {
-                    logger.info("'detail.xml' at path [" + objectWrapper.getPath() + "] was not found");
-                    metadataWrapper.getMetadata().add(metadatumFactory.createMetadatum("dc", "title", null, null, "NO-TITLE"));
-                }
             }
-            else if(objectWrapper.getPath().toString().contains("monograph"))
+            else if (objectWrapper.getPath().toString().contains("monograph"))
             {
-                MonographicSeries mono = null;
                 try
                 {
-                    mono = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
+                    this.monographicSeries = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
                 }
-                catch(FileNotFoundException ex)
+                catch (FileNotFoundException ex)
                 {
-                    logger.error(ex,ex.getCause());
-                }
-                if(mono != null)
-                {
-                    mapper.map(mono, metadataWrapper);
-                }
-                else
-                {
-                    logger.info("'detail.xml' at path [" + objectWrapper.getPath() + "] was not found");
-                    metadataWrapper.getMetadata().add(metadatumFactory.createMetadatum("dc", "title", null, null, "NO-TITLE"));
+                    logger.error(ex, ex.getCause());
                 }
             }
             else
             {
                 throw new IllegalArgumentException("Given input is not a valid path. Path should contain [serial/monography] but it did not.");
-            }            
+            }
         }
-        else
+        else if (currentWrapper.getLevel().equals(ObjectWrapper.LEVEL.SUBCOM))
         {
-            Volume v = null;
             try
             {
-                v = objectMapper.convertPathToObject(objectWrapper.getPath(), "");
+                this.volume = objectMapper.convertPathToObject(objectWrapper.getPath(), "");
             }
             catch (FileNotFoundException nfe)
             {
                 logger.error(nfe, nfe.getCause());
             }
+        }
+        else
+        {
+            //TODO
+            throw new IllegalArgumentException();
+        }
+    }
 
-            if (v != null)
-            {
-                mapper.map(v, metadataWrapper);
-            }
-            else
-            {
-                logger.info("Object at path [" + objectWrapper.getPath() + "] was not found");
-                metadataWrapper.getMetadata().add(metadatumFactory.createMetadatum("dc", "title", null, null, "NO-TITLE"));
-            }
+    @Override
+    public List<Metadatum> processMetadata(List<ObjectWrapper> parents, Map<String, Object> dataMap) throws IllegalArgumentException, IllegalStateException
+    {
+        MetadataWrapper metadataWrapper = new MetadataWrapper();
+        if (this.periodical != null)
+        {
+            mapper.map(this.periodical, metadataWrapper);
+        }
+        else if (this.monographicSeries != null)
+        {
+            mapper.map(this.monographicSeries, metadataWrapper);
+        }
+        else if (this.volume != null)
+        {
+            mapper.map(this.volume, metadataWrapper);
+        }
+        else
+        {
+            // TODO
+            throw new IllegalStateException();
         }
 
         return metadataWrapper.getMetadata();
     }
 
     @Override
-    public void processCommunity(ObjectWrapper objectWrapper, Community community, List<ObjectWrapper> parents, Map<String,Object> dataMap) throws IllegalArgumentException
+    public void processCommunity(Community community, List<ObjectWrapper> parents, Map<String, Object> dataMap) throws IllegalStateException, IllegalArgumentException
     {
         Path coverPath = null;
-        if (objectWrapper.getLevel().equals(ObjectWrapper.LEVEL.COM))
+        if (currentWrapper.getLevel().equals(ObjectWrapper.LEVEL.COM))
         {
-            coverPath = objectWrapper.getPath();
+            coverPath = currentWrapper.getPath();
         }
-        else if (objectWrapper.getLevel().equals(ObjectWrapper.LEVEL.SUBCOM))
+        else if (currentWrapper.getLevel().equals(ObjectWrapper.LEVEL.SUBCOM))
         {
             // this is the case of volume
-            List<Path> issues = folderProvider.getIssuesFromPath(objectWrapper.getPath());
+            List<Path> issues = folderProvider.getIssuesFromPath(currentWrapper.getPath());
 
             if (!issues.isEmpty())
             {
@@ -166,7 +166,7 @@ public class CommunityPostProcessorImpl implements CommunityPostProcessor
         }
         else
         {
-            throw new IllegalArgumentException("Given objectWrapper does not have supported level [COM/SUBCOM], but was [" + objectWrapper.getLevel() + "]");
+            throw new IllegalArgumentException("Given objectWrapper does not have supported level [COM/SUBCOM], but was [" + currentWrapper.getLevel() + "]");
         }
 
         if (coverPath != null)
@@ -178,27 +178,18 @@ public class CommunityPostProcessorImpl implements CommunityPostProcessor
             }
             catch (IllegalArgumentException iax)
             {
-                logger.info("For handle@" + objectWrapper.getHandle() + iax.getMessage());
+                logger.info("For handle@" + currentWrapper.getHandle() + iax.getMessage());
             }
         }
-        
-        //TODO better solution
-        if(objectWrapper.getLevel().equals(ObjectWrapper.LEVEL.COM) && objectWrapper.getPath().toString().contains("serial"))
-        {
-            Periodical p = null;
-            try
-            {
-                p = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
-            }
-            catch (FileNotFoundException ex)
-            {
-                logger.error(ex, ex.getCause());
-            }
-            if (p != null)
-            {
-                dSpaceTools.createDataMap(MovingWallService.MOVING_WALL, p.getMovingWall(), dataMap, false);
-            }
-        }
+    }
+
+    @Override
+    public void clear()
+    {
+        this.currentWrapper = null;
+        this.periodical = null;
+        this.monographicSeries = null;
+        this.volume = null;
     }
 
     /**

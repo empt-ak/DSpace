@@ -6,8 +6,10 @@
 package cz.muni.ics.digilib.services.io;
 
 import cz.muni.ics.dspace5.impl.io.AbstractCommandLine;
+import java.nio.file.Paths;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -15,17 +17,31 @@ import org.apache.commons.cli.ParseException;
  */
 public class MovingWallCommandLine extends AbstractCommandLine
 {
-
+    private static final Logger logger = Logger.getLogger(MovingWallCommandLine.class);
+    
     @Override
     public Options getOptions()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //TODO
+        Options options = getBasicOptions();
+        
+        return options;
     }
 
     @Override
     public void process(String[] args) throws IllegalArgumentException, ParseException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //TODO
+        org.apache.commons.cli.CommandLine cmd = getParsedCommandLine(args, getOptions());
+        
+        inputArguments.put("path", Paths.get(configurationService.getProperty("meditor.rootbase"),cmd.getOptionValue("p")));
+        
+        if(cmd.hasOption("u"))
+        {
+            inputArguments.put("user", cmd.getOptionValue("u"));
+        }
+        
+        inputArguments.put("movingWallOnly", true);
+        
+        inputArguments.dump();
     }
     
 }

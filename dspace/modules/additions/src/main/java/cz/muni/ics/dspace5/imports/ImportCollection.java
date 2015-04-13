@@ -44,20 +44,30 @@ public class ImportCollection
         
         if(workingCollection != null)
         {
-            List<Metadatum> metadata = collectionPostProcessor.processMetadata(objectWrapper, parents, dataMap);
-            
-            for(Metadatum m : metadata)
+            collectionPostProcessor.setup(objectWrapper);
+            if(!inputArguments.containsKey("movingWallOnly"))
             {
-                workingCollection.clearMetadata(m.schema, m.element, m.qualifier, ANY);
+                List<Metadatum> metadata = collectionPostProcessor.processMetadata(parents, dataMap);
+            
+                for(Metadatum m : metadata)
+                {
+                    workingCollection.clearMetadata(m.schema, m.element, m.qualifier, ANY);
+                }
+
+                for(Metadatum m : metadata)
+                {
+                    logger.info(m.getField()+":- "+m.value);
+                    workingCollection.addMetadata(m.schema, m.element, m.qualifier, m.language, m.value);
+                }
+            }
+            else
+            {
+                // TODO date modified ? 
             }
             
-            for(Metadatum m : metadata)
-            {
-                logger.info(m.getField()+":- "+m.value);
-                workingCollection.addMetadata(m.schema, m.element, m.qualifier, m.language, m.value);
-            }
+            collectionPostProcessor.processCollection(workingCollection, parents, dataMap); 
             
-            collectionPostProcessor.processCollection(objectWrapper, workingCollection, parents, dataMap);
+            collectionPostProcessor.clear();
             
             importTools.saveAndCommit(workingCollection);
             
