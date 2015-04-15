@@ -297,6 +297,16 @@ public class DSpaceTools extends AbstractTools
         return knownDateFormats.get(0).parseDateTime("1900-12-31");
     }
     
+    public String formatTime(DateTime dateTime, String pattern)
+    {
+        return DateTimeFormat.forPattern(pattern).print(dateTime);
+    }
+    
+    public String simpleFormatTime(DateTime dateTime)
+    {
+        return formatTime(dateTime, "yyyy-MM-dd");
+    }
+    
     /**
      * Method finds {@code EPerson} inside system based on given input value. If null, or empty string is passed then first user found is set as current operating DSpace user. Otherwise EPerson (if found) is returned by given input.
      * @param email of person to be found

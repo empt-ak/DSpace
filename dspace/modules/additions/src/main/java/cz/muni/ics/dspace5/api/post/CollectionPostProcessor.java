@@ -7,7 +7,6 @@ package cz.muni.ics.dspace5.api.post;
 
 import cz.muni.ics.dspace5.api.ObjectWrapper;
 import java.util.List;
-import java.util.Map;
 import org.dspace.content.Collection;
 import org.dspace.content.Metadatum;
 import org.w3c.dom.Document;
@@ -22,7 +21,7 @@ import org.w3c.dom.Document;
  * not working with domain model we can convert it into {@link Document} or any
  * other representation we want. </ol>
  * <ol>Second step is to retrieve metadata out of already prepared source
- * object. This is done by calling {@link #processMetadata(cz.muni.ics.dspace5.api.ObjectWrapper, java.util.List, java.util.Map)
+ * object. This is done by calling {@link #processMetadata(java.util.List) 
  * }</ol>
  * <ol>In third step we check if anything else has to be done to already created
  * object inside DSpace. An example might be setting restrictions to object, or
@@ -55,19 +54,17 @@ public interface CollectionPostProcessor
 
     /**
      * Method converts already setup object into List of metadata objects. If
-     * required for any reason previous parents and universal dataMap may be
-     * provided.
+     * required for any reason previous parents and are provided.
      *
      * @param parents previous processed branch for current object
-     * @param dataMap extra storage for additional processing
      *
-     * @return list of metada object, empty if there are none
+     * @return list of metadata object, empty if there are none
      *
      * @throws IllegalArgumentException TODO?
      * @throws IllegalStateException    if {@link #setup(cz.muni.ics.dspace5.api.ObjectWrapper)
      *                                  } was not called before.
      */
-    List<Metadatum> processMetadata(List<ObjectWrapper> parents, Map<String, Object> dataMap) throws IllegalArgumentException, IllegalStateException;
+    List<Metadatum> processMetadata(List<ObjectWrapper> parents) throws IllegalArgumentException, IllegalStateException;
     
     /**
      * Calling this method makes additional changes to collection in post
@@ -76,13 +73,12 @@ public interface CollectionPostProcessor
      *
      * @param collection to be modified in post process
      * @param parents    previous processed branch for current object
-     * @param dataMap    extra storage for additional processing
      *
      * @throws IllegalArgumentException if collection is null
      * @throws IllegalStateException    if {@link #setup(cz.muni.ics.dspace5.api.ObjectWrapper)
      *                                  } was not called before
      */
-    void processCollection(Collection collection, List<ObjectWrapper> parents, Map<String, Object> dataMap) throws IllegalStateException, IllegalArgumentException;
+    void processCollection(Collection collection, List<ObjectWrapper> parents) throws IllegalStateException, IllegalArgumentException;
 
     /**
      * Calling this method clears object(s) stored, or recreated by {@link #setup(cz.muni.ics.dspace5.api.ObjectWrapper)

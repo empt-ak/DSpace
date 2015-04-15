@@ -105,7 +105,7 @@ public class ImportTools extends AbstractTools
     public void safeFailLog(Exception ex)
     {
         logger.error(ex, ex.getCause());
-        if (inputArguments.getTypedValue("failOnError"))
+        if (importDataMap.getTypedValue("failOnError"))
         {
             // TODO ?
             // rework into runtime exception

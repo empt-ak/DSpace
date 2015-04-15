@@ -6,7 +6,7 @@
 package cz.muni.ics.dspace5.impl.io;
 
 import cz.muni.ics.dspace5.api.CommandLine;
-import cz.muni.ics.dspace5.impl.InputArguments;
+import cz.muni.ics.dspace5.impl.ImportDataMap;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
@@ -25,7 +25,7 @@ public abstract class AbstractCommandLine implements CommandLine
     private static final Logger logger = Logger.getLogger(AbstractCommandLine.class);
     @Autowired protected CommandLineParser commandLineParser;
     @Autowired protected HelpFormatter helpFormatter;
-    @Autowired protected InputArguments inputArguments;
+    @Autowired protected ImportDataMap importDataMap;
     @Autowired protected ConfigurationService configurationService;
     
     protected org.apache.commons.cli.CommandLine getParsedCommandLine(String[] args, Options options) throws ParseException

@@ -9,12 +9,12 @@ import cz.muni.ics.dspace5.api.DSpaceGroupService;
 import cz.muni.ics.dspace5.exceptions.MovingWallException;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
+import cz.muni.ics.dspace5.impl.ImportDataMap;
 import cz.muni.ics.dspace5.movingwall.MWLocker;
 import cz.muni.ics.dspace5.movingwall.MovingWallService;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import org.apache.log4j.Logger;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.authorize.AuthorizeManager;
@@ -38,9 +38,11 @@ public abstract class AbstractLocker implements MWLocker
     protected DSpaceTools dSpaceTools;
     @Autowired
     protected ContextWrapper contextWrapper;
-
+    @Autowired
+    protected ImportDataMap importDataMap;
+    
     @Override
-    public void unlockObject(DSpaceObject dSpaceObject, Map<String, Object> dataMap) throws IllegalArgumentException, MovingWallException
+    public void unlockObject(DSpaceObject dSpaceObject) throws IllegalArgumentException, MovingWallException
     {
         try
         {
@@ -54,9 +56,9 @@ public abstract class AbstractLocker implements MWLocker
             {
                 Group anon = dSpaceGroupService.getAnonymousGroup();
                 
-                if(dataMap != null && dataMap.isEmpty() && !dataMap.isEmpty() && dataMap.containsKey(MovingWallService.END_DATE))
+                if(importDataMap.containsKey(MovingWallService.END_DATE))
                 {
-                    DateTime embargoEnd = (DateTime) dataMap.get(MovingWallService.END_DATE);
+                    DateTime embargoEnd = importDataMap.getTypedValue(MovingWallService.END_DATE, DateTime.class);
                     
                     if(embargoEnd.isAfter(DateTime.now()))
                     {

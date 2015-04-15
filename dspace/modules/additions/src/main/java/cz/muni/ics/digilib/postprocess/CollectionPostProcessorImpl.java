@@ -13,6 +13,7 @@ import cz.muni.ics.dspace5.api.ObjectWrapper;
 import cz.muni.ics.dspace5.api.post.CollectionPostProcessor;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
+import cz.muni.ics.dspace5.impl.ImportDataMap;
 import cz.muni.ics.dspace5.impl.MetadataWrapper;
 import cz.muni.ics.dspace5.movingwall.MovingWallService;
 import java.io.FileInputStream;
@@ -23,7 +24,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.dozer.Mapper;
@@ -62,6 +62,8 @@ public class CollectionPostProcessorImpl implements CollectionPostProcessor
     private ContextWrapper contextWrapper;
     @Autowired
     private DSpaceTools dSpaceTools;
+    @Autowired
+    private ImportDataMap importDataMap;
 
     private Issue issue;
     private Monography monography;
@@ -108,7 +110,7 @@ public class CollectionPostProcessorImpl implements CollectionPostProcessor
     }
 
     @Override
-    public List<Metadatum> processMetadata(List<ObjectWrapper> parents, Map<String, Object> dataMap) throws IllegalArgumentException, IllegalStateException
+    public List<Metadatum> processMetadata(List<ObjectWrapper> parents) throws IllegalArgumentException, IllegalStateException
     {
         MetadataWrapper metadataWrapper = new MetadataWrapper();
 
@@ -129,17 +131,17 @@ public class CollectionPostProcessorImpl implements CollectionPostProcessor
     }
 
     @Override
-    public void processCollection(Collection collection, List<ObjectWrapper> parents, Map<String, Object> dataMap) throws IllegalStateException, IllegalArgumentException
+    public void processCollection(Collection collection, List<ObjectWrapper> parents) throws IllegalStateException, IllegalArgumentException
     {
         setCover(this.currentWrapper.getPath().resolve(COVER_FILENAME), collection);
 
         if (this.issue != null)
         {
-            setupIssue(collection, parents, dataMap);
+            setupIssue(collection, parents);
         }
         else if (this.monography != null)
         {
-            setupMonography(collection, parents, dataMap);
+            setupMonography(collection, parents);
         }
         else
         {
@@ -183,7 +185,7 @@ public class CollectionPostProcessorImpl implements CollectionPostProcessor
         }
     }
 
-    private void setupIssue(Collection collection, List<ObjectWrapper> parents, Map<String, Object> dataMap)
+    private void setupIssue(Collection collection, List<ObjectWrapper> parents)
     {
         if (issue != null)
         {
@@ -191,26 +193,26 @@ public class CollectionPostProcessorImpl implements CollectionPostProcessor
             if (issue.getPublicationDate() != null && !issue.getPublicationDate().isEmpty())
             {
                 publDate = dSpaceTools.parseDate(issue.getPublicationDate());
-                dSpaceTools.createDataMap(MovingWallService.PUBLICATION_DATE, publDate, dataMap, false);
+                importDataMap.put(MovingWallService.PUBLICATION_DATE, publDate);
             }
             else
             {
                 // if year is set @getPublYear then it is autoset to YEAR-12-31
                 // or 1900-12-31 if no date is set
                 publDate = dSpaceTools.parseDate(issue.getPublYear());
-                dSpaceTools.createDataMap(MovingWallService.PUBLICATION_DATE, publDate, dataMap, false);
+                importDataMap.put(MovingWallService.PUBLICATION_DATE, publDate);
             }
 
             if (issue.getEmbargoEndDate() != null && !issue.getEmbargoEndDate().isEmpty())
             {
-                dSpaceTools.createDataMap(MovingWallService.END_DATE, dSpaceTools.parseDate(issue.getEmbargoEndDate()), dataMap, false);
+                importDataMap.put(MovingWallService.END_DATE, dSpaceTools.parseDate(issue.getEmbargoEndDate()));
             }
             else
             {
-                if (dataMap.containsKey(MovingWallService.MOVING_WALL))
+                if(importDataMap.containsKey(MovingWallService.MOVING_WALL))
                 {
-                    DateTime endDate = publDate.plus(Months.months(Integer.parseInt((String) dataMap.get(MovingWallService.MOVING_WALL))));
-                    dSpaceTools.createDataMap(MovingWallService.END_DATE, endDate, dataMap, false);
+                    DateTime endDate = publDate.plus(Months.months(Integer.parseInt(importDataMap.getTypedValue(MovingWallService.MOVING_WALL, String.class))));
+                    importDataMap.put(MovingWallService.END_DATE, endDate);
                 }
                 else
                 {
@@ -261,7 +263,7 @@ public class CollectionPostProcessorImpl implements CollectionPostProcessor
         }
     }
 
-    private void setupMonography(Collection collection, List<ObjectWrapper> parents, Map<String, Object> dataMap)
+    private void setupMonography(Collection collection, List<ObjectWrapper> parents)
     {
         // TODO
     }

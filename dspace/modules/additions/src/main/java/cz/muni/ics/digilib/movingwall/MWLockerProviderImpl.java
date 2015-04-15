@@ -51,4 +51,17 @@ public abstract class MWLockerProviderImpl implements MWLockerProvider
     {
         return implementedClasses.contains(clasz);
     }
+
+    @Override
+    public MWLocker getLocker(DSpaceObject dSpaceObject) throws UnsupportedOperationException
+    {
+        if(!isImplemented(dSpaceObject.getClass()))
+        {
+            throw new UnsupportedOperationException();
+        }
+        else
+        {
+            return getLocker(dSpaceObject.getClass());
+        }
+    }
 }

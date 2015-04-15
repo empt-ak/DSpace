@@ -11,12 +11,11 @@ import cz.muni.ics.dspace5.api.ObjectWrapper;
 import cz.muni.ics.dspace5.api.ObjectWrapperResolverFactory;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
-import cz.muni.ics.dspace5.impl.InputArguments;
+import cz.muni.ics.dspace5.impl.ImportDataMap;
 import cz.muni.ics.dspace5.impl.ObjectWrapperFactory;
 import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import org.apache.commons.cli.ParseException;
 import org.apache.log4j.Logger;
 import org.dspace.core.Context;
@@ -40,7 +39,7 @@ public class ImportServiceImpl implements ImportService
     @Autowired
     private ImportCommunity importCommunity;
     @Autowired
-    private InputArguments inputArguments;
+    private ImportDataMap importDataMap;
     @Autowired
     private ContextWrapper contextWrapper;
     @Autowired
@@ -67,7 +66,7 @@ public class ImportServiceImpl implements ImportService
             try
             {
                 contextWrapper.setContext(new Context());
-                contextWrapper.getContext().setCurrentUser(dSpaceTools.findEPerson(inputArguments.getValue("user")));
+                contextWrapper.getContext().setCurrentUser(dSpaceTools.findEPerson(importDataMap.getValue("user")));
             }
             catch (SQLException ex)
             {
@@ -76,7 +75,7 @@ public class ImportServiceImpl implements ImportService
             contextWrapper.getContext().turnOffAuthorisationSystem();
             
             ObjectWrapper importTarget = objectWrapperFactory.createObjectWrapper();
-            importTarget.setPath(inputArguments.getTypedValue("path", Path.class));
+            importTarget.setPath(importDataMap.getTypedValue("path", Path.class));
             
             ObjectWrapper realImport = objectWrapperResolverFactory
                     .provideObjectWrapperResolver(importTarget.getPath())
@@ -84,7 +83,7 @@ public class ImportServiceImpl implements ImportService
             
 //            try
 //            {
-                importCommunity.importToDspace(realImport, new ArrayList<ObjectWrapper>(), new HashMap<String, Object>());
+                importCommunity.importToDspace(realImport, new ArrayList<ObjectWrapper>());
 //            }
 //            catch(Exception e)
 //            {

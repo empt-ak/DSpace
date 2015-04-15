@@ -8,11 +8,10 @@ package cz.muni.ics.dspace5.imports;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
 import cz.muni.ics.dspace5.api.post.ItemPostProcessor;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
-import cz.muni.ics.dspace5.impl.InputArguments;
+import cz.muni.ics.dspace5.impl.ImportDataMap;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 import org.apache.log4j.Logger;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Collection;
@@ -41,19 +40,19 @@ public class ImportItem
     @Autowired
     private ContextWrapper contextWrapper;
     @Autowired
-    private InputArguments inputArguments;
+    private ImportDataMap importDataMap;
     
-    public Item importToDspace(ObjectWrapper objectWrapper, List<ObjectWrapper> parents, Map<String,Object> dataMap)
+    public Item importToDspace(ObjectWrapper objectWrapper, List<ObjectWrapper> parents)
     {
         Item workingItem = findOrCreateItem(parents.get(parents.size() - 1 ), objectWrapper);
         
         if(workingItem != null)
         {
             itemPostProcessor.setup(objectWrapper);
-            if(!inputArguments.containsKey("movingWallOnly"))
+            if(!importDataMap.containsKey("movingWallOnly"))
             {
                 logger.info("Processing metadata for handle:"+objectWrapper.getHandle()+" @path:- "+objectWrapper.getPath());
-                List<Metadatum> metadata = itemPostProcessor.processMetadata(parents, dataMap);
+                List<Metadatum> metadata = itemPostProcessor.processMetadata(parents);
 
                 logger.info("Clearing metadata.");
                 for(Metadatum m : metadata)
@@ -72,7 +71,7 @@ public class ImportItem
                 // TODO date modified ? 
             }
             
-            itemPostProcessor.processItem(workingItem, parents, dataMap);
+            itemPostProcessor.processItem(workingItem, parents);
             
             itemPostProcessor.clear();
                         

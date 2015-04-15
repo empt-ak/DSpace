@@ -5,10 +5,6 @@
  */
 package cz.muni.ics.dspace5.movingwall;
 
-import cz.muni.ics.dspace5.exceptions.MovingWallException;
-import java.util.Map;
-import org.dspace.content.DSpaceObject;
-
 /**
  *
  * @author Dominik Szalai - emptulik at gmail.com
@@ -46,36 +42,4 @@ public interface MovingWallService
      *             process.
      */
     void execute(String[] args);
-
-    /**
-     * Method locks given {@code DSpaceObject} according to its implementation
-     * based on {@link MWLockerProvider}.
-     *
-     * @param dSpaceObject to be locked
-     * @param dataMap      values required for setting given object under
-     *                     embargo.
-     *
-     * @throws IllegalArgumentException if given dSpaceObject is not supported.
-     * @throws MovingWallException      if any error occurs during setting
-     *                                  restricted access to dspace object
-     * @see MWLocker#lockObject(org.dspace.content.DSpaceObject, java.util.Map)
-     * @see MWLockerProvider#getLocker(java.lang.Class)
-     */
-    void lock(DSpaceObject dSpaceObject, Map<String, Object> dataMap) throws IllegalArgumentException, MovingWallException;
-
-    /**
-     * Method unlocks given {@code DSpaceObject} according to its implementation
-     * based on {@link MWLockerProvider}.
-     *
-     * @param dSpaceObject to be unlocked
-     * @param dataMap      values required for unsetting given object from
-     *                     embargo.
-     *
-     * @throws IllegalArgumentException if given dSpaceObject is not supported.
-     * @throws MovingWallException      if any error occurs during setting
-     *                                  restricted access to dspace object
-     * @see MWLocker#lockObject(org.dspace.content.DSpaceObject, java.util.Map)
-     * @see MWLockerProvider#getLocker(java.lang.Class)
-     */
-    void unlock(DSpaceObject dSpaceObject, Map<String, Object> dataMap) throws IllegalArgumentException, MovingWallException;
 }

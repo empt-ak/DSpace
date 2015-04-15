@@ -72,9 +72,9 @@ public class DeleteCommandLine extends AbstractCommandLine
                 throw new IllegalArgumentException("Unexpected -m argument. Should be [update-all/update/single] but was ["+importMode+"]");
         }   
 
-        inputArguments.put("mode", importMode);
-        inputArguments.put("value", cmd.getOptionValue("value"));
+        importDataMap.put("mode", importMode);
+        importDataMap.put("value", cmd.getOptionValue("value"));
 
-        inputArguments.dump();
+        importDataMap.dump();
     }    
 }

@@ -13,8 +13,9 @@ import cz.muni.ics.dspace5.api.post.ItemPostProcessor;
 import cz.muni.ics.dspace5.exceptions.MovingWallException;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
+import cz.muni.ics.dspace5.impl.ImportDataMap;
 import cz.muni.ics.dspace5.impl.MetadataWrapper;
-import cz.muni.ics.dspace5.movingwall.MovingWallService;
+import cz.muni.ics.dspace5.movingwall.MWLockerProvider;
 import java.io.BufferedInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -23,7 +24,6 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 import org.apache.log4j.Logger;
 import org.dozer.Mapper;
 import org.dspace.authorize.AuthorizeException;
@@ -51,9 +51,11 @@ public class ItemPostProcessorImpl implements ItemPostProcessor
     @Autowired
     private DSpaceTools dSpaceTools;
     @Autowired
+    private ImportDataMap importDataMap;
+    @Autowired
     private ContextWrapper contextWrapper;
     @Autowired
-    private MovingWallService movingWallService;
+    private MWLockerProvider mWLockerProvider;
     //@TODO set tru spring
     private final String[] pdfFileNames = {"enhanced.pdf", "source-enhanced.pdf", "source.pdf", "item.pdf"};
     
@@ -96,7 +98,7 @@ public class ItemPostProcessorImpl implements ItemPostProcessor
     }
 
     @Override
-    public List<Metadatum> processMetadata(List<ObjectWrapper> parents, Map<String, Object> dataMap) throws IllegalArgumentException, IllegalStateException
+    public List<Metadatum> processMetadata(List<ObjectWrapper> parents) throws IllegalArgumentException, IllegalStateException
     {
         MetadataWrapper metadataWrapper = new MetadataWrapper();
         
@@ -118,9 +120,9 @@ public class ItemPostProcessorImpl implements ItemPostProcessor
     }
 
     @Override
-    public void processItem(Item item, List<ObjectWrapper> parents, Map<String, Object> dataMap) throws IllegalStateException, IllegalArgumentException
+    public void processItem(Item item, List<ObjectWrapper> parents) throws IllegalStateException, IllegalArgumentException
     {
-        dSpaceTools.createDataMap("itemHandle", currentWrapper.getHandle(), dataMap, false);
+        importDataMap.put("itemHandle", currentWrapper.getHandle());
         
         Bundle[] oldBundles = null;
         
@@ -193,7 +195,7 @@ public class ItemPostProcessorImpl implements ItemPostProcessor
                     
                     try
                     {
-                        movingWallService.lock(pdfBitstream, dataMap);
+                        mWLockerProvider.getLocker(Bitstream.class).lockObject(pdfBitstream);
                     }
                     catch(MovingWallException mwe)
                     {

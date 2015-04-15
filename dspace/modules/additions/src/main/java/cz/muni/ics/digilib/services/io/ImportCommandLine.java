@@ -72,7 +72,7 @@ public class ImportCommandLine extends AbstractCommandLine
     {
         org.apache.commons.cli.CommandLine cmd = getParsedCommandLine(args, getOptions());
         
-        inputArguments.put("path", Paths.get(configurationService.getProperty("meditor.rootbase"),
+        importDataMap.put("path", Paths.get(configurationService.getProperty("meditor.rootbase"),
                 cmd.getOptionValue("p"))
         );
 
@@ -87,20 +87,20 @@ public class ImportCommandLine extends AbstractCommandLine
                 throw new IllegalArgumentException("Unexpected -m argument. Should be [update/single] but was ["+importMode+"]");
         }   
 
-        inputArguments.put("mode", importMode);
+        importDataMap.put("mode", importMode);
 
-        inputArguments.put("failOnError", Boolean.parseBoolean(cmd.getOptionValue("foe", "false")));
+        importDataMap.put("failOnError", Boolean.parseBoolean(cmd.getOptionValue("foe", "false")));
 
         if(cmd.hasOption("u"))
         {
-            inputArguments.put("user",cmd.getOptionValue("u"));
+            importDataMap.put("user",cmd.getOptionValue("u"));
         }
         
         if(cmd.hasOption("mw"))
         {
-            inputArguments.put("movingwall", true);
+            importDataMap.put("movingwall", true);
         }
 
-        inputArguments.dump();
+        importDataMap.dump();
     }
 }

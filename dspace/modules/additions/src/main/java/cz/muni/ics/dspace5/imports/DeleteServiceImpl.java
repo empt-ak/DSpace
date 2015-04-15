@@ -9,7 +9,7 @@ import cz.muni.ics.dspace5.api.CommandLineService;
 import cz.muni.ics.dspace5.api.DeleteService;
 import cz.muni.ics.dspace5.api.HandleService;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
-import cz.muni.ics.dspace5.impl.InputArguments;
+import cz.muni.ics.dspace5.impl.ImportDataMap;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -49,7 +49,7 @@ public class DeleteServiceImpl implements DeleteService
     @Autowired
     private CommandLineService commandLineService;
     @Autowired
-    private InputArguments inputArguments;
+    private ImportDataMap importDataMap;
     @Autowired
     private HandleService handleService;
     @Autowired
@@ -90,12 +90,12 @@ public class DeleteServiceImpl implements DeleteService
 
             String handle = null;
 
-            if (inputArguments.getValue("mode").equals("path"))
+            if (importDataMap.getValue("mode").equals("path"))
             {
                 //TODO
                 Path deletePath = Paths.get(configurationService
                         .getProperty("meditor.rootbase"))
-                        .resolve(inputArguments.getValue("value"));
+                        .resolve(importDataMap.getValue("value"));
 
                 logger.info("Delete by path was selected [" + deletePath.toString() + "].");
 
@@ -103,7 +103,7 @@ public class DeleteServiceImpl implements DeleteService
             }
             else
             {
-                handle = inputArguments.getValue("value");
+                handle = importDataMap.getValue("value");
                 logger.info("Delete by handle was selected [" + handle + "]");
             }
 

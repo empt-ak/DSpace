@@ -13,7 +13,7 @@ import cz.muni.ics.dspace5.api.ObjectMapper;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
 import cz.muni.ics.dspace5.api.post.CommunityPostProcessor;
 import cz.muni.ics.dspace5.comparators.ComparatorFactory;
-import cz.muni.ics.dspace5.impl.InputArguments;
+import cz.muni.ics.dspace5.impl.ImportDataMap;
 import cz.muni.ics.dspace5.impl.MetadataWrapper;
 import cz.muni.ics.dspace5.impl.io.FolderProvider;
 import java.io.FileInputStream;
@@ -24,7 +24,6 @@ import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import org.apache.log4j.Logger;
 import org.dozer.Mapper;
 import org.dspace.authorize.AuthorizeException;
@@ -54,7 +53,7 @@ public class CommunityPostProcessorImpl implements CommunityPostProcessor
     @Autowired
     private ComparatorFactory comparatorFactory;
     @Autowired
-    private InputArguments inputArguments;
+    private ImportDataMap importDataMap;
 
     private ObjectWrapper currentWrapper;
     private Periodical periodical;
@@ -114,7 +113,7 @@ public class CommunityPostProcessorImpl implements CommunityPostProcessor
     }
 
     @Override
-    public List<Metadatum> processMetadata(List<ObjectWrapper> parents, Map<String, Object> dataMap) throws IllegalArgumentException, IllegalStateException
+    public List<Metadatum> processMetadata(List<ObjectWrapper> parents) throws IllegalArgumentException, IllegalStateException
     {
         MetadataWrapper metadataWrapper = new MetadataWrapper();
         if (this.periodical != null)
@@ -139,7 +138,7 @@ public class CommunityPostProcessorImpl implements CommunityPostProcessor
     }
 
     @Override
-    public void processCommunity(Community community, List<ObjectWrapper> parents, Map<String, Object> dataMap) throws IllegalStateException, IllegalArgumentException
+    public void processCommunity(Community community, List<ObjectWrapper> parents) throws IllegalStateException, IllegalArgumentException
     {
         Path coverPath = null;
         if (currentWrapper.getLevel().equals(ObjectWrapper.LEVEL.COM))

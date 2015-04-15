@@ -16,9 +16,9 @@ import org.springframework.stereotype.Component;
  * @author Dominik Szalai - emptulik at gmail.com
  */
 @Component
-public class InputArguments
+public class ImportDataMap
 {
-    private static final Logger logger = Logger.getLogger(InputArguments.class);
+    private static final Logger logger = Logger.getLogger(ImportDataMap.class);
     private final Map<String,Object> argumentMap = new HashMap<>();
     
     public void put(String key, Object value)

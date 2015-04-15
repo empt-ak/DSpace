@@ -40,6 +40,8 @@ public interface MWLockerProvider
      * @throws UnsupportedOperationException if given class is not implemented.
      */
     MWLocker getLocker(Class<? extends DSpaceObject> clasz) throws UnsupportedOperationException;
+    
+    MWLocker getLocker(DSpaceObject dSpaceObject) throws UnsupportedOperationException;
 
     /**
      * Method used for checking whether given class is implemented or not. It

@@ -22,7 +22,7 @@ public abstract class AbstractTools
     @Autowired
     protected ConfigurationService configurationService;
     @Autowired
-    protected InputArguments inputArguments;
+    protected ImportDataMap importDataMap;
     @Autowired
     protected ContextWrapper contextWrapper;
     

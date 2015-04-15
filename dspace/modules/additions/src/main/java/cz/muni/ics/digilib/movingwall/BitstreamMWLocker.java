@@ -9,7 +9,6 @@ import cz.muni.ics.dspace5.exceptions.MovingWallException;
 import cz.muni.ics.dspace5.movingwall.MovingWallService;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 import org.apache.log4j.Logger;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.authorize.AuthorizeManager;
@@ -28,12 +27,12 @@ public class BitstreamMWLocker extends AbstractLocker
     private static final Logger logger = Logger.getLogger(BitstreamMWLocker.class);
 
     @Override
-    public void lockObject(DSpaceObject dSpaceObject, Map<String, Object> dataMap) throws IllegalArgumentException, MovingWallException
+    public void lockObject(DSpaceObject dSpaceObject) throws IllegalArgumentException, MovingWallException
     {
-        DateTime embargoEnd = (DateTime) dataMap.get(MovingWallService.END_DATE);
-        DateTime embargoStart = (DateTime) dataMap.get((MovingWallService.PUBLICATION_DATE));
+        DateTime embargoEnd = importDataMap.getTypedValue(MovingWallService.END_DATE, DateTime.class);
+        DateTime embargoStart = importDataMap.getTypedValue(MovingWallService.PUBLICATION_DATE, DateTime.class);
         
-        if (DateTime.now().isBefore(embargoEnd))
+        if (embargoEnd != null && DateTime.now().isBefore(embargoEnd))
         {
             try
             {
@@ -68,13 +67,13 @@ public class BitstreamMWLocker extends AbstractLocker
                             // cant log in anyway.
                             
                             logger.info("Setting restriction access until "+embargoEnd.toString());
-                            if(dataMap.containsKey("itemHandle"))
-                            {
-                                rp.setRpDescription("Bitstream embargo for item with handle @"+dataMap.get("itemHandle")+" from @"+embargoStart+" to @"+embargoEnd);
+                            if(importDataMap.containsKey("itemHandle"))
+                            {                                
+                                rp.setRpDescription("Bitstream embargo for item with handle @"+importDataMap.getValue("itemHandle")+" from @"+dSpaceTools.simpleFormatTime(embargoStart)+" to @"+dSpaceTools.simpleFormatTime(embargoEnd));
                             }
                             else
                             {
-                                rp.setRpDescription("Bitstream embargo from @"+embargoStart+" to @"+embargoEnd);
+                                rp.setRpDescription("Bitstream embargo from @"+dSpaceTools.simpleFormatTime(embargoStart)+" to @"+dSpaceTools.simpleFormatTime(embargoEnd));
                             }
                             
                             // just update values
@@ -95,7 +94,7 @@ public class BitstreamMWLocker extends AbstractLocker
         }
         else
         {
-            unlockObject(dSpaceObject, dataMap);
+            super.unlockObject(dSpaceObject);
         }
     }
 }

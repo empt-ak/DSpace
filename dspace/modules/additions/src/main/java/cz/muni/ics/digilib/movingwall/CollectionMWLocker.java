@@ -6,7 +6,6 @@
 package cz.muni.ics.digilib.movingwall;
 
 import cz.muni.ics.dspace5.exceptions.MovingWallException;
-import java.util.Map;
 import org.apache.log4j.Logger;
 import org.dspace.content.DSpaceObject;
 
@@ -19,7 +18,7 @@ public class CollectionMWLocker extends AbstractLocker
     private static final Logger logger = Logger.getLogger(CollectionMWLocker.class);
 
     @Override
-    public void lockObject(DSpaceObject dSpaceObject, Map<String, Object> dataMap) throws IllegalArgumentException, MovingWallException
+    public void lockObject(DSpaceObject dSpaceObject) throws IllegalArgumentException, MovingWallException
     {
         // TODO lock whole book
         logger.error("Operation not supported yet.");

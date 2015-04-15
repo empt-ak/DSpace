@@ -9,7 +9,7 @@ import cz.muni.ics.dspace5.api.HandleService;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
 import cz.muni.ics.dspace5.api.ObjectWrapperResolver;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
-import cz.muni.ics.dspace5.impl.InputArguments;
+import cz.muni.ics.dspace5.impl.ImportDataMap;
 import cz.muni.ics.dspace5.impl.ObjectWrapperFactory;
 import cz.muni.ics.dspace5.impl.io.FolderProvider;
 import java.nio.file.Path;
@@ -32,7 +32,7 @@ public class SerialResolver implements ObjectWrapperResolver
     @Autowired
     private DSpaceTools dspaceTools;
     @Autowired
-    private InputArguments inputArguments;
+    private ImportDataMap importDataMap;
     @Autowired
     private HandleService handleService;
     @Autowired
@@ -44,7 +44,7 @@ public class SerialResolver implements ObjectWrapperResolver
     public ObjectWrapper resolveObjectWrapper(ObjectWrapper objectWrapper, boolean mainCall)
     {
         int level = dspaceTools.getPathLevel(objectWrapper.getPath());
-        boolean updateMode = inputArguments.getValue("mode").equals("update");
+        boolean updateMode = importDataMap.getValue("mode").equals("update");
 
         ObjectWrapper topLevelResult = null;
 

@@ -7,10 +7,9 @@ package cz.muni.ics.dspace5.imports;
 
 import cz.muni.ics.dspace5.api.ObjectWrapper;
 import cz.muni.ics.dspace5.api.post.CollectionPostProcessor;
-import cz.muni.ics.dspace5.impl.InputArguments;
+import cz.muni.ics.dspace5.impl.ImportDataMap;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 import org.apache.log4j.Logger;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Collection;
@@ -30,7 +29,7 @@ public class ImportCollection
     private static final String ANY = "*";
     
     @Autowired
-    private InputArguments inputArguments;
+    private ImportDataMap importDataMap;
     @Autowired
     private ImportItem importItem;
     @Autowired
@@ -38,16 +37,16 @@ public class ImportCollection
     @Autowired
     private ImportTools importTools;
     
-    public Collection importToDspace(ObjectWrapper objectWrapper, List<ObjectWrapper> parents, Map<String,Object> dataMap)
+    public Collection importToDspace(ObjectWrapper objectWrapper, List<ObjectWrapper> parents)
     {        
         Collection workingCollection = findOrCreateCollection(parents.get(parents.size() - 1), objectWrapper);
         
         if(workingCollection != null)
         {
             collectionPostProcessor.setup(objectWrapper);
-            if(!inputArguments.containsKey("movingWallOnly"))
+            if(!importDataMap.containsKey("movingWallOnly"))
             {
-                List<Metadatum> metadata = collectionPostProcessor.processMetadata(parents, dataMap);
+                List<Metadatum> metadata = collectionPostProcessor.processMetadata(parents);
             
                 for(Metadatum m : metadata)
                 {
@@ -65,7 +64,7 @@ public class ImportCollection
                 // TODO date modified ? 
             }
             
-            collectionPostProcessor.processCollection(workingCollection, parents, dataMap); 
+            collectionPostProcessor.processCollection(workingCollection, parents); 
             
             collectionPostProcessor.clear();
             
@@ -77,7 +76,7 @@ public class ImportCollection
                 {
                     objectWrapper.setObject(workingCollection);
                     
-                    importItem.importToDspace(article, importTools.createParentBranch(objectWrapper, parents), dataMap);
+                    importItem.importToDspace(article, importTools.createParentBranch(objectWrapper, parents));
                 }
             }
             

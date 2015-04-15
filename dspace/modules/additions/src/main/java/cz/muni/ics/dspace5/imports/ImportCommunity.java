@@ -9,10 +9,9 @@ import cz.muni.ics.dspace5.api.ObjectWrapper;
 import cz.muni.ics.dspace5.api.ObjectWrapper.LEVEL;
 import cz.muni.ics.dspace5.api.post.CommunityPostProcessor;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
-import cz.muni.ics.dspace5.impl.InputArguments;
+import cz.muni.ics.dspace5.impl.ImportDataMap;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 import org.apache.log4j.Logger;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Community;
@@ -40,7 +39,7 @@ public class ImportCommunity
     @Autowired
     private ContextWrapper contextWrapper;
     @Autowired
-    private InputArguments inputArguments;
+    private ImportDataMap importDataMap;
 
     /**
      * Method takes given objectWrapper (which has contain path to target object
@@ -49,16 +48,15 @@ public class ImportCommunity
      * created. Then we call {@link CommunityPostProcessor} which handles
      * operations done to community (such as providing metadata, or adding
      * thumbnail). After its done. Save and commit is done based on values
-     * stored in {@link InputArguments}.
+     * stored in {@link ImportDataMap}.
      *
      * @param objectWrapper target object wrapping required values which are
      *                      converted into community
      * @param parents
-     * @param dataMap
      *
      * @return created Community stored by this method
      */
-    public Community importToDspace(ObjectWrapper objectWrapper, List<ObjectWrapper> parents, Map<String,Object> dataMap)
+    public Community importToDspace(ObjectWrapper objectWrapper, List<ObjectWrapper> parents)
     {
         logger.info("Commencing import of Community type.");
         logger.info(objectWrapper.getLevel()+" with handle@"+objectWrapper.getHandle()+" having following parents: "+parents);        
@@ -84,9 +82,9 @@ public class ImportCommunity
         else
         {
             communityPostProcessor.setup(objectWrapper);
-            if(!inputArguments.containsKey("movingWallOnly"))
+            if(!importDataMap.containsKey("movingWallOnly"))
             {
-                List<Metadatum> metadata = communityPostProcessor.processMetadata(parents, dataMap);
+                List<Metadatum> metadata = communityPostProcessor.processMetadata(parents);
             
                 //values have to be cleared first because there may be multiple values
                 // e.g. dc.title.alternative
@@ -106,7 +104,7 @@ public class ImportCommunity
                 // TODO date modified ? 
             }
             
-            communityPostProcessor.processCommunity(workingCommunity, parents, dataMap);    
+            communityPostProcessor.processCommunity(workingCommunity, parents);    
             
             communityPostProcessor.clear();
             
@@ -120,7 +118,7 @@ public class ImportCommunity
                     {
                         objectWrapper.setObject(workingCommunity);
                         
-                        importCollection.importToDspace(issue, importTools.createParentBranch(objectWrapper, parents), dataMap);
+                        importCollection.importToDspace(issue, importTools.createParentBranch(objectWrapper, parents));
                     }                    
                 }
                 else
@@ -129,7 +127,7 @@ public class ImportCommunity
                     {
                         objectWrapper.setObject(workingCommunity);
                         
-                        importToDspace(subComm, importTools.createParentBranch(objectWrapper, parents), dataMap);
+                        importToDspace(subComm, importTools.createParentBranch(objectWrapper, parents));
                     } 
                 }
             }
