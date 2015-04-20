@@ -12,6 +12,8 @@ import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.impl.ImportDataMap;
 import cz.muni.ics.dspace5.impl.ObjectWrapperFactory;
 import cz.muni.ics.dspace5.impl.io.FolderProvider;
+import java.io.FileNotFoundException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,10 +43,22 @@ public class SerialResolver implements ObjectWrapperResolver
     private ObjectWrapperFactory objectWrapperFactory;
 
     @Override
-    public ObjectWrapper resolveObjectWrapper(ObjectWrapper objectWrapper, boolean mainCall)
+    public ObjectWrapper resolveObjectWrapper(ObjectWrapper objectWrapper, boolean mainCall) throws FileNotFoundException
     {
         int level = dspaceTools.getPathLevel(objectWrapper.getPath());
         boolean updateMode = importDataMap.getValue("mode").equals("update");
+        if(importDataMap.containsKey("precheck"))
+        {
+            if(!Files.exists(objectWrapper.getPath().resolve("detail.xml")))
+            {
+                throw new FileNotFoundException(objectWrapper.getPath().resolve("detail.xml")+ " is missing.");
+            }
+            
+            if(!Files.exists(objectWrapper.getPath().resolve("meta.xml")))
+            {
+                throw new FileNotFoundException(objectWrapper.getPath().resolve("meta.xml") + " is missing.");
+            }
+        }
 
         ObjectWrapper topLevelResult = null;
 

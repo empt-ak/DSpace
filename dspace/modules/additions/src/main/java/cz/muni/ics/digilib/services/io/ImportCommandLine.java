@@ -61,6 +61,15 @@ public class ImportCommandLine extends AbstractCommandLine
                     .desc("Flag specifying whether import should be done alongside with import.")
                     .build()
         );
+        
+        options.addOption(
+                Option.builder("c")
+                    .longOpt("check")
+                    .hasArg(false)
+                    .required(false)
+                    .desc("Flag specifying whether there should be detail and meta.xml check when object tree is built.")
+                    .build()
+        );
 
         logger.debug(options.getOption("foe"));
         
@@ -99,6 +108,11 @@ public class ImportCommandLine extends AbstractCommandLine
         if(cmd.hasOption("mw"))
         {
             importDataMap.put("movingwall", true);
+        }
+        
+        if(cmd.hasOption("c"))
+        {
+            importDataMap.put("precheck", true);
         }
 
         importDataMap.dump();
