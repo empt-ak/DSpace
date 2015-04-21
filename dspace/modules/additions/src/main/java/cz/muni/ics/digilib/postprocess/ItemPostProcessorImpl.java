@@ -23,7 +23,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import org.apache.log4j.Logger;
 import org.dozer.Mapper;
 import org.dspace.authorize.AuthorizeException;
@@ -33,6 +35,7 @@ import org.dspace.content.Bundle;
 import org.dspace.content.Item;
 import org.dspace.content.Metadatum;
 import org.dspace.core.Constants;
+import org.dspace.services.ConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -56,13 +59,20 @@ public class ItemPostProcessorImpl implements ItemPostProcessor
     private ContextWrapper contextWrapper;
     @Autowired
     private MWLockerProvider mWLockerProvider;
-    //@TODO set tru spring
-    private final String[] pdfFileNames = {"enhanced.pdf", "source-enhanced.pdf", "source.pdf", "item.pdf"};
+    @Autowired
+    private ConfigurationService configurationService;
+    private String[] itemFileNames = {"enhanced.pdf", "source-enhanced.pdf", "source.pdf", "item.pdf"};
     
     private Article article;
     private MonographyChapter monographyChapter;
     private ObjectWrapper currentWrapper;
     
+    @PostConstruct
+    private void init()
+    {
+        this.itemFileNames = configurationService.getProperty("dspace.item.pdf.allowednames").split(",");
+        logger.info("Allowed names for Item files to be imported set to "+Arrays.toString(itemFileNames));
+    }
     
     @Override
     public void setup(ObjectWrapper objectWrapper) throws IllegalStateException, IllegalArgumentException
@@ -168,7 +178,7 @@ public class ItemPostProcessorImpl implements ItemPostProcessor
             
             Path bitstreamPath = null;
             
-            for(String pdfFileName : pdfFileNames)
+            for(String pdfFileName : itemFileNames)
             {
                 Path possiblePath = currentWrapper.getPath().resolve(pdfFileName);
                 if(!Files.exists(possiblePath))

@@ -24,7 +24,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -70,6 +72,15 @@ public class CollectionPostProcessorImpl implements CollectionPostProcessor
     private Issue issue;
     private Monography monography;
     private ObjectWrapper currentWrapper;
+    private String[] collectionFileNames;
+    
+    
+    @PostConstruct
+    private void init()
+    {
+        this.collectionFileNames = configurationService.getProperty("dspace.collection.files").split(",");
+        logger.info("Allowed names for Collection files to be imported set to "+Arrays.toString(collectionFileNames));
+    }
 
     @Override
     public void setup(ObjectWrapper objectWrapper) throws IllegalStateException, IllegalArgumentException
@@ -235,6 +246,7 @@ public class CollectionPostProcessorImpl implements CollectionPostProcessor
 
     private void setupMonography(Collection collection, List<ObjectWrapper> parents)
     {
+        // todo handle whole book etc.
         try
         {
             // TODO
