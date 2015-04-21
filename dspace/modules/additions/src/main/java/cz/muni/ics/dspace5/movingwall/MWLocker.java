@@ -18,17 +18,23 @@ public interface MWLocker
 
     /**
      * Calling method locks given {@code DSpaceObject} according to values
-     * stored in {@code dataMap}. {@link ImportDataMap} <b>has to</b> contain following keys:
+     * stored in {@code dataMap}. {@link ImportDataMap} <b>has to</b> contain
+     * following keys:
      * <ul>
      * <li> {@link MovingWallService#END_DATE}</li>
      * <li> {@link MovingWallService#PUBLICATION_DATE}</li>
      * </ul>
-     * in order to lock the object. If value of {@code END_DATE} has already passed, then {@link #unlockObject(org.dspace.content.DSpaceObject) } is called.
+     * in order to lock the object. If value of {@code END_DATE} has already
+     * passed, then {@link #unlockObject(org.dspace.content.DSpaceObject) } is
+     * called.
      *
      * @param dSpaceObject on which embargo should be set
      *
      * @throws IllegalArgumentException if dSpaceObject is not as one as
-     *                                  expected according to {@link DSpaceObject#getType() } return value, or if {@link MovingWallService#END_DATE} is missing, or null.
+     *                                  expected according to {@link DSpaceObject#getType()
+     *                                  } return value, or if
+     *                                  {@link MovingWallService#END_DATE} is
+     *                                  missing, or null.
      * @throws MovingWallException      if any error while setting restriction
      *                                  to given item occurs.
      */
@@ -38,7 +44,7 @@ public interface MWLocker
      * Calling this method unlocks given {@code DSpaceObject}. If
      * {@link ImportDataMap} is provided then it is checked whether value of
      * {@link MovingWallService#END_DATE} has already passed or not. If not then
-     * unlocking is not done, otherwise object is unlocked. 
+     * unlocking is not done, otherwise object is unlocked.
      *
      * @param dSpaceObject to be unlocked
      *

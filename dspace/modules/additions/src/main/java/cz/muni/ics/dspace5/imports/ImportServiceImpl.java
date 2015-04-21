@@ -13,6 +13,7 @@ import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.impl.ImportDataMap;
 import cz.muni.ics.dspace5.impl.ObjectWrapperFactory;
+import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -77,13 +78,26 @@ public class ImportServiceImpl implements ImportService
             ObjectWrapper importTarget = objectWrapperFactory.createObjectWrapper();
             importTarget.setPath(importDataMap.getTypedValue("path", Path.class));
             
-            ObjectWrapper realImport = objectWrapperResolverFactory
+            ObjectWrapper realImport = null;
+            
+            try
+            {
+                realImport = objectWrapperResolverFactory
                     .provideObjectWrapperResolver(importTarget.getPath())
                     .resolveObjectWrapper(importTarget, true);
+            }
+            catch(FileNotFoundException nfe)
+            {
+                logger.error(nfe);
+            }
             
+            if(realImport != null)
+            {
+                importCommunity.importToDspace(realImport, new ArrayList<ObjectWrapper>());
+            }
 //            try
 //            {
-                importCommunity.importToDspace(realImport, new ArrayList<ObjectWrapper>());
+                
 //            }
 //            catch(Exception e)
 //            {

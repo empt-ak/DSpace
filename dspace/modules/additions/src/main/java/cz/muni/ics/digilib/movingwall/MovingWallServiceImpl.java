@@ -14,6 +14,7 @@ import cz.muni.ics.dspace5.impl.ImportDataMap;
 import cz.muni.ics.dspace5.impl.ObjectWrapperFactory;
 import cz.muni.ics.dspace5.imports.ImportCommunity;
 import cz.muni.ics.dspace5.movingwall.MovingWallService;
+import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -74,9 +75,20 @@ public class MovingWallServiceImpl implements MovingWallService
         ObjectWrapper node = objectWrapperFactory.createObjectWrapper();
         node.setPath(importDataMap.getTypedValue("path", Path.class));
         
-        ObjectWrapper realImport = objectWrapperResolverFactory.provideObjectWrapperResolver(node.getPath()).resolveObjectWrapper(node, true);
+        ObjectWrapper realImport = null;
         
-        importCommunity.importToDspace(realImport, new ArrayList<ObjectWrapper>());
+        try
+        {
+            realImport = objectWrapperResolverFactory.provideObjectWrapperResolver(node.getPath()).resolveObjectWrapper(node, true);
+        }
+        catch(FileNotFoundException nfe)
+        {
+            logger.error(nfe);
+        }
+        if(realImport != null)
+        {
+            importCommunity.importToDspace(realImport, new ArrayList<ObjectWrapper>());
+        }
         
         contextWrapper.getContext().restoreAuthSystemState();
         contextWrapper.setContext(null);

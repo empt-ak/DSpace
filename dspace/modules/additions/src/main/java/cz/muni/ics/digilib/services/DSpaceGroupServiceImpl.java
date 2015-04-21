@@ -25,6 +25,7 @@ public class DSpaceGroupServiceImpl implements DSpaceGroupService
 {
     private static final Logger logger = Logger.getLogger(DSpaceGroupServiceImpl.class);    
     private static final String[] builtInGroupNames = new String[]{"Anonymous","Administrator"};
+    private String[] customMadeGroups;
     
     @Autowired
     private ConfigurationService configurationService;
@@ -128,4 +129,54 @@ public class DSpaceGroupServiceImpl implements DSpaceGroupService
     {
         return getGroupByName(builtInGroupNames[0]);
     }
+    
+    // this messes the whole group setup process.
+    // if there are none groups yet then our 2 are created
+    // but we "miss" the anon and admin group. System will think that these two are
+    // etnologie and oktavo.
+    
+    
+//    @PostConstruct
+//    private void init() throws SQLException
+//    {
+//        boolean wasMissing = false;
+//        try
+//        {
+//            contextWrapper.getContext();
+//        }
+//        catch(IllegalStateException ise)
+//        {
+//            contextWrapper.setContext(new Context());
+//            contextWrapper.getContext().turnOffAuthorisationSystem();
+//            wasMissing = true;
+//        }
+//        
+//        this.customMadeGroups = configurationService.getProperty("dspace.muni.groups").split(",");
+//        
+//        for(String group : customMadeGroups)
+//        {
+//            if(getGroupByName(group) == null)
+//            {
+//                try
+//                {
+//                    createGroup(group);
+//                }
+//                catch(GroupAlreadyExistException gae)
+//                {
+//                    logger.error(gae);
+//                }
+//            }
+//        }
+//        
+//        if(wasMissing)
+//        {
+//            contextWrapper.getContext().restoreAuthSystemState();
+//            contextWrapper.getContext().complete();
+//            contextWrapper.setContext(null);
+//        }
+//        else
+//        {
+//            contextWrapper.getContext().commit();
+//        }
+//    }
 }

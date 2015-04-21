@@ -19,11 +19,13 @@ import cz.muni.ics.dspace5.movingwall.MovingWallService;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.List;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.dozer.Mapper;
@@ -209,7 +211,7 @@ public class CollectionPostProcessorImpl implements CollectionPostProcessor
             }
             else
             {
-                if(importDataMap.containsKey(MovingWallService.MOVING_WALL))
+                if (importDataMap.containsKey(MovingWallService.MOVING_WALL))
                 {
                     DateTime endDate = publDate.plus(Months.months(Integer.parseInt(importDataMap.getTypedValue(MovingWallService.MOVING_WALL, String.class))));
                     importDataMap.put(MovingWallService.END_DATE, endDate);
@@ -220,51 +222,75 @@ public class CollectionPostProcessorImpl implements CollectionPostProcessor
                 }
             }
 
-            if (!StringUtils.isEmpty(issue.getLinkToReal()))
+            try
             {
-                String realHandle = handleService.getHandleForPath(Paths
-                        .get(configurationService.getProperty("meditor.rootbase"))
-                        .resolve(issue.getLinkToReal()), true);
-
-                Collection realCollection = null;
-                try
-                {
-                    realCollection = (Collection) HandleManager.resolveToObject(contextWrapper.getContext(), realHandle);
-                }
-                catch (SQLException | ClassCastException ex)
-                {
-                    logger.error(ex, ex.getCause());
-                }
-
-                if (realCollection != null)
-                {
-                    try
-                    {
-                        ItemIterator ii = realCollection.getAllItems();
-                        while (ii.hasNext())
-                        {
-                            Item next = ii.next();
-                            collection.addItem(next);
-                            logger.info("VIRTUAL:: " + next.getHandle() + " mapped to " + collection.getHandle());
-                        }
-                    }
-                    catch (SQLException | AuthorizeException ex)
-                    {
-                        logger.error(ex, ex.getCause());
-                    }
-                }
-                else
-                {
-                    logger.warn("For " + currentWrapper.getHandle() + " @path: " + currentWrapper.getPath()
-                            + " there is no real target Collection imported yet. Target handle is ["
-                            + realHandle + "] but returned object is null. No subitems from real Collection will be attached to this one.");
-                }
+                resolveVirtual(issue, collection);
+            }
+            catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex)
+            {
+                logger.error(ex);
             }
         }
     }
 
     private void setupMonography(Collection collection, List<ObjectWrapper> parents)
     {
-        // TODO
+        try
+        {
+            // TODO
+            resolveVirtual(monography, collection);
+        }
+        catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex)
+        {
+            logger.error(ex);
+        }
+    }
+
+    private void resolveVirtual(Object object, Collection collection) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException
+    {
+        
+        String linkToReal = StringUtils.trim((String) PropertyUtils.getProperty(object, "linkToReal"));// trim needed #see SpisyFF/209-1977-1
+        if (!StringUtils.isEmpty(linkToReal)) 
+        {            
+            String realHandle = handleService.getHandleForPath(Paths
+                    .get(configurationService.getProperty("meditor.rootbase"))
+                    .resolve(linkToReal), true);
+            
+            logger.debug("Attempting to resolve virtual links of "+collection.getHandle()+" linked to "+linkToReal+ " with handle "+realHandle+" .");
+
+            Collection realCollection = null;
+            try
+            {
+                realCollection = (Collection) HandleManager.resolveToObject(contextWrapper.getContext(), realHandle);
+            }
+            catch (SQLException | ClassCastException ex)
+            {
+                logger.error(ex, ex.getCause());
+            }
+
+            if (realCollection != null)
+            {
+                try
+                {
+                    ItemIterator ii = realCollection.getAllItems();
+                    while (ii.hasNext())
+                    {
+                        Item next = ii.next();
+                        collection.addItem(next);
+                        logger.info("VIRTUAL:: " + next.getHandle() + " mapped to " + collection.getHandle());
+                    }
+                }
+                catch (SQLException | AuthorizeException ex)
+                {
+                    logger.error(ex, ex.getCause());
+                }
+            }
+            else
+            {
+                logger.warn("For " + currentWrapper.getHandle() + " @path: " + currentWrapper.getPath()
+                        + " there is no real target Collection imported yet. Target handle is ["
+                        + realHandle + "] but returned object is null. No subitems from real Collection will be attached to this one.");
+            }
+        }
     }
 }

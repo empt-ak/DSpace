@@ -72,7 +72,7 @@ public class HandleServiceImpl implements HandleService
 
             if (newSuffix == null)
             {
-                throw new RuntimeException("FATAL ERROR CREATING HANDLE.");
+                throw new RuntimeException("FATAL ERROR CREATING HANDLE. Nothing was obtained from database. @path "+dspaceFile);
             }
             else
             {
@@ -84,7 +84,7 @@ public class HandleServiceImpl implements HandleService
                 catch (IOException ex)
                 {
                     logger.error(ex);
-                    throw new RuntimeException("FATAL ERROR CREATING HANDLE FILE.");
+                    throw new RuntimeException("FATAL ERROR CREATING HANDLE FILE. Suffix obtained from database @ "+newSuffix+" @path "+dspaceFile+" failed to write.");
                 }
 
                 suffix = newSuffix;

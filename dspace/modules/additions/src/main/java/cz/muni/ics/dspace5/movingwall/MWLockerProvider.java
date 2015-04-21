@@ -13,6 +13,9 @@ import org.dspace.content.DSpaceObject;
 import org.dspace.content.Item;
 
 /**
+ * Implementation of this class has to provide proper functionality of
+ * <b>Lockers</b> inside DSpace import subsystem. The way how lockers are
+ * created and provided is left to implementation itself.
  *
  * @author Dominik Szalai - emptulik at gmail.com
  */
@@ -40,7 +43,17 @@ public interface MWLockerProvider
      * @throws UnsupportedOperationException if given class is not implemented.
      */
     MWLocker getLocker(Class<? extends DSpaceObject> clasz) throws UnsupportedOperationException;
-    
+
+    /**
+     * Method returns locker for given dspaceObject. This call is just wrapper
+     * for {@link #getLocker(java.lang.Class) } method.
+     *
+     * @param dSpaceObject of which locker we would like to retrieve
+     *
+     * @return locker for given object
+     *
+     * @throws UnsupportedOperationException if object is not supported
+     */
     MWLocker getLocker(DSpaceObject dSpaceObject) throws UnsupportedOperationException;
 
     /**
