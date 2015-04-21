@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.ics.dspace5.imports;
+package cz.muni.ics.dspace5.impl.io;
 
 import cz.muni.ics.dspace5.api.CommandLineService;
 import cz.muni.ics.dspace5.api.DeleteService;
@@ -273,7 +273,7 @@ public class DeleteServiceImpl implements DeleteService
 
     private void deleteItem(Collection collection, Item item)
     {
-        handles.add(item.getHandle());
+        
         logger.info("Deleting item [" + item.getHandle() + "] with name '" + item.getName() + "'.");
 
         Bundle[] bundles = null;
@@ -302,6 +302,7 @@ public class DeleteServiceImpl implements DeleteService
             }
         }
 
+        
         if (collection == null)
         {
             try
@@ -325,6 +326,21 @@ public class DeleteServiceImpl implements DeleteService
                 logger.error(ex, ex.getCause());
             }
         }
+        
+        try
+        {
+            Collection[] possibleLinks = item.getCollections();
+            if(possibleLinks == null || possibleLinks.length == 0)
+            {
+                // only if there are none parents, then remove this entry
+                handles.add(item.getHandle());
+            }
+        }
+        catch(SQLException ex)
+        {
+            logger.error(ex,ex.getCause());
+        }
+        
     }
 
     /**
