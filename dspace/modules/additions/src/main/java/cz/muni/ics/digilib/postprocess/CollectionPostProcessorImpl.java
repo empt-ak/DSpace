@@ -154,7 +154,15 @@ public class CollectionPostProcessorImpl implements CollectionPostProcessor
     @Override
     public void processCollection(Collection collection, List<ObjectWrapper> parents) throws IllegalStateException, IllegalArgumentException
     {
-        setCover(this.currentWrapper.getPath().resolve(COVER_FILENAME), collection);
+        try
+        {
+            setCover(this.currentWrapper.getPath().resolve(COVER_FILENAME), collection);
+        }
+        catch(IllegalArgumentException iae)
+        {
+            logger.warn(iae.getMessage());
+        }
+        
 
         if (this.issue != null)
         {
