@@ -64,8 +64,18 @@ public class DSpaceTools extends AbstractTools
         // at this point getNameCount returns 2, but
         // a/b is e.g. serial/1_NiceMag so its root and should be resolved
         // as 0 thus -2        
-        return Paths.get(configurationService.getProperty("meditor.rootbase"))
-                .relativize(p).getNameCount() - 2;
+        return getOnlyMEPath(p).getNameCount() - 2;
+    }
+    
+    /**
+     * Method returns path after being cut from meditor root folder. E.g. if rootbase is <i>a/b/c</i> and given path is <i>a/b/c/d/e</i> then
+     * calling this method with <i>a/b/c/d/e</i> results in <b><i>d/e</i></b>
+     * @param target to be relativized against root folder of meditor
+     * @return relativized path
+     */
+    public Path getOnlyMEPath(Path target)
+    {
+        return Paths.get(configurationService.getProperty("meditor.rootbase")).relativize(target);
     }
 
     /**

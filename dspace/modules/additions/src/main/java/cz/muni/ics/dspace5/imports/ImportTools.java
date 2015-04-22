@@ -5,8 +5,10 @@
  */
 package cz.muni.ics.dspace5.imports;
 
+import cz.muni.ics.dspace5.api.ObjectWrapper;
 import cz.muni.ics.dspace5.impl.AbstractTools;
 import java.sql.SQLException;
+import java.util.List;
 import org.apache.log4j.Logger;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Collection;
@@ -111,5 +113,18 @@ public class ImportTools extends AbstractTools
             // rework into runtime exception
             System.exit(1);
         }
+    }
+    
+    
+    /**
+     * Method returns last member of given list.
+     * @param <T> type of automatic cast
+     * @param parents list of previous parents
+     * @return previous parent
+     * @throws ClassCastException if &lt;T&gt; is not the proper type for parent. 
+     */
+    public <T> T getLastParent(List<ObjectWrapper> parents) throws ClassCastException
+    {
+        return (T) parents.get(parents.size()-1);
     }
 }

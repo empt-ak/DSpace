@@ -23,6 +23,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
@@ -73,6 +74,7 @@ public class CollectionPostProcessorImpl implements CollectionPostProcessor
     private Monography monography;
     private ObjectWrapper currentWrapper;
     private String[] collectionFileNames;
+    private Path storageExtra;
     
     
     @PostConstruct
@@ -80,6 +82,12 @@ public class CollectionPostProcessorImpl implements CollectionPostProcessor
     {
         this.collectionFileNames = configurationService.getProperty("dspace.collection.files").split(",");
         logger.info("Allowed names for Collection files to be imported set to "+Arrays.toString(collectionFileNames));
+        String strageExtraPath = configurationService.getProperty("dspace.storage.extra");
+        if(!StringUtils.isEmpty(strageExtraPath))
+        {
+            this.storageExtra = Paths.get(configurationService.getProperty("dspace.storage.extra"));
+            logger.info("Extra storage path set to "+storageExtra);
+        }        
     }
 
     @Override
@@ -245,17 +253,36 @@ public class CollectionPostProcessorImpl implements CollectionPostProcessor
     }
 
     private void setupMonography(Collection collection, List<ObjectWrapper> parents)
-    {
-        // todo handle whole book etc.
+    {        
         try
         {
-            // TODO
             resolveVirtual(monography, collection);
         }
         catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex)
         {
             logger.error(ex);
         }
+        
+        if(storageExtra != null)
+        {
+            for(String file : collectionFileNames)
+            {
+                Path wholeBook = currentWrapper.getPath().resolve(file);
+                if(Files.exists(wholeBook))
+                {
+                    Path extraPath = storageExtra.resolve(dSpaceTools.getOnlyMEPath(currentWrapper.getPath()));  
+                    try
+                    {   
+                        Files.createDirectories(extraPath);
+                        Files.copy(wholeBook, extraPath.resolve(file), StandardCopyOption.REPLACE_EXISTING);
+                    }
+                    catch(IOException ex)
+                    {
+                        logger.error(ex,ex.getCause());
+                    }                
+                }  
+            }
+        }        
     }
 
     private void resolveVirtual(Object object, Collection collection) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException
