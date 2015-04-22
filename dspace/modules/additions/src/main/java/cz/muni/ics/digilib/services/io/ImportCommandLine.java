@@ -56,9 +56,13 @@ public class ImportCommandLine extends AbstractCommandLine
                 Option.builder("mw")
                     .longOpt("movingwall")
                     .argName("mw")
-                    .hasArg(false)
+                    .hasArg(true)
                     .required(false)
-                    .desc("Flag specifying whether import should be done alongside with import.")
+                    .desc("Flag specifying mode of moving wall. Possible values are [lock,unlock,auto,ignore]. "
+                            + "By default the value is set to auto which locks all objects that should be under "
+                            + "restrictions. Unlock on the other hand unlocks everything. Auto mode locks and unlocks "
+                            + "objects based on current state (locked object after givne time should be unlocked and otherwise)"
+                            + "Ignore flag does not execute moving wall at all.")
                     .build()
         );
         
@@ -107,10 +111,10 @@ public class ImportCommandLine extends AbstractCommandLine
         
         if(cmd.hasOption("mw"))
         {
-            importDataMap.put("movingwall", true);
+            importDataMap.put("movingwall", cmd.getOptionValue("mw","auto"));
         }
         
-        if(cmd.hasOption("c"))
+        if(cmd.hasOption("check"))
         {
             importDataMap.put("precheck", true);
         }

@@ -61,8 +61,9 @@ public class ItemPostProcessorImpl implements ItemPostProcessor
     private MWLockerProvider mWLockerProvider;
     @Autowired
     private ConfigurationService configurationService;
-    private String[] itemFileNames = {"enhanced.pdf", "source-enhanced.pdf", "source.pdf", "item.pdf"};
+   
     
+    private String[] itemFileNames;    
     private Article article;
     private MonographyChapter monographyChapter;
     private ObjectWrapper currentWrapper;
@@ -203,14 +204,17 @@ public class ItemPostProcessorImpl implements ItemPostProcessor
                     pdfBitstream.setFormat(BitstreamFormat.findByMIMEType(contextWrapper.getContext(), "application/pdf"));
                     pdfBitstream.update();
                     
-                    try
+                    if(importDataMap.containsKey("movingwall") && !importDataMap.getValue("movingwall").equals("ignore"))
                     {
-                        mWLockerProvider.getLocker(Bitstream.class).lockObject(pdfBitstream);
-                    }
-                    catch(MovingWallException mwe)
-                    {
-                        logger.fatal(mwe.getMessage());
-                    }
+                        try
+                        {
+                            mWLockerProvider.getLocker(Bitstream.class).lockObject(pdfBitstream);
+                        }
+                        catch(MovingWallException mwe)
+                        {
+                            logger.fatal(mwe.getMessage());
+                        }
+                    }                    
                 }
                 catch(IOException | AuthorizeException | SQLException ex)
                 {
