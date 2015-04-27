@@ -11,7 +11,7 @@ import cz.muni.ics.digilib.domain.Volume;
 import cz.muni.ics.dspace5.api.MetadatumFactory;
 import cz.muni.ics.dspace5.api.ObjectMapper;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
-import cz.muni.ics.dspace5.api.post.CommunityPostProcessor;
+import cz.muni.ics.dspace5.api.post.CommunityProcessor;
 import cz.muni.ics.dspace5.comparators.ComparatorFactory;
 import cz.muni.ics.dspace5.impl.ImportDataMap;
 import cz.muni.ics.dspace5.impl.MetadataWrapper;
@@ -37,10 +37,10 @@ import org.springframework.stereotype.Component;
  * @author Dominik Szalai - emptulik at gmail.com
  */
 @Component
-public class CommunityPostProcessorImpl implements CommunityPostProcessor
+public class CommunityProcessorImpl implements CommunityProcessor
 {
 
-    private static final Logger logger = Logger.getLogger(CommunityPostProcessorImpl.class);
+    private static final Logger logger = Logger.getLogger(CommunityProcessorImpl.class);
     private static final String COVER_FILENAME = "cover_thumb.png";
     @Autowired
     private ObjectMapper objectMapper;
@@ -160,7 +160,7 @@ public class CommunityPostProcessorImpl implements CommunityPostProcessor
             {
                 // this should not occur since if volume exists, then at least one 
                 // issue exists
-                logger.error("There are no issues for given volume.");
+                logger.warn("There are no issues for given volume.");
             }
         }
         else

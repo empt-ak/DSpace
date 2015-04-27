@@ -10,7 +10,7 @@ import cz.muni.ics.digilib.domain.Monography;
 import cz.muni.ics.dspace5.api.HandleService;
 import cz.muni.ics.dspace5.api.ObjectMapper;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
-import cz.muni.ics.dspace5.api.post.CollectionPostProcessor;
+import cz.muni.ics.dspace5.api.post.CollectionProcessor;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.impl.ImportDataMap;
@@ -49,10 +49,10 @@ import org.springframework.stereotype.Component;
  * @author Dominik Szalai - emptulik at gmail.com
  */
 @Component
-public class CollectionPostProcessorImpl implements CollectionPostProcessor
+public class CollectionProcessorImpl implements CollectionProcessor
 {
 
-    private static final Logger logger = Logger.getLogger(CollectionPostProcessorImpl.class);
+    private static final Logger logger = Logger.getLogger(CollectionProcessorImpl.class);
     private static final String COVER_FILENAME = "cover_thumb.png";
 
     @Autowired

@@ -7,7 +7,7 @@ package cz.muni.ics.dspace5.imports;
 
 import cz.muni.ics.dspace5.api.ObjectWrapper;
 import cz.muni.ics.dspace5.api.ObjectWrapper.LEVEL;
-import cz.muni.ics.dspace5.api.post.CommunityPostProcessor;
+import cz.muni.ics.dspace5.api.post.CommunityProcessor;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.ImportDataMap;
 import java.sql.SQLException;
@@ -31,7 +31,7 @@ public class ImportCommunity
     private static final String ANY = "*";
 
     @Autowired
-    private CommunityPostProcessor communityPostProcessor;
+    private CommunityProcessor communityProcessor;
     @Autowired
     private ImportTools importTools;
     @Autowired
@@ -45,7 +45,7 @@ public class ImportCommunity
      * Method takes given objectWrapper (which has contain path to target object
      * and handle). Object itself and children are not required. At first step
      * community is found inside system (top or sub). If missing then its
-     * created. Then we call {@link CommunityPostProcessor} which handles
+     * created. Then we call {@link CommunityProcessor} which handles
      * operations done to community (such as providing metadata, or adding
      * thumbnail). After its done. Save and commit is done based on values
      * stored in {@link ImportDataMap}.
@@ -81,10 +81,10 @@ public class ImportCommunity
         }
         else
         {
-            communityPostProcessor.setup(objectWrapper);
+            communityProcessor.setup(objectWrapper);
             if(!importDataMap.containsKey("movingWallOnly"))
             {
-                List<Metadatum> metadata = communityPostProcessor.processMetadata(parents);
+                List<Metadatum> metadata = communityProcessor.processMetadata(parents);
             
                 //values have to be cleared first because there may be multiple values
                 // e.g. dc.title.alternative
@@ -104,9 +104,9 @@ public class ImportCommunity
                 // TODO date modified ? 
             }
             
-            communityPostProcessor.processCommunity(workingCommunity, parents);    
+            communityProcessor.processCommunity(workingCommunity, parents);    
             
-            communityPostProcessor.clear();
+            communityProcessor.clear();
             
             importTools.saveAndCommit(workingCommunity);
             

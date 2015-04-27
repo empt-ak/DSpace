@@ -7,7 +7,7 @@ package cz.muni.ics.dspace5.api.post;
 
 import cz.muni.ics.dspace5.api.ObjectWrapper;
 import java.util.List;
-import org.dspace.content.Collection;
+import org.dspace.content.Community;
 import org.dspace.content.Metadatum;
 import org.w3c.dom.Document;
 
@@ -17,9 +17,9 @@ import org.w3c.dom.Document;
  * <ul>
  * <ol>First we call method {@link #setup(cz.muni.ics.dspace5.api.ObjectWrapper)
  * }. Calling method should recreate given object from {@code objectWrapper} For
- * example if objectwrapper is isssue then it is converted into issue. If we are
- * not working with domain model we can convert it into {@link Document} or any
- * other representation we want. </ol>
+ * example if objectwrapper is volume then it is converted into volume. If we
+ * are not working with domain model we can convert it into {@link Document} or
+ * any other representation we want. </ol>
  * <ol>Second step is to retrieve metadata out of already prepared source
  * object. This is done by calling {@link #processMetadata(java.util.List) 
  * }</ol>
@@ -32,7 +32,7 @@ import org.w3c.dom.Document;
  *
  * @author Dominik Szalai - emptulik at gmail.com
  */
-public interface CollectionPostProcessor
+public interface CommunityProcessor
 {
 
     /**
@@ -54,7 +54,7 @@ public interface CollectionPostProcessor
 
     /**
      * Method converts already setup object into List of metadata objects. If
-     * required for any reason previous parents and are provided.
+     * required for any reason previous parents are provided.
      *
      * @param parents previous processed branch for current object
      *
@@ -65,20 +65,20 @@ public interface CollectionPostProcessor
      *                                  } was not called before.
      */
     List<Metadatum> processMetadata(List<ObjectWrapper> parents) throws IllegalArgumentException, IllegalStateException;
-    
+
     /**
-     * Calling this method makes additional changes to collection in post
-     * processing as metadata were already extracted. This includes activities
-     * such as setting cover picture, or setting extra restriction to object.
+     * Calling this method makes additional changes to community post processing
+     * as metadata were already extracted. This includes activities such as
+     * setting cover picture, or setting extra restriction to object.
      *
-     * @param collection to be modified in post process
-     * @param parents    previous processed branch for current object
+     * @param community to be modified in post process
+     * @param parents   previous processed branch for current object
      *
-     * @throws IllegalArgumentException if collection is null
+     * @throws IllegalArgumentException if community is null
      * @throws IllegalStateException    if {@link #setup(cz.muni.ics.dspace5.api.ObjectWrapper)
      *                                  } was not called before
      */
-    void processCollection(Collection collection, List<ObjectWrapper> parents) throws IllegalStateException, IllegalArgumentException;
+    void processCommunity(Community community, List<ObjectWrapper> parents) throws IllegalStateException, IllegalArgumentException;
 
     /**
      * Calling this method clears object(s) stored, or recreated by {@link #setup(cz.muni.ics.dspace5.api.ObjectWrapper)

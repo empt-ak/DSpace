@@ -32,7 +32,7 @@ import org.w3c.dom.Document;
  *
  * @author Dominik Szalai - emptulik at gmail.com
  */
-public interface ItemPostProcessor
+public interface ItemProcessor
 {
 
     /**

@@ -6,7 +6,7 @@
 package cz.muni.ics.dspace5.imports;
 
 import cz.muni.ics.dspace5.api.ObjectWrapper;
-import cz.muni.ics.dspace5.api.post.ItemPostProcessor;
+import cz.muni.ics.dspace5.api.post.ItemProcessor;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.ImportDataMap;
 import java.io.IOException;
@@ -34,7 +34,7 @@ public class ImportItem
     private static final String ANY = "*";
     
     @Autowired
-    private ItemPostProcessor itemPostProcessor;
+    private ItemProcessor itemProcessor;
     @Autowired
     private ImportTools importTools;
     @Autowired
@@ -48,11 +48,11 @@ public class ImportItem
         
         if(workingItem != null)
         {
-            itemPostProcessor.setup(objectWrapper);
+            itemProcessor.setup(objectWrapper);
             if(!importDataMap.containsKey("movingWallOnly"))
             {
                 logger.info("Processing metadata for handle:"+objectWrapper.getHandle()+" @path:- "+objectWrapper.getPath());
-                List<Metadatum> metadata = itemPostProcessor.processMetadata(parents);
+                List<Metadatum> metadata = itemProcessor.processMetadata(parents);
 
                 logger.info("Clearing metadata.");
                 for(Metadatum m : metadata)
@@ -71,9 +71,9 @@ public class ImportItem
                 // TODO date modified ? 
             }
             
-            itemPostProcessor.processItem(workingItem, parents);
+            itemProcessor.processItem(workingItem, parents);
             
-            itemPostProcessor.clear();
+            itemProcessor.clear();
                         
             importTools.saveAndCommit(workingItem);
             

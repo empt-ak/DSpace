@@ -9,7 +9,7 @@ import cz.muni.ics.digilib.domain.Article;
 import cz.muni.ics.digilib.domain.MonographyChapter;
 import cz.muni.ics.dspace5.api.ObjectMapper;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
-import cz.muni.ics.dspace5.api.post.ItemPostProcessor;
+import cz.muni.ics.dspace5.api.post.ItemProcessor;
 import cz.muni.ics.dspace5.exceptions.MovingWallException;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
@@ -44,9 +44,9 @@ import org.springframework.stereotype.Component;
  * @author Dominik Szalai - emptulik at gmail.com
  */
 @Component
-public class ItemPostProcessorImpl implements ItemPostProcessor
+public class ItemProcessorImpl implements ItemProcessor
 {
-    private static final Logger logger = Logger.getLogger(ItemPostProcessorImpl.class);
+    private static final Logger logger = Logger.getLogger(ItemProcessorImpl.class);
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
@@ -184,7 +184,7 @@ public class ItemPostProcessorImpl implements ItemPostProcessor
                 Path possiblePath = currentWrapper.getPath().resolve(pdfFileName);
                 if(!Files.exists(possiblePath))
                 {
-                    logger.debug("No pdf file found at path "+possiblePath);
+                    logger.trace("No pdf file found at path "+possiblePath);
                 }
                 else
                 {
@@ -223,7 +223,7 @@ public class ItemPostProcessorImpl implements ItemPostProcessor
             }
             else
             {
-                //TODO
+                logger.warn("No importable files found for "+currentWrapper.getHandle()+" @"+currentWrapper.getPath());
             }
         }
     }

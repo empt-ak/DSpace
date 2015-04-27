@@ -6,7 +6,7 @@
 package cz.muni.ics.dspace5.imports;
 
 import cz.muni.ics.dspace5.api.ObjectWrapper;
-import cz.muni.ics.dspace5.api.post.CollectionPostProcessor;
+import cz.muni.ics.dspace5.api.post.CollectionProcessor;
 import cz.muni.ics.dspace5.impl.ImportDataMap;
 import java.sql.SQLException;
 import java.util.List;
@@ -33,7 +33,7 @@ public class ImportCollection
     @Autowired
     private ImportItem importItem;
     @Autowired
-    private CollectionPostProcessor collectionPostProcessor;
+    private CollectionProcessor collectionProcessor;
     @Autowired
     private ImportTools importTools;
     
@@ -43,10 +43,10 @@ public class ImportCollection
         
         if(workingCollection != null)
         {
-            collectionPostProcessor.setup(objectWrapper);
+            collectionProcessor.setup(objectWrapper);
             if(!importDataMap.containsKey("movingWallOnly"))
             {
-                List<Metadatum> metadata = collectionPostProcessor.processMetadata(parents);
+                List<Metadatum> metadata = collectionProcessor.processMetadata(parents);
             
                 for(Metadatum m : metadata)
                 {
@@ -64,9 +64,9 @@ public class ImportCollection
                 // TODO date modified ? 
             }
             
-            collectionPostProcessor.processCollection(workingCollection, parents); 
+            collectionProcessor.processCollection(workingCollection, parents); 
             
-            collectionPostProcessor.clear();
+            collectionProcessor.clear();
             
             importTools.saveAndCommit(workingCollection);
             
