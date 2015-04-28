@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.ics.digilib.services.io;
+package cz.muni.ics.digilib.modules.serial;
 
 import cz.muni.ics.dspace5.api.HandleService;
 import cz.muni.ics.dspace5.api.ObjectWrapper;

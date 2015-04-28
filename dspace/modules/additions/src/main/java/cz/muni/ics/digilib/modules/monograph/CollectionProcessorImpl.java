@@ -3,14 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.ics.digilib.postprocess;
+package cz.muni.ics.digilib.modules.monograph;
 
-import cz.muni.ics.digilib.domain.Issue;
 import cz.muni.ics.digilib.domain.Monography;
 import cz.muni.ics.dspace5.api.HandleService;
 import cz.muni.ics.dspace5.api.ObjectMapper;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
-import cz.muni.ics.dspace5.api.post.CollectionProcessor;
+import cz.muni.ics.dspace5.api.processors.CollectionProcessor;
 import cz.muni.ics.dspace5.exceptions.MovingWallException;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
@@ -30,7 +29,6 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.dozer.Mapper;
@@ -42,15 +40,12 @@ import org.dspace.content.Metadatum;
 import org.dspace.handle.HandleManager;
 import org.dspace.services.ConfigurationService;
 import org.joda.time.DateTime;
-import org.joda.time.Months;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  *
  * @author Dominik Szalai - emptulik at gmail.com
  */
-@Component
 public class CollectionProcessorImpl implements CollectionProcessor
 {
 
@@ -74,7 +69,6 @@ public class CollectionProcessorImpl implements CollectionProcessor
     @Autowired
     private MWLockerProvider mWLockerProvider;
 
-    private Issue issue;
     private Monography monography;
     private ObjectWrapper currentWrapper;
     private String[] collectionFileNames;
@@ -89,40 +83,21 @@ public class CollectionProcessorImpl implements CollectionProcessor
     @Override
     public void setup(ObjectWrapper objectWrapper) throws IllegalStateException, IllegalArgumentException
     {
-        if (this.currentWrapper != null || (this.issue != null ^ this.monography != null))
+        if (this.currentWrapper != null || this.monography != null)
         {
             throw new IllegalStateException("It seems that setup was already called before, or clear was not called properly.");
         }
 
         this.currentWrapper = objectWrapper;
-        if (objectWrapper.getPath().toString().contains("serial"))
+        
+        try
         {
-            try
-            {
-                this.issue = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
-            }
-            catch (FileNotFoundException ex)
-            {
-                logger.error(ex, ex.getCause());
-                this.currentWrapper = null;
-            }
+            this.monography = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
         }
-        else if (objectWrapper.getPath().toString().contains("monograph"))
+        catch (FileNotFoundException nfe)
         {
-            try
-            {
-                this.monography = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
-            }
-            catch (FileNotFoundException nfe)
-            {
-                logger.error(nfe, nfe.getCause());
-                this.currentWrapper = null;
-            }
-        }
-
-        if (!(this.issue == null ^ this.monography == null))
-        {
-            throw new IllegalArgumentException("It was not possible to create proper representation of passed objectWrapper");
+            this.currentWrapper = null;
+            throw new IllegalStateException("detail.xml not found", nfe.getCause());
         }
     }
 
@@ -131,17 +106,13 @@ public class CollectionProcessorImpl implements CollectionProcessor
     {
         MetadataWrapper metadataWrapper = new MetadataWrapper();
 
-        if (this.issue != null)
-        {
-            mapper.map(issue, metadataWrapper);
-        }
-        else if (this.monography != null)
+        if (this.monography != null)
         {
             mapper.map(monography, metadataWrapper);
         }
         else
         {
-            throw new IllegalStateException();
+            throw new IllegalStateException("Monography is null did you called #setup() first ?.");
         }
 
         return metadataWrapper.getMetadata();
@@ -159,11 +130,7 @@ public class CollectionProcessorImpl implements CollectionProcessor
             logger.warn(iae.getMessage());
         }
 
-        if (this.issue != null)
-        {
-            setupIssue(collection, parents);
-        }
-        else if (this.monography != null)
+        if (this.monography != null)
         {
             setupMonography(collection, parents);
         }
@@ -177,7 +144,6 @@ public class CollectionProcessorImpl implements CollectionProcessor
     public void clear()
     {
         this.currentWrapper = null;
-        this.issue = null;
         this.monography = null;
     }
 
@@ -209,31 +175,11 @@ public class CollectionProcessorImpl implements CollectionProcessor
         }
     }
 
-    private void setupIssue(Collection collection, List<ObjectWrapper> parents)
-    {
-        if (issue != null)
-        {
-            DateTime publDate = getPublDate(Issue.class);
-            DateTime endDate = getEndDate(Issue.class, publDate);
-            importDataMap.put(MovingWallService.PUBLICATION_DATE, publDate);
-            importDataMap.put(MovingWallService.END_DATE, endDate);
-
-            try
-            {
-                resolveVirtual(issue, collection);
-            }
-            catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex)
-            {
-                logger.error(ex);
-            }
-        }
-    }
-
     private void setupMonography(Collection collection, List<ObjectWrapper> parents)
     {
         try
         {
-            resolveVirtual(monography, collection);
+            resolveVirtual(collection);
         }
         catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex)
         {
@@ -259,8 +205,8 @@ public class CollectionProcessorImpl implements CollectionProcessor
             }
         }
         
-        DateTime publDate = getPublDate(Monography.class);
-        DateTime endDate = getEndDate(Monography.class, publDate);
+        DateTime publDate = getPublDate();
+        DateTime endDate = getEndDate(publDate);
         importDataMap.put(MovingWallService.PUBLICATION_DATE, publDate);
         importDataMap.put(MovingWallService.END_DATE, endDate);
 
@@ -274,10 +220,10 @@ public class CollectionProcessorImpl implements CollectionProcessor
         }
     }
 
-    private void resolveVirtual(Object object, Collection collection) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException
+    private void resolveVirtual(Collection collection) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException
     {
 
-        String linkToReal = StringUtils.trim((String) PropertyUtils.getProperty(object, "linkToReal"));// trim needed #see SpisyFF/209-1977-1
+        String linkToReal = monography.getLinkToReal();
         if (!StringUtils.isEmpty(linkToReal))
         {
             String realHandle = handleService.getHandleForPath(Paths
@@ -323,73 +269,13 @@ public class CollectionProcessorImpl implements CollectionProcessor
     }
 
     // @TODO implement by interface
-    private DateTime getPublDate(Class clasz)
+    private DateTime getPublDate()
     {
-        if (clasz.equals(Monography.class))
-        {
-            return null;
-        }
-        else if (clasz.equals(Issue.class))
-        {
-            if (issue.getPublicationDate() != null && !issue.getPublicationDate().isEmpty())
-            {
-                return dSpaceTools.parseDate(issue.getPublicationDate());
-                //importDataMap.put(MovingWallService.PUBLICATION_DATE, publDate);
-            }
-            else
-            {
-                // if year is set @getPublYear then it is autoset to YEAR-12-31
-                // or 1900-12-31 if no date is set
-                return dSpaceTools.parseDate(issue.getPublYear());
-                //importDataMap.put(MovingWallService.PUBLICATION_DATE, publDate);
-            }
-        }
-        else
-        {
-            throw new IllegalArgumentException("Unsupported class.");
-        }
+        return null;
     }
     
-    private DateTime getEndDate(Class clasz, DateTime publDate)
+    private DateTime getEndDate( DateTime publDate)
     {
-        if(clasz.equals(Monography.class))
-        {
-            return null;
-        }
-        else if(clasz.equals(Issue.class))
-        {
-            if (issue.getEmbargoEndDate() != null && !issue.getEmbargoEndDate().isEmpty())
-            {
-                return dSpaceTools.parseDate(issue.getEmbargoEndDate());
-            
-                //importDataMap.put(MovingWallService.END_DATE, dSpaceTools.parseDate(issue.getEmbargoEndDate()));
-            }
-            else
-            {
-                if(importDataMap.containsKey(MovingWallService.MOVING_WALL))
-                {
-                    return publDate.plus(Months.months(Integer.parseInt(importDataMap.getTypedValue(MovingWallService.MOVING_WALL, String.class))));
-                }
-                else
-                {                    
-                    return null;
-                }
-            }
-            
-//                if (importDataMap.containsKey(MovingWallService.MOVING_WALL))
-//                {
-//                    DateTime endDate = publDate.plus(Months.months(Integer.parseInt(importDataMap.getTypedValue(MovingWallService.MOVING_WALL, String.class))));
-//                    importDataMap.put(MovingWallService.END_DATE, endDate);
-//                }
-//                else
-//                {
-//                    
-//                }
-//            }
-        }
-        else
-        {
-            throw new IllegalArgumentException("Unsupported class.");
-        }
+        return null;
     }
 }

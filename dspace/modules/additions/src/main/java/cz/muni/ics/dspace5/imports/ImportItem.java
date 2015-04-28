@@ -5,8 +5,8 @@
  */
 package cz.muni.ics.dspace5.imports;
 
+import cz.muni.ics.dspace5.api.ModuleManager;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
-import cz.muni.ics.dspace5.api.post.ItemProcessor;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.ImportDataMap;
 import java.io.IOException;
@@ -32,15 +32,14 @@ public class ImportItem
 {
     private static final Logger logger = Logger.getLogger(ImportItem.class);
     private static final String ANY = "*";
-    
-    @Autowired
-    private ItemProcessor itemProcessor;
     @Autowired
     private ImportTools importTools;
     @Autowired
     private ContextWrapper contextWrapper;
     @Autowired
     private ImportDataMap importDataMap;
+    @Autowired
+    private ModuleManager moduleManager;
     
     public Item importToDspace(ObjectWrapper objectWrapper, List<ObjectWrapper> parents)
     {
@@ -48,11 +47,11 @@ public class ImportItem
         
         if(workingItem != null)
         {
-            itemProcessor.setup(objectWrapper);
+            moduleManager.getModule(objectWrapper).getItemProcessor().setup(objectWrapper);
             if(!importDataMap.containsKey("movingWallOnly"))
             {
                 logger.info("Processing metadata for handle:"+objectWrapper.getHandle()+" @path:- "+objectWrapper.getPath());
-                List<Metadatum> metadata = itemProcessor.processMetadata(parents);
+                List<Metadatum> metadata = moduleManager.getModule(objectWrapper).getItemProcessor().processMetadata(parents);
 
                 logger.info("Clearing metadata.");
                 for(Metadatum m : metadata)
@@ -71,9 +70,9 @@ public class ImportItem
                 // TODO date modified ? 
             }
             
-            itemProcessor.processItem(workingItem, parents);
+            moduleManager.getModule(objectWrapper).getItemProcessor().processItem(workingItem, parents);
             
-            itemProcessor.clear();
+            moduleManager.getModule(objectWrapper).getItemProcessor().clear();
                         
             importTools.saveAndCommit(workingItem);
             

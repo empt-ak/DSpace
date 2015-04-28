@@ -5,9 +5,10 @@
  */
 package cz.muni.ics.dspace5.imports;
 
+import cz.muni.ics.dspace5.api.ModuleManager;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
 import cz.muni.ics.dspace5.api.ObjectWrapper.LEVEL;
-import cz.muni.ics.dspace5.api.post.CommunityProcessor;
+import cz.muni.ics.dspace5.api.processors.CommunityProcessor;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.ImportDataMap;
 import java.sql.SQLException;
@@ -29,9 +30,7 @@ public class ImportCommunity
 
     private static final Logger logger = Logger.getLogger(ImportCommunity.class);
     private static final String ANY = "*";
-
-    @Autowired
-    private CommunityProcessor communityProcessor;
+    
     @Autowired
     private ImportTools importTools;
     @Autowired
@@ -40,6 +39,8 @@ public class ImportCommunity
     private ContextWrapper contextWrapper;
     @Autowired
     private ImportDataMap importDataMap;
+    @Autowired
+    private ModuleManager moduleManager;
 
     /**
      * Method takes given objectWrapper (which has contain path to target object
@@ -81,10 +82,10 @@ public class ImportCommunity
         }
         else
         {
-            communityProcessor.setup(objectWrapper);
+            moduleManager.getModule(objectWrapper).getCommunityProcessor().setup(objectWrapper);
             if(!importDataMap.containsKey("movingWallOnly"))
             {
-                List<Metadatum> metadata = communityProcessor.processMetadata(parents);
+                List<Metadatum> metadata = moduleManager.getModule(objectWrapper).getCommunityProcessor().processMetadata(parents);
             
                 //values have to be cleared first because there may be multiple values
                 // e.g. dc.title.alternative
@@ -104,9 +105,9 @@ public class ImportCommunity
                 // TODO date modified ? 
             }
             
-            communityProcessor.processCommunity(workingCommunity, parents);    
+            moduleManager.getModule(objectWrapper).getCommunityProcessor().processCommunity(workingCommunity, parents);    
             
-            communityProcessor.clear();
+            moduleManager.getModule(objectWrapper).getCommunityProcessor().clear();
             
             importTools.saveAndCommit(workingCommunity);
             

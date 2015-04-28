@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.ics.dspace5.api.post;
+package cz.muni.ics.dspace5.api.processors;
 
 import cz.muni.ics.dspace5.api.ObjectWrapper;
 import java.util.List;

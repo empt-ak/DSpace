@@ -23,7 +23,8 @@
     <context:annotation-config /> <!-- allows us to use spring annotations in beans -->
     <context:component-scan base-package="cz.muni.ics" /> 
 
-    <!--<bean id="org.dspace.example.Example" class="org.dspace.example.impl.ExampleImpl" />-->
+    <import resource="serialModule.xml" />
+    <import resource="monographModule.xml" />
     
     <bean
         id="commandLineParser"
@@ -202,32 +203,8 @@
         id="authorConverter"
         class="cz.muni.ics.digilib.convertors.AuthorConverter"
         p:metadatumFactory-ref="metadatumFactory"
-    />  
-    
-    <bean
-        id="monographResolver"
-        class="cz.muni.ics.digilib.services.io.MonographResolver"
     />
-    
-    <bean 
-        id="serialResolver"
-        class="cz.muni.ics.digilib.services.io.SerialResolver"
-    />
-    
-    <bean
-        id="objectWrapperResolverFactory"
-        class="cz.muni.ics.digilib.services.io.ObjectWrapperResolverFactoryImpl"
-    >
-        <lookup-method
-            name="provideMonographyResolver"
-            bean="monographResolver"
-        />
-        <lookup-method
-            name="provideSerialResolver"
-            bean="serialResolver"
-        />
-    </bean>  
-    
+        
     <bean
         id="documentBuilderFactory"
         class="javax.xml.parsers.DocumentBuilderFactory"
@@ -283,4 +260,18 @@
             bean="bitstreamLocker"
         />
     </bean>
+    
+    <bean
+        id="moduleManager"
+        class="cz.muni.ics.dspace5.impl.ModuleManagerImpl"
+    >
+        <property name="availableModules">
+            <map>
+                <entry key="serial" value-ref="serialModule" />
+                <entry key="monograph" value-ref="monographModule" />
+            </map>
+        </property>
+    </bean>
+    
+    
 </beans>

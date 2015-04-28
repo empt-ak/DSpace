@@ -7,8 +7,8 @@ package cz.muni.ics.dspace5.imports;
 
 import cz.muni.ics.dspace5.api.CommandLineService;
 import cz.muni.ics.dspace5.api.ImportService;
+import cz.muni.ics.dspace5.api.ModuleManager;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
-import cz.muni.ics.dspace5.api.ObjectWrapperResolverFactory;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.impl.ImportDataMap;
@@ -44,9 +44,9 @@ public class ImportServiceImpl implements ImportService
     @Autowired
     private ContextWrapper contextWrapper;
     @Autowired
-    private ObjectWrapperResolverFactory objectWrapperResolverFactory;
-    @Autowired
     private DSpaceTools dSpaceTools;
+    @Autowired
+    private ModuleManager moduleManager;
 
     @Override
     public void execute(String[] args)
@@ -82,9 +82,8 @@ public class ImportServiceImpl implements ImportService
             
             try
             {
-                realImport = objectWrapperResolverFactory
-                    .provideObjectWrapperResolver(importTarget.getPath())
-                    .resolveObjectWrapper(importTarget, true);
+                realImport = moduleManager.getModule(importTarget.getPath())
+                        .getObjectWrapperResolver().resolveObjectWrapper(importTarget, error);                
             }
             catch(FileNotFoundException nfe)
             {

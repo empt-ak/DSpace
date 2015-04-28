@@ -3,15 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.ics.digilib.postprocess;
+package cz.muni.ics.digilib.modules.serial;
 
-import cz.muni.ics.digilib.domain.MonographicSeries;
 import cz.muni.ics.digilib.domain.Periodical;
 import cz.muni.ics.digilib.domain.Volume;
 import cz.muni.ics.dspace5.api.MetadatumFactory;
 import cz.muni.ics.dspace5.api.ObjectMapper;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
-import cz.muni.ics.dspace5.api.post.CommunityProcessor;
+import cz.muni.ics.dspace5.api.processors.CommunityProcessor;
 import cz.muni.ics.dspace5.comparators.ComparatorFactory;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.impl.ImportDataMap;
@@ -32,13 +31,11 @@ import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Community;
 import org.dspace.content.Metadatum;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  *
  * @author Dominik Szalai - emptulik at gmail.com
  */
-@Component
 public class CommunityProcessorImpl implements CommunityProcessor
 {
 
@@ -61,7 +58,6 @@ public class CommunityProcessorImpl implements CommunityProcessor
 
     private ObjectWrapper currentWrapper;
     private Periodical periodical;
-    private MonographicSeries monographicSeries;
     private Volume volume;
 
     @Override
@@ -71,31 +67,13 @@ public class CommunityProcessorImpl implements CommunityProcessor
         this.currentWrapper = objectWrapper;
         if (objectWrapper.getLevel().equals(ObjectWrapper.LEVEL.COM))
         {
-            if (objectWrapper.getPath().toString().contains("serial"))
+            try
             {
-                try
-                {
-                    this.periodical = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
-                }
-                catch (FileNotFoundException ex)
-                {
-                    logger.error(ex, ex.getCause());
-                }
+                this.periodical = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
             }
-            else if (objectWrapper.getPath().toString().contains("monograph"))
+            catch (FileNotFoundException ex)
             {
-                try
-                {
-                    this.monographicSeries = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
-                }
-                catch (FileNotFoundException ex)
-                {
-                    logger.error(ex, ex.getCause());
-                }
-            }
-            else
-            {
-                throw new IllegalArgumentException("Given input is not a valid path. Path should contain [serial/monography] but it did not.");
+                logger.error(ex, ex.getCause());
             }
         }
         else if (currentWrapper.getLevel().equals(ObjectWrapper.LEVEL.SUBCOM))
@@ -124,10 +102,6 @@ public class CommunityProcessorImpl implements CommunityProcessor
         {
             mapper.map(this.periodical, metadataWrapper);
         }
-        else if (this.monographicSeries != null)
-        {
-            mapper.map(this.monographicSeries, metadataWrapper);
-        }
         else if (this.volume != null)
         {
             mapper.map(this.volume, metadataWrapper);
@@ -137,7 +111,7 @@ public class CommunityProcessorImpl implements CommunityProcessor
             // TODO
             throw new IllegalStateException();
         }
-        
+
         metadataWrapper.getMetadata().add(metadatumFactory.createMetadatum("muni", "mepath", null, null, dSpaceTools.getOnlyMEPath(currentWrapper.getPath()).toString()));
 
         return metadataWrapper.getMetadata();
@@ -187,11 +161,7 @@ public class CommunityProcessorImpl implements CommunityProcessor
             }
         }
 
-        if (monographicSeries != null)
-        {
-            importDataMap.put(MovingWallService.MOVING_WALL, monographicSeries.getMovingWall());
-        }
-        else if (periodical != null)
+        if (periodical != null)
         {
             importDataMap.put(MovingWallService.MOVING_WALL, periodical.getMovingWall());
         }
@@ -202,7 +172,6 @@ public class CommunityProcessorImpl implements CommunityProcessor
     {
         this.currentWrapper = null;
         this.periodical = null;
-        this.monographicSeries = null;
         this.volume = null;
     }
 

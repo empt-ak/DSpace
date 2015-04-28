@@ -1,0 +1,33 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package cz.muni.ics.digilib.modules.serial;
+
+import cz.muni.ics.dspace5.api.ModuleService;
+import cz.muni.ics.dspace5.api.ObjectWrapperResolver;
+import cz.muni.ics.dspace5.api.processors.CollectionProcessor;
+import cz.muni.ics.dspace5.api.processors.CommunityProcessor;
+import cz.muni.ics.dspace5.api.processors.ItemProcessor;
+import java.io.FileNotFoundException;
+
+/**
+ *
+ * @author Dominik Szalai - emptulik at gmail.com
+ */
+public abstract class SerialModule implements ModuleService
+{
+
+    @Override
+    public abstract ObjectWrapperResolver getObjectWrapperResolver() throws FileNotFoundException;
+
+    @Override
+    public abstract CommunityProcessor getCommunityProcessor();
+
+    @Override
+    public abstract CollectionProcessor getCollectionProcessor();
+
+    @Override
+    public abstract ItemProcessor getItemProcessor();    
+}

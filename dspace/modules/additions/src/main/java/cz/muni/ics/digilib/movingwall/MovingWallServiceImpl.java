@@ -6,8 +6,8 @@
 package cz.muni.ics.digilib.movingwall;
 
 import cz.muni.ics.dspace5.api.CommandLineService;
+import cz.muni.ics.dspace5.api.ModuleManager;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
-import cz.muni.ics.dspace5.api.ObjectWrapperResolverFactory;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.impl.ImportDataMap;
@@ -41,11 +41,12 @@ public class MovingWallServiceImpl implements MovingWallService
     @Autowired
     private DSpaceTools dSpaceTools;
     @Autowired
-    private ObjectWrapperResolverFactory objectWrapperResolverFactory;
-    @Autowired
     private ObjectWrapperFactory objectWrapperFactory;
     @Autowired
     private ImportCommunity importCommunity;
+    
+    @Autowired
+    private ModuleManager modulManager;
     
     @Override
     public void execute(String[] args)
@@ -79,7 +80,7 @@ public class MovingWallServiceImpl implements MovingWallService
         
         try
         {
-            realImport = objectWrapperResolverFactory.provideObjectWrapperResolver(node.getPath()).resolveObjectWrapper(node, true);
+            realImport = modulManager.getModule(node.getPath()).getObjectWrapperResolver().resolveObjectWrapper(node, true);
         }
         catch(FileNotFoundException nfe)
         {

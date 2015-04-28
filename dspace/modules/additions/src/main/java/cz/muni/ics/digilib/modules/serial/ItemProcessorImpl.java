@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.ics.digilib.postprocess;
+package cz.muni.ics.digilib.modules.serial;
 
 import cz.muni.ics.digilib.domain.Article;
-import cz.muni.ics.digilib.domain.MonographyChapter;
 import cz.muni.ics.dspace5.api.ObjectMapper;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
-import cz.muni.ics.dspace5.api.post.ItemProcessor;
+import cz.muni.ics.dspace5.api.processors.ItemProcessor;
 import cz.muni.ics.dspace5.exceptions.MovingWallException;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
@@ -37,13 +36,11 @@ import org.dspace.content.Metadatum;
 import org.dspace.core.Constants;
 import org.dspace.services.ConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  *
  * @author Dominik Szalai - emptulik at gmail.com
  */
-@Component
 public class ItemProcessorImpl implements ItemProcessor
 {
     private static final Logger logger = Logger.getLogger(ItemProcessorImpl.class);
@@ -65,7 +62,6 @@ public class ItemProcessorImpl implements ItemProcessor
     
     private String[] itemFileNames;    
     private Article article;
-    private MonographyChapter monographyChapter;
     private ObjectWrapper currentWrapper;
     
     @PostConstruct
@@ -80,31 +76,14 @@ public class ItemProcessorImpl implements ItemProcessor
     {
         // TODO state exceptions
         this.currentWrapper = objectWrapper;
-        if(objectWrapper.getPath().toString().contains("serial"))
+        try
         {
-            try
-            {
-                this.article = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
-            }
-            catch(FileNotFoundException nfe)
-            {
-                logger.error(nfe,nfe.getCause());
-            }
+            this.article = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
         }
-        else if(objectWrapper.getPath().toString().contains("monograph"))
+        catch(FileNotFoundException nfe)
         {
-            try
-            {
-                this.monographyChapter = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
-            }
-            catch(FileNotFoundException nfe)
-            {
-                logger.error(nfe,nfe.getCause());
-            }
-        }
-        else
-        {
-            throw new IllegalArgumentException("Given input is not a valid path. Path should contain [serial/monography] but it did not.");
+            this.currentWrapper = null;
+            throw new IllegalStateException("detail.xml not found", nfe.getCause());
         }
     }
 
@@ -117,14 +96,10 @@ public class ItemProcessorImpl implements ItemProcessor
         {
             mapper.map(article, metadataWrapper);
         }
-        else if(monographyChapter != null)
-        {
-            mapper.map(monographyChapter, metadataWrapper);
-        }
         else
         {
             // TODO
-            throw new IllegalStateException();
+            throw new IllegalStateException("Article is null did you called #setup() first ?.");
         }
         
         return metadataWrapper.getMetadata();
@@ -232,7 +207,6 @@ public class ItemProcessorImpl implements ItemProcessor
     public void clear()
     {
         this.currentWrapper = null;
-        this.monographyChapter = null;
         this.article = null;
     }
 }

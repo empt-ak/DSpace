@@ -5,8 +5,8 @@
  */
 package cz.muni.ics.dspace5.imports;
 
+import cz.muni.ics.dspace5.api.ModuleManager;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
-import cz.muni.ics.dspace5.api.post.CollectionProcessor;
 import cz.muni.ics.dspace5.impl.ImportDataMap;
 import java.sql.SQLException;
 import java.util.List;
@@ -33,9 +33,9 @@ public class ImportCollection
     @Autowired
     private ImportItem importItem;
     @Autowired
-    private CollectionProcessor collectionProcessor;
-    @Autowired
     private ImportTools importTools;
+    @Autowired
+    private ModuleManager moduleManager;
     
     public Collection importToDspace(ObjectWrapper objectWrapper, List<ObjectWrapper> parents)
     {        
@@ -43,10 +43,10 @@ public class ImportCollection
         
         if(workingCollection != null)
         {
-            collectionProcessor.setup(objectWrapper);
+            moduleManager.getModule(objectWrapper).getCollectionProcessor().setup(objectWrapper);
             if(!importDataMap.containsKey("movingWallOnly"))
             {
-                List<Metadatum> metadata = collectionProcessor.processMetadata(parents);
+                List<Metadatum> metadata = moduleManager.getModule(objectWrapper).getCollectionProcessor().processMetadata(parents);
             
                 for(Metadatum m : metadata)
                 {
@@ -64,9 +64,9 @@ public class ImportCollection
                 // TODO date modified ? 
             }
             
-            collectionProcessor.processCollection(workingCollection, parents); 
+            moduleManager.getModule(objectWrapper).getCollectionProcessor().processCollection(workingCollection, parents); 
             
-            collectionProcessor.clear();
+            moduleManager.getModule(objectWrapper).getCollectionProcessor().clear();
             
             importTools.saveAndCommit(workingCollection);
             
