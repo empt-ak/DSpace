@@ -68,6 +68,10 @@
             <a>language</a>
             <b>metadata</b>
         </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="muni.categorytype">
+            <a>articleType</a>
+            <b>metadata</b>
+        </field>
         <field custom-converter-id="composedconverter" custom-converter-param="dc.description.abstract">
             <a>description</a>
             <b>metadata</b>

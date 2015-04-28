@@ -13,15 +13,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  *
  * @author Dominik Szalai - emptulik at gmail.com
  */
-@Component
 public class ObjectMapperImpl implements ObjectMapper
 {
     private static final Logger logger = Logger.getLogger(ObjectMapper.class);
@@ -47,5 +46,25 @@ public class ObjectMapperImpl implements ObjectMapper
         }
         
         return t;
+    }
+    
+    private void init()
+    {
+        this.unmarshaller.setAdapter(new StringNormalizerAdapter());
+    }
+    
+    private class StringNormalizerAdapter extends XmlAdapter<String, String>
+    {
+        @Override
+        public String unmarshal(String v) throws Exception
+        {
+            return v.trim();
+        }
+
+        @Override
+        public String marshal(String v) throws Exception
+        {
+            return v.trim();
+        }        
     }
 }

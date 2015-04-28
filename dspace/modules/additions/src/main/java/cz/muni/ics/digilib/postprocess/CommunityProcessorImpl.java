@@ -13,9 +13,11 @@ import cz.muni.ics.dspace5.api.ObjectMapper;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
 import cz.muni.ics.dspace5.api.post.CommunityProcessor;
 import cz.muni.ics.dspace5.comparators.ComparatorFactory;
+import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.impl.ImportDataMap;
 import cz.muni.ics.dspace5.impl.MetadataWrapper;
 import cz.muni.ics.dspace5.impl.io.FolderProvider;
+import cz.muni.ics.dspace5.movingwall.MovingWallService;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -54,6 +56,8 @@ public class CommunityProcessorImpl implements CommunityProcessor
     private ComparatorFactory comparatorFactory;
     @Autowired
     private ImportDataMap importDataMap;
+    @Autowired
+    private DSpaceTools dSpaceTools;
 
     private ObjectWrapper currentWrapper;
     private Periodical periodical;
@@ -133,6 +137,8 @@ public class CommunityProcessorImpl implements CommunityProcessor
             // TODO
             throw new IllegalStateException();
         }
+        
+        metadataWrapper.getMetadata().add(metadatumFactory.createMetadatum("muni", "mepath", null, null, dSpaceTools.getOnlyMEPath(currentWrapper.getPath()).toString()));
 
         return metadataWrapper.getMetadata();
     }
@@ -179,6 +185,15 @@ public class CommunityProcessorImpl implements CommunityProcessor
             {
                 logger.info("For handle@" + currentWrapper.getHandle() + iax.getMessage());
             }
+        }
+
+        if (monographicSeries != null)
+        {
+            importDataMap.put(MovingWallService.MOVING_WALL, monographicSeries.getMovingWall());
+        }
+        else if (periodical != null)
+        {
+            importDataMap.put(MovingWallService.MOVING_WALL, periodical.getMovingWall());
         }
     }
 

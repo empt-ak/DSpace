@@ -31,6 +31,12 @@ public interface MovingWallService
     public static final String MOVING_WALL = "embargoMovingWall";
 
     /**
+     * Key value for datamap specifying under which key is stored path to extra
+     * files such as whole books, epub, mobi.
+     */
+    public static final String MW_COLLECTION_PATH = "movingWallCollectionPath";
+
+    /**
      * Method used for direct execution of moving wall on given path or handle.
      * Path is extracted from command line arguments by any way user is familiar
      * with. Method must recreate (or pass required values) for given

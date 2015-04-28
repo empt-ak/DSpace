@@ -16,4 +16,5 @@ public abstract class ComparatorFactory
      * @return comparator used for comparing (sorting) issues.
      */
     public abstract IssuePathComparator provideIssuePathComparator();
+    public abstract ArticlePathComparator provideArticlePathComparator();
 }

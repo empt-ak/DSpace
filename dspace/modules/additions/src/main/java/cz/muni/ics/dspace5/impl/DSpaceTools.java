@@ -307,14 +307,31 @@ public class DSpaceTools extends AbstractTools
         return knownDateFormats.get(0).parseDateTime("1900-12-31");
     }
     
+    /**
+     * Converts given {@code dateTime} using specific {@code pattern} into string representation of given date.
+     * @param dateTime to be converted 
+     * @param pattern conversion pattern
+     * @return string representation of date using given pattern
+     */
     public String formatTime(DateTime dateTime, String pattern)
     {
         return DateTimeFormat.forPattern(pattern).print(dateTime);
     }
     
+    /**
+     * Wrapper for {@link #formatTime(org.joda.time.DateTime, java.lang.String) } using <b>yyyy-MM-dd</b> pattern.
+     * @param dateTime to be converted
+     * @return string representation of date using <b>yyyy-MM-dd</b> pattern
+     */
     public String simpleFormatTime(DateTime dateTime)
     {
         return formatTime(dateTime, "yyyy-MM-dd");
+    }
+    
+    
+    public Path getExtraStoragePath(Path objectWrapper)
+    {
+        return Paths.get(configurationService.getProperty("dspace.storage.extra")).resolve(getOnlyMEPath(objectWrapper));
     }
     
     /**

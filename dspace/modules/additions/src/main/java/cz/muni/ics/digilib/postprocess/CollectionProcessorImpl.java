@@ -11,10 +11,12 @@ import cz.muni.ics.dspace5.api.HandleService;
 import cz.muni.ics.dspace5.api.ObjectMapper;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
 import cz.muni.ics.dspace5.api.post.CollectionProcessor;
+import cz.muni.ics.dspace5.exceptions.MovingWallException;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.impl.ImportDataMap;
 import cz.muni.ics.dspace5.impl.MetadataWrapper;
+import cz.muni.ics.dspace5.movingwall.MWLockerProvider;
 import cz.muni.ics.dspace5.movingwall.MovingWallService;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -69,25 +71,19 @@ public class CollectionProcessorImpl implements CollectionProcessor
     private DSpaceTools dSpaceTools;
     @Autowired
     private ImportDataMap importDataMap;
+    @Autowired
+    private MWLockerProvider mWLockerProvider;
 
     private Issue issue;
     private Monography monography;
     private ObjectWrapper currentWrapper;
     private String[] collectionFileNames;
-    private Path storageExtra;
-    
-    
+
     @PostConstruct
     private void init()
     {
         this.collectionFileNames = configurationService.getProperty("dspace.collection.files").split(",");
-        logger.info("Allowed names for Collection files to be imported set to "+Arrays.toString(collectionFileNames));
-        String strageExtraPath = configurationService.getProperty("dspace.storage.extra");
-        if(!StringUtils.isEmpty(strageExtraPath))
-        {
-            this.storageExtra = Paths.get(configurationService.getProperty("dspace.storage.extra"));
-            logger.info("Extra storage path set to "+storageExtra);
-        }        
+        logger.info("Allowed names for Collection files to be imported set to " + Arrays.toString(collectionFileNames));
     }
 
     @Override
@@ -158,11 +154,10 @@ public class CollectionProcessorImpl implements CollectionProcessor
         {
             setCover(this.currentWrapper.getPath().resolve(COVER_FILENAME), collection);
         }
-        catch(IllegalArgumentException iae)
+        catch (IllegalArgumentException iae)
         {
             logger.warn(iae.getMessage());
         }
-        
 
         if (this.issue != null)
         {
@@ -218,36 +213,10 @@ public class CollectionProcessorImpl implements CollectionProcessor
     {
         if (issue != null)
         {
-            DateTime publDate;
-            if (issue.getPublicationDate() != null && !issue.getPublicationDate().isEmpty())
-            {
-                publDate = dSpaceTools.parseDate(issue.getPublicationDate());
-                importDataMap.put(MovingWallService.PUBLICATION_DATE, publDate);
-            }
-            else
-            {
-                // if year is set @getPublYear then it is autoset to YEAR-12-31
-                // or 1900-12-31 if no date is set
-                publDate = dSpaceTools.parseDate(issue.getPublYear());
-                importDataMap.put(MovingWallService.PUBLICATION_DATE, publDate);
-            }
-
-            if (issue.getEmbargoEndDate() != null && !issue.getEmbargoEndDate().isEmpty())
-            {
-                importDataMap.put(MovingWallService.END_DATE, dSpaceTools.parseDate(issue.getEmbargoEndDate()));
-            }
-            else
-            {
-                if (importDataMap.containsKey(MovingWallService.MOVING_WALL))
-                {
-                    DateTime endDate = publDate.plus(Months.months(Integer.parseInt(importDataMap.getTypedValue(MovingWallService.MOVING_WALL, String.class))));
-                    importDataMap.put(MovingWallService.END_DATE, endDate);
-                }
-                else
-                {
-                    logger.debug("No moving wall is stored in dataMap. Assuming there is no movingWall for this branch.");
-                }
-            }
+            DateTime publDate = getPublDate(Issue.class);
+            DateTime endDate = getEndDate(Issue.class, publDate);
+            importDataMap.put(MovingWallService.PUBLICATION_DATE, publDate);
+            importDataMap.put(MovingWallService.END_DATE, endDate);
 
             try
             {
@@ -261,7 +230,7 @@ public class CollectionProcessorImpl implements CollectionProcessor
     }
 
     private void setupMonography(Collection collection, List<ObjectWrapper> parents)
-    {        
+    {
         try
         {
             resolveVirtual(monography, collection);
@@ -270,40 +239,52 @@ public class CollectionProcessorImpl implements CollectionProcessor
         {
             logger.error(ex);
         }
-        
-        if(storageExtra != null)
+
+        for (String file : collectionFileNames)
         {
-            for(String file : collectionFileNames)
+            Path wholeBook = currentWrapper.getPath().resolve(file);
+            if (Files.exists(wholeBook))
             {
-                Path wholeBook = currentWrapper.getPath().resolve(file);
-                if(Files.exists(wholeBook))
+                Path extraStorage = dSpaceTools.getExtraStoragePath(currentWrapper.getPath());
+
+                try
                 {
-                    Path extraPath = storageExtra.resolve(dSpaceTools.getOnlyMEPath(currentWrapper.getPath()));  
-                    try
-                    {   
-                        Files.createDirectories(extraPath);
-                        Files.copy(wholeBook, extraPath.resolve(file), StandardCopyOption.REPLACE_EXISTING);
-                    }
-                    catch(IOException ex)
-                    {
-                        logger.error(ex,ex.getCause());
-                    }                
-                }  
+                    Files.createDirectories(extraStorage);
+                    Files.copy(wholeBook, extraStorage.resolve(file), StandardCopyOption.REPLACE_EXISTING);
+                }
+                catch (IOException ex)
+                {
+                    logger.error(ex, ex.getCause());
+                }
             }
-        }        
+        }
+        
+        DateTime publDate = getPublDate(Monography.class);
+        DateTime endDate = getEndDate(Monography.class, publDate);
+        importDataMap.put(MovingWallService.PUBLICATION_DATE, publDate);
+        importDataMap.put(MovingWallService.END_DATE, endDate);
+
+        try
+        {
+            mWLockerProvider.getLocker(Collection.class).lockObject(collection);
+        }
+        catch (IllegalArgumentException | MovingWallException ex)
+        {
+            logger.fatal(ex, ex.getCause());
+        }
     }
 
     private void resolveVirtual(Object object, Collection collection) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException
     {
-        
+
         String linkToReal = StringUtils.trim((String) PropertyUtils.getProperty(object, "linkToReal"));// trim needed #see SpisyFF/209-1977-1
-        if (!StringUtils.isEmpty(linkToReal)) 
-        {            
+        if (!StringUtils.isEmpty(linkToReal))
+        {
             String realHandle = handleService.getHandleForPath(Paths
                     .get(configurationService.getProperty("meditor.rootbase"))
                     .resolve(linkToReal), true);
-            
-            logger.debug("Attempting to resolve virtual links of "+collection.getHandle()+" linked to "+linkToReal+ " with handle "+realHandle+" .");
+
+            logger.debug("Attempting to resolve virtual links of " + collection.getHandle() + " linked to " + linkToReal + " with handle " + realHandle + " .");
 
             Collection realCollection = null;
             try
@@ -338,6 +319,77 @@ public class CollectionProcessorImpl implements CollectionProcessor
                         + " there is no real target Collection imported yet. Target handle is ["
                         + realHandle + "] but returned object is null. No subitems from real Collection will be attached to this one.");
             }
+        }
+    }
+
+    // @TODO implement by interface
+    private DateTime getPublDate(Class clasz)
+    {
+        if (clasz.equals(Monography.class))
+        {
+            return null;
+        }
+        else if (clasz.equals(Issue.class))
+        {
+            if (issue.getPublicationDate() != null && !issue.getPublicationDate().isEmpty())
+            {
+                return dSpaceTools.parseDate(issue.getPublicationDate());
+                //importDataMap.put(MovingWallService.PUBLICATION_DATE, publDate);
+            }
+            else
+            {
+                // if year is set @getPublYear then it is autoset to YEAR-12-31
+                // or 1900-12-31 if no date is set
+                return dSpaceTools.parseDate(issue.getPublYear());
+                //importDataMap.put(MovingWallService.PUBLICATION_DATE, publDate);
+            }
+        }
+        else
+        {
+            throw new IllegalArgumentException("Unsupported class.");
+        }
+    }
+    
+    private DateTime getEndDate(Class clasz, DateTime publDate)
+    {
+        if(clasz.equals(Monography.class))
+        {
+            return null;
+        }
+        else if(clasz.equals(Issue.class))
+        {
+            if (issue.getEmbargoEndDate() != null && !issue.getEmbargoEndDate().isEmpty())
+            {
+                return dSpaceTools.parseDate(issue.getEmbargoEndDate());
+            
+                //importDataMap.put(MovingWallService.END_DATE, dSpaceTools.parseDate(issue.getEmbargoEndDate()));
+            }
+            else
+            {
+                if(importDataMap.containsKey(MovingWallService.MOVING_WALL))
+                {
+                    return publDate.plus(Months.months(Integer.parseInt(importDataMap.getTypedValue(MovingWallService.MOVING_WALL, String.class))));
+                }
+                else
+                {                    
+                    return null;
+                }
+            }
+            
+//                if (importDataMap.containsKey(MovingWallService.MOVING_WALL))
+//                {
+//                    DateTime endDate = publDate.plus(Months.months(Integer.parseInt(importDataMap.getTypedValue(MovingWallService.MOVING_WALL, String.class))));
+//                    importDataMap.put(MovingWallService.END_DATE, endDate);
+//                }
+//                else
+//                {
+//                    
+//                }
+//            }
+        }
+        else
+        {
+            throw new IllegalArgumentException("Unsupported class.");
         }
     }
 }

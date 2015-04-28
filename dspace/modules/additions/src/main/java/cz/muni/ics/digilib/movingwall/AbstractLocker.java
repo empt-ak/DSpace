@@ -130,4 +130,15 @@ public abstract class AbstractLocker implements MWLocker
             }
         }
     }
+    
+    
+    protected DateTime extractEndDate()
+    {
+        return importDataMap.getTypedValue(MovingWallService.END_DATE, DateTime.class);
+    }
+    
+    protected DateTime extractStartDate()
+    {
+        return importDataMap.getTypedValue(MovingWallService.PUBLICATION_DATE, DateTime.class);
+    }
 }

@@ -94,6 +94,13 @@
     />
     
     <bean
+        id="objectMapper"
+        class="cz.muni.ics.dspace5.impl.ObjectMapperImpl"
+        scope="singleton"
+        init-method="init"
+    />
+    
+    <bean
         id="dspaceKernel"
         class="org.dspace.utils.DSpace"
     />
@@ -110,6 +117,11 @@
     />
     
     <bean
+        id="articlePathComparator"
+        class="cz.muni.ics.dspace5.comparators.ArticlePathComparator"
+    />
+    
+    <bean
         id="comparatorFactory"
         class="cz.muni.ics.dspace5.comparators.ComparatorFactory"
     >
@@ -117,6 +129,10 @@
             name="provideIssuePathComparator"
             bean="issuePathComparator"
         />        
+        <lookup-method
+            name="provideArticlePathComparator"
+            bean="articlePathComparator"
+        />
     </bean>
     
     <bean

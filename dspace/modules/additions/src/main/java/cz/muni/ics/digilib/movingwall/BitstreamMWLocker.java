@@ -6,7 +6,6 @@
 package cz.muni.ics.digilib.movingwall;
 
 import cz.muni.ics.dspace5.exceptions.MovingWallException;
-import cz.muni.ics.dspace5.movingwall.MovingWallService;
 import java.sql.SQLException;
 import java.util.List;
 import org.apache.log4j.Logger;
@@ -24,64 +23,65 @@ import org.joda.time.DateTime;
  */
 public class BitstreamMWLocker extends AbstractLocker
 {
+
     private static final Logger logger = Logger.getLogger(BitstreamMWLocker.class);
 
     @Override
     public void lockObject(DSpaceObject dSpaceObject) throws IllegalArgumentException, MovingWallException
     {
-        DateTime embargoEnd = importDataMap.getTypedValue(MovingWallService.END_DATE, DateTime.class);
-        DateTime embargoStart = importDataMap.getTypedValue(MovingWallService.PUBLICATION_DATE, DateTime.class);
-        
+        DateTime embargoEnd = extractEndDate();
+        DateTime embargoStart = extractStartDate();
+
         if (embargoEnd != null && DateTime.now().isBefore(embargoEnd))
         {
             try
             {
                 Group anonGroup = dSpaceGroupService.getAnonymousGroup();
-                
+
                 List<ResourcePolicy> currentPolicies = getPolicies(dSpaceObject);
-                
-                if(currentPolicies.isEmpty())
+
+                if (currentPolicies.isEmpty())
                 {
                     logger.info("There are no policies. Creating new");
-                    ResourcePolicy rp = AuthorizeManager.createOrModifyPolicy(null, 
-                            contextWrapper.getContext(), 
-                            "embargoname", 
-                            anonGroup.getID(), 
-                            null, 
-                            embargoEnd.toDate(), 
-                            Constants.READ, 
-                            "embargoryson", 
+                    ResourcePolicy rp = AuthorizeManager.createOrModifyPolicy(null,
+                            contextWrapper.getContext(),
+                            "embargoname",
+                            anonGroup.getID(),
+                            null,
+                            embargoEnd.toDate(),
+                            Constants.READ,
+                            "embargoryson",
                             dSpaceObject
                     );
-                
-                    rp.update(); 
+
+                    rp.update();
                 }
                 else
                 {
-                    for(ResourcePolicy rp : currentPolicies)
+                    for (ResourcePolicy rp : currentPolicies)
                     {
-                        logger.debug("Resource policy ID:- "+rp.getID()+" for group ID:- "+rp.getGroupID());
-                        if(rp.getGroupID() == anonGroup.getID())
+                        logger.debug("Resource policy ID:- " + rp.getID() + " for group ID:- " + rp.getGroupID());
+                        if (rp.getGroupID() == anonGroup.getID())
                         {
                             // we set restriction only to anonymous user, other users
                             // cant log in anyway.
-                            
-                            logger.info("Setting restriction access until "+embargoEnd.toString());
-                            if(importDataMap.containsKey("itemHandle"))
-                            {                                
-                                rp.setRpDescription("Bitstream embargo for item with handle @"+importDataMap.getValue("itemHandle")+" from @"+dSpaceTools.simpleFormatTime(embargoStart)+" to @"+dSpaceTools.simpleFormatTime(embargoEnd));
+
+                            logger.info("Setting restriction access until " + embargoEnd.toString());
+                            if (importDataMap.containsKey("itemHandle"))
+                            {
+                                rp.setRpDescription("Bitstream embargo for item with handle @" + importDataMap.getValue("itemHandle") + " from @" + dSpaceTools.simpleFormatTime(embargoStart) + " to @" + dSpaceTools.simpleFormatTime(embargoEnd));
                             }
                             else
                             {
-                                rp.setRpDescription("Bitstream embargo from @"+dSpaceTools.simpleFormatTime(embargoStart)+" to @"+dSpaceTools.simpleFormatTime(embargoEnd));
+                                rp.setRpDescription("Bitstream embargo from @" + dSpaceTools.simpleFormatTime(embargoStart) + " to @" + dSpaceTools.simpleFormatTime(embargoEnd));
                             }
-                            
+
                             // just update values
                             rp.setStartDate(embargoEnd.toDate());
                             // we don't set the end date because if set,
                             // then it means during which period is bitstream
                             // available for 
-                            
+
                             rp.update();
                         }
                     }
