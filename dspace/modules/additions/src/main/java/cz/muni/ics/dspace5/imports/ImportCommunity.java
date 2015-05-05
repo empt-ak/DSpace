@@ -5,11 +5,9 @@
  */
 package cz.muni.ics.dspace5.imports;
 
-import cz.muni.ics.dspace5.api.ModuleManager;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
 import cz.muni.ics.dspace5.api.ObjectWrapper.LEVEL;
-import cz.muni.ics.dspace5.api.processors.CommunityProcessor;
-import cz.muni.ics.dspace5.impl.ContextWrapper;
+import cz.muni.ics.dspace5.api.module.CommunityProcessor;
 import cz.muni.ics.dspace5.impl.ImportDataMap;
 import java.sql.SQLException;
 import java.util.List;
@@ -25,22 +23,14 @@ import org.springframework.stereotype.Component;
  * @author Dominik Szalai - emptulik at gmail.com
  */
 @Component
-public class ImportCommunity
+public class ImportCommunity extends AbstractImport
 {
 
     private static final Logger logger = Logger.getLogger(ImportCommunity.class);
     private static final String ANY = "*";
     
     @Autowired
-    private ImportTools importTools;
-    @Autowired
     private ImportCollection importCollection;
-    @Autowired
-    private ContextWrapper contextWrapper;
-    @Autowired
-    private ImportDataMap importDataMap;
-    @Autowired
-    private ModuleManager moduleManager;
 
     /**
      * Method takes given objectWrapper (which has contain path to target object
@@ -109,7 +99,7 @@ public class ImportCommunity
             
             moduleManager.getModule(objectWrapper).getCommunityProcessor().clear();
             
-            importTools.saveAndCommit(workingCommunity);
+            super.saveAndCommit(workingCommunity);
             
             if(objectWrapper.getChildren() != null && !objectWrapper.getChildren().isEmpty())
             {
@@ -119,7 +109,7 @@ public class ImportCommunity
                     {
                         objectWrapper.setObject(workingCommunity);
                         
-                        importCollection.importToDspace(issue, importTools.createParentBranch(objectWrapper, parents));
+                        importCollection.importToDspace(issue, dSpaceTools.createParentBranch(objectWrapper, parents));
                     }                    
                 }
                 else
@@ -128,7 +118,7 @@ public class ImportCommunity
                     {
                         objectWrapper.setObject(workingCommunity);
                         
-                        importToDspace(subComm, importTools.createParentBranch(objectWrapper, parents));
+                        importToDspace(subComm, dSpaceTools.createParentBranch(objectWrapper, parents));
                     } 
                 }
             }
@@ -157,7 +147,7 @@ public class ImportCommunity
         }
         catch(SQLException ex)
         {
-            importTools.safeFailLog(ex);
+            super.safeFailLog(ex);
         }
         
         if(communities != null && communities.length > 0)
@@ -188,7 +178,7 @@ public class ImportCommunity
             }
             catch(SQLException ex)
             {
-                importTools.safeFailLog(ex);
+                super.safeFailLog(ex);
             }
             
             if(children != null && children.length > 0)
@@ -216,7 +206,7 @@ public class ImportCommunity
                 catch(SQLException | AuthorizeException ex)
                 {
                     logger.error("Error creating subcommunity "+child.getHandle()+" for parent "+parent.getHandle());
-                    importTools.safeFailLog(ex);
+                    super.safeFailLog(ex);
                 }
             }
             
@@ -248,7 +238,7 @@ public class ImportCommunity
         }
         catch (SQLException exception)
         {
-            importTools.safeFailLog(exception);
+            super.safeFailLog(exception);
         }
 
         if (communities != null && communities.length > 0)
@@ -274,7 +264,7 @@ public class ImportCommunity
             }
             catch(SQLException | AuthorizeException ex)
             {
-                importTools.safeFailLog(ex);
+                super.safeFailLog(ex);
             }            
         }
 

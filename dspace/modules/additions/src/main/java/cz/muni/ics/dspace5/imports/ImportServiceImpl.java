@@ -80,10 +80,12 @@ public class ImportServiceImpl implements ImportService
             
             ObjectWrapper realImport = null;
             
+            String moduleName = moduleManager.getModuleName(importTarget.getPath());          
+            
             try
             {
                 realImport = moduleManager.getModule(importTarget.getPath())
-                        .getObjectWrapperResolver().resolveObjectWrapper(importTarget, error);                
+                        .getObjectWrapperResolver().resolveObjectWrapper(importTarget, true);                
             }
             catch(FileNotFoundException nfe)
             {

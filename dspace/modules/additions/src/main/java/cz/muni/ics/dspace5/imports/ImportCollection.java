@@ -5,9 +5,7 @@
  */
 package cz.muni.ics.dspace5.imports;
 
-import cz.muni.ics.dspace5.api.ModuleManager;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
-import cz.muni.ics.dspace5.impl.ImportDataMap;
 import java.sql.SQLException;
 import java.util.List;
 import org.apache.log4j.Logger;
@@ -23,19 +21,13 @@ import org.springframework.stereotype.Component;
  * @author Dominik Szalai - emptulik at gmail.com
  */
 @Component
-public class ImportCollection
+public class ImportCollection extends AbstractImport
 {
     private static final Logger logger = Logger.getLogger(ImportCollection.class);
     private static final String ANY = "*";
     
     @Autowired
-    private ImportDataMap importDataMap;
-    @Autowired
     private ImportItem importItem;
-    @Autowired
-    private ImportTools importTools;
-    @Autowired
-    private ModuleManager moduleManager;
     
     public Collection importToDspace(ObjectWrapper objectWrapper, List<ObjectWrapper> parents)
     {        
@@ -68,7 +60,7 @@ public class ImportCollection
             
             moduleManager.getModule(objectWrapper).getCollectionProcessor().clear();
             
-            importTools.saveAndCommit(workingCollection);
+            super.saveAndCommit(workingCollection);
             
             if(objectWrapper.getChildren() != null && !objectWrapper.getChildren().isEmpty())
             {
@@ -76,7 +68,7 @@ public class ImportCollection
                 {
                     objectWrapper.setObject(workingCollection);
                     
-                    importItem.importToDspace(article, importTools.createParentBranch(objectWrapper, parents));
+                    importItem.importToDspace(article, dSpaceTools.createParentBranch(objectWrapper, parents));
                 }
             }
             

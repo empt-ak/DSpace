@@ -109,11 +109,9 @@ public class ImportCommandLine extends AbstractCommandLine
             importDataMap.put("user",cmd.getOptionValue("u"));
         }
         
-        if(cmd.hasOption("mw"))
-        {
-            importDataMap.put("movingwall", cmd.getOptionValue("mw","auto"));
-        }
         
+        importDataMap.put("movingwall", cmd.getOptionValue("mw","auto"));
+                
         if(cmd.hasOption("check"))
         {
             importDataMap.put("precheck", true);

@@ -13,5 +13,16 @@ import java.nio.file.Path;
  */
 public interface ModuleNameResolver
 {
+
+    /**
+     * Method returns name of module for given path.
+     *
+     * @param path to be resolved
+     *
+     * @return name of the module
+     *
+     * @throws IllegalArgumentException if path is null, or there is no module
+     *                                  for this path.
+     */
     String getModuleName(Path path) throws IllegalArgumentException;
 }

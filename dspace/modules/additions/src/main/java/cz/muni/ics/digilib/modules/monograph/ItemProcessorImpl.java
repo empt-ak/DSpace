@@ -8,7 +8,7 @@ package cz.muni.ics.digilib.modules.monograph;
 import cz.muni.ics.digilib.domain.MonographyChapter;
 import cz.muni.ics.dspace5.api.ObjectMapper;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
-import cz.muni.ics.dspace5.api.processors.ItemProcessor;
+import cz.muni.ics.dspace5.api.module.ItemProcessor;
 import cz.muni.ics.dspace5.exceptions.MovingWallException;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;

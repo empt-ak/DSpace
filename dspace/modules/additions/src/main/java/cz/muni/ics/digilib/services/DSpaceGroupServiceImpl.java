@@ -30,35 +30,12 @@ public class DSpaceGroupServiceImpl implements DSpaceGroupService
     @Autowired
     private ConfigurationService configurationService;
     @Autowired
-    private ContextWrapper contextWrapper;
-    
-    @Override
-    public void createAll()
-    {
-        String[] groupNamesFromConfig = configurationService.getProperty("dspace.muni.groups").split(",");
-        for(String groupName : groupNamesFromConfig)
-        {            
-            try
-            {
-                createGroup(groupName);
-            }
-            catch(GroupAlreadyExistException gae)
-            {
-                logger.debug(gae,gae.getCause());
-            }
-        }     
-    }
-
-    @Override
-    public void check()
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    private ContextWrapper contextWrapper;    
 
     @Override
     public Group createGroup(String groupName) throws IllegalArgumentException, GroupAlreadyExistException
     {
-        Group group = getGroupByName(groupName);
+        Group group = getGroupByName(groupName); // throws iae
         
         if(group != null)
         {
@@ -71,7 +48,7 @@ public class DSpaceGroupServiceImpl implements DSpaceGroupService
                 group = Group.create(contextWrapper.getContext());
                 group.setName(groupName);
                 group.update();
-                logger.info("Group ["+groupName+" was created.");
+                logger.info("Group ["+groupName+"] was created.");
                 contextWrapper.getContext().commit();
             }
             catch(SQLException | AuthorizeException ex)
@@ -130,11 +107,22 @@ public class DSpaceGroupServiceImpl implements DSpaceGroupService
         return getGroupByName(builtInGroupNames[0]);
     }
     
-    // this messes the whole group setup process.
-    // if there are none groups yet then our 2 are created
-    // but we "miss" the anon and admin group. System will think that these two are
-    // etnologie and oktavo.
+    private int getNumberOfGroups()
+    {        
+        try
+        {
+            return Group.findAll(contextWrapper.getContext(), Group.ID).length;
+        }
+        catch(SQLException ex)
+        {
+            logger.error(ex,ex.getCause());
+        }
+        
+        return -1;
+    }
     
+    //throws dspace.cfg not found
+    // issue might be thread safety ?
     
 //    @PostConstruct
 //    private void init() throws SQLException
@@ -151,22 +139,27 @@ public class DSpaceGroupServiceImpl implements DSpaceGroupService
 //            wasMissing = true;
 //        }
 //        
-//        this.customMadeGroups = configurationService.getProperty("dspace.muni.groups").split(",");
-//        
-//        for(String group : customMadeGroups)
+//        // check for first run. when bean is created we check if there are 2 default
+//        // groups. if not then do nothing, otherwise create our custom groups
+//        if(getNumberOfGroups() > 1)
 //        {
-//            if(getGroupByName(group) == null)
+//            this.customMadeGroups = configurationService.getProperty("dspace.muni.groups").split(",");
+//        
+//            for(String group : customMadeGroups)
 //            {
-//                try
+//                if(getGroupByName(group) == null)
 //                {
-//                    createGroup(group);
-//                }
-//                catch(GroupAlreadyExistException gae)
-//                {
-//                    logger.error(gae);
+//                    try
+//                    {
+//                        createGroup(group);
+//                    }
+//                    catch(GroupAlreadyExistException gae)
+//                    {
+//                        logger.error(gae);
+//                    }
 //                }
 //            }
-//        }
+//        }        
 //        
 //        if(wasMissing)
 //        {

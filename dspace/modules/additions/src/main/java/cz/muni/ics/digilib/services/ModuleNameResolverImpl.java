@@ -20,6 +20,11 @@ public class ModuleNameResolverImpl implements ModuleNameResolver
     @Override
     public String getModuleName(Path path) throws IllegalArgumentException
     {
+        if(path == null)
+        {
+            throw new IllegalArgumentException("Path is null.");
+        }
+        
         if(path.toString().contains("serial"))
         {
             return "serial";
@@ -30,8 +35,7 @@ public class ModuleNameResolverImpl implements ModuleNameResolver
         }
         else
         {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Module for path "+path+" is not supported.");
         }
-    }
-    
+    }    
 }

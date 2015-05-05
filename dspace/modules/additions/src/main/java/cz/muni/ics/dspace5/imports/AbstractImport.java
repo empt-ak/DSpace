@@ -5,8 +5,11 @@
  */
 package cz.muni.ics.dspace5.imports;
 
+import cz.muni.ics.dspace5.api.ModuleManager;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
-import cz.muni.ics.dspace5.impl.AbstractTools;
+import cz.muni.ics.dspace5.impl.ContextWrapper;
+import cz.muni.ics.dspace5.impl.DSpaceTools;
+import cz.muni.ics.dspace5.impl.ImportDataMap;
 import java.sql.SQLException;
 import java.util.List;
 import org.apache.log4j.Logger;
@@ -15,16 +18,24 @@ import org.dspace.content.Collection;
 import org.dspace.content.Community;
 import org.dspace.content.Item;
 import org.dspace.core.Context;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
  * @author Dominik Szalai - emptulik at gmail.com
  */
-@Component
-public class ImportTools extends AbstractTools
+public class AbstractImport
 {
-    private static final Logger logger = Logger.getLogger(ImportTools.class);
+    private static final Logger logger = Logger.getLogger(AbstractImport.class);
+    
+    @Autowired
+    protected ModuleManager moduleManager;
+    @Autowired
+    protected ImportDataMap importDataMap;
+    @Autowired
+    protected ContextWrapper contextWrapper;
+    @Autowired
+    protected DSpaceTools dSpaceTools;
 
     /**
      * Method updates given community inside database and commits context.
@@ -32,9 +43,9 @@ public class ImportTools extends AbstractTools
      * @param community to be updated (saved)
      *
      * @see Community#update()
-     * @see Context#commit()
+     * @see Context#commit() 
      */
-    public void saveAndCommit(Community community)
+    protected void saveAndCommit(Community community)
     {
         try
         {
@@ -55,7 +66,7 @@ public class ImportTools extends AbstractTools
      * @see Context#commit()
      * @see Collection#update()
      */
-    public void saveAndCommit(Collection collection)
+    protected void saveAndCommit(Collection collection)
     {
         try
         {
@@ -80,7 +91,7 @@ public class ImportTools extends AbstractTools
      *
      * @param item
      */
-    public void saveAndCommit(Item item)
+    protected void saveAndCommit(Item item)
     {
         try
         {
@@ -104,7 +115,7 @@ public class ImportTools extends AbstractTools
      *
      * @param ex to be logged.
      */
-    public void safeFailLog(Exception ex)
+    protected void safeFailLog(Exception ex)
     {
         logger.error(ex, ex.getCause());
         if (importDataMap.getTypedValue("failOnError"))
@@ -123,7 +134,7 @@ public class ImportTools extends AbstractTools
      * @return previous parent
      * @throws ClassCastException if &lt;T&gt; is not the proper type for parent. 
      */
-    public <T> T getLastParent(List<ObjectWrapper> parents) throws ClassCastException
+    protected <T> T getLastParent(List<ObjectWrapper> parents) throws ClassCastException
     {
         return (T) parents.get(parents.size()-1);
     }

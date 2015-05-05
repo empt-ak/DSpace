@@ -59,7 +59,7 @@ public abstract class AbstractLocker implements MWLocker
                 if(importDataMap.containsKey(MovingWallService.END_DATE))
                 {
                     DateTime embargoEnd = importDataMap.getTypedValue(MovingWallService.END_DATE, DateTime.class);
-                    
+                    //TODO
                     if(embargoEnd.isAfter(DateTime.now()))
                     {
                         removeRestrictions(policies, anon);

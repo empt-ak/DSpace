@@ -15,16 +15,6 @@ import org.dspace.eperson.Group;
  */
 public interface DSpaceGroupService
 {
-
-    /**
-     * Method creates all groups set under {@code dspace.muni.groups} property
-     * inside configuration file.
-     *
-     * @throws NullPointerException if there are no groups set inside
-     *                              configuration file.
-     */
-    void createAll() throws NullPointerException;
-
     /**
      * Method creates group with given {@code groupName}. Method is forced to
      * commit context after group has been created.
@@ -38,12 +28,6 @@ public interface DSpaceGroupService
      * @see Context#commit()
      */
     Group createGroup(String groupName) throws IllegalArgumentException, GroupAlreadyExistException;
-
-    /**
-     * Method creates (if missing) all groups specified by
-     * {@code dspace.muni.groups} property set inside configuration file.
-     */
-    void check();
 
     /**
      * Method removes group with given name from database.

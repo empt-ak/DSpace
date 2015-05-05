@@ -9,7 +9,7 @@ import cz.muni.ics.digilib.domain.Monography;
 import cz.muni.ics.dspace5.api.HandleService;
 import cz.muni.ics.dspace5.api.ObjectMapper;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
-import cz.muni.ics.dspace5.api.processors.CollectionProcessor;
+import cz.muni.ics.dspace5.api.module.CollectionProcessor;
 import cz.muni.ics.dspace5.exceptions.MovingWallException;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
@@ -40,6 +40,7 @@ import org.dspace.content.Metadatum;
 import org.dspace.handle.HandleManager;
 import org.dspace.services.ConfigurationService;
 import org.joda.time.DateTime;
+import org.joda.time.Months;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -89,7 +90,7 @@ public class CollectionProcessorImpl implements CollectionProcessor
         }
 
         this.currentWrapper = objectWrapper;
-        
+
         try
         {
             this.monography = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
@@ -204,7 +205,7 @@ public class CollectionProcessorImpl implements CollectionProcessor
                 }
             }
         }
-        
+
         DateTime publDate = getPublDate();
         DateTime endDate = getEndDate(publDate);
         importDataMap.put(MovingWallService.PUBLICATION_DATE, publDate);
@@ -267,15 +268,25 @@ public class CollectionProcessorImpl implements CollectionProcessor
             }
         }
     }
-
-    // @TODO implement by interface
+    
     private DateTime getPublDate()
     {
-        return null;
+        return dSpaceTools.parseDate(monography.getPublYear());
     }
-    
-    private DateTime getEndDate( DateTime publDate)
+
+    private DateTime getEndDate(DateTime publDate)
     {
-        return null;
+        if(monography.getEmbargoEndDate() != null && !monography.getEmbargoEndDate().isEmpty())
+        {
+            return dSpaceTools.parseDate(monography.getEmbargoEndDate());
+        }
+        else if (importDataMap.containsKey(MovingWallService.MOVING_WALL))
+        {
+            return publDate.plus(Months.months(Integer.parseInt(importDataMap.getTypedValue(MovingWallService.MOVING_WALL, String.class))));
+        }
+        else
+        {
+            return null;
+        }
     }
 }

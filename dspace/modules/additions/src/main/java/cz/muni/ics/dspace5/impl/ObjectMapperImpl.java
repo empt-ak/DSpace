@@ -36,9 +36,9 @@ public class ObjectMapperImpl implements ObjectMapper
         
         try(InputStream is = Files.newInputStream(workingPath))
         {
-            logger.info("Converting path : "+p);
+            logger.debug("Converting path : "+p);
             t = (T) unmarshaller.unmarshal(is);
-            logger.info("Success");
+            logger.trace("Success");
         }
         catch(IOException | JAXBException ex)
         {

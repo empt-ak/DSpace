@@ -7,11 +7,12 @@ package cz.muni.ics.dspace5.impl;
 
 import cz.muni.ics.dspace5.api.ModuleManager;
 import cz.muni.ics.dspace5.api.ModuleNameResolver;
-import cz.muni.ics.dspace5.api.ModuleService;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
+import cz.muni.ics.dspace5.api.module.ModuleService;
 import java.nio.file.Path;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class ModuleManagerImpl implements ModuleManager
 {
+    private static final Logger logger = Logger.getLogger(ModuleManagerImpl.class);
     private Map<String,ModuleService> availableModules;
     @Autowired
     private ModuleNameResolver moduleNameResolver;
@@ -27,6 +29,8 @@ public class ModuleManagerImpl implements ModuleManager
     public void setAvailableModules(Map<String, ModuleService> availableModules)
     {
         this.availableModules = availableModules;
+        
+        logger.info("Following modules are available: "+this.availableModules.keySet());
     }
     
     @Override
@@ -61,5 +65,11 @@ public class ModuleManagerImpl implements ModuleManager
     public ModuleService getModule(ObjectWrapper objectWrapper) throws IllegalArgumentException, UnsupportedOperationException
     {
         return getModule(objectWrapper.getPath());
+    }
+
+    @Override
+    public boolean hasModule(String moduleName)
+    {
+        return availableModules.containsKey(moduleName);
     }
 }

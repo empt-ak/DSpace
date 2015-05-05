@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.ics.dspace5.api;
+package cz.muni.ics.dspace5.api.module;
 
+import cz.muni.ics.dspace5.api.ObjectWrapper;
 import java.io.FileNotFoundException;
 
 /**

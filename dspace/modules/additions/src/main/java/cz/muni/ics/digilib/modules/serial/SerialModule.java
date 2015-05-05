@@ -5,11 +5,11 @@
  */
 package cz.muni.ics.digilib.modules.serial;
 
-import cz.muni.ics.dspace5.api.ModuleService;
-import cz.muni.ics.dspace5.api.ObjectWrapperResolver;
-import cz.muni.ics.dspace5.api.processors.CollectionProcessor;
-import cz.muni.ics.dspace5.api.processors.CommunityProcessor;
-import cz.muni.ics.dspace5.api.processors.ItemProcessor;
+import cz.muni.ics.dspace5.api.module.ModuleService;
+import cz.muni.ics.dspace5.api.module.ObjectWrapperResolver;
+import cz.muni.ics.dspace5.api.module.CollectionProcessor;
+import cz.muni.ics.dspace5.api.module.CommunityProcessor;
+import cz.muni.ics.dspace5.api.module.ItemProcessor;
 import java.io.FileNotFoundException;
 
 /**

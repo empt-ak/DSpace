@@ -5,10 +5,7 @@
  */
 package cz.muni.ics.dspace5.imports;
 
-import cz.muni.ics.dspace5.api.ModuleManager;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
-import cz.muni.ics.dspace5.impl.ContextWrapper;
-import cz.muni.ics.dspace5.impl.ImportDataMap;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -20,7 +17,6 @@ import org.dspace.content.Item;
 import org.dspace.content.ItemIterator;
 import org.dspace.content.Metadatum;
 import org.dspace.content.WorkspaceItem;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -28,18 +24,10 @@ import org.springframework.stereotype.Component;
  * @author Dominik Szalai - emptulik at gmail.com
  */
 @Component
-public class ImportItem
+public class ImportItem extends AbstractImport
 {
     private static final Logger logger = Logger.getLogger(ImportItem.class);
     private static final String ANY = "*";
-    @Autowired
-    private ImportTools importTools;
-    @Autowired
-    private ContextWrapper contextWrapper;
-    @Autowired
-    private ImportDataMap importDataMap;
-    @Autowired
-    private ModuleManager moduleManager;
     
     public Item importToDspace(ObjectWrapper objectWrapper, List<ObjectWrapper> parents)
     {
@@ -74,7 +62,7 @@ public class ImportItem
             
             moduleManager.getModule(objectWrapper).getItemProcessor().clear();
                         
-            importTools.saveAndCommit(workingItem);
+            super.saveAndCommit(workingItem);
             
             // so there are no unneeded references to this list
             // if we are working with big tree
@@ -133,15 +121,9 @@ public class ImportItem
                 }
                 
                 return result;
-            }
-            else
-            {
-                return result;
-            }
+            }            
         }
-        else
-        {
-            return result;
-        }        
+        
+        return result;
     }
 }

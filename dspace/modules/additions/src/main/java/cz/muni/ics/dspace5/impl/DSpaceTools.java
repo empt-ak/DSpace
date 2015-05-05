@@ -5,6 +5,7 @@
  */
 package cz.muni.ics.dspace5.impl;
 
+import cz.muni.ics.dspace5.api.ObjectWrapper;
 import cz.muni.ics.dspace5.movingwall.MovingWallService;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,14 +19,18 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import org.apache.log4j.Logger;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.eperson.EPerson;
+import org.dspace.services.ConfigurationService;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -33,9 +38,12 @@ import org.springframework.stereotype.Component;
  * @author Dominik Szalai - emptulik at gmail.com
  */
 @Component
-public class DSpaceTools extends AbstractTools
+public class DSpaceTools
 {
-
+    @Autowired
+    private ConfigurationService configurationService;
+    @Autowired
+    private ContextWrapper contextWrapper;
     private static final Logger logger = Logger.getLogger(DSpaceTools.class);
     private final List<DateTimeFormatter> knownDateFormats = new ArrayList<>();
 
@@ -148,6 +156,12 @@ public class DSpaceTools extends AbstractTools
         return buildPath(p, 3);
     }
 
+    /**
+     * Method builds path in meditor base up to given level.
+     * @param p to be used for building
+     * @param level level to build
+     * @return build path up to given level in meditor base
+     */
     private Path buildPath(Path p, int level)
     {
         Path meditorPath = Paths.get(configurationService.getProperty("meditor.rootbase"));
@@ -328,10 +342,87 @@ public class DSpaceTools extends AbstractTools
         return formatTime(dateTime, "yyyy-MM-dd");
     }
     
-    
+    /**
+     * Method returns {@code Path} to extra storage which is used for whole books, epubs and mobis for collections.
+     * @param objectWrapper of which extra storage path we want
+     * @return extra storage path for given objectWrapper path
+     */
     public Path getExtraStoragePath(Path objectWrapper)
     {
         return Paths.get(configurationService.getProperty("dspace.storage.extra")).resolve(getOnlyMEPath(objectWrapper));
+    }
+    
+    
+    /**
+     * Method creates new List containing {@code ObjectWrapper}s which represent current processed node in object tree.
+     * @param newEntry to be added
+     * @param currentBranch so far processed branch
+     * @return List containing current branch
+     * @throws IllegalArgumentException if {@code newEntry} is null
+     */
+    public List<ObjectWrapper> createParentBranch(ObjectWrapper newEntry, List<ObjectWrapper> currentBranch) throws IllegalArgumentException
+    {
+        if(newEntry == null)
+        {
+            throw new IllegalArgumentException("New entry to list cannot by null.");
+        }
+        
+        List<ObjectWrapper> resultList = new ArrayList<>();
+        
+        if(currentBranch != null && !currentBranch.isEmpty())
+        {
+            resultList.addAll(currentBranch);
+        }
+        
+        resultList.add(newEntry);
+        
+        return resultList;
+    }
+    
+    /**
+     * Method creates new data map
+     * @param key of object to be stored
+     * @param object to be stored
+     * @param current actual (if existing) datamap
+     * @param createNew flag specifying whether &lt;key,object&gt; should be put in new map, or current one
+     * @return data map holding new &lt;key,object&gt; value
+     * @throws IllegalArgumentException if key is null or empty string
+     */
+    public Map<String,Object> createDataMap(String key, Object object, Map<String,Object> current, boolean createNew) throws IllegalArgumentException
+    {
+        if(key == null || key.isEmpty())
+        {
+            throw new IllegalArgumentException("Key to map has to be non empty String.");
+        }
+        
+        if(!createNew)
+        {
+            if(current == null)
+            {
+                Map<String,Object> newResult = new HashMap<>();
+                newResult.put(key, object);
+                
+                return newResult;
+            }
+            else
+            {
+                current.put(key, object);
+                
+                return current;
+            }
+        }
+        else
+        {
+            Map<String,Object> newResult = new HashMap<>();
+            if(current != null)
+            {
+                newResult.putAll(current);
+            }
+            
+            newResult.put(key, object);
+
+            return newResult;
+        }
     }
     
     /**

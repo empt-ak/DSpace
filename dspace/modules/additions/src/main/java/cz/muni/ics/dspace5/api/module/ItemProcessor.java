@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.ics.dspace5.api.processors;
+package cz.muni.ics.dspace5.api.module;
 
 import cz.muni.ics.dspace5.api.ObjectWrapper;
 import java.util.List;
-import org.dspace.content.Collection;
+import org.dspace.content.Item;
 import org.dspace.content.Metadatum;
 import org.w3c.dom.Document;
 
@@ -32,7 +32,7 @@ import org.w3c.dom.Document;
  *
  * @author Dominik Szalai - emptulik at gmail.com
  */
-public interface CollectionProcessor
+public interface ItemProcessor
 {
 
     /**
@@ -54,7 +54,7 @@ public interface CollectionProcessor
 
     /**
      * Method converts already setup object into List of metadata objects. If
-     * required for any reason previous parents and are provided.
+     * required for any reason previous parents are provided.
      *
      * @param parents previous processed branch for current object
      *
@@ -65,20 +65,20 @@ public interface CollectionProcessor
      *                                  } was not called before.
      */
     List<Metadatum> processMetadata(List<ObjectWrapper> parents) throws IllegalArgumentException, IllegalStateException;
-    
+
     /**
-     * Calling this method makes additional changes to collection in post
-     * processing as metadata were already extracted. This includes activities
-     * such as setting cover picture, or setting extra restriction to object.
+     * Calling this method makes additional changes to item in post processing
+     * as metadata were already extracted. This includes activities such as
+     * setting cover picture, or setting extra restriction to object.
      *
-     * @param collection to be modified in post process
-     * @param parents    previous processed branch for current object
+     * @param item    to be modified in post process
+     * @param parents previous processed branch for current object
      *
-     * @throws IllegalArgumentException if collection is null
+     * @throws IllegalArgumentException if item is null
      * @throws IllegalStateException    if {@link #setup(cz.muni.ics.dspace5.api.ObjectWrapper)
      *                                  } was not called before
      */
-    void processCollection(Collection collection, List<ObjectWrapper> parents) throws IllegalStateException, IllegalArgumentException;
+    void processItem(Item item, List<ObjectWrapper> parents) throws IllegalStateException, IllegalArgumentException;
 
     /**
      * Calling this method clears object(s) stored, or recreated by {@link #setup(cz.muni.ics.dspace5.api.ObjectWrapper)
