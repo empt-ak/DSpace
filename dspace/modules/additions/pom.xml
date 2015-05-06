@@ -10,16 +10,16 @@
     </description>
     <packaging>jar</packaging>
 
-    <!--
-    A Parent POM that Maven inherits DSpace Defaults
-    POM attributes from.
-    -->
-    <parent>
-        <groupId>org.dspace</groupId>
-        <artifactId>modules</artifactId>
-        <version>5.1-SNAPSHOT</version>
-        <relativePath>..</relativePath>
-    </parent>
+   <!--
+   A Parent POM that Maven inherits DSpace Defaults
+   POM attributes from.
+   -->
+   <parent>
+      <groupId>org.dspace</groupId>
+      <artifactId>modules</artifactId>
+      <version>5.2-SNAPSHOT</version>
+      <relativePath>..</relativePath>
+   </parent>
 
     <properties>
         <!-- This is the path to the root [dspace-src] directory. -->
