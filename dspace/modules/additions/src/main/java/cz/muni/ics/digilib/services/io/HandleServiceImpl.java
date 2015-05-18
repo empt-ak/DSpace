@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.ics.dspace5.impl.io;
+package cz.muni.ics.digilib.services.io;
 
 import cz.muni.ics.dspace5.api.HandleService;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
+import cz.muni.ics.dspace5.impl.io.FolderProvider;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
