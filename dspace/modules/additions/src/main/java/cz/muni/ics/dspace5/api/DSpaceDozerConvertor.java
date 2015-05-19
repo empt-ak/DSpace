@@ -5,6 +5,7 @@
  */
 package cz.muni.ics.dspace5.api;
 
+import cz.muni.ics.dspace5.metadata.MetadatumFactory;
 import org.apache.log4j.Logger;
 import org.dozer.ConfigurableCustomConverter;
 import org.dspace.content.Metadatum;

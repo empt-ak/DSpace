@@ -52,6 +52,10 @@
             name="getMovingWallCommandLine"
             bean="movingWallCommandLine"
         />
+        <lookup-method
+            name="getSetupCommandLine"
+            bean="setupCommandLine"
+        />
     </bean>
     
     <bean
@@ -70,6 +74,11 @@
     />
     
     <bean
+        id="setupCommandLine"
+        class="cz.muni.ics.digilib.services.io.SetupCommandLine" 
+    />
+    
+    <bean
         id="jaxbc"
         class="javax.xml.bind.JAXBContext"
         factory-method="newInstance"
@@ -83,6 +92,7 @@
                 <value>cz.muni.ics.digilib.domain.MonographicSeries</value>
                 <value>cz.muni.ics.digilib.domain.Monography</value>
                 <value>cz.muni.ics.digilib.domain.MonographyChapter</value>
+                <value>cz.muni.ics.digilib.service.io.references.References</value>
             </list>
         </constructor-arg>
     </bean>
@@ -168,7 +178,7 @@
     
     <bean
         id="metadatumFactory"
-        class="cz.muni.ics.dspace5.impl.MetaDatumFactoryImpl"
+        class="cz.muni.ics.dspace5.metadata.MetaDatumFactoryImpl"
     />
     
     <bean

@@ -13,7 +13,7 @@ import cz.muni.ics.dspace5.api.module.CollectionProcessor;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.impl.ImportDataMap;
-import cz.muni.ics.dspace5.impl.MetadataWrapper;
+import cz.muni.ics.dspace5.metadata.MetadataWrapper;
 import cz.muni.ics.dspace5.movingwall.MWLockerProvider;
 import cz.muni.ics.dspace5.movingwall.MovingWallService;
 import java.io.FileInputStream;

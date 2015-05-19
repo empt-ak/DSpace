@@ -7,14 +7,14 @@ package cz.muni.ics.digilib.modules.serial;
 
 import cz.muni.ics.digilib.domain.Periodical;
 import cz.muni.ics.digilib.domain.Volume;
-import cz.muni.ics.dspace5.api.MetadatumFactory;
+import cz.muni.ics.dspace5.metadata.MetadatumFactory;
 import cz.muni.ics.dspace5.api.ObjectMapper;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
 import cz.muni.ics.dspace5.api.module.CommunityProcessor;
 import cz.muni.ics.dspace5.comparators.ComparatorFactory;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.impl.ImportDataMap;
-import cz.muni.ics.dspace5.impl.MetadataWrapper;
+import cz.muni.ics.dspace5.metadata.MetadataWrapper;
 import cz.muni.ics.dspace5.impl.io.FolderProvider;
 import cz.muni.ics.dspace5.movingwall.MovingWallService;
 import java.io.FileInputStream;

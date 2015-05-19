@@ -6,13 +6,13 @@
 package cz.muni.ics.digilib.modules.monograph;
 
 import cz.muni.ics.digilib.domain.MonographicSeries;
-import cz.muni.ics.dspace5.api.MetadatumFactory;
+import cz.muni.ics.dspace5.metadata.MetadatumFactory;
 import cz.muni.ics.dspace5.api.ObjectMapper;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
 import cz.muni.ics.dspace5.api.module.CommunityProcessor;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.impl.ImportDataMap;
-import cz.muni.ics.dspace5.impl.MetadataWrapper;
+import cz.muni.ics.dspace5.metadata.MetadataWrapper;
 import cz.muni.ics.dspace5.movingwall.MovingWallService;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.ics.dspace5.impl;
+package cz.muni.ics.dspace5.metadata;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,5 +29,10 @@ public class MetadataWrapper
     public void setMetadata(List<Metadatum> metadata)
     {
         this.metadata = metadata;
+    }
+    
+    public void push(List<Metadatum> metadata)
+    {
+        this.metadata.addAll(metadata);
     }
 }

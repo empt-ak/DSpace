@@ -6,6 +6,7 @@
 package cz.muni.ics.digilib.modules.serial;
 
 import cz.muni.ics.digilib.domain.Article;
+import cz.muni.ics.digilib.service.io.references.ReferenceService;
 import cz.muni.ics.dspace5.api.ObjectMapper;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
 import cz.muni.ics.dspace5.api.module.ItemProcessor;
@@ -13,7 +14,7 @@ import cz.muni.ics.dspace5.exceptions.MovingWallException;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.impl.ImportDataMap;
-import cz.muni.ics.dspace5.impl.MetadataWrapper;
+import cz.muni.ics.dspace5.metadata.MetadataWrapper;
 import cz.muni.ics.dspace5.movingwall.MWLockerProvider;
 import java.io.BufferedInputStream;
 import java.io.FileNotFoundException;
@@ -58,6 +59,8 @@ public class ItemProcessorImpl implements ItemProcessor
     private MWLockerProvider mWLockerProvider;
     @Autowired
     private ConfigurationService configurationService;
+    @Autowired
+    private ReferenceService referenceService;
    
     
     private String[] itemFileNames;    
@@ -101,6 +104,8 @@ public class ItemProcessorImpl implements ItemProcessor
             // TODO
             throw new IllegalStateException("Article is null did you called #setup() first ?.");
         }
+        
+        metadataWrapper.push(referenceService.getReferencesAsMetadata(currentWrapper));
         
         return metadataWrapper.getMetadata();
     }

@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.ics.dspace5.impl;
+package cz.muni.ics.dspace5.metadata;
 
-import cz.muni.ics.dspace5.api.MetadatumFactory;
+import cz.muni.ics.dspace5.metadata.MetadatumFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.dspace.content.Metadatum;
