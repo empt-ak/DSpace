@@ -7,16 +7,15 @@ package cz.muni.ics.digilib.modules.serial;
 
 import cz.muni.ics.digilib.domain.Periodical;
 import cz.muni.ics.digilib.domain.Volume;
-import cz.muni.ics.dspace5.metadata.MetadatumFactory;
+import cz.muni.ics.digilib.movingwall.MovingWallFactoryBean;
 import cz.muni.ics.dspace5.api.ObjectMapper;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
 import cz.muni.ics.dspace5.api.module.CommunityProcessor;
 import cz.muni.ics.dspace5.comparators.ComparatorFactory;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
-import cz.muni.ics.dspace5.impl.ImportDataMap;
-import cz.muni.ics.dspace5.metadata.MetadataWrapper;
 import cz.muni.ics.dspace5.impl.io.FolderProvider;
-import cz.muni.ics.dspace5.movingwall.MovingWallService;
+import cz.muni.ics.dspace5.metadata.MetadataWrapper;
+import cz.muni.ics.dspace5.metadata.MetadatumFactory;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -52,9 +51,9 @@ public class CommunityProcessorImpl implements CommunityProcessor
     @Autowired
     private ComparatorFactory comparatorFactory;
     @Autowired
-    private ImportDataMap importDataMap;
-    @Autowired
     private DSpaceTools dSpaceTools;
+    @Autowired
+    private MovingWallFactoryBean movingWallFactoryBean;
 
     private ObjectWrapper currentWrapper;
     private Periodical periodical;
@@ -161,10 +160,7 @@ public class CommunityProcessorImpl implements CommunityProcessor
             }
         }
 
-        if (periodical != null)
-        {
-            importDataMap.put(MovingWallService.MOVING_WALL, periodical.getMovingWall());
-        }
+        movingWallFactoryBean.parse(periodical);
     }
 
     @Override

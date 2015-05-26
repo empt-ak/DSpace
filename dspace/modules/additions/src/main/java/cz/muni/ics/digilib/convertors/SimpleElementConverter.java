@@ -39,7 +39,7 @@ public class SimpleElementConverter extends DSpaceDozerConvertor
                 resultList.add(metadatumFactory.createMetadatum(schema, element, qualifier, null, o.toString()));
             }
         }
-        else
+        else if(source != null)
         {
             resultList.add(metadatumFactory.createMetadatum(schema, element, qualifier, null, source.toString()));
         }

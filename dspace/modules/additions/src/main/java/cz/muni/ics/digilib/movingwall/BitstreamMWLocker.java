@@ -6,16 +6,16 @@
 package cz.muni.ics.digilib.movingwall;
 
 import cz.muni.ics.dspace5.exceptions.MovingWallException;
+import cz.muni.ics.dspace5.movingwall.MovingWall;
 import java.sql.SQLException;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.dspace.authorize.AuthorizeException;
-import org.dspace.authorize.AuthorizeManager;
 import org.dspace.authorize.ResourcePolicy;
 import org.dspace.content.DSpaceObject;
-import org.dspace.core.Constants;
 import org.dspace.eperson.Group;
 import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -25,14 +25,20 @@ public class BitstreamMWLocker extends AbstractLocker
 {
 
     private static final Logger logger = Logger.getLogger(BitstreamMWLocker.class);
+    
+    @Autowired
+    private ResourcePolicyFactory resourcePolicyFactory;
 
     @Override
-    public void lockObject(DSpaceObject dSpaceObject) throws IllegalArgumentException, MovingWallException
+    public void lockObject(DSpaceObject dSpaceObject, MovingWall movingWall) throws IllegalArgumentException, MovingWallException
     {
-        DateTime embargoEnd = extractEndDate();
-        DateTime embargoStart = extractStartDate();
+        logger.info("Following MW obtained: "+movingWall);
+        DateTime embargoEnd = movingWall.getEndDate();
+        DateTime embargoStart = movingWall.getPublDate();
 
-        if (embargoEnd != null && DateTime.now().isBefore(embargoEnd))
+        if ((DateTime.now().isBefore(embargoEnd) && !movingWall.isOpenAccess()) || 
+                (movingWall.getRightsAccess() != null && !"openaccess".equals(movingWall.getRightsAccess()))
+            )
         {
             try
             {
@@ -40,24 +46,13 @@ public class BitstreamMWLocker extends AbstractLocker
 
                 List<ResourcePolicy> currentPolicies = getPolicies(dSpaceObject);
 
-                if (currentPolicies.isEmpty())
-                {
-                    logger.info("There are no policies. Creating new");
-                    ResourcePolicy rp = AuthorizeManager.createOrModifyPolicy(null,
-                            contextWrapper.getContext(),
-                            "embargoname",
-                            anonGroup.getID(),
-                            null,
-                            embargoEnd.toDate(),
-                            Constants.READ,
-                            "embargoryson",
-                            dSpaceObject
-                    );
-
-                    rp.update();
-                }
-                else
-                {
+//                if (currentPolicies.isEmpty())
+//                {
+//                    logger.info("There are no policies. Creating new");
+//                    resourcePolicyFactory.createResourcePolicy(dSpaceObject, movingWall, anonGroup.getID(), "example", "test").update();
+//                }
+//                else
+//                {
                     for (ResourcePolicy rp : currentPolicies)
                     {
                         logger.debug("Resource policy ID:- " + rp.getID() + " for group ID:- " + rp.getGroupID());
@@ -65,26 +60,27 @@ public class BitstreamMWLocker extends AbstractLocker
                         {
                             // we set restriction only to anonymous user, other users
                             // cant log in anyway.
-
-                            logger.info("Setting restriction access until " + embargoEnd.toString());
-                            if (importDataMap.containsKey("itemHandle"))
-                            {
-                                rp.setRpDescription("Bitstream embargo for item with handle @" + importDataMap.getValue("itemHandle") + " from @" + dSpaceTools.simpleFormatTime(embargoStart) + " to @" + dSpaceTools.simpleFormatTime(embargoEnd));
-                            }
-                            else
-                            {
-                                rp.setRpDescription("Bitstream embargo from @" + dSpaceTools.simpleFormatTime(embargoStart) + " to @" + dSpaceTools.simpleFormatTime(embargoEnd));
-                            }
-
-                            // just update values
-                            rp.setStartDate(embargoEnd.toDate());
-                            // we don't set the end date because if set,
-                            // then it means during which period is bitstream
-                            // available for 
+                            resourcePolicyFactory.createResourcePolicy(rp, dSpaceObject, movingWall, "Bitstream embargo from @" + dSpaceTools.simpleFormatTime(embargoStart) + " to @" + dSpaceTools.simpleFormatTime(embargoEnd), "embargo")
+                                    .update();
+//                            logger.info("Setting restriction access until " + embargoEnd.toString());
+//                            if (importDataMap.containsKey("itemHandle"))
+//                            {
+//                                rp.setRpDescription("Bitstream embargo for item with handle @" + importDataMap.getValue("itemHandle") + " from @" + dSpaceTools.simpleFormatTime(embargoStart) + " to @" + dSpaceTools.simpleFormatTime(embargoEnd));
+//                            }
+//                            else
+//                            {
+//                                rp.setRpDescription("Bitstream embargo from @" + dSpaceTools.simpleFormatTime(embargoStart) + " to @" + dSpaceTools.simpleFormatTime(embargoEnd));
+//                            }
+//
+//                            // just update values
+//                            rp.setStartDate(embargoEnd.toDate());
+//                            // we don't set the end date because if set,
+//                            // then it means during which period is bitstream
+//                            // available for 
 
                             rp.update();
                         }
-                    }
+//                    }
                 }
             }
             catch (SQLException | AuthorizeException ex)
@@ -94,7 +90,7 @@ public class BitstreamMWLocker extends AbstractLocker
         }
         else
         {
-            super.unlockObject(dSpaceObject);
+            super.unlockObject(dSpaceObject, movingWall);
         }
     }
 }

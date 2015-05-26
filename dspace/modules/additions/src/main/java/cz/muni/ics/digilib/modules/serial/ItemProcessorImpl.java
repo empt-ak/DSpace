@@ -6,6 +6,7 @@
 package cz.muni.ics.digilib.modules.serial;
 
 import cz.muni.ics.digilib.domain.Article;
+import cz.muni.ics.digilib.movingwall.MovingWallFactoryBean;
 import cz.muni.ics.digilib.service.io.references.ReferenceService;
 import cz.muni.ics.dspace5.api.ObjectMapper;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
@@ -61,7 +62,8 @@ public class ItemProcessorImpl implements ItemProcessor
     private ConfigurationService configurationService;
     @Autowired
     private ReferenceService referenceService;
-   
+    @Autowired
+    private MovingWallFactoryBean movingWallFactoryBean;
     
     private String[] itemFileNames;    
     private Article article;
@@ -188,7 +190,7 @@ public class ItemProcessorImpl implements ItemProcessor
                     {
                         try
                         {
-                            mWLockerProvider.getLocker(Bitstream.class).lockObject(pdfBitstream);
+                            mWLockerProvider.getLocker(Bitstream.class).lockObject(pdfBitstream, movingWallFactoryBean.build());
                         }
                         catch(MovingWallException mwe)
                         {

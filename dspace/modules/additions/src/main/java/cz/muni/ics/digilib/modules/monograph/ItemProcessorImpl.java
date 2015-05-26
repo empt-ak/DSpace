@@ -6,6 +6,7 @@
 package cz.muni.ics.digilib.modules.monograph;
 
 import cz.muni.ics.digilib.domain.MonographyChapter;
+import cz.muni.ics.digilib.movingwall.MovingWallFactoryBean;
 import cz.muni.ics.dspace5.api.ObjectMapper;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
 import cz.muni.ics.dspace5.api.module.ItemProcessor;
@@ -43,11 +44,12 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class ItemProcessorImpl implements ItemProcessor
 {
+
     private static final Logger logger = Logger.getLogger(ItemProcessorImpl.class);
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
-    private Mapper mapper;    
+    private Mapper mapper;
     @Autowired
     private DSpaceTools dSpaceTools;
     @Autowired
@@ -58,19 +60,20 @@ public class ItemProcessorImpl implements ItemProcessor
     private MWLockerProvider mWLockerProvider;
     @Autowired
     private ConfigurationService configurationService;
-   
-    
+    @Autowired
+    private MovingWallFactoryBean movingWallFactoryBean;
+
     private String[] itemFileNames;
     private MonographyChapter monographyChapter;
     private ObjectWrapper currentWrapper;
-    
+
     @PostConstruct
     private void init()
     {
         this.itemFileNames = configurationService.getProperty("dspace.item.pdf.allowednames").split(",");
-        logger.info("Allowed names for Item files to be imported set to "+Arrays.toString(itemFileNames));
+        logger.info("Allowed names for Item files to be imported set to " + Arrays.toString(itemFileNames));
     }
-    
+
     @Override
     public void setup(ObjectWrapper objectWrapper) throws IllegalStateException, IllegalArgumentException
     {
@@ -80,9 +83,9 @@ public class ItemProcessorImpl implements ItemProcessor
         {
             this.monographyChapter = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
         }
-        catch(FileNotFoundException nfe)
+        catch (FileNotFoundException nfe)
         {
-            logger.error(nfe,nfe.getCause());
+            logger.error(nfe, nfe.getCause());
         }
     }
 
@@ -90,8 +93,8 @@ public class ItemProcessorImpl implements ItemProcessor
     public List<Metadatum> processMetadata(List<ObjectWrapper> parents) throws IllegalArgumentException, IllegalStateException
     {
         MetadataWrapper metadataWrapper = new MetadataWrapper();
-        
-        if(monographyChapter != null)
+
+        if (monographyChapter != null)
         {
             mapper.map(monographyChapter, metadataWrapper);
         }
@@ -100,7 +103,7 @@ public class ItemProcessorImpl implements ItemProcessor
             // TODO
             throw new IllegalStateException();
         }
-        
+
         return metadataWrapper.getMetadata();
     }
 
@@ -108,57 +111,57 @@ public class ItemProcessorImpl implements ItemProcessor
     public void processItem(Item item, List<ObjectWrapper> parents) throws IllegalStateException, IllegalArgumentException
     {
         importDataMap.put("itemHandle", currentWrapper.getHandle());
-        
+
         Bundle[] oldBundles = null;
-        
+
         try
         {
             // there might be other files like license text
             // thus we remove only DEFAULT
             oldBundles = item.getBundles(Constants.DEFAULT_BUNDLE_NAME);
         }
-        catch(SQLException ex)
+        catch (SQLException ex)
         {
-            logger.debug(ex,ex.getCause());
+            logger.debug(ex, ex.getCause());
         }
-        
-        if(oldBundles != null && oldBundles.length > 0)
+
+        if (oldBundles != null && oldBundles.length > 0)
         {
             try
             {
-                for(Bundle oldBundle : oldBundles)
+                for (Bundle oldBundle : oldBundles)
                 {
                     item.removeBundle(oldBundle);
                 }
             }
-            catch(SQLException | AuthorizeException | IOException ex)
+            catch (SQLException | AuthorizeException | IOException ex)
             {
-                logger.debug(ex,ex.getCause());
-            }            
+                logger.debug(ex, ex.getCause());
+            }
         }
-        
+
         Bundle bundle = null;
         try
         {
             bundle = item.createBundle(Constants.DEFAULT_BUNDLE_NAME);
         }
-        catch(SQLException | AuthorizeException ex)
+        catch (SQLException | AuthorizeException ex)
         {
-            logger.error(ex,ex.getCause());
+            logger.error(ex, ex.getCause());
         }
-        
-        if(bundle != null)
+
+        if (bundle != null)
         {
             Bitstream pdfBitstream = null;
-            
+
             Path bitstreamPath = null;
-            
-            for(String pdfFileName : itemFileNames)
+
+            for (String pdfFileName : itemFileNames)
             {
                 Path possiblePath = currentWrapper.getPath().resolve(pdfFileName);
-                if(!Files.exists(possiblePath))
+                if (!Files.exists(possiblePath))
                 {
-                    logger.trace("No pdf file found at path "+possiblePath);
+                    logger.trace("No pdf file found at path " + possiblePath);
                 }
                 else
                 {
@@ -166,38 +169,38 @@ public class ItemProcessorImpl implements ItemProcessor
                     break;
                 }
             }
-            
-            if(bitstreamPath != null)
+
+            if (bitstreamPath != null)
             {
-                try(BufferedInputStream bis = new BufferedInputStream(Files.newInputStream(bitstreamPath, StandardOpenOption.READ)))
+                try (BufferedInputStream bis = new BufferedInputStream(Files.newInputStream(bitstreamPath, StandardOpenOption.READ)))
                 {
                     pdfBitstream = bundle.createBitstream(bis);
-                    
+
                     pdfBitstream.setName(dSpaceTools.getNameForPDF(currentWrapper.getPath()));
                     pdfBitstream.setDescription("Full-text");
                     pdfBitstream.setFormat(BitstreamFormat.findByMIMEType(contextWrapper.getContext(), "application/pdf"));
                     pdfBitstream.update();
-                    
-                    if(importDataMap.containsKey("movingwall") && !importDataMap.getValue("movingwall").equals("ignore"))
+
+                    if (importDataMap.containsKey("movingwall") && !importDataMap.getValue("movingwall").equals("ignore"))
                     {
                         try
                         {
-                            mWLockerProvider.getLocker(Bitstream.class).lockObject(pdfBitstream);
+                            mWLockerProvider.getLocker(Bitstream.class).lockObject(pdfBitstream, movingWallFactoryBean.build());
                         }
-                        catch(MovingWallException mwe)
+                        catch (MovingWallException mwe)
                         {
                             logger.fatal(mwe.getMessage());
                         }
-                    }                    
+                    }
                 }
-                catch(IOException | AuthorizeException | SQLException ex)
+                catch (IOException | AuthorizeException | SQLException ex)
                 {
-                    logger.error(ex,ex.getCause());
+                    logger.error(ex, ex.getCause());
                 }
             }
             else
             {
-                logger.warn("No importable files found for "+currentWrapper.getHandle()+" @"+currentWrapper.getPath());
+                logger.warn("No importable files found for " + currentWrapper.getHandle() + " @" + currentWrapper.getPath());
             }
         }
     }

@@ -6,6 +6,7 @@
 package cz.muni.ics.digilib.modules.serial;
 
 import cz.muni.ics.digilib.domain.Issue;
+import cz.muni.ics.digilib.movingwall.MovingWallFactoryBean;
 import cz.muni.ics.dspace5.api.HandleService;
 import cz.muni.ics.dspace5.api.ObjectMapper;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
@@ -14,8 +15,6 @@ import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.impl.ImportDataMap;
 import cz.muni.ics.dspace5.metadata.MetadataWrapper;
-import cz.muni.ics.dspace5.movingwall.MWLockerProvider;
-import cz.muni.ics.dspace5.movingwall.MovingWallService;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -37,8 +36,6 @@ import org.dspace.content.ItemIterator;
 import org.dspace.content.Metadatum;
 import org.dspace.handle.HandleManager;
 import org.dspace.services.ConfigurationService;
-import org.joda.time.DateTime;
-import org.joda.time.Months;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -66,7 +63,7 @@ public class CollectionProcessorImpl implements CollectionProcessor
     @Autowired
     private ImportDataMap importDataMap;
     @Autowired
-    private MWLockerProvider mWLockerProvider;
+    private MovingWallFactoryBean movingWallFactoryBean;
 
     private Issue issue;
     private ObjectWrapper currentWrapper;
@@ -177,10 +174,7 @@ public class CollectionProcessorImpl implements CollectionProcessor
 
     private void setupIssue(Collection collection, List<ObjectWrapper> parents)
     {
-        DateTime publDate = getPublDate();
-        DateTime endDate = getEndDate(publDate);
-        importDataMap.put(MovingWallService.PUBLICATION_DATE, publDate);
-        importDataMap.put(MovingWallService.END_DATE, endDate);
+        movingWallFactoryBean.parse(issue);
 
         try
         {
@@ -237,43 +231,6 @@ public class CollectionProcessorImpl implements CollectionProcessor
                         + " there is no real target Collection imported yet. Target handle is ["
                         + realHandle + "] but returned object is null. No subitems from real Collection will be attached to this one.");
             }
-        }
-    }
-    
-    /**
-     * Returns date when given issue was published. Date is determined either by Issue/PublicationDate,
-     * or Issue/PublYear. If these two values are missing then default date is set.
-     * @return publication date
-     * 
-     * @see DSpaceTools#parseDate(java.lang.String) 
-     */
-    private DateTime getPublDate()
-    {
-        if (issue.getPublicationDate() != null && !issue.getPublicationDate().isEmpty())
-        {
-            return dSpaceTools.parseDate(issue.getPublicationDate());
-        }
-        else
-        {
-            // if year is set @getPublYear then it is autoset to YEAR-12-31
-            // or 1900-12-31 if no date is set
-            return dSpaceTools.parseDate(issue.getPublYear());
-        }
-    }
-
-    private DateTime getEndDate(DateTime publDate)
-    {
-        if (issue.getEmbargoEndDate() != null && !issue.getEmbargoEndDate().isEmpty())
-        {
-            return dSpaceTools.parseDate(issue.getEmbargoEndDate());
-        }
-        else if (importDataMap.containsKey(MovingWallService.MOVING_WALL))
-        {
-            return publDate.plus(Months.months(Integer.parseInt(importDataMap.getTypedValue(MovingWallService.MOVING_WALL, String.class))));
-        }
-        else
-        {
-            return null;
         }
     }
 }

@@ -6,6 +6,7 @@
 package cz.muni.ics.digilib.modules.monograph;
 
 import cz.muni.ics.digilib.domain.Monography;
+import cz.muni.ics.digilib.movingwall.MovingWallFactoryBean;
 import cz.muni.ics.dspace5.api.HandleService;
 import cz.muni.ics.dspace5.api.ObjectMapper;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
@@ -13,10 +14,8 @@ import cz.muni.ics.dspace5.api.module.CollectionProcessor;
 import cz.muni.ics.dspace5.exceptions.MovingWallException;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
-import cz.muni.ics.dspace5.impl.ImportDataMap;
 import cz.muni.ics.dspace5.metadata.MetadataWrapper;
 import cz.muni.ics.dspace5.movingwall.MWLockerProvider;
-import cz.muni.ics.dspace5.movingwall.MovingWallService;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -39,8 +38,6 @@ import org.dspace.content.ItemIterator;
 import org.dspace.content.Metadatum;
 import org.dspace.handle.HandleManager;
 import org.dspace.services.ConfigurationService;
-import org.joda.time.DateTime;
-import org.joda.time.Months;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -66,9 +63,9 @@ public class CollectionProcessorImpl implements CollectionProcessor
     @Autowired
     private DSpaceTools dSpaceTools;
     @Autowired
-    private ImportDataMap importDataMap;
-    @Autowired
     private MWLockerProvider mWLockerProvider;
+    @Autowired
+    private MovingWallFactoryBean movingWallFactoryBean;
 
     private Monography monography;
     private ObjectWrapper currentWrapper;
@@ -206,14 +203,11 @@ public class CollectionProcessorImpl implements CollectionProcessor
             }
         }
 
-        DateTime publDate = getPublDate();
-        DateTime endDate = getEndDate(publDate);
-        importDataMap.put(MovingWallService.PUBLICATION_DATE, publDate);
-        importDataMap.put(MovingWallService.END_DATE, endDate);
+        movingWallFactoryBean.parse(monography);
 
         try
         {
-            mWLockerProvider.getLocker(Collection.class).lockObject(collection);
+            mWLockerProvider.getLocker(Collection.class).lockObject(collection, movingWallFactoryBean.build());
         }
         catch (IllegalArgumentException | MovingWallException ex)
         {
@@ -266,27 +260,6 @@ public class CollectionProcessorImpl implements CollectionProcessor
                         + " there is no real target Collection imported yet. Target handle is ["
                         + realHandle + "] but returned object is null. No subitems from real Collection will be attached to this one.");
             }
-        }
-    }
-    
-    private DateTime getPublDate()
-    {
-        return dSpaceTools.parseDate(monography.getPublYear());
-    }
-
-    private DateTime getEndDate(DateTime publDate)
-    {
-        if(monography.getEmbargoEndDate() != null && !monography.getEmbargoEndDate().isEmpty())
-        {
-            return dSpaceTools.parseDate(monography.getEmbargoEndDate());
-        }
-        else if (importDataMap.containsKey(MovingWallService.MOVING_WALL))
-        {
-            return publDate.plus(Months.months(Integer.parseInt(importDataMap.getTypedValue(MovingWallService.MOVING_WALL, String.class))));
-        }
-        else
-        {
-            return null;
         }
     }
 }

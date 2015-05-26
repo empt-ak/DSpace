@@ -6,14 +6,13 @@
 package cz.muni.ics.digilib.modules.monograph;
 
 import cz.muni.ics.digilib.domain.MonographicSeries;
+import cz.muni.ics.digilib.movingwall.MovingWallFactoryBean;
 import cz.muni.ics.dspace5.metadata.MetadatumFactory;
 import cz.muni.ics.dspace5.api.ObjectMapper;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
 import cz.muni.ics.dspace5.api.module.CommunityProcessor;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
-import cz.muni.ics.dspace5.impl.ImportDataMap;
 import cz.muni.ics.dspace5.metadata.MetadataWrapper;
-import cz.muni.ics.dspace5.movingwall.MovingWallService;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -44,9 +43,9 @@ public class CommunityProcessorImpl implements CommunityProcessor
     @Autowired
     private MetadatumFactory metadatumFactory;
     @Autowired
-    private ImportDataMap importDataMap;
-    @Autowired
     private DSpaceTools dSpaceTools;
+    @Autowired
+    private MovingWallFactoryBean movingWallFactoryBean;
 
     private ObjectWrapper currentWrapper;
     private MonographicSeries monographicSeries;
@@ -102,10 +101,7 @@ public class CommunityProcessorImpl implements CommunityProcessor
             logger.info("For handle@" + currentWrapper.getHandle() + iax.getMessage());
         }
 
-        if (monographicSeries != null)
-        {
-            importDataMap.put(MovingWallService.MOVING_WALL, monographicSeries.getMovingWall());
-        }
+        movingWallFactoryBean.parse(monographicSeries);
     }
 
     @Override

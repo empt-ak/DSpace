@@ -5,6 +5,7 @@
  */
 package cz.muni.ics.digilib.movingwall;
 
+import cz.muni.ics.dspace5.movingwall.MovingWall;
 import cz.muni.ics.dspace5.api.DSpaceGroupService;
 import cz.muni.ics.dspace5.exceptions.MovingWallException;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
@@ -42,7 +43,7 @@ public abstract class AbstractLocker implements MWLocker
     protected ImportDataMap importDataMap;
     
     @Override
-    public void unlockObject(DSpaceObject dSpaceObject) throws IllegalArgumentException, MovingWallException
+    public void unlockObject(DSpaceObject dSpaceObject, MovingWall movingWall) throws IllegalArgumentException, MovingWallException
     {
         try
         {

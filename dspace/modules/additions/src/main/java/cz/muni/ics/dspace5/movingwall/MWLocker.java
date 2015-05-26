@@ -38,7 +38,7 @@ public interface MWLocker
      * @throws MovingWallException      if any error while setting restriction
      *                                  to given item occurs.
      */
-    void lockObject(DSpaceObject dSpaceObject) throws IllegalArgumentException, MovingWallException;
+    void lockObject(DSpaceObject dSpaceObject, MovingWall movingWall) throws IllegalArgumentException, MovingWallException;
 
     /**
      * Calling this method unlocks given {@code DSpaceObject}. If
@@ -55,5 +55,5 @@ public interface MWLocker
      * @throws MovingWallException      if any error occurs during changing
      *                                  restriction on given object
      */
-    void unlockObject(DSpaceObject dSpaceObject) throws IllegalArgumentException, MovingWallException;
+    void unlockObject(DSpaceObject dSpaceObject, MovingWall movingWall) throws IllegalArgumentException, MovingWallException;
 }

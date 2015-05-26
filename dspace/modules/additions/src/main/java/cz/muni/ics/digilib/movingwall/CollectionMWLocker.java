@@ -6,6 +6,7 @@
 package cz.muni.ics.digilib.movingwall;
 
 import cz.muni.ics.dspace5.exceptions.MovingWallException;
+import cz.muni.ics.dspace5.movingwall.MovingWall;
 import cz.muni.ics.dspace5.movingwall.MovingWallService;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -25,8 +26,9 @@ public class CollectionMWLocker extends AbstractLocker
     private static final String RESTRICTION_FILE = "restricted";
 
     @Override
-    public void lockObject(DSpaceObject dSpaceObject) throws IllegalArgumentException, MovingWallException
+    public void lockObject(DSpaceObject dSpaceObject, MovingWall movingWall) throws IllegalArgumentException, MovingWallException
     {
+        logger.info("Following MW obtained: "+movingWall);
         if (importDataMap.containsKey(MovingWallService.MW_COLLECTION_PATH))
         {
             Path extraStorage = importDataMap.getTypedValue(MovingWallService.MW_COLLECTION_PATH, Path.class);
