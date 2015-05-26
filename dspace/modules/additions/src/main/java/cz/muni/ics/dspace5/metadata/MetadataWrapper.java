@@ -35,4 +35,14 @@ public class MetadataWrapper
     {
         this.metadata.addAll(metadata);
     }
+    
+    public void put(Metadatum metadatum)
+    {
+        if(metadata == null)
+        {
+            metadata = new ArrayList<>();
+        }
+        
+        metadata.add(metadatum);
+    }
 }

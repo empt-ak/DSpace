@@ -6,6 +6,7 @@
 package cz.muni.ics.digilib.modules.serial;
 
 import cz.muni.ics.digilib.domain.Article;
+import cz.muni.ics.digilib.domain.ArticleMeta;
 import cz.muni.ics.digilib.movingwall.MovingWallFactoryBean;
 import cz.muni.ics.digilib.service.io.references.ReferenceService;
 import cz.muni.ics.dspace5.api.ObjectMapper;
@@ -16,6 +17,7 @@ import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.impl.ImportDataMap;
 import cz.muni.ics.dspace5.metadata.MetadataWrapper;
+import cz.muni.ics.dspace5.metadata.MetadatumFactory;
 import cz.muni.ics.dspace5.movingwall.MWLockerProvider;
 import java.io.BufferedInputStream;
 import java.io.FileNotFoundException;
@@ -27,6 +29,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.dozer.Mapper;
 import org.dspace.authorize.AuthorizeException;
@@ -64,6 +67,8 @@ public class ItemProcessorImpl implements ItemProcessor
     private ReferenceService referenceService;
     @Autowired
     private MovingWallFactoryBean movingWallFactoryBean;
+    @Autowired
+    private MetadatumFactory metadatumFactory;
     
     private String[] itemFileNames;    
     private Article article;
@@ -105,6 +110,24 @@ public class ItemProcessorImpl implements ItemProcessor
         {
             // TODO
             throw new IllegalStateException("Article is null did you called #setup() first ?.");
+        }
+        
+        ArticleMeta am = null;
+
+        try
+        {
+            am = (ArticleMeta) objectMapper.convertPathToObject(currentWrapper.getPath(), "meta.xml");
+        }
+        catch(FileNotFoundException nfe)
+        {
+            logger.error(nfe);
+        }
+
+        if(am != null && !StringUtils.isEmpty(am.getSection()))
+        {
+            metadataWrapper.put(
+                    metadatumFactory.createMetadatum("muni", "section", null, null, am.getSection())
+            );
         }
         
         metadataWrapper.push(referenceService.getReferencesAsMetadata(currentWrapper));

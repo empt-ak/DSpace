@@ -93,6 +93,7 @@
                 <value>cz.muni.ics.digilib.domain.Monography</value>
                 <value>cz.muni.ics.digilib.domain.MonographyChapter</value>
                 <value>cz.muni.ics.digilib.service.io.references.References</value>
+                <value>cz.muni.ics.digilib.domain.ArticleMeta</value>
             </list>
         </constructor-arg>
     </bean>
