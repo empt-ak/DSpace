@@ -12,18 +12,16 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.dspace.content.DSpaceObject;
-import org.dspace.core.Context;
 import org.dspace.handle.HandleManager;
 import org.dspace.services.ConfigurationService;
+import org.dspace.storage.rdbms.DatabaseManager;
+import org.dspace.storage.rdbms.TableRow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -38,7 +36,7 @@ public class HandleServiceImpl implements HandleService
     private String handleFile = null;
     private String globalHandleFile = null;
     private String handlePrefix = null;
-    
+
     @Autowired
     private ConfigurationService configurationService;
     @Autowired
@@ -50,9 +48,9 @@ public class HandleServiceImpl implements HandleService
 
     @Override
     public String getHandleForPath(Path path, boolean createIfMissing) throws IllegalArgumentException
-    {  
+    {
         Path dspaceFile = path.resolve(handleFile);
-        logger.debug("Attempting to read dspaceID from "+dspaceFile);
+        logger.debug("Attempting to read dspaceID from " + dspaceFile);
 
         String suffix = null;
 
@@ -61,40 +59,49 @@ public class HandleServiceImpl implements HandleService
             try
             {
                 suffix = new String(Files.readAllBytes(dspaceFile));
-                logger.debug("File found. Suffix is set as: "+suffix);
+                logger.debug("File found. Suffix is set as: " + suffix);
             }
             catch (IOException ex)
             {
                 logger.error(ex);
             }
         }
-        else if(createIfMissing)
+        else if (createIfMissing)
         {
             logger.debug("File was not found. Creating new suffix.");
-            String newSuffix = getNewHandle(contextWrapper.getContext().getDBConnection()).toString();
 
-            if (newSuffix == null)
+            String newSuffix = null;
+            try
             {
-                throw new RuntimeException("FATAL ERROR CREATING HANDLE. Nothing was obtained from database. @path "+dspaceFile);
+                newSuffix = getNewHandle();
             }
-            else
+            catch (SQLException ex)
             {
-                try
-                {
-                    Files.write(dspaceFile, newSuffix.getBytes(), StandardOpenOption.CREATE_NEW);
-                    logger.debug("File with suffix ["+newSuffix+" created.");
-                }
-                catch (IOException ex)
-                {
-                    logger.error(ex);
-                    throw new RuntimeException("FATAL ERROR CREATING HANDLE FILE. Suffix obtained from database @ "+newSuffix+" @path "+dspaceFile+" failed to write.");
-                }
+                throw new RuntimeException(ex);
+            }
 
-                suffix = newSuffix;
+//            if (newSuffix == null)
+//            {
+//                throw new RuntimeException("FATAL ERROR CREATING HANDLE. Nothing was obtained from database. @path "+dspaceFile);
+//            }
+//            else
+//            {
+            try
+            {
+                Files.write(dspaceFile, newSuffix.getBytes(), StandardOpenOption.CREATE_NEW);
+                logger.debug("File with suffix [" + newSuffix + " created.");
             }
+            catch (IOException ex)
+            {
+                logger.error(ex);
+                throw new RuntimeException("FATAL ERROR CREATING HANDLE FILE. Suffix obtained from database @ " + newSuffix + " @path " + dspaceFile + " failed to write.");
+            }
+
+            suffix = newSuffix;
+//            }
         }
-        
-        if(suffix == null)
+
+        if (suffix == null)
         {
             return null;
         }
@@ -106,7 +113,7 @@ public class HandleServiceImpl implements HandleService
 
     @Override
     public String getVolumeHandle(Path path) throws IllegalArgumentException
-    {           
+    {
         List<Path> volume = folderProvider.getIssuesFromPath(path);
 
         String volumeSuffix = null;
@@ -139,7 +146,15 @@ public class HandleServiceImpl implements HandleService
 
         if (volumeSuffix == null)
         {
-            volumeSuffix = getNewHandle(contextWrapper.getContext().getDBConnection()).toString();
+            try
+            {
+                volumeSuffix = getNewHandle();
+            }
+            catch (SQLException ex)
+            {
+                throw new RuntimeException(ex);
+            }
+
         }
 
         if (missing)
@@ -167,77 +182,18 @@ public class HandleServiceImpl implements HandleService
     }
 
     /**
-     * Method obtains new handle ID from database by running following
-     * <b>PostgreSQL</b> Query:
-     * <pre>
-     *  select max(substring(handle from ?)::bigint)+1 as new_handle from handle
-     * </pre>.
+     * Method obtains new handle suffix from database, by creating new one. The
+     * suffix is same as row id if it is not altered by <b>select
+     * setval('handle_seq', NEWVALUE);</b> command
      *
-     * This is created as Prepared statement with argument of
-     * <i>handlePrefix.length()</i> then cast to long and selected maximum value
-     * incremented by one. This method is forbidden to close obtained as method
-     * argument.
+     * @return new handle suffix
      *
-     * @param connection obtained from {@link Context#getDBConnection() }
-     *
-     * @return new handle suffix id, null if error occurred during execution
-     *
-     * @throws IllegalArgumentException if connection is null
-     * @throws IllegalStateException    if connection is closed
+     * @throws SQLException if any error during creating occurs.
      */
-    private synchronized Long getNewHandle(Connection connection) throws IllegalArgumentException, IllegalStateException
+    public synchronized String getNewHandle() throws SQLException
     {
-        
-//        TableRow handle = DatabaseManager.create(context, "Handle");
-//        String handleId = createId(handle.getIntColumn("handle_id"));
-//
-//        handle.setColumn("handle", handleId);
-//        handle.setColumn("resource_type_id", dso.getType());
-//        handle.setColumn("resource_id", dso.getID());
-//        DatabaseManager.update(context, handle);
-//
-//        if (log.isDebugEnabled())
-//        {
-//            log.debug("Created new handle for "
-//                    + Constants.typeText[dso.getType()] + " (ID=" + dso.getID() + ") " + handleId );
-//        }
-        if (connection == null)
-        {
-            throw new IllegalArgumentException("Connection is null.");
-        }
-
-        try
-        {
-            if (connection.isClosed())
-            {
-                throw new IllegalStateException("Connection is closed.");
-            }
-        }
-        catch (SQLException ex)
-        {
-            throw new IllegalStateException("Connection is closed.", ex.getCause());
-        }        
-
-        Long resultID = null;
-
-        try (PreparedStatement ps = connection.prepareStatement("select max(substring(handle from ?)::int)+1 as new_handle from handle"))
-        {
-            ps.setInt(1, handlePrefix.length()+1);
-
-            try (ResultSet rs = ps.executeQuery())
-            {
-                rs.next();
-
-                resultID = rs.getLong(1);
-                logger.info("New handle suffix will be: "+resultID);
-            }
-        }
-        catch (SQLException ex)
-        {
-            logger.error(ex);
-        }
-
-        return resultID;
+        TableRow handle = DatabaseManager.create(contextWrapper.getContext(), "Handle");
+        return Integer.toString(handle.getIntColumn("handle_id"));
     }
 
     /**
@@ -246,6 +202,8 @@ public class HandleServiceImpl implements HandleService
     @PostConstruct
     private void init()
     {
+        // select max(substring(handle from ?)::bigint)+1 as new_handle from handle
+        // the query above fetches new possible value for sequence
         if (globalHandleFile == null)
         {
             logger.trace("Setting global handle file.");
@@ -263,32 +221,34 @@ public class HandleServiceImpl implements HandleService
             logger.trace("Setting handle prefix.");
             handlePrefix = configurationService.getProperty("handle.prefix") + "/";
         }
+
+        //select setval('handle_seq', 200000);
     }
 
     @Override
     public DSpaceObject getGenericObjectByHandle(String handle) throws IllegalArgumentException
     {
-        if(StringUtils.isEmpty(handle))
+        if (StringUtils.isEmpty(handle))
         {
             throw new IllegalArgumentException("Given handle is empty.");
         }
-        
+
         try
         {
             return HandleManager.resolveToObject(contextWrapper.getContext(), handle);
         }
-        catch(SQLException ex)
+        catch (SQLException ex)
         {
-            logger.error(ex,ex.getCause());
+            logger.error(ex, ex.getCause());
         }
-        
+
         return null;
     }
 
     @Override
     public <T> T getObjectByHandle(String handle) throws IllegalArgumentException
     {
-        if(StringUtils.isEmpty(handle))
+        if (StringUtils.isEmpty(handle))
         {
             throw new IllegalArgumentException("Given handle is empty.");
         }
