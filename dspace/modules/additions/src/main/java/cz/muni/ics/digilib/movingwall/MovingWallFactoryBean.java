@@ -94,7 +94,11 @@ public class MovingWallFactoryBean
         {
             setPublDate(toDate(monography.getPublYear()));
             setEndDate(toDate(monography.getEmbargoEndDate()));
-            setRightsAccess(monography.getRightsAccess().value());
+            
+            if(monography.getRightsAccess() != null)
+            {
+                setRightsAccess(monography.getRightsAccess().value());
+            }            
             
             if(monography.getOpenAccess() != null)
             {
