@@ -9,6 +9,7 @@ import cz.muni.ics.dspace5.metadata.MetadatumFactory;
 import org.apache.log4j.Logger;
 import org.dozer.ConfigurableCustomConverter;
 import org.dspace.content.Metadatum;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * This class serves as special parent for any other converter used by system.
@@ -26,6 +27,7 @@ public abstract class DSpaceDozerConvertor implements ConfigurableCustomConverte
     protected String schema;
     protected String element;
     protected String qualifier;
+    @Autowired
     protected MetadatumFactory metadatumFactory;
     
     @Override

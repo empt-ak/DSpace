@@ -17,8 +17,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import javax.annotation.PostConstruct;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.dspace.content.DSpaceObject;
 import org.dspace.core.Context;
+import org.dspace.handle.HandleManager;
 import org.dspace.services.ConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,7 +31,7 @@ import org.springframework.stereotype.Component;
  *
  * @author Dominik Szalai - emptulik at gmail.com
  */
-@Component
+@Component(value = "handleService")
 public class HandleServiceImpl implements HandleService
 {
 
@@ -46,9 +50,7 @@ public class HandleServiceImpl implements HandleService
 
     @Override
     public String getHandleForPath(Path path, boolean createIfMissing) throws IllegalArgumentException
-    {        
-        init();
-
+    {  
         Path dspaceFile = path.resolve(handleFile);
         logger.debug("Attempting to read dspaceID from "+dspaceFile);
 
@@ -104,9 +106,7 @@ public class HandleServiceImpl implements HandleService
 
     @Override
     public String getVolumeHandle(Path path) throws IllegalArgumentException
-    {        
-        init();
-        
+    {           
         List<Path> volume = folderProvider.getIssuesFromPath(path);
 
         String volumeSuffix = null;
@@ -187,6 +187,20 @@ public class HandleServiceImpl implements HandleService
      */
     private synchronized Long getNewHandle(Connection connection) throws IllegalArgumentException, IllegalStateException
     {
+        
+//        TableRow handle = DatabaseManager.create(context, "Handle");
+//        String handleId = createId(handle.getIntColumn("handle_id"));
+//
+//        handle.setColumn("handle", handleId);
+//        handle.setColumn("resource_type_id", dso.getType());
+//        handle.setColumn("resource_id", dso.getID());
+//        DatabaseManager.update(context, handle);
+//
+//        if (log.isDebugEnabled())
+//        {
+//            log.debug("Created new handle for "
+//                    + Constants.typeText[dso.getType()] + " (ID=" + dso.getID() + ") " + handleId );
+//        }
         if (connection == null)
         {
             throw new IllegalArgumentException("Connection is null.");
@@ -229,6 +243,7 @@ public class HandleServiceImpl implements HandleService
     /**
      * Method initializes field variables of this class.
      */
+    @PostConstruct
     private void init()
     {
         if (globalHandleFile == null)
@@ -248,5 +263,35 @@ public class HandleServiceImpl implements HandleService
             logger.trace("Setting handle prefix.");
             handlePrefix = configurationService.getProperty("handle.prefix") + "/";
         }
+    }
+
+    @Override
+    public DSpaceObject getGenericObjectByHandle(String handle) throws IllegalArgumentException
+    {
+        if(StringUtils.isEmpty(handle))
+        {
+            throw new IllegalArgumentException("Given handle is empty.");
+        }
+        
+        try
+        {
+            return HandleManager.resolveToObject(contextWrapper.getContext(), handle);
+        }
+        catch(SQLException ex)
+        {
+            logger.error(ex,ex.getCause());
+        }
+        
+        return null;
+    }
+
+    @Override
+    public <T> T getObjectByHandle(String handle) throws IllegalArgumentException
+    {
+        if(StringUtils.isEmpty(handle))
+        {
+            throw new IllegalArgumentException("Given handle is empty.");
+        }
+        return (T) getGenericObjectByHandle(handle);
     }
 }

@@ -173,6 +173,7 @@
                 <entry key="composedconverter" value-ref="composedElementConverter" />
                 <entry key="contributorconverter" value-ref="contributorConverter" />
                 <entry key="authorconverter" value-ref="authorConverter" />
+                <entry key="relateddocumentconverter" value-ref="relatedDocumentConverter" />
             </map>
         </property>
     </bean> 
@@ -185,19 +186,21 @@
     <bean
         id="simpleElementConverter"
         class="cz.muni.ics.digilib.convertors.SimpleElementConverter"
-        p:metadatumFactory-ref="metadatumFactory"
     />      
             
     <bean
         id="composedElementConverter"
         class="cz.muni.ics.digilib.convertors.ComposedElementConverter"
-        p:metadatumFactory-ref="metadatumFactory"
+    />
+    
+    <bean
+        id="relatedDocumentConverter"
+        class="cz.muni.ics.digilib.convertors.RelatedDocumentConverter"
     />
     
     <bean 
         id="contributorConverter"
         class="cz.muni.ics.digilib.convertors.ContributorConvertor"
-        p:metadatumFactory-ref="metadatumFactory"
     >
         <property name="allowedRoles">
             <list>
@@ -213,7 +216,6 @@
     <bean
         id="authorConverter"
         class="cz.muni.ics.digilib.convertors.AuthorConverter"
-        p:metadatumFactory-ref="metadatumFactory"
     />
         
     <bean

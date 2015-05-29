@@ -16,12 +16,15 @@ import javax.xml.bind.annotation.XmlType;
  * @author Dominik Szalai - emptulik at gmail.com
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name="",propOrder = {"section"})
+@XmlType(name="",propOrder = {"section","number"})
 @XmlRootElement(name="article")
 public class ArticleMeta
 {
     @XmlElement(name="section")
     protected String section;
+    
+    @XmlElement(name="number")
+    protected String number;
 
     public String getSection()
     {
@@ -33,9 +36,19 @@ public class ArticleMeta
         this.section = section;
     }
 
+    public String getNumber()
+    {
+        return number;
+    }
+
+    public void setNumber(String number)
+    {
+        this.number = number;
+    }
+
     @Override
     public String toString()
     {
-        return "ArticleMeta{" + "section=" + section + '}';
+        return "ArticleMeta{" + "section=" + section + ", number=" + number + '}';
     }
 }

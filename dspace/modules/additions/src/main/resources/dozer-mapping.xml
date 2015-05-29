@@ -25,6 +25,10 @@
             <a>issn</a>
             <b>metadata</b>
         </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="muni.categorytype">
+            <a>category</a>
+            <b>metadata</b>
+        </field>
         <field custom-converter-id="composedconverter" custom-converter-param="dc.description.abstract">
             <a>description</a>
             <b>metadata</b>
@@ -88,6 +92,10 @@
             <a>author</a>
             <b>metadata</b>
         </field>
+        <field custom-converter-id="relateddocumentconverter" custom-converter-param="dc.relation">
+            <a>link</a>
+            <b>metadata</b>
+        </field>
     </mapping> 
     
     
@@ -100,6 +108,10 @@
         </field>
         <field custom-converter-id="simpleconverter" custom-converter-param="dc.publisher">
             <a>publisher</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="muni.categorytype">
+            <a>category</a>
             <b>metadata</b>
         </field>
         <field custom-converter-id="composedconverter" custom-converter-param="dc.description.abstract">
@@ -123,6 +135,10 @@
             <a>description</a>
             <b>metadata</b>
         </field>
+        <field custom-converter-id="relateddocumentconverter" custom-converter-param="dc.relation">
+            <a>linkToRelatedDocument</a>
+            <b>metadata</b>
+        </field>        
     </mapping>
     
     <mapping>
@@ -146,6 +162,24 @@
         </field>
         <field custom-converter-id="composedconverter" custom-converter-param="dc.subject">
             <a>keyword</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="relateddocumentconverter" custom-converter-param="dc.relation">
+            <a>link</a>
+            <b>metadata</b>
+        </field>
+    </mapping>
+    
+    <mapping>
+        <class-a>cz.muni.ics.digilib.domain.ArticleMeta</class-a>
+        <class-b>cz.muni.ics.dspace5.metadata.MetadataWrapper</class-b>
+        
+        <field custom-converter-id="simpleconverter" custom-converter-param="muni.section">
+            <a>section</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="muni.positionnumber">
+            <a>number</a>
             <b>metadata</b>
         </field>
     </mapping>

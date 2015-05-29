@@ -34,7 +34,6 @@ import org.dspace.content.Collection;
 import org.dspace.content.Item;
 import org.dspace.content.ItemIterator;
 import org.dspace.content.Metadatum;
-import org.dspace.handle.HandleManager;
 import org.dspace.services.ConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -201,9 +200,9 @@ public class CollectionProcessorImpl implements CollectionProcessor
             Collection realCollection = null;
             try
             {
-                realCollection = (Collection) HandleManager.resolveToObject(contextWrapper.getContext(), realHandle);
+                realCollection = handleService.getObjectByHandle(realHandle);
             }
-            catch (SQLException | ClassCastException ex)
+            catch (ClassCastException ex)
             {
                 logger.error(ex, ex.getCause());
             }

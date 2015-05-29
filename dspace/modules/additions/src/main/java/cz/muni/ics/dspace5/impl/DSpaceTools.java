@@ -55,6 +55,11 @@ public class DSpaceTools
         knownDateFormats.add(DateTimeFormat.forPattern("yyyy"));
         logger.info("@PostConstruct:- knownDateFormats initialized.");
     }
+    
+    public Path getMeditorRootPath()
+    {
+        return Paths.get(configurationService.getProperty("meditor.rootbase"));
+    }
 
     /**
      * Method returns current level in ME path.
@@ -83,7 +88,7 @@ public class DSpaceTools
      */
     public Path getOnlyMEPath(Path target)
     {
-        return Paths.get(configurationService.getProperty("meditor.rootbase")).relativize(target);
+        return getMeditorRootPath().relativize(target);
     }
 
     /**
@@ -164,7 +169,7 @@ public class DSpaceTools
      */
     private Path buildPath(Path p, int level)
     {
-        Path meditorPath = Paths.get(configurationService.getProperty("meditor.rootbase"));
+        Path meditorPath = getMeditorRootPath();
         Path contextPath = meditorPath.relativize(p);
 
         Path result = Paths.get("");
@@ -190,7 +195,7 @@ public class DSpaceTools
     {
         StringBuilder sb = new StringBuilder();
 
-        Path n = Paths.get(configurationService.getProperty("meditor.rootbase")).relativize(path);
+        Path n = getMeditorRootPath().relativize(path);
 
         for (int i = 1; i < n.getNameCount() - 1; i++)
         {

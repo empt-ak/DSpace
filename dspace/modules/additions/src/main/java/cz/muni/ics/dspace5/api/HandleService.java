@@ -6,6 +6,7 @@
 package cz.muni.ics.dspace5.api;
 
 import java.nio.file.Path;
+import org.dspace.content.DSpaceObject;
 
 /**
  *
@@ -43,4 +44,8 @@ public interface HandleService
      * @throws IllegalArgumentException if any of arguments is invalid
      */
     String getVolumeHandle(Path path) throws IllegalArgumentException;
+    
+    DSpaceObject getGenericObjectByHandle(String handle) throws IllegalArgumentException;
+    
+    <T> T getObjectByHandle(String handle) throws IllegalArgumentException;
 }

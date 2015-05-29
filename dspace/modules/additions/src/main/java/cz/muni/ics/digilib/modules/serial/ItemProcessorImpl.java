@@ -29,7 +29,6 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.dozer.Mapper;
 import org.dspace.authorize.AuthorizeException;
@@ -72,6 +71,7 @@ public class ItemProcessorImpl implements ItemProcessor
     
     private String[] itemFileNames;    
     private Article article;
+    private ArticleMeta articleMeta;
     private ObjectWrapper currentWrapper;
     
     @PostConstruct
@@ -89,6 +89,7 @@ public class ItemProcessorImpl implements ItemProcessor
         try
         {
             this.article = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
+            this.articleMeta = objectMapper.convertPathToObject(objectWrapper.getPath(), "meta.xml");
         }
         catch(FileNotFoundException nfe)
         {
@@ -105,29 +106,15 @@ public class ItemProcessorImpl implements ItemProcessor
         if(article != null)
         {
             mapper.map(article, metadataWrapper);
+            if(articleMeta != null)
+            {
+                mapper.map(articleMeta, metadataWrapper);
+            }
         }
         else
         {
             // TODO
             throw new IllegalStateException("Article is null did you called #setup() first ?.");
-        }
-        
-        ArticleMeta am = null;
-
-        try
-        {
-            am = (ArticleMeta) objectMapper.convertPathToObject(currentWrapper.getPath(), "meta.xml");
-        }
-        catch(FileNotFoundException nfe)
-        {
-            logger.error(nfe);
-        }
-
-        if(am != null && !StringUtils.isEmpty(am.getSection()))
-        {
-            metadataWrapper.put(
-                    metadatumFactory.createMetadatum("muni", "section", null, null, am.getSection())
-            );
         }
         
         metadataWrapper.push(referenceService.getReferencesAsMetadata(currentWrapper));
