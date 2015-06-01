@@ -19,21 +19,21 @@ public class MovingWallImpl implements MovingWall
     private int movingWall;
     private String rightsAccess;
     private boolean openAccess;
+    private boolean ignore;
 
     public MovingWallImpl()
     {
     }
 
-    public MovingWallImpl(DateTime publDate, DateTime endDate, int movingWall, String rightsAccess, boolean openAccess)
+    public MovingWallImpl(DateTime publDate, DateTime endDate, int movingWall, String rightsAccess, boolean openAccess, boolean ignore)
     {
         this.publDate = publDate;
         this.endDate = endDate;
         this.movingWall = movingWall;
         this.rightsAccess = rightsAccess;
         this.openAccess = openAccess;
+        this.ignore = ignore;
     }
-
-    
     
     @Override
     public DateTime getPublDate()
@@ -88,10 +88,16 @@ public class MovingWallImpl implements MovingWall
     {
         this.rightsAccess = rightsAccess;
     }
+    
+    @Override
+    public boolean ignore()
+    {
+        return ignore;
+    }
 
     @Override
     public String toString()
     {
-        return "MovingWall{" + "publDate=" + publDate + ", endDate=" + endDate + ", movingWall=" + movingWall + ", rightsAccess=" + rightsAccess + '}';
+        return "MovingWallImpl{" + "publDate=" + publDate + ", endDate=" + endDate + ", movingWall=" + movingWall + ", rightsAccess=" + rightsAccess + ", openAccess=" + openAccess + ", ignore=" + ignore + '}';
     }
 }

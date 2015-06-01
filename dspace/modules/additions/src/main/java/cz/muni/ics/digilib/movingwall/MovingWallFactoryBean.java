@@ -14,8 +14,13 @@ import cz.muni.ics.digilib.domain.Periodical;
 import cz.muni.ics.digilib.domain.Volume;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.movingwall.MovingWall;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import javax.annotation.PostConstruct;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.dspace.services.ConfigurationService;
 import org.joda.time.DateTime;
 import org.joda.time.Months;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +39,25 @@ public class MovingWallFactoryBean
     private int movingWall = 0;
     private String rightsAccess = null;
     private boolean openAcces;
+    private boolean ignore;
+    private Set<String> skipNames;
+    
+    @Autowired
+    private ConfigurationService configurationService;
+    
+    @PostConstruct
+    private void init()
+    {
+        skipNames = new HashSet<>();
+        // if no values are set then null is returned from config service
+        String pNames = configurationService.getProperty("movingwall.ignore.types");
+        
+        if(!StringUtils.isEmpty(pNames))
+        {
+            Collections.addAll(skipNames, pNames.split(","));
+            logger.info("MovingWall ignore set to types: "+skipNames);
+        }
+    }
 
     @Autowired
     private DSpaceTools dSpaceTools;
@@ -87,6 +111,16 @@ public class MovingWallFactoryBean
     {
         this.openAcces = openAcces;
     }
+
+    public boolean isIgnore()
+    {
+        return ignore;
+    }
+
+    public void setIgnore(boolean ignore)
+    {
+        this.ignore = ignore;
+    }
     
     public void parse(Monography monography)
     {
@@ -124,7 +158,10 @@ public class MovingWallFactoryBean
     
     public void parse(MonographyChapter monographyChapter)
     {
-        // do nothing there is no restriction
+        if(monographyChapter != null)
+        {
+            ignore = skipNames.contains(monographyChapter.getMonographyChapterType());
+        }
     }
     
     public void parse(Periodical periodical)
@@ -161,6 +198,7 @@ public class MovingWallFactoryBean
         if(article != null)
         {
             setEndDate(toDate(article.getEmbargoEndDate()));
+            ignore = skipNames.contains(article.getArticleType());
         }
     }    
     
@@ -172,12 +210,13 @@ public class MovingWallFactoryBean
                     publDate.plus(Months.months(movingWall)), 
                     movingWall, 
                     rightsAccess, 
-                    openAcces
+                    openAcces,
+                    ignore
             );
         }
         else
         {
-            return new MovingWallImpl(publDate, endDate, movingWall, rightsAccess, openAcces);
+            return new MovingWallImpl(publDate, endDate, movingWall, rightsAccess, openAcces, ignore);
         }
     }   
     

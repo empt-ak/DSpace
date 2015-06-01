@@ -125,8 +125,8 @@ public class ItemProcessorImpl implements ItemProcessor
 
     @Override
     public void processItem(Item item, List<ObjectWrapper> parents) throws IllegalStateException, IllegalArgumentException
-    {
-        importDataMap.put("itemHandle", currentWrapper.getHandle());
+    {        
+        movingWallFactoryBean.parse(monographyChapter);
 
         Bundle[] oldBundles = null;
 

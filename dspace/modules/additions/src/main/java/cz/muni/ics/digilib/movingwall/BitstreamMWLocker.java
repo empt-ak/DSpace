@@ -36,7 +36,7 @@ public class BitstreamMWLocker extends AbstractLocker
         DateTime embargoEnd = movingWall.getEndDate();
         DateTime embargoStart = movingWall.getPublDate();
 
-        if ((DateTime.now().isBefore(embargoEnd) && !movingWall.isOpenAccess()) || 
+        if (!movingWall.ignore() && (DateTime.now().isBefore(embargoEnd) && !movingWall.isOpenAccess()) || 
                 (movingWall.getRightsAccess() != null && !"openaccess".equals(movingWall.getRightsAccess()))
             )
         {
@@ -46,41 +46,18 @@ public class BitstreamMWLocker extends AbstractLocker
 
                 List<ResourcePolicy> currentPolicies = getPolicies(dSpaceObject);
 
-//                if (currentPolicies.isEmpty())
-//                {
-//                    logger.info("There are no policies. Creating new");
-//                    resourcePolicyFactory.createResourcePolicy(dSpaceObject, movingWall, anonGroup.getID(), "example", "test").update();
-//                }
-//                else
-//                {
-                    for (ResourcePolicy rp : currentPolicies)
+                for (ResourcePolicy rp : currentPolicies)
+                {
+                    logger.debug("Resource policy ID:- " + rp.getID() + " for group ID:- " + rp.getGroupID());
+                    if (rp.getGroupID() == anonGroup.getID())
                     {
-                        logger.debug("Resource policy ID:- " + rp.getID() + " for group ID:- " + rp.getGroupID());
-                        if (rp.getGroupID() == anonGroup.getID())
-                        {
-                            // we set restriction only to anonymous user, other users
-                            // cant log in anyway.
-                            resourcePolicyFactory.createResourcePolicy(rp, dSpaceObject, movingWall, "Bitstream embargo from @" + dSpaceTools.simpleFormatTime(embargoStart) + " to @" + dSpaceTools.simpleFormatTime(embargoEnd), "embargo")
-                                    .update();
-//                            logger.info("Setting restriction access until " + embargoEnd.toString());
-//                            if (importDataMap.containsKey("itemHandle"))
-//                            {
-//                                rp.setRpDescription("Bitstream embargo for item with handle @" + importDataMap.getValue("itemHandle") + " from @" + dSpaceTools.simpleFormatTime(embargoStart) + " to @" + dSpaceTools.simpleFormatTime(embargoEnd));
-//                            }
-//                            else
-//                            {
-//                                rp.setRpDescription("Bitstream embargo from @" + dSpaceTools.simpleFormatTime(embargoStart) + " to @" + dSpaceTools.simpleFormatTime(embargoEnd));
-//                            }
-//
-//                            // just update values
-//                            rp.setStartDate(embargoEnd.toDate());
-//                            // we don't set the end date because if set,
-//                            // then it means during which period is bitstream
-//                            // available for 
+                        // we set restriction only to anonymous user, other users
+                        // cant log in anyway.
+                        resourcePolicyFactory.createResourcePolicy(rp, dSpaceObject, movingWall, "Bitstream embargo from @" + dSpaceTools.simpleFormatTime(embargoStart) + " to @" + dSpaceTools.simpleFormatTime(embargoEnd), "embargo")
+                                .update();
 
-                            rp.update();
-                        }
-//                    }
+                        rp.update();
+                    }
                 }
             }
             catch (SQLException | AuthorizeException ex)

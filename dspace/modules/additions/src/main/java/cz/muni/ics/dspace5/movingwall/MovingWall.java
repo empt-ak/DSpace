@@ -19,5 +19,7 @@ public interface MovingWall
     
     String getRightsAccess();
     
-    boolean isOpenAccess();    
+    boolean isOpenAccess();  
+    
+    boolean ignore();
 }
