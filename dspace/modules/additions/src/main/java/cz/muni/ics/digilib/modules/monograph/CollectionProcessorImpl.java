@@ -12,9 +12,9 @@ import cz.muni.ics.dspace5.api.ObjectMapper;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
 import cz.muni.ics.dspace5.api.module.CollectionProcessor;
 import cz.muni.ics.dspace5.exceptions.MovingWallException;
-import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.metadata.MetadataWrapper;
+import cz.muni.ics.dspace5.metadata.MetadatumFactory;
 import cz.muni.ics.dspace5.movingwall.MWLockerProvider;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -58,7 +58,7 @@ public class CollectionProcessorImpl implements CollectionProcessor
     @Autowired
     private ConfigurationService configurationService;
     @Autowired
-    private ContextWrapper contextWrapper;
+    private MetadatumFactory metadatumFactory;
     @Autowired
     private DSpaceTools dSpaceTools;
     @Autowired
@@ -185,15 +185,18 @@ public class CollectionProcessorImpl implements CollectionProcessor
 
         for (String file : collectionFileNames)
         {
-            Path wholeBook = currentWrapper.getPath().resolve(file);
-            if (Files.exists(wholeBook))
+            Path extraContent = currentWrapper.getPath().resolve(file);
+            if (Files.exists(extraContent))
             {
                 Path extraStorage = dSpaceTools.getExtraStoragePath(currentWrapper.getPath());
 
                 try
                 {
                     Files.createDirectories(extraStorage);
-                    Files.copy(wholeBook, extraStorage.resolve(file), StandardCopyOption.REPLACE_EXISTING);
+                    Files.copy(extraContent, extraStorage.resolve(file), StandardCopyOption.REPLACE_EXISTING);
+                    
+                    collection.clearMetadata("muni", "externalcontent", "*", "*");
+                    collection.addMetadata("muni", "externalcontent", null, null, file);
                 }
                 catch (IOException ex)
                 {

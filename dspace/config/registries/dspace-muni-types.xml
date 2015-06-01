@@ -55,4 +55,9 @@
         <element>reference</element>
         <scope_note>Reference entries.</scope_note>
     </dc-type>
+    <dc-type>
+        <schema>muni</schema>
+        <element>externalcontent</element>
+        <scope_note>Name of external file for collections.</scope_note>
+    </dc-type>
 </dspace-dc-types>
