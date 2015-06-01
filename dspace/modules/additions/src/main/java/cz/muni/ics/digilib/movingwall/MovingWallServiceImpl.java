@@ -91,7 +91,7 @@ public class MovingWallServiceImpl implements MovingWallService
             importCommunity.importToDspace(realImport, new ArrayList<ObjectWrapper>());
         }
         
-        contextWrapper.getContext().restoreAuthSystemState();
-        contextWrapper.setContext(null);
+//        contextWrapper.getContext().restoreAuthSystemState();
+//        contextWrapper.setContext(null);
     }  
 }

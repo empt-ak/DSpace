@@ -14,6 +14,7 @@ import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.impl.ImportDataMap;
 import cz.muni.ics.dspace5.impl.ObjectWrapperFactory;
 import java.io.FileNotFoundException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -75,52 +76,55 @@ public class ImportServiceImpl implements ImportService
             }
             contextWrapper.getContext().turnOffAuthorisationSystem();
             
-            ObjectWrapper importTarget = objectWrapperFactory.createObjectWrapper();
-            importTarget.setPath(importDataMap.getTypedValue("path", Path.class));
+            Path pathFromCMD = importDataMap.getTypedValue("path", Path.class);
             
-            ObjectWrapper realImport = null;
-            
-            String moduleName = moduleManager.getModuleName(importTarget.getPath());          
-            
-            try
+            if(!Files.exists(pathFromCMD))
             {
-                realImport = moduleManager.getModule(importTarget.getPath())
-                        .getObjectWrapperResolver().resolveObjectWrapper(importTarget, true);                
+                logger.error("Given path does not exists in metadata editor directory. ["+pathFromCMD+"]");
             }
-            catch(FileNotFoundException nfe)
+            else
             {
-                logger.error(nfe);
-            }
-            
-            if(realImport != null)
-            {
-                importCommunity.importToDspace(realImport, new ArrayList<ObjectWrapper>());
-            }
-//            try
-//            {
-                
-//            }
-//            catch(Exception e)
-//            {
-//                logger.fatal(e,e.getCause());
-              //  contextWrapper.getContext().abort();
-//                
-//            }
-//            finally
-//            {
+                ObjectWrapper importTarget = objectWrapperFactory.createObjectWrapper();
+                importTarget.setPath(pathFromCMD);
+
+                ObjectWrapper realImport = null;
+
                 try
                 {
-                    contextWrapper.getContext().complete();
+                    realImport = moduleManager.getModule(importTarget.getPath())
+                            .getObjectWrapperResolver().resolveObjectWrapper(importTarget, true);                
                 }
-                catch (SQLException ex)
+                catch(FileNotFoundException nfe)
                 {
-                    logger.error(ex, ex.getCause());
+                    logger.error(nfe);
                 }
-//            }
-            
-            
-            contextWrapper.getContext().restoreAuthSystemState();
-            contextWrapper.setContext(null);
+
+                if(realImport != null)
+                {
+                    importCommunity.importToDspace(realImport, new ArrayList<ObjectWrapper>());
+                }
+    //            try
+    //            {
+
+    //            }
+    //            catch(Exception e)
+    //            {
+    //                logger.fatal(e,e.getCause());
+                  //  contextWrapper.getContext().abort();
+    //                
+    //            }
+    //            finally
+    //            {
+                    try
+                    {
+                        contextWrapper.getContext().complete();
+                    }
+                    catch (SQLException ex)
+                    {
+                        logger.error(ex, ex.getCause());
+                    }
+    //            }
+            }
         }
     }
 }

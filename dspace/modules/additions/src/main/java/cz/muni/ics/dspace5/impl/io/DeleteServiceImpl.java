@@ -146,8 +146,8 @@ public class DeleteServiceImpl implements DeleteService
                 }
             }
 
-            contextWrapper.getContext().restoreAuthSystemState();
-            logger.debug("Restored AuthorisationSystem");
+//            contextWrapper.getContext().restoreAuthSystemState();
+//            logger.debug("Restored AuthorisationSystem");
 
             try
             {

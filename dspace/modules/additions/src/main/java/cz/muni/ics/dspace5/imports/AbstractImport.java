@@ -24,7 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author Dominik Szalai - emptulik at gmail.com
  */
-public class AbstractImport
+public abstract class AbstractImport
 {
     private static final Logger logger = Logger.getLogger(AbstractImport.class);
     
