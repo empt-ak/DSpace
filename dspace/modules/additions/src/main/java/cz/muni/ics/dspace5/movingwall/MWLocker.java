@@ -6,7 +6,6 @@
 package cz.muni.ics.dspace5.movingwall;
 
 import cz.muni.ics.dspace5.exceptions.MovingWallException;
-import cz.muni.ics.dspace5.impl.ImportDataMap;
 import org.dspace.content.DSpaceObject;
 
 /**
@@ -17,43 +16,28 @@ public interface MWLocker
 {
 
     /**
-     * Calling method locks given {@code DSpaceObject} according to values
-     * stored in {@code dataMap}. {@link ImportDataMap} <b>has to</b> contain
-     * following keys:
-     * <ul>
-     * <li> {@link MovingWallService#END_DATE}</li>
-     * <li> {@link MovingWallService#PUBLICATION_DATE}</li>
-     * </ul>
-     * in order to lock the object. If value of {@code END_DATE} has already
-     * passed, then {@link #unlockObject(org.dspace.content.DSpaceObject) } is
-     * called.
+     * Method is used for setting restrictions for given {@code DSpaceObject}.
+     * Values are read from movingWall object.
      *
-     * @param dSpaceObject on which embargo should be set
+     * @param dSpaceObject to be locked
+     * @param movingWall   container holding required values for locking
      *
-     * @throws IllegalArgumentException if dSpaceObject is not as one as
-     *                                  expected according to {@link DSpaceObject#getType()
-     *                                  } return value, or if
-     *                                  {@link MovingWallService#END_DATE} is
-     *                                  missing, or null.
-     * @throws MovingWallException      if any error while setting restriction
-     *                                  to given item occurs.
+     * @throws IllegalArgumentException if any of arguments is null
+     * @throws MovingWallException      if any error occurs during method
+     *                                  execution
      */
     void lockObject(DSpaceObject dSpaceObject, MovingWall movingWall) throws IllegalArgumentException, MovingWallException;
 
     /**
-     * Calling this method unlocks given {@code DSpaceObject}. If
-     * {@link ImportDataMap} is provided then it is checked whether value of
-     * {@link MovingWallService#END_DATE} has already passed or not. If not then
-     * unlocking is not done, otherwise object is unlocked.
+     * Method used for unsettling restriction for given {@code DSpaceObject}.
+     * Values are stored in movingWall object, are used for this task.
      *
      * @param dSpaceObject to be unlocked
+     * @param movingWall   container holding required values for unlocking
      *
-     * @throws IllegalArgumentException if dSpaceObject is not as one as
-     *                                  expected according to {@link DSpaceObject#getType()
-     *                                  } return value, or if {@link MovingWallService#END_DATE} is missing, or
-     *                                  null.
-     * @throws MovingWallException      if any error occurs during changing
-     *                                  restriction on given object
+     * @throws IllegalArgumentException if any of arguments is null
+     * @throws MovingWallException      if any error occurs during method
+     *                                  execution
      */
     void unlockObject(DSpaceObject dSpaceObject, MovingWall movingWall) throws IllegalArgumentException, MovingWallException;
 }

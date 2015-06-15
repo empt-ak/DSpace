@@ -10,7 +10,6 @@ import cz.muni.ics.dspace5.api.ImportService;
 import cz.muni.ics.dspace5.api.ModuleManager;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
-import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.impl.ImportDataMap;
 import cz.muni.ics.dspace5.impl.ObjectWrapperFactory;
 import java.io.FileNotFoundException;
@@ -20,7 +19,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import org.apache.commons.cli.ParseException;
 import org.apache.log4j.Logger;
-import org.dspace.core.Context;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -45,8 +43,6 @@ public class ImportServiceImpl implements ImportService
     @Autowired
     private ContextWrapper contextWrapper;
     @Autowired
-    private DSpaceTools dSpaceTools;
-    @Autowired
     private ModuleManager moduleManager;
 
     @Override
@@ -65,16 +61,7 @@ public class ImportServiceImpl implements ImportService
 
         if (!error)
         {
-            try
-            {
-                contextWrapper.setContext(new Context());
-                contextWrapper.getContext().setCurrentUser(dSpaceTools.findEPerson(importDataMap.getValue("user")));
-            }
-            catch (SQLException ex)
-            {
-                logger.info(ex, ex.getCause());
-            }
-            contextWrapper.getContext().turnOffAuthorisationSystem();
+            contextWrapper.setEperson(importDataMap.getValue("user"));
             
             Path pathFromCMD = importDataMap.getTypedValue("path", Path.class);
             

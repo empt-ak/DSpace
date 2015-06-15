@@ -11,9 +11,6 @@ import cz.muni.ics.dspace5.api.HandleService;
 import cz.muni.ics.dspace5.api.ObjectMapper;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
 import cz.muni.ics.dspace5.api.module.CollectionProcessor;
-import cz.muni.ics.dspace5.impl.ContextWrapper;
-import cz.muni.ics.dspace5.impl.DSpaceTools;
-import cz.muni.ics.dspace5.impl.ImportDataMap;
 import cz.muni.ics.dspace5.metadata.MetadataWrapper;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -55,12 +52,6 @@ public class CollectionProcessorImpl implements CollectionProcessor
     private HandleService handleService;
     @Autowired
     private ConfigurationService configurationService;
-    @Autowired
-    private ContextWrapper contextWrapper;
-    @Autowired
-    private DSpaceTools dSpaceTools;
-    @Autowired
-    private ImportDataMap importDataMap;
     @Autowired
     private MovingWallFactoryBean movingWallFactoryBean;
 

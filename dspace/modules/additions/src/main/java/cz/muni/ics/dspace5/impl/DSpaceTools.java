@@ -40,6 +40,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class DSpaceTools
 {
+
     @Autowired
     private ConfigurationService configurationService;
     @Autowired
@@ -55,7 +56,12 @@ public class DSpaceTools
         knownDateFormats.add(DateTimeFormat.forPattern("yyyy"));
         logger.info("@PostConstruct:- knownDateFormats initialized.");
     }
-    
+
+    /**
+     * Method returns path to root Metadata Editor.
+     *
+     * @return meditor root path
+     */
     public Path getMeditorRootPath()
     {
         return Paths.get(configurationService.getProperty("meditor.rootbase"));
@@ -79,11 +85,14 @@ public class DSpaceTools
         // as 0 thus -2        
         return getOnlyMEPath(p).getNameCount() - 2;
     }
-    
+
     /**
-     * Method returns path after being cut from meditor root folder. E.g. if rootbase is <i>a/b/c</i> and given path is <i>a/b/c/d/e</i> then
-     * calling this method with <i>a/b/c/d/e</i> results in <b><i>d/e</i></b>
+     * Method returns path after being cut from meditor root folder. E.g. if
+     * rootbase is <i>a/b/c</i> and given path is <i>a/b/c/d/e</i> then calling
+     * this method with <i>a/b/c/d/e</i> results in <b><i>d/e</i></b>
+     *
      * @param target to be relativized against root folder of meditor
+     *
      * @return relativized path
      */
     public Path getOnlyMEPath(Path target)
@@ -163,8 +172,10 @@ public class DSpaceTools
 
     /**
      * Method builds path in meditor base up to given level.
-     * @param p to be used for building
+     *
+     * @param p     to be used for building
      * @param level level to build
+     *
      * @return build path up to given level in meditor base
      */
     private Path buildPath(Path p, int level)
@@ -325,140 +336,165 @@ public class DSpaceTools
 
         return knownDateFormats.get(0).parseDateTime("1900-12-31");
     }
-    
+
     /**
-     * Converts given {@code dateTime} using specific {@code pattern} into string representation of given date.
-     * @param dateTime to be converted 
-     * @param pattern conversion pattern
+     * Converts given {@code dateTime} using specific {@code pattern} into
+     * string representation of given date.
+     *
+     * @param dateTime to be converted
+     * @param pattern  conversion pattern
+     *
      * @return string representation of date using given pattern
      */
     public String formatTime(DateTime dateTime, String pattern)
     {
         return DateTimeFormat.forPattern(pattern).print(dateTime);
     }
-    
+
     /**
-     * Wrapper for {@link #formatTime(org.joda.time.DateTime, java.lang.String) } using <b>yyyy-MM-dd</b> pattern.
+     * Wrapper for {@link #formatTime(org.joda.time.DateTime, java.lang.String)
+     * } using <b>yyyy-MM-dd</b> pattern.
+     *
      * @param dateTime to be converted
+     *
      * @return string representation of date using <b>yyyy-MM-dd</b> pattern
      */
     public String simpleFormatTime(DateTime dateTime)
     {
         return formatTime(dateTime, "yyyy-MM-dd");
     }
-    
+
     /**
-     * Method returns {@code Path} to extra storage which is used for whole books, epubs and mobis for collections.
+     * Method returns {@code Path} to extra storage which is used for whole
+     * books, epubs and mobis for collections.
+     *
      * @param objectWrapper of which extra storage path we want
+     *
      * @return extra storage path for given objectWrapper path
      */
     public Path getExtraStoragePath(Path objectWrapper)
     {
         return Paths.get(configurationService.getProperty("dspace.storage.extra")).resolve(getOnlyMEPath(objectWrapper));
     }
-    
-    
+
     /**
-     * Method creates new List containing {@code ObjectWrapper}s which represent current processed node in object tree.
-     * @param newEntry to be added
+     * Method creates new List containing {@code ObjectWrapper}s which represent
+     * current processed node in object tree.
+     *
+     * @param newEntry      to be added
      * @param currentBranch so far processed branch
+     *
      * @return List containing current branch
+     *
      * @throws IllegalArgumentException if {@code newEntry} is null
      */
     public List<ObjectWrapper> createParentBranch(ObjectWrapper newEntry, List<ObjectWrapper> currentBranch) throws IllegalArgumentException
     {
-        if(newEntry == null)
+        if (newEntry == null)
         {
             throw new IllegalArgumentException("New entry to list cannot by null.");
         }
-        
+
         List<ObjectWrapper> resultList = new ArrayList<>();
-        
-        if(currentBranch != null && !currentBranch.isEmpty())
+
+        if (currentBranch != null && !currentBranch.isEmpty())
         {
             resultList.addAll(currentBranch);
         }
-        
+
         resultList.add(newEntry);
-        
+
         return resultList;
     }
-    
+
     /**
      * Method creates new data map
-     * @param key of object to be stored
-     * @param object to be stored
-     * @param current actual (if existing) datamap
-     * @param createNew flag specifying whether &lt;key,object&gt; should be put in new map, or current one
+     *
+     * @param key       of object to be stored
+     * @param object    to be stored
+     * @param current   actual (if existing) datamap
+     * @param createNew flag specifying whether &lt;key,object&gt; should be put
+     *                  in new map, or current one
+     *
      * @return data map holding new &lt;key,object&gt; value
+     *
      * @throws IllegalArgumentException if key is null or empty string
      */
-    public Map<String,Object> createDataMap(String key, Object object, Map<String,Object> current, boolean createNew) throws IllegalArgumentException
+    public Map<String, Object> createDataMap(String key, Object object, Map<String, Object> current, boolean createNew) throws IllegalArgumentException
     {
-        if(key == null || key.isEmpty())
+        if (key == null || key.isEmpty())
         {
             throw new IllegalArgumentException("Key to map has to be non empty String.");
         }
-        
-        if(!createNew)
+
+        if (!createNew)
         {
-            if(current == null)
+            if (current == null)
             {
-                Map<String,Object> newResult = new HashMap<>();
+                Map<String, Object> newResult = new HashMap<>();
                 newResult.put(key, object);
-                
+
                 return newResult;
             }
             else
             {
                 current.put(key, object);
-                
+
                 return current;
             }
         }
         else
         {
-            Map<String,Object> newResult = new HashMap<>();
-            if(current != null)
+            Map<String, Object> newResult = new HashMap<>();
+            if (current != null)
             {
                 newResult.putAll(current);
             }
-            
+
             newResult.put(key, object);
 
             return newResult;
         }
     }
-    
+
     /**
-     * Method finds {@code EPerson} inside system based on given input value. If null, or empty string is passed then first user found is set as current operating DSpace user. Otherwise EPerson (if found) is returned by given input.
+     * Method finds {@code EPerson} inside system based on given input value. If
+     * null, or empty string is passed then first user found is set as current
+     * operating DSpace user. Otherwise EPerson (if found) is returned by given
+     * input.
+     *
      * @param email of person to be found
-     * @return EPerson with given email, or first one ever created if no input is specified
-     * @throws IllegalStateException if {@code Context} has not been initialized yet
-     * @throws IllegalArgumentException if EPerson with given email does not exist.
+     *
+     * @return EPerson with given email, or first one ever created if no input
+     *         is specified
+     *
+     * @throws IllegalStateException    if {@code Context} has not been
+     *                                  initialized yet
+     * @throws IllegalArgumentException if EPerson with given email does not
+     *                                  exist.
      */
     public EPerson findEPerson(String email) throws IllegalStateException, IllegalArgumentException
     {
-        if(contextWrapper.getContext() == null)
+        if (contextWrapper.getContext() == null)
         {
             throw new IllegalStateException("Context not yet initialized.");
         }
-        
+
         EPerson[] persons = new EPerson[0];
-        
-        if(email == null || email.isEmpty())
+
+        if (email == null || email.isEmpty())
         {
             persons = new EPerson[0];
             try
             {
                 persons = EPerson.findAll(contextWrapper.getContext(), EPerson.ID);
             }
-            catch(SQLException ex)
+            catch (SQLException ex)
             {
-                logger.error(ex,ex.getCause());
+                logger.error(ex, ex.getCause());
             }
-            
-            if(persons == null || persons.length == 0)
+
+            if (persons == null || persons.length == 0)
             {
                 throw new IllegalStateException("There are no users created yet. Run 'dspace create-administrator' from /bin folder first.");
             }
@@ -474,14 +510,14 @@ public class DSpaceTools
             {
                 person = EPerson.findByEmail(contextWrapper.getContext(), email);
             }
-            catch(SQLException | AuthorizeException ex)
+            catch (SQLException | AuthorizeException ex)
             {
-                logger.error(ex,ex.getCause());
+                logger.error(ex, ex.getCause());
             }
-            
-            if(person == null)
+
+            if (person == null)
             {
-                throw new IllegalArgumentException("There is no such user with given email. ["+email+"]");
+                throw new IllegalArgumentException("There is no such user with given email. [" + email + "]");
             }
             else
             {

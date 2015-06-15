@@ -9,18 +9,15 @@ import cz.muni.ics.dspace5.api.CommandLineService;
 import cz.muni.ics.dspace5.api.ModuleManager;
 import cz.muni.ics.dspace5.api.ObjectWrapper;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
-import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.impl.ImportDataMap;
 import cz.muni.ics.dspace5.impl.ObjectWrapperFactory;
 import cz.muni.ics.dspace5.imports.ImportCommunity;
 import cz.muni.ics.dspace5.movingwall.MovingWallService;
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import org.apache.commons.cli.ParseException;
 import org.apache.log4j.Logger;
-import org.dspace.core.Context;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -38,8 +35,6 @@ public class MovingWallServiceImpl implements MovingWallService
     private ImportDataMap importDataMap;
     @Autowired
     private ContextWrapper contextWrapper;
-    @Autowired
-    private DSpaceTools dSpaceTools;
     @Autowired
     private ObjectWrapperFactory objectWrapperFactory;
     @Autowired
@@ -63,16 +58,7 @@ public class MovingWallServiceImpl implements MovingWallService
             //
         }
         
-        try
-        {
-            contextWrapper.setContext(new Context());
-            contextWrapper.getContext().setCurrentUser(dSpaceTools.findEPerson(importDataMap.getValue("user")));
-        }
-        catch(SQLException ex)
-        {
-            logger.info(ex, ex.getCause());
-        }
-        contextWrapper.getContext().turnOffAuthorisationSystem();
+        contextWrapper.setEperson(importDataMap.getValue("user"));
         ObjectWrapper node = objectWrapperFactory.createObjectWrapper();
         node.setPath(importDataMap.getTypedValue("path", Path.class));
         
@@ -90,8 +76,5 @@ public class MovingWallServiceImpl implements MovingWallService
         {
             importCommunity.importToDspace(realImport, new ArrayList<ObjectWrapper>());
         }
-        
-//        contextWrapper.getContext().restoreAuthSystemState();
-//        contextWrapper.setContext(null);
     }  
 }

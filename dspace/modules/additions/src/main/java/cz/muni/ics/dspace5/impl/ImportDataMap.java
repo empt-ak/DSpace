@@ -21,6 +21,11 @@ public class ImportDataMap
     private static final Logger logger = Logger.getLogger(ImportDataMap.class);
     private final Map<String,Object> argumentMap = new HashMap<>();
     
+    /**
+     * Adds &lt;key, value&gt; into argumentMap
+     * @param key of value
+     * @param value to be stored
+     */
     public void put(String key, Object value)
     {
         argumentMap.put(key, value);

@@ -14,7 +14,6 @@ import cz.muni.ics.dspace5.api.module.CollectionProcessor;
 import cz.muni.ics.dspace5.exceptions.MovingWallException;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.metadata.MetadataWrapper;
-import cz.muni.ics.dspace5.metadata.MetadatumFactory;
 import cz.muni.ics.dspace5.movingwall.MWLockerProvider;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -57,8 +56,6 @@ public class CollectionProcessorImpl implements CollectionProcessor
     private HandleService handleService;
     @Autowired
     private ConfigurationService configurationService;
-    @Autowired
-    private MetadatumFactory metadatumFactory;
     @Autowired
     private DSpaceTools dSpaceTools;
     @Autowired
@@ -197,6 +194,7 @@ public class CollectionProcessorImpl implements CollectionProcessor
                     
                     collection.clearMetadata("muni", "externalcontent", "*", "*");
                     collection.addMetadata("muni", "externalcontent", null, null, file);
+                    movingWallFactoryBean.setExtraStoragePath(extraStorage);
                 }
                 catch (IOException ex)
                 {

@@ -8,7 +8,9 @@ package cz.muni.ics.digilib.movingwall;
 import cz.muni.ics.dspace5.movingwall.MWLocker;
 import cz.muni.ics.dspace5.movingwall.MWLockerProvider;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.dspace.content.Bitstream;
 import org.dspace.content.Collection;
 import org.dspace.content.DSpaceObject;
@@ -19,14 +21,14 @@ import org.dspace.content.DSpaceObject;
  */
 public abstract class MWLockerProviderImpl implements MWLockerProvider
 {
+    private Set<Class<? extends DSpaceObject>> implementedClasses = new HashSet<>(Arrays.asList(Bitstream.class,Collection.class));
+    
     public abstract MWLocker getBitstreamLocker();
     public abstract MWLocker getCollectionLocker();
-    
-    private List<Class<? extends DSpaceObject>> implementedClasses = Arrays.asList(Bitstream.class,Collection.class);
 
     public void setImplementedClasses(List<Class<? extends DSpaceObject>> implementedClasses)
     {
-        this.implementedClasses = implementedClasses;
+        this.implementedClasses = new HashSet<>(implementedClasses);
     }
     
     @Override

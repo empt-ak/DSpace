@@ -17,7 +17,6 @@ import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.impl.ImportDataMap;
 import cz.muni.ics.dspace5.metadata.MetadataWrapper;
-import cz.muni.ics.dspace5.metadata.MetadatumFactory;
 import cz.muni.ics.dspace5.movingwall.MWLockerProvider;
 import java.io.BufferedInputStream;
 import java.io.FileNotFoundException;
@@ -65,8 +64,6 @@ public class ItemProcessorImpl implements ItemProcessor
     private ConfigurationService configurationService;
     @Autowired
     private MovingWallFactoryBean movingWallFactoryBean;
-    @Autowired
-    private MetadatumFactory metadatumFactory;
     @Autowired
     private ReferenceService referenceService;
 

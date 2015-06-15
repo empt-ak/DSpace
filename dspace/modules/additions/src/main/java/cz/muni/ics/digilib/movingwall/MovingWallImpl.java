@@ -6,6 +6,7 @@
 package cz.muni.ics.digilib.movingwall;
 
 import cz.muni.ics.dspace5.movingwall.MovingWall;
+import java.nio.file.Path;
 import org.joda.time.DateTime;
 
 /**
@@ -14,18 +15,20 @@ import org.joda.time.DateTime;
  */
 public class MovingWallImpl implements MovingWall
 {
+
     private DateTime publDate;
     private DateTime endDate;
     private int movingWall;
     private String rightsAccess;
     private boolean openAccess;
     private boolean ignore;
+    private Path extraStorage = null;  //for whole books etc.
 
     public MovingWallImpl()
     {
     }
 
-    public MovingWallImpl(DateTime publDate, DateTime endDate, int movingWall, String rightsAccess, boolean openAccess, boolean ignore)
+    public MovingWallImpl(DateTime publDate, DateTime endDate, int movingWall, String rightsAccess, boolean openAccess, boolean ignore, Path extraStoragePath)
     {
         this.publDate = publDate;
         this.endDate = endDate;
@@ -33,8 +36,9 @@ public class MovingWallImpl implements MovingWall
         this.rightsAccess = rightsAccess;
         this.openAccess = openAccess;
         this.ignore = ignore;
+        this.extraStorage = extraStoragePath;
     }
-    
+
     @Override
     public DateTime getPublDate()
     {
@@ -50,11 +54,17 @@ public class MovingWallImpl implements MovingWall
     public void setOpenAccess(boolean openAccess)
     {
         this.openAccess = openAccess;
-    }   
+    }
 
     public void setPublDate(DateTime publDate)
     {
         this.publDate = publDate;
+    }
+
+    @Override
+    public Path extraStorage()
+    {
+        return this.extraStorage;
     }
 
     @Override
@@ -88,7 +98,7 @@ public class MovingWallImpl implements MovingWall
     {
         this.rightsAccess = rightsAccess;
     }
-    
+
     @Override
     public boolean ignore()
     {
@@ -98,6 +108,6 @@ public class MovingWallImpl implements MovingWall
     @Override
     public String toString()
     {
-        return "MovingWallImpl{" + "publDate=" + publDate + ", endDate=" + endDate + ", movingWall=" + movingWall + ", rightsAccess=" + rightsAccess + ", openAccess=" + openAccess + ", ignore=" + ignore + '}';
+        return "MovingWallImpl{" + "publDate=" + publDate + ", endDate=" + endDate + ", movingWall=" + movingWall + ", rightsAccess=" + rightsAccess + ", openAccess=" + openAccess + ", ignore=" + ignore + ", extraStorage=" + extraStorage + '}';
     }
 }

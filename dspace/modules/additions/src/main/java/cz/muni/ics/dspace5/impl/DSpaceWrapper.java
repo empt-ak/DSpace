@@ -29,18 +29,8 @@ public class DSpaceWrapper
         return instance;
     }
     
-    public DSpace getDSpace()
-    {       
-        return dspace;
-    }
-    
     public <T> T getBean(String name,Class<T> type)
     {
         return dspace.getServiceManager().getServiceByName(name, type);
-    }
-    
-    public String getProperty(String property)
-    {
-        return getDSpace().getConfigurationService().getProperty(property);
     }
 }

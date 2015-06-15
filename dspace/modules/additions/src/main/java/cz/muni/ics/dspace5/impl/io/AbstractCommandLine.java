@@ -22,56 +22,84 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public abstract class AbstractCommandLine implements CommandLine
 {
+
     private static final Logger logger = Logger.getLogger(AbstractCommandLine.class);
-    @Autowired protected CommandLineParser commandLineParser;
-    @Autowired protected HelpFormatter helpFormatter;
-    @Autowired protected ImportDataMap importDataMap;
-    @Autowired protected ConfigurationService configurationService;
-    
+    @Autowired
+    protected CommandLineParser commandLineParser;
+    @Autowired
+    protected HelpFormatter helpFormatter;
+    @Autowired
+    protected ImportDataMap importDataMap;
+    @Autowired
+    protected ConfigurationService configurationService;
+
     protected org.apache.commons.cli.CommandLine getParsedCommandLine(String[] args, Options options) throws ParseException
     {
         org.apache.commons.cli.CommandLine cmd = null;
-        
+
         try
         {
             cmd = commandLineParser.parse(options, args);
         }
-        catch(ParseException ex)
+        catch (ParseException ex)
         {
-            logger.error(ex,ex.getCause());
+            logger.error(ex, ex.getCause());
             helpFormatter.printHelp("posix", options);
             throw ex;
         }
-        
+
         return cmd;
     }
-    
+
+    /**
+     * Adds following options into command line options object:
+     *
+     * <table>
+     * <tr>
+     * <td>short option</td>
+     * <td>long option</td>
+     * <td>description</td>
+     * </tr>
+     * <tr>
+     * <td>p</td>
+     * <td>path</td>
+     * <td>path to be imported</td>
+     * </tr>
+     * <tr>
+     * <td>u</td>
+     * <td>user</td>
+     * <td>email of user, executing import</td>
+     * </tr>
+     * </table>
+     *
+     * @return {@code Option} object with options specified above.
+     */
     protected Options getBasicOptions()
     {
         Options options = new Options();
-        
+
         options.addOption(
-            Option.builder("p")
-                    .longOpt("path")
-                    .argName("path")
-                    .hasArg(true)
-                    .type(String.class)                        
-                    .required(true)
-                    .desc("Path to be imported.")
-                    .build()
+                Option.builder("p")
+                .longOpt("path")
+                .argName("path")
+                .hasArg(true)
+                .type(String.class)
+                .required(true)
+                .desc("Path to be imported.")
+                .build()
         );
 
         logger.debug(options.getOption("p"));
-        
+
         options.addOption(Option.builder("u")
-                            .longOpt("user")
-                            .argName("u")
-                            .hasArg(true)
-                            .type(String.class)
-                            .required(false)
-                            .desc("Flag specifying user executing import. The value is email set when creating the user.")
-                            .build());
-        
+                .longOpt("user")
+                .argName("u")
+                .hasArg(true)
+                .type(String.class)
+                .required(false)
+                .desc("Flag specifying user executing import. The value is email set when creating the user.")
+                .build());
+
         return options;
     }
 }

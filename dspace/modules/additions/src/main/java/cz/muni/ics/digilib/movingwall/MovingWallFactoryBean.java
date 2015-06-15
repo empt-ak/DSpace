@@ -14,6 +14,7 @@ import cz.muni.ics.digilib.domain.Periodical;
 import cz.muni.ics.digilib.domain.Volume;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.movingwall.MovingWall;
+import java.nio.file.Path;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -33,6 +34,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class MovingWallFactoryBean
 {
+
     private static final Logger logger = Logger.getLogger(MovingWallFactoryBean.class);
     private DateTime publDate = null;
     private DateTime endDate = null;
@@ -41,27 +43,28 @@ public class MovingWallFactoryBean
     private boolean openAcces;
     private boolean ignore;
     private Set<String> skipNames;
-    
+    private Path extraStoragePath;
+
     @Autowired
     private ConfigurationService configurationService;
-    
+
     @PostConstruct
     private void init()
     {
         skipNames = new HashSet<>();
         // if no values are set then null is returned from config service
         String pNames = configurationService.getProperty("movingwall.ignore.types");
-        
-        if(!StringUtils.isEmpty(pNames))
+
+        if (!StringUtils.isEmpty(pNames))
         {
             Collections.addAll(skipNames, pNames.split(","));
-            logger.info("MovingWall ignore set to types: "+skipNames);
+            logger.info("MovingWall ignore set to types: " + skipNames);
         }
     }
 
     @Autowired
     private DSpaceTools dSpaceTools;
-    
+
     public DateTime getPublDate()
     {
         return publDate;
@@ -121,105 +124,118 @@ public class MovingWallFactoryBean
     {
         this.ignore = ignore;
     }
+
+    public void setExtraStoragePath(Path extraStoragePath)
+    {
+        this.extraStoragePath = extraStoragePath;
+    }
     
     public void parse(Monography monography)
     {
-        if(monography != null)
+        if (monography != null)
         {
             setPublDate(toDate(monography.getPublYear()));
             setEndDate(toDate(monography.getEmbargoEndDate()));
-            
-            if(monography.getRightsAccess() != null)
+
+            if (monography.getRightsAccess() != null)
             {
                 setRightsAccess(monography.getRightsAccess().value());
-            }            
-            
-            if(monography.getOpenAccess() != null)
+            }
+
+            if (monography.getOpenAccess() != null)
             {
-               openAcces = Boolean.parseBoolean(monography.getOpenAccess().value()); 
+                openAcces = Boolean.parseBoolean(monography.getOpenAccess().value());
             }
         }
     }
-    
+
     public void parse(MonographicSeries monographicSeries)
     {
-        if(monographicSeries != null)
+        if (monographicSeries != null)
         {
             try
             {
                 parseMovingWallValue(monographicSeries.getMovingWall());
             }
-            catch(NumberFormatException nfe)
+            catch (NumberFormatException nfe)
             {
                 logger.error(nfe, nfe.getCause());
             }
         }
     }
-    
+
     public void parse(MonographyChapter monographyChapter)
     {
-        if(monographyChapter != null)
+        if (monographyChapter != null)
         {
             ignore = skipNames.contains(monographyChapter.getMonographyChapterType());
         }
     }
-    
+
     public void parse(Periodical periodical)
     {
-        if(periodical != null)
+        if (periodical != null)
         {
             try
             {
                 parseMovingWallValue(periodical.getMovingWall());
             }
-            catch(NumberFormatException nfe)
+            catch (NumberFormatException nfe)
             {
-                logger.error(nfe,nfe.getCause());
+                logger.error(nfe, nfe.getCause());
             }
         }
     }
-    
+
     public void parse(Volume volume)
     {
         // do nothing there is no restriction
     }
-    
+
     public void parse(Issue issue)
     {
-        if(issue != null)
+        if (issue != null)
         {
             setPublDate(toDate(issue.getPublYear()));
             setEndDate(toDate(issue.getEmbargoEndDate()));
         }
     }
-    
+
     public void parse(Article article)
     {
-        if(article != null)
+        if (article != null)
         {
-            setEndDate(toDate(article.getEmbargoEndDate()));
+            // need to be checked otherwise #toDate would return null
+            // which would result in publdate+movingwall end date
+            // and would override issue#endDate
+            if(!StringUtils.isEmpty(article.getEmbargoEndDate()))
+            {
+                setEndDate(toDate(article.getEmbargoEndDate()));
+            }
+            
             ignore = skipNames.contains(article.getArticleType());
         }
-    }    
-    
+    }
+
     public MovingWall build()
     {
-        if(endDate == null)
+        if (endDate == null)
         {
-            return new MovingWallImpl(publDate, 
-                    publDate.plus(Months.months(movingWall)), 
-                    movingWall, 
-                    rightsAccess, 
+            return new MovingWallImpl(publDate,
+                    publDate.plus(Months.months(movingWall)),
+                    movingWall,
+                    rightsAccess,
                     openAcces,
-                    ignore
+                    ignore,
+                    extraStoragePath
             );
         }
         else
         {
-            return new MovingWallImpl(publDate, endDate, movingWall, rightsAccess, openAcces, ignore);
+            return new MovingWallImpl(publDate, endDate, movingWall, rightsAccess, openAcces, ignore, extraStoragePath);
         }
-    }   
-    
+    }
+
     public void reset()
     {
         this.endDate = null;
@@ -227,10 +243,10 @@ public class MovingWallFactoryBean
         this.publDate = null;
         this.rightsAccess = null;
     }
-    
+
     private DateTime toDate(String value)
     {
-        if(!StringUtils.isEmpty(value))
+        if (!StringUtils.isEmpty(value))
         {
             return dSpaceTools.parseDate(value);
         }
@@ -239,10 +255,10 @@ public class MovingWallFactoryBean
             return null;
         }
     }
-    
+
     private void parseMovingWallValue(String value) throws NumberFormatException
     {
-        if(!StringUtils.isEmpty(value))
+        if (!StringUtils.isEmpty(value))
         {
             movingWall = Integer.parseInt(value);
         }

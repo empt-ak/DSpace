@@ -5,7 +5,11 @@
  */
 package cz.muni.ics.digilib.movingwall;
 
+import cz.muni.ics.dspace5.api.DSpaceGroupService;
 import cz.muni.ics.dspace5.exceptions.MovingWallException;
+import cz.muni.ics.dspace5.impl.ContextWrapper;
+import cz.muni.ics.dspace5.impl.DSpaceTools;
+import cz.muni.ics.dspace5.movingwall.MWLocker;
 import cz.muni.ics.dspace5.movingwall.MovingWall;
 import java.sql.SQLException;
 import java.util.List;
@@ -21,13 +25,19 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author Dominik Szalai - emptulik at gmail.com
  */
-public class BitstreamMWLocker extends AbstractLocker
+public class BitstreamMWLocker implements MWLocker
 {
 
     private static final Logger logger = Logger.getLogger(BitstreamMWLocker.class);
+    @Autowired
+    private ContextWrapper contextWrapper;
     
     @Autowired
-    private ResourcePolicyFactory resourcePolicyFactory;
+    private ResourcePolicyService resourcePolicyService;
+    @Autowired
+    private DSpaceGroupService dSpaceGroupService;
+    @Autowired
+    private DSpaceTools dSpaceTools;
 
     @Override
     public void lockObject(DSpaceObject dSpaceObject, MovingWall movingWall) throws IllegalArgumentException, MovingWallException
@@ -36,7 +46,7 @@ public class BitstreamMWLocker extends AbstractLocker
         DateTime embargoEnd = movingWall.getEndDate();
         DateTime embargoStart = movingWall.getPublDate();
 
-        if (!movingWall.ignore() && (DateTime.now().isBefore(embargoEnd) && !movingWall.isOpenAccess()) || 
+        if (!movingWall.ignore() && (movingWall.getEndDate().isAfterNow() && !movingWall.isOpenAccess()) || 
                 (movingWall.getRightsAccess() != null && !"openaccess".equals(movingWall.getRightsAccess()))
             )
         {
@@ -44,19 +54,19 @@ public class BitstreamMWLocker extends AbstractLocker
             {
                 Group anonGroup = dSpaceGroupService.getAnonymousGroup();
 
-                List<ResourcePolicy> currentPolicies = getPolicies(dSpaceObject);
+                List<ResourcePolicy> currentPolicies = resourcePolicyService.getPolicies(dSpaceObject);
 
                 for (ResourcePolicy rp : currentPolicies)
                 {
                     logger.debug("Resource policy ID:- " + rp.getID() + " for group ID:- " + rp.getGroupID());
                     if (rp.getGroupID() == anonGroup.getID())
-                    {
-                        // we set restriction only to anonymous user, other users
-                        // cant log in anyway.
-                        resourcePolicyFactory.createResourcePolicy(rp, dSpaceObject, movingWall, "Bitstream embargo from @" + dSpaceTools.simpleFormatTime(embargoStart) + " to @" + dSpaceTools.simpleFormatTime(embargoEnd), "embargo")
+                    {                        
+                        resourcePolicyService.createResourcePolicy(rp, 
+                                dSpaceObject, 
+                                movingWall, 
+                                "Bitstream embargo from @" + dSpaceTools.simpleFormatTime(embargoStart) + " to @" + dSpaceTools.simpleFormatTime(embargoEnd), 
+                                "embargo")                        
                                 .update();
-
-                        rp.update();
                     }
                 }
             }
@@ -67,7 +77,30 @@ public class BitstreamMWLocker extends AbstractLocker
         }
         else
         {
-            super.unlockObject(dSpaceObject, movingWall);
+            unlockObject(dSpaceObject, movingWall);
+        }
+    }
+
+    @Override
+    public void unlockObject(DSpaceObject dSpaceObject, MovingWall movingWall) throws IllegalArgumentException, MovingWallException
+    {
+        Group anonymousGroup = dSpaceGroupService.getAnonymousGroup();
+        for(ResourcePolicy rp : resourcePolicyService.getPolicies(dSpaceObject))
+        {
+            if(rp.getGroupID() == anonymousGroup.getID())
+            {
+                rp.setEndDate(null);
+                rp.setStartDate(DateTime.now().toDate());
+                
+                try
+                {
+                    rp.update();
+                }
+                catch(AuthorizeException | SQLException ex)
+                {
+                    logger.error(ex,ex.getCause());
+                }
+            }
         }
     }
 }

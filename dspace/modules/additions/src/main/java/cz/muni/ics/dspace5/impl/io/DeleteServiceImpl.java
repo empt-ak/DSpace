@@ -30,7 +30,6 @@ import org.dspace.content.DSpaceObject;
 import org.dspace.content.Item;
 import org.dspace.content.ItemIterator;
 import org.dspace.core.Constants;
-import org.dspace.core.Context;
 import org.dspace.handle.HandleManager;
 import org.dspace.services.ConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,18 +74,7 @@ public class DeleteServiceImpl implements DeleteService
 
         if (!error)
         {
-            try
-            {
-                contextWrapper.setContext(new Context());
-                logger.debug("Context created.");
-            }
-            catch (SQLException ex)
-            {
-                logger.fatal(ex, ex.getCause());
-            }
-            
-            contextWrapper.getContext().turnOffAuthorisationSystem();
-            logger.debug("Disabled AuthorisationSystem.");
+            contextWrapper.setEperson(importDataMap.getValue("user"));
 
             String handle = null;
 
@@ -146,14 +134,12 @@ public class DeleteServiceImpl implements DeleteService
                 }
             }
 
-//            contextWrapper.getContext().restoreAuthSystemState();
-//            logger.debug("Restored AuthorisationSystem");
-
             try
             {
                 executeBatchDelete(contextWrapper.getContext().getDBConnection());
+                
+                logger.info("Batch delete executed.");
                 contextWrapper.getContext().complete();
-                logger.info("Context closed.");
             }
             catch (SQLException ex)
             {
@@ -369,9 +355,7 @@ public class DeleteServiceImpl implements DeleteService
 
         ps.executeBatch();
 
-        connection.commit();
-
-        logger.info("Batch delete executed, if no error has has appeared.");
+        connection.commit();        
     }
 
     /**

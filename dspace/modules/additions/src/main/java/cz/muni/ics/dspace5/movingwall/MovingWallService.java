@@ -11,31 +11,6 @@ package cz.muni.ics.dspace5.movingwall;
  */
 public interface MovingWallService
 {
-
-    /**
-     * Key value for datamap specifying under which key is the value of
-     * publication date.
-     */
-    public static final String PUBLICATION_DATE = "embargoPublicationDate";
-
-    /**
-     * Key value for datamap specifying under which key is the value of end
-     * date.
-     */
-    public static final String END_DATE = "embargoEndDate";
-
-    /**
-     * Key value for datamap specifying under which key is the value of moving
-     * wall.
-     */
-    public static final String MOVING_WALL = "embargoMovingWall";
-
-    /**
-     * Key value for datamap specifying under which key is stored path to extra
-     * files such as whole books, epub, mobi.
-     */
-    public static final String MW_COLLECTION_PATH = "movingWallCollectionPath";
-
     /**
      * Method used for direct execution of moving wall on given path or handle.
      * Path is extracted from command line arguments by any way user is familiar

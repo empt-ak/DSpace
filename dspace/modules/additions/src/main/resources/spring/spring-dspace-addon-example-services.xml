@@ -52,10 +52,6 @@
             name="getMovingWallCommandLine"
             bean="movingWallCommandLine"
         />
-        <lookup-method
-            name="getSetupCommandLine"
-            bean="setupCommandLine"
-        />
     </bean>
     
     <bean
@@ -71,11 +67,6 @@
     <bean
         id="movingWallCommandLine"
         class="cz.muni.ics.digilib.services.io.MovingWallCommandLine"
-    />
-    
-    <bean
-        id="setupCommandLine"
-        class="cz.muni.ics.digilib.services.io.SetupCommandLine" 
     />
     
     <bean
