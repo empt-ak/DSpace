@@ -7,7 +7,6 @@ package cz.muni.ics.digilib.movingwall;
 
 import cz.muni.ics.dspace5.api.DSpaceGroupService;
 import cz.muni.ics.dspace5.exceptions.MovingWallException;
-import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.movingwall.MWLocker;
 import cz.muni.ics.dspace5.movingwall.MovingWall;
@@ -27,11 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class BitstreamMWLocker implements MWLocker
 {
-
     private static final Logger logger = Logger.getLogger(BitstreamMWLocker.class);
-    @Autowired
-    private ContextWrapper contextWrapper;
-    
     @Autowired
     private ResourcePolicyService resourcePolicyService;
     @Autowired

@@ -5,7 +5,7 @@
  */
 package cz.muni.ics.digilib;
 
-import cz.muni.ics.dspace5.api.ObjectWrapper;
+import cz.muni.ics.dspace5.api.module.ObjectWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
 import java.nio.file.Path;
 import java.util.List;

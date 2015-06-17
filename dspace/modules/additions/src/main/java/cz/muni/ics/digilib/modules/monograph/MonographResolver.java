@@ -6,7 +6,7 @@
 package cz.muni.ics.digilib.modules.monograph;
 
 import cz.muni.ics.dspace5.api.HandleService;
-import cz.muni.ics.dspace5.api.ObjectWrapper;
+import cz.muni.ics.dspace5.api.module.ObjectWrapper;
 import cz.muni.ics.dspace5.api.module.ObjectWrapperResolver;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.impl.ImportDataMap;

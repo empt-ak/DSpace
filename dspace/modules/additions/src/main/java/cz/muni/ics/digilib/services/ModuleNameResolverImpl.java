@@ -5,7 +5,7 @@
  */
 package cz.muni.ics.digilib.services;
 
-import cz.muni.ics.dspace5.api.ModuleNameResolver;
+import cz.muni.ics.dspace5.api.module.ModuleNameResolver;
 import java.nio.file.Path;
 import org.springframework.stereotype.Component;
 

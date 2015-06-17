@@ -5,8 +5,8 @@
  */
 package cz.muni.ics.dspace5.imports;
 
-import cz.muni.ics.dspace5.api.ObjectWrapper;
-import cz.muni.ics.dspace5.api.ObjectWrapper.LEVEL;
+import cz.muni.ics.dspace5.api.module.ObjectWrapper;
+import cz.muni.ics.dspace5.api.module.ObjectWrapper.LEVEL;
 import cz.muni.ics.dspace5.api.module.CommunityProcessor;
 import cz.muni.ics.dspace5.impl.ImportDataMap;
 import java.sql.SQLException;

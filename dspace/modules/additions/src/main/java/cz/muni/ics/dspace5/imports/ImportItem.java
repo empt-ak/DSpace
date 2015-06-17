@@ -5,7 +5,7 @@
  */
 package cz.muni.ics.dspace5.imports;
 
-import cz.muni.ics.dspace5.api.ObjectWrapper;
+import cz.muni.ics.dspace5.api.module.ObjectWrapper;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;

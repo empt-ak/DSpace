@@ -10,7 +10,7 @@ import cz.muni.ics.digilib.domain.ArticleMeta;
 import cz.muni.ics.digilib.movingwall.MovingWallFactoryBean;
 import cz.muni.ics.digilib.service.io.references.ReferenceService;
 import cz.muni.ics.dspace5.api.ObjectMapper;
-import cz.muni.ics.dspace5.api.ObjectWrapper;
+import cz.muni.ics.dspace5.api.module.ObjectWrapper;
 import cz.muni.ics.dspace5.api.module.ItemProcessor;
 import cz.muni.ics.dspace5.exceptions.MovingWallException;
 import cz.muni.ics.dspace5.impl.ContextWrapper;

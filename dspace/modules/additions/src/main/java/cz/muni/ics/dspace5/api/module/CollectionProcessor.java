@@ -5,7 +5,6 @@
  */
 package cz.muni.ics.dspace5.api.module;
 
-import cz.muni.ics.dspace5.api.ObjectWrapper;
 import java.util.List;
 import org.dspace.content.Collection;
 import org.dspace.content.Metadatum;

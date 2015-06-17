@@ -5,7 +5,6 @@
  */
 package cz.muni.ics.dspace5.api.module;
 
-import cz.muni.ics.dspace5.api.ObjectWrapper;
 import java.io.FileNotFoundException;
 
 /**

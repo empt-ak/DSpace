@@ -6,7 +6,7 @@
 package cz.muni.ics.dspace5.impl;
 
 import cz.muni.ics.dspace5.api.HandleService;
-import cz.muni.ics.dspace5.api.ObjectWrapper;
+import cz.muni.ics.dspace5.api.module.ObjectWrapper;
 import java.nio.file.Path;
 import org.springframework.beans.factory.annotation.Autowired;
 

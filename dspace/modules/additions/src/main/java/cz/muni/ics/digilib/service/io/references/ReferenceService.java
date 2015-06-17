@@ -5,7 +5,7 @@
  */
 package cz.muni.ics.digilib.service.io.references;
 
-import cz.muni.ics.dspace5.api.ObjectWrapper;
+import cz.muni.ics.dspace5.api.module.ObjectWrapper;
 import java.util.List;
 import org.dspace.content.Metadatum;
 

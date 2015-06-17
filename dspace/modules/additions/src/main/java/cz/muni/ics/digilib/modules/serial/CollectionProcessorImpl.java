@@ -9,7 +9,7 @@ import cz.muni.ics.digilib.domain.Issue;
 import cz.muni.ics.digilib.movingwall.MovingWallFactoryBean;
 import cz.muni.ics.dspace5.api.HandleService;
 import cz.muni.ics.dspace5.api.ObjectMapper;
-import cz.muni.ics.dspace5.api.ObjectWrapper;
+import cz.muni.ics.dspace5.api.module.ObjectWrapper;
 import cz.muni.ics.dspace5.api.module.CollectionProcessor;
 import cz.muni.ics.dspace5.metadata.MetadataWrapper;
 import java.io.FileInputStream;

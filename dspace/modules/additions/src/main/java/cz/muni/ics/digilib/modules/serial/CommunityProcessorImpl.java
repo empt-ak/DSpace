@@ -9,7 +9,7 @@ import cz.muni.ics.digilib.domain.Periodical;
 import cz.muni.ics.digilib.domain.Volume;
 import cz.muni.ics.digilib.movingwall.MovingWallFactoryBean;
 import cz.muni.ics.dspace5.api.ObjectMapper;
-import cz.muni.ics.dspace5.api.ObjectWrapper;
+import cz.muni.ics.dspace5.api.module.ObjectWrapper;
 import cz.muni.ics.dspace5.api.module.CommunityProcessor;
 import cz.muni.ics.dspace5.comparators.ComparatorFactory;
 import cz.muni.ics.dspace5.impl.DSpaceTools;

@@ -5,9 +5,9 @@
  */
 package cz.muni.ics.dspace5.impl;
 
-import cz.muni.ics.dspace5.api.ModuleManager;
-import cz.muni.ics.dspace5.api.ModuleNameResolver;
-import cz.muni.ics.dspace5.api.ObjectWrapper;
+import cz.muni.ics.dspace5.api.module.ModuleManager;
+import cz.muni.ics.dspace5.api.module.ModuleNameResolver;
+import cz.muni.ics.dspace5.api.module.ObjectWrapper;
 import cz.muni.ics.dspace5.api.module.ModuleService;
 import java.nio.file.Path;
 import java.util.Map;

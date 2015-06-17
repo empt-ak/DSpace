@@ -7,8 +7,8 @@ package cz.muni.ics.dspace5.imports;
 
 import cz.muni.ics.dspace5.api.CommandLineService;
 import cz.muni.ics.dspace5.api.ImportService;
-import cz.muni.ics.dspace5.api.ModuleManager;
-import cz.muni.ics.dspace5.api.ObjectWrapper;
+import cz.muni.ics.dspace5.api.module.ModuleManager;
+import cz.muni.ics.dspace5.api.module.ObjectWrapper;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.ImportDataMap;
 import cz.muni.ics.dspace5.impl.ObjectWrapperFactory;
