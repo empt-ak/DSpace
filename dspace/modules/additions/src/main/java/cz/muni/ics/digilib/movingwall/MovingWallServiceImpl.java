@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
  *
  * @author Dominik Szalai - emptulik at gmail.com
  */
-@Component(value = "mowingWallService")
+@Component(value = "movingWallService")
 public class MovingWallServiceImpl implements MovingWallService
 {
     private static final Logger logger = Logger.getLogger(MovingWallServiceImpl.class);
@@ -76,5 +76,5 @@ public class MovingWallServiceImpl implements MovingWallService
         {
             importCommunity.importToDspace(realImport, new ArrayList<ObjectWrapper>());
         }
-    }  
+    }
 }
