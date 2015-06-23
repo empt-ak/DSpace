@@ -3,51 +3,38 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.ics.dspace5.imports;
+package cz.muni.ics.dspace5.objectmanagers;
 
 import cz.muni.ics.dspace5.api.module.ObjectWrapper;
 import cz.muni.ics.dspace5.api.module.ObjectWrapper.LEVEL;
-import cz.muni.ics.dspace5.api.module.CommunityProcessor;
-import cz.muni.ics.dspace5.impl.ImportDataMap;
+import cz.muni.ics.dspace5.exceptions.MovingWallException;
 import java.sql.SQLException;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.dspace.authorize.AuthorizeException;
+import org.dspace.content.Collection;
 import org.dspace.content.Community;
 import org.dspace.content.Metadatum;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
  *
  * @author Dominik Szalai - emptulik at gmail.com
  */
-@Component
-public class ImportCommunity extends AbstractImport
+@Component(value = "communityManager")
+public class CommunityManager extends AbstractDSpaceManager<Community>
 {
 
-    private static final Logger logger = Logger.getLogger(ImportCommunity.class);
-    private static final String ANY = "*";
+    private static final Logger logger = Logger.getLogger(CommunityManager.class);
     
     @Autowired
-    private ImportCollection importCollection;
-
-    /**
-     * Method takes given objectWrapper (which has contain path to target object
-     * and handle). Object itself and children are not required. At first step
-     * community is found inside system (top or sub). If missing then its
-     * created. Then we call {@link CommunityProcessor} which handles
-     * operations done to community (such as providing metadata, or adding
-     * thumbnail). After its done. Save and commit is done based on values
-     * stored in {@link ImportDataMap}.
-     *
-     * @param objectWrapper target object wrapping required values which are
-     *                      converted into community
-     * @param parents
-     *
-     * @return created Community stored by this method
-     */
-    public Community importToDspace(ObjectWrapper objectWrapper, List<ObjectWrapper> parents)
+    @Qualifier(value = "collectionManager")
+    private DSpaceObjectManager<Collection> collectionManager; 
+    
+    @Override
+    public Community resolveObjectInDSpace(ObjectWrapper objectWrapper, List<ObjectWrapper> parents)
     {
         logger.info("Commencing import of Community type.");
         logger.info(objectWrapper.getLevel()+" with handle@"+objectWrapper.getHandle()+" having following parents: "+parents);        
@@ -73,29 +60,32 @@ public class ImportCommunity extends AbstractImport
         else
         {
             moduleManager.getModule(objectWrapper).getCommunityProcessor().setup(objectWrapper);
-            if(!importDataMap.containsKey("movingWallOnly"))
-            {
-                List<Metadatum> metadata = moduleManager.getModule(objectWrapper).getCommunityProcessor().processMetadata(parents);
-            
-                //values have to be cleared first because there may be multiple values
-                // e.g. dc.title.alternative
-                for (Metadatum m : metadata)
-                {
-                    workingCommunity.clearMetadata(m.schema, m.element, m.qualifier, ANY);
-                }
 
-                for (Metadatum m : metadata)
-                {
-                    logger.info(m.getField()+":- "+m.value);
-                    workingCommunity.addMetadata(m.schema, m.element, m.qualifier, m.language, m.value);
-                }
-            }
-            else
+            List<Metadatum> metadata = moduleManager.getModule(objectWrapper).getCommunityProcessor().processMetadata(parents);
+
+            //values have to be cleared first because there may be multiple values
+            // e.g. dc.title.alternative
+            for (Metadatum m : metadata)
             {
-                // TODO date modified ? 
+                workingCommunity.clearMetadata(m.schema, m.element, m.qualifier, ANY);
+            }
+
+            for (Metadatum m : metadata)
+            {
+                logger.info(m.getField()+":- "+m.value);
+                workingCommunity.addMetadata(m.schema, m.element, m.qualifier, m.language, m.value);
             }
             
-            moduleManager.getModule(objectWrapper).getCommunityProcessor().processCommunity(workingCommunity, parents);    
+            moduleManager.getModule(objectWrapper).getCommunityProcessor().processCommunity(workingCommunity, parents);  
+            
+            try
+            {
+                moduleManager.getModule(objectWrapper).getCommunityProcessor().movingWall(workingCommunity);
+            }
+            catch(MovingWallException me)
+            {
+                logger.error(me);
+            }
             
             moduleManager.getModule(objectWrapper).getCommunityProcessor().clear();
             
@@ -109,7 +99,7 @@ public class ImportCommunity extends AbstractImport
                     {
                         objectWrapper.setObject(workingCommunity);
                         
-                        importCollection.importToDspace(issue, dSpaceTools.createParentBranch(objectWrapper, parents));
+                        collectionManager.resolveObjectInDSpace(issue, dSpaceTools.createParentBranch(objectWrapper, parents));
                     }                    
                 }
                 else
@@ -118,7 +108,7 @@ public class ImportCommunity extends AbstractImport
                     {
                         objectWrapper.setObject(workingCommunity);
                         
-                        importToDspace(subComm, dSpaceTools.createParentBranch(objectWrapper, parents));
+                        resolveObjectInDSpace(subComm, dSpaceTools.createParentBranch(objectWrapper, parents));
                     } 
                 }
             }

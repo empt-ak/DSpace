@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.ics.dspace5.imports;
+package cz.muni.ics.dspace5.impl.io;
 
 import cz.muni.ics.dspace5.api.CommandLineService;
 import cz.muni.ics.dspace5.api.ImportService;
@@ -12,6 +12,7 @@ import cz.muni.ics.dspace5.api.module.ObjectWrapper;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.ImportDataMap;
 import cz.muni.ics.dspace5.impl.ObjectWrapperFactory;
+import cz.muni.ics.dspace5.objectmanagers.DSpaceObjectManager;
 import java.io.FileNotFoundException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -19,7 +20,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import org.apache.commons.cli.ParseException;
 import org.apache.log4j.Logger;
+import org.dspace.content.Community;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -37,7 +40,8 @@ public class ImportServiceImpl implements ImportService
     @Autowired
     private CommandLineService commandLineService;    
     @Autowired
-    private ImportCommunity importCommunity;
+    @Qualifier(value = "communityManager")
+    private DSpaceObjectManager<Community> communityManager;
     @Autowired
     private ImportDataMap importDataMap;
     @Autowired
@@ -88,7 +92,7 @@ public class ImportServiceImpl implements ImportService
 
                 if(realImport != null)
                 {
-                    importCommunity.importToDspace(realImport, new ArrayList<ObjectWrapper>());
+                    communityManager.resolveObjectInDSpace(realImport, new ArrayList<ObjectWrapper>());
                 }
     //            try
     //            {

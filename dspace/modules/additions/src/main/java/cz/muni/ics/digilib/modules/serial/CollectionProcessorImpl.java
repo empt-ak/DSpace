@@ -9,8 +9,9 @@ import cz.muni.ics.digilib.domain.Issue;
 import cz.muni.ics.digilib.movingwall.MovingWallFactoryBean;
 import cz.muni.ics.dspace5.api.HandleService;
 import cz.muni.ics.dspace5.api.ObjectMapper;
-import cz.muni.ics.dspace5.api.module.ObjectWrapper;
 import cz.muni.ics.dspace5.api.module.CollectionProcessor;
+import cz.muni.ics.dspace5.api.module.ObjectWrapper;
+import cz.muni.ics.dspace5.exceptions.MovingWallException;
 import cz.muni.ics.dspace5.metadata.MetadataWrapper;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -119,7 +120,14 @@ public class CollectionProcessorImpl implements CollectionProcessor
 
         if (this.issue != null)
         {
-            setupIssue(collection, parents);
+            try
+            {
+                resolveVirtual(collection);
+            }
+            catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex)
+            {
+                logger.error(ex);
+            }
         }
         else
         {
@@ -159,20 +167,6 @@ public class CollectionProcessorImpl implements CollectionProcessor
         else
         {
             throw new IllegalArgumentException("Cover was not found @path [" + coverPath + "]");
-        }
-    }
-
-    private void setupIssue(Collection collection, List<ObjectWrapper> parents)
-    {
-        movingWallFactoryBean.parse(issue);
-
-        try
-        {
-            resolveVirtual(collection);
-        }
-        catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex)
-        {
-            logger.error(ex);
         }
     }
 
@@ -222,5 +216,11 @@ public class CollectionProcessorImpl implements CollectionProcessor
                         + realHandle + "] but returned object is null. No subitems from real Collection will be attached to this one.");
             }
         }
+    }
+
+    @Override
+    public void movingWall(Collection collection) throws MovingWallException
+    {
+        movingWallFactoryBean.parse(issue);
     }
 }

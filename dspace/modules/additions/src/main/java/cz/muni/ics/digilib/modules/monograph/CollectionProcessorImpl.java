@@ -9,8 +9,8 @@ import cz.muni.ics.digilib.domain.Monography;
 import cz.muni.ics.digilib.movingwall.MovingWallFactoryBean;
 import cz.muni.ics.dspace5.api.HandleService;
 import cz.muni.ics.dspace5.api.ObjectMapper;
-import cz.muni.ics.dspace5.api.module.ObjectWrapper;
 import cz.muni.ics.dspace5.api.module.CollectionProcessor;
+import cz.muni.ics.dspace5.api.module.ObjectWrapper;
 import cz.muni.ics.dspace5.exceptions.MovingWallException;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.metadata.MetadataWrapper;
@@ -201,18 +201,7 @@ public class CollectionProcessorImpl implements CollectionProcessor
                     logger.error(ex, ex.getCause());
                 }
             }
-        }
-
-        movingWallFactoryBean.parse(monography);
-
-        try
-        {
-            mWLockerProvider.getLocker(Collection.class).lockObject(collection, movingWallFactoryBean.build());
-        }
-        catch (IllegalArgumentException | MovingWallException ex)
-        {
-            logger.fatal(ex, ex.getCause());
-        }
+        }        
     }
 
     private void resolveVirtual(Collection collection) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException
@@ -260,6 +249,21 @@ public class CollectionProcessorImpl implements CollectionProcessor
                         + " there is no real target Collection imported yet. Target handle is ["
                         + realHandle + "] but returned object is null. No subitems from real Collection will be attached to this one.");
             }
+        }
+    }
+    
+    @Override
+    public void movingWall(Collection collection) throws MovingWallException
+    {
+        movingWallFactoryBean.parse(monography);
+
+        try
+        {
+            mWLockerProvider.getLocker(Collection.class).lockObject(collection, movingWallFactoryBean.build());
+        }
+        catch (IllegalArgumentException | MovingWallException ex)
+        {
+            logger.fatal(ex, ex.getCause());
         }
     }
 }

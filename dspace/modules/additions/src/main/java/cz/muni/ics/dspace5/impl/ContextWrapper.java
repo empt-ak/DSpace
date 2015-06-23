@@ -20,32 +20,42 @@ import org.springframework.stereotype.Component;
 @Component
 public class ContextWrapper implements ApplicationListener<ContextRefreshedEvent>
 {
+
     private static final Logger logger = Logger.getLogger(ContextWrapper.class);
     private Context context;
-    
+
     private DSpaceTools dSpaceTools;
-    
+
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event)
     {
-        if(dSpaceTools == null)
+        if (dSpaceTools == null)
         {
             // dirty solution, awire does not work when
             // bean implements ApplicationListener.
             // because of circular dependency
             dSpaceTools = event.getApplicationContext().getBean(DSpaceTools.class);
         }
-        if(context == null)
+        if (context == null)
         {
             DSpaceWrapper.getInstance();
             try
             {
+                /*
+                 hack for dspace cfg not found. the default fallback when property is not found
+                 or passed, is to load config file related to position of ConfigurationManager class
+                 however the config file neither exist in ConfigurationManager class location
+                 nor is passed as classpath argument (like when commnad ./dpsace dsrun is executed)
+                 */
+                //TODO
+                System.setProperty("dspace.configuration", "/opt/oktavo5/config/dspace.cfg");
+
                 context = new Context();
                 logger.debug("Context created.");
                 context.turnOffAuthorisationSystem();
                 logger.debug("Authorisation system disabled.");
             }
-            catch(SQLException ssqlex)
+            catch (SQLException ssqlex)
             {
                 logger.fatal(ssqlex);
             }
@@ -54,9 +64,9 @@ public class ContextWrapper implements ApplicationListener<ContextRefreshedEvent
         else
         {
             logger.debug("ContextWrapper bean has already set Context.");
-        }        
+        }
     }
-    
+
     @PreDestroy
     private void destroy() throws SQLException
     {
@@ -68,16 +78,16 @@ public class ContextWrapper implements ApplicationListener<ContextRefreshedEvent
         this.context = null;
         logger.info("ContextWrapper bean has been shut down.");
     }
-    
+
     public Context getContext() throws IllegalStateException
     {
-        if(context == null)
+        if (context == null)
         {
             throw new IllegalStateException("Context is not loaded. It should be autoloaded on when Spring Context is done with booting.");
         }
         return context;
     }
-    
+
     public void setEperson(String epersonEmail)
     {
         getContext().setCurrentUser(dSpaceTools.findEPerson(epersonEmail));

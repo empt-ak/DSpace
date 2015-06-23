@@ -8,8 +8,9 @@ package cz.muni.ics.digilib.modules.monograph;
 import cz.muni.ics.digilib.domain.MonographicSeries;
 import cz.muni.ics.digilib.movingwall.MovingWallFactoryBean;
 import cz.muni.ics.dspace5.api.ObjectMapper;
-import cz.muni.ics.dspace5.api.module.ObjectWrapper;
 import cz.muni.ics.dspace5.api.module.CommunityProcessor;
+import cz.muni.ics.dspace5.api.module.ObjectWrapper;
+import cz.muni.ics.dspace5.exceptions.MovingWallException;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.metadata.MetadataWrapper;
 import cz.muni.ics.dspace5.metadata.MetadatumFactory;
@@ -100,8 +101,6 @@ public class CommunityProcessorImpl implements CommunityProcessor
         {
             logger.info("For handle@" + currentWrapper.getHandle() + iax.getMessage());
         }
-
-        movingWallFactoryBean.parse(monographicSeries);
     }
 
     @Override
@@ -137,5 +136,11 @@ public class CommunityProcessorImpl implements CommunityProcessor
         {
             throw new IllegalArgumentException("Cover was not found @path [" + coverPath + "]");
         }
+    }
+
+    @Override
+    public void movingWall(Community community) throws MovingWallException
+    {
+        movingWallFactoryBean.parse(monographicSeries);
     }
 }

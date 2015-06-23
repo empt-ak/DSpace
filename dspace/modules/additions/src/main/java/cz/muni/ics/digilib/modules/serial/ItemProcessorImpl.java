@@ -10,8 +10,8 @@ import cz.muni.ics.digilib.domain.ArticleMeta;
 import cz.muni.ics.digilib.movingwall.MovingWallFactoryBean;
 import cz.muni.ics.digilib.service.io.references.ReferenceService;
 import cz.muni.ics.dspace5.api.ObjectMapper;
-import cz.muni.ics.dspace5.api.module.ObjectWrapper;
 import cz.muni.ics.dspace5.api.module.ItemProcessor;
+import cz.muni.ics.dspace5.api.module.ObjectWrapper;
 import cz.muni.ics.dspace5.exceptions.MovingWallException;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
@@ -121,9 +121,7 @@ public class ItemProcessorImpl implements ItemProcessor
 
     @Override
     public void processItem(Item item, List<ObjectWrapper> parents) throws IllegalStateException, IllegalArgumentException
-    {        
-        movingWallFactoryBean.parse(article);
-        
+    {      
         Bundle[] oldBundles = null;
         
         try
@@ -191,19 +189,7 @@ public class ItemProcessorImpl implements ItemProcessor
                     pdfBitstream.setName(dSpaceTools.getNameForPDF(currentWrapper.getPath()));
                     pdfBitstream.setDescription("Full-text");
                     pdfBitstream.setFormat(BitstreamFormat.findByMIMEType(contextWrapper.getContext(), "application/pdf"));
-                    pdfBitstream.update();
-                    
-                    if(importDataMap.containsKey("movingwall") && !importDataMap.getValue("movingwall").equals("ignore"))
-                    {
-                        try
-                        {
-                            mWLockerProvider.getLocker(Bitstream.class).lockObject(pdfBitstream, movingWallFactoryBean.build());
-                        }
-                        catch(MovingWallException mwe)
-                        {
-                            logger.fatal(mwe.getMessage());
-                        }
-                    }                    
+                    pdfBitstream.update();      
                 }
                 catch(IOException | AuthorizeException | SQLException ex)
                 {
@@ -223,4 +209,32 @@ public class ItemProcessorImpl implements ItemProcessor
         this.currentWrapper = null;
         this.article = null;
     }
+
+    @Override
+    public void movingWall(Item item) throws MovingWallException
+    {
+        movingWallFactoryBean.parse(article);
+        
+        if (importDataMap.containsKey("movingwall") && !importDataMap.getValue("movingwall").equals("ignore"))
+        {
+            Bundle[] original = null;
+            
+            try
+            {
+                original = item.getBundles(Constants.DEFAULT_BUNDLE_NAME);
+            }
+            catch(SQLException ex)
+            {
+                throw new MovingWallException(ex);
+            }
+            
+            if(original != null && original.length > 0)
+            {
+                for(Bitstream bs : original[0].getBitstreams())
+                {
+                    mWLockerProvider.getLocker(Bitstream.class).lockObject(bs, movingWallFactoryBean.build());
+                }
+            }
+        }
+    }    
 }

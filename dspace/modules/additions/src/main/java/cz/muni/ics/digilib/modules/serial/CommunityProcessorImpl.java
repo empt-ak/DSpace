@@ -9,9 +9,10 @@ import cz.muni.ics.digilib.domain.Periodical;
 import cz.muni.ics.digilib.domain.Volume;
 import cz.muni.ics.digilib.movingwall.MovingWallFactoryBean;
 import cz.muni.ics.dspace5.api.ObjectMapper;
-import cz.muni.ics.dspace5.api.module.ObjectWrapper;
 import cz.muni.ics.dspace5.api.module.CommunityProcessor;
+import cz.muni.ics.dspace5.api.module.ObjectWrapper;
 import cz.muni.ics.dspace5.comparators.ComparatorFactory;
+import cz.muni.ics.dspace5.exceptions.MovingWallException;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.impl.io.FolderProvider;
 import cz.muni.ics.dspace5.metadata.MetadataWrapper;
@@ -159,8 +160,6 @@ public class CommunityProcessorImpl implements CommunityProcessor
                 logger.info("For handle@" + currentWrapper.getHandle() + iax.getMessage());
             }
         }
-
-        movingWallFactoryBean.parse(periodical);
     }
 
     @Override
@@ -196,6 +195,19 @@ public class CommunityProcessorImpl implements CommunityProcessor
         else
         {
             throw new IllegalArgumentException("Cover was not found @path [" + coverPath + "]");
+        }
+    }
+
+    @Override
+    public void movingWall(Community community) throws MovingWallException
+    {
+        if(periodical != null)
+        {
+            movingWallFactoryBean.parse(periodical);
+        }
+        else if(volume != null)
+        {
+            movingWallFactoryBean.parse(volume);
         }
     }
 }
