@@ -196,7 +196,17 @@ public class MovingWallFactoryBean
     {
         if (issue != null)
         {
-            setPublDate(toDate(issue.getPublYear()));
+            // publication date has higher priority, so if its not empty
+            // then use it, otherwise use publYear
+            if(StringUtils.isEmpty(issue.getPublicationDate()))
+            {
+                setPublDate(toDate(issue.getPublYear()));
+            }
+            else
+            {
+                setPublDate(toDate(issue.getPublicationDate()));
+            }
+            
             setEndDate(toDate(issue.getEmbargoEndDate()));
         }
     }
