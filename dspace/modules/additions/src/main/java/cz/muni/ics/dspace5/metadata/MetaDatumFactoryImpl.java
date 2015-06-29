@@ -5,15 +5,16 @@
  */
 package cz.muni.ics.dspace5.metadata;
 
-import cz.muni.ics.dspace5.metadata.MetadatumFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.dspace.content.Metadatum;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author Dominik Szalai - emptulik at gmail.com
  */
+@Component(value = "metadatumFactory")
 public class MetaDatumFactoryImpl implements MetadatumFactory
 {
     private static final Logger logger = Logger.getLogger(MetaDatumFactoryImpl.class);

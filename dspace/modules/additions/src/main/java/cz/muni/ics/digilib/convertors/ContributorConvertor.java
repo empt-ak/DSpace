@@ -20,13 +20,6 @@ public class ContributorConvertor extends DSpaceDozerConvertor
 {
     private static final Logger logger = Logger.getLogger(ContributorConvertor.class);
     
-    private List<String> allowedRoles;
-
-    public void setAllowedRoles(List<String> allowedRoles)
-    {
-        this.allowedRoles = allowedRoles;
-    }
-    
     @Override
     public Object convert(Object destination, Object source, Class<?> destinationClass, Class<?> sourceClass)
     {
@@ -41,10 +34,7 @@ public class ContributorConvertor extends DSpaceDozerConvertor
         
         for(Contributor c : contributors)
         {
-            if(allowedRoles.contains(c.getRole().value()))
-            {
-                resultList.add(metadatumFactory.createMetadatum(schema, element, c.getRole().value(), null, c.getValue()));
-            }            
+            resultList.add(metadatumFactory.createMetadatum(schema, element, c.getRole().value(), null, c.getValue()));                       
         }
         
         return resultList;

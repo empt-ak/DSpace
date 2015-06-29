@@ -9,6 +9,7 @@ import cz.muni.ics.dspace5.api.CommandLine;
 import cz.muni.ics.dspace5.impl.ImportDataMap;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.MissingArgumentException;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
@@ -41,10 +42,14 @@ public abstract class AbstractCommandLine implements CommandLine
         {
             cmd = commandLineParser.parse(options, args);
         }
+        catch(MissingArgumentException mae)
+        {
+            helpFormatter.printHelp("posix", options);
+            throw mae;
+        }
         catch (ParseException ex)
         {
             logger.error(ex, ex.getCause());
-            helpFormatter.printHelp("posix", options);
             throw ex;
         }
 

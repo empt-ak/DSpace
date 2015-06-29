@@ -70,13 +70,19 @@ public class ContextWrapper implements ApplicationListener<ContextRefreshedEvent
     @PreDestroy
     private void destroy() throws SQLException
     {
-        logger.debug("Shutting down ContextWrapper bean.");
-        this.context.complete();
-        logger.debug("Context has been closed.");
-        this.context.restoreAuthSystemState();
-        logger.debug("Authorisation system restored.");
-        this.context = null;
-        logger.info("ContextWrapper bean has been shut down.");
+        // if spring fails to start, then context is not created
+        // and calling method on null throws an exception which is 
+        // later logged @WARN level in log.
+        if(this.context != null)
+        {
+            logger.debug("Shutting down ContextWrapper bean.");
+            this.context.complete();
+            logger.debug("Context has been closed.");
+            this.context.restoreAuthSystemState();
+            logger.debug("Authorisation system restored.");
+            this.context = null;
+            logger.info("ContextWrapper bean has been shut down.");
+        }        
     }
 
     public Context getContext() throws IllegalStateException

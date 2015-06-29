@@ -20,12 +20,27 @@
            http://www.springframework.org/schema/context
            http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
-    <context:annotation-config /> <!-- allows us to use spring annotations in beans -->
+    <!-- 
+        allows us to use spring annotations in beans 
+    -->
+    <context:annotation-config/> 
+    
+    <!--
+        where to look
+    -->
     <context:component-scan base-package="cz.muni.ics" /> 
 
+    <!--
+        import configurations of modules
+    -->
     <import resource="serialModule.xml" />
     <import resource="monographModule.xml" />
     
+    
+    
+    <!--
+        command lines
+    -->
     <bean
         id="commandLineParser"
         class="org.apache.commons.cli.DefaultParser"
@@ -97,18 +112,6 @@
     />
     
     <bean
-        id="objectMapper"
-        class="cz.muni.ics.dspace5.impl.ObjectMapperImpl"
-        scope="singleton"
-        init-method="init"
-    />
-    
-    <bean
-        id="dspaceKernel"
-        class="org.dspace.utils.DSpace"
-    />
-    
-    <bean
         id="objectWrapper"
         class="cz.muni.ics.digilib.ObjectWrapperImpl"
         scope="prototype"
@@ -140,7 +143,7 @@
     
     <bean
         id="objectWrapperFactory"
-        class="cz.muni.ics.dspace5.impl.ObjectWrapperFactory"
+        class="cz.muni.ics.dspace5.impl.ObjectWrapperFactoryImpl"
     >
         <lookup-method
             name="createObjectWrapper"
@@ -170,11 +173,6 @@
     </bean> 
     
     <bean
-        id="metadatumFactory"
-        class="cz.muni.ics.dspace5.metadata.MetaDatumFactoryImpl"
-    />
-    
-    <bean
         id="simpleElementConverter"
         class="cz.muni.ics.digilib.convertors.SimpleElementConverter"
     />      
@@ -192,17 +190,7 @@
     <bean 
         id="contributorConverter"
         class="cz.muni.ics.digilib.convertors.ContributorConvertor"
-    >
-        <property name="allowedRoles">
-            <list>
-                <value>advisor</value>
-                <value>author</value>
-                <value>editor</value>
-                <value>illustrator</value>
-                <value>other</value>
-            </list>
-        </property>
-    </bean> 
+    />
     
     <bean
         id="authorConverter"
@@ -276,6 +264,4 @@
             </map>
         </property>
     </bean>
-    
-    
 </beans>

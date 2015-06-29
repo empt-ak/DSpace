@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.ics.dspace5.impl.io;
+package cz.muni.ics.digilib.services.io;
 
+import cz.muni.ics.digilib.services.DSpaceExecutor;
 import cz.muni.ics.dspace5.api.CommandLineService;
-import cz.muni.ics.dspace5.api.ImportService;
+import cz.muni.ics.dspace5.api.ObjectWrapperFactory;
 import cz.muni.ics.dspace5.api.module.ModuleManager;
 import cz.muni.ics.dspace5.api.module.ObjectWrapper;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.ImportDataMap;
-import cz.muni.ics.dspace5.impl.ObjectWrapperFactory;
 import cz.muni.ics.dspace5.objectmanagers.DSpaceObjectManager;
 import java.io.FileNotFoundException;
 import java.nio.file.Files;
@@ -29,12 +29,11 @@ import org.springframework.stereotype.Component;
  *
  * @author Dominik Szalai - emptulik at gmail.com
  */
-@Component(value = "importService")
-public class ImportServiceImpl implements ImportService
+@Component(value = "dspaceExecutor")
+public class DSpaceExecutorImpl implements DSpaceExecutor
 {
-
-    private static final Logger logger = Logger.getLogger(ImportServiceImpl.class);    
-    //awires
+    private static final Logger logger = Logger.getLogger(DSpaceExecutorImpl.class);
+    
     @Autowired
     private ObjectWrapperFactory objectWrapperFactory;
     @Autowired
@@ -50,13 +49,13 @@ public class ImportServiceImpl implements ImportService
     private ModuleManager moduleManager;
 
     @Override
-    public void execute(String[] args)
+    public void execute(String mode, String[] args)
     {
         boolean error = false;
 
         try
         {
-            commandLineService.getCommandLine("import").process(args);
+            commandLineService.getCommandLine(mode).process(args);
         }
         catch (ParseException pe)
         {
@@ -75,8 +74,8 @@ public class ImportServiceImpl implements ImportService
             }
             else
             {
-                ObjectWrapper importTarget = objectWrapperFactory.createObjectWrapper();
-                importTarget.setPath(pathFromCMD);
+                ObjectWrapper importTarget = objectWrapperFactory
+                        .createRootObjectWrapper(pathFromCMD);
 
                 ObjectWrapper realImport = null;
 
@@ -118,4 +117,5 @@ public class ImportServiceImpl implements ImportService
             }
         }
     }
+    
 }

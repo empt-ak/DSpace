@@ -5,8 +5,8 @@
  */
 package cz.muni.ics.dspace5;
 
+import cz.muni.ics.digilib.services.DSpaceExecutor;
 import cz.muni.ics.dspace5.impl.DSpaceWrapper;
-import cz.muni.ics.dspace5.api.ImportService;
 
 /**
  *
@@ -16,6 +16,6 @@ public class Import
 {
     public static void main(String[] args)
     {
-        DSpaceWrapper.getInstance().getBean("importService", ImportService.class).execute(args);
+        DSpaceWrapper.getInstance().getBean("dspaceExecutor", DSpaceExecutor.class).execute("import", args);
     }
 }

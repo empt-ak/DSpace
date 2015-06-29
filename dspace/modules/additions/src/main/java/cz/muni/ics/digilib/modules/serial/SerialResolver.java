@@ -6,11 +6,11 @@
 package cz.muni.ics.digilib.modules.serial;
 
 import cz.muni.ics.dspace5.api.HandleService;
+import cz.muni.ics.dspace5.api.ObjectWrapperFactory;
 import cz.muni.ics.dspace5.api.module.ObjectWrapper;
 import cz.muni.ics.dspace5.api.module.ObjectWrapperResolver;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.impl.ImportDataMap;
-import cz.muni.ics.dspace5.impl.ObjectWrapperFactory;
 import cz.muni.ics.dspace5.impl.io.FolderProvider;
 import java.io.FileNotFoundException;
 import java.nio.file.Files;

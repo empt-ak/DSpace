@@ -6,15 +6,18 @@
 package cz.muni.ics.dspace5.impl;
 
 import cz.muni.ics.dspace5.api.HandleService;
+import cz.muni.ics.dspace5.api.ObjectWrapperFactory;
 import cz.muni.ics.dspace5.api.module.ObjectWrapper;
 import java.nio.file.Path;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
- * 
+ *
  * @author Dominik Szalai - emptulik at gmail.com
  */
-public abstract class ObjectWrapperFactory
+@Component
+public abstract class ObjectWrapperFactoryImpl implements ObjectWrapperFactory
 {
 
     @Autowired
@@ -28,19 +31,18 @@ public abstract class ObjectWrapperFactory
      *
      * @return ObjectWrapper with set dependencies.
      */
-    public abstract ObjectWrapper createObjectWrapper();
+    public abstract ObjectWrapper createObjectWrapper(); 
 
-    /**
-     * Method creates ObjectWrapper out of given path. Only path and level is
-     * set, according to given {@code isVolume} value.
-     *
-     * @param path     target object in folder hierarchy
-     * @param isVolume flag specifying whether issue path should be resolved
-     *                 into volume
-     * @param handle   handle to be set
-     *
-     * @return ObjectWrapper pointing to given path
-     */
+    @Override
+    public ObjectWrapper createRootObjectWrapper(Path path)
+    {
+        ObjectWrapper ow = createObjectWrapper();
+        ow.setPath(path);
+
+        return ow;
+    }
+    
+    @Override
     public ObjectWrapper createObjectWrapper(Path path, boolean isVolume, String handle)
     {
         ObjectWrapper ow = createObjectWrapper();
@@ -71,28 +73,19 @@ public abstract class ObjectWrapperFactory
 
             ow.setPath(path);
         }
-        
+
         ow.setHandle(handle);
 
         return ow;
     }
-    
+
     //todo in future maybe refactor
-    /**
-     * Calling method creates {@code ObjectWrapper} specified by input parameters.
-     * @param path path of object
-     * @param isVolume flag specifying whether on path is volume or not
-     * @param attachHandle if method should set {@code handle} for result
-     * @param createHandleIfMissing if handle should be created when missing
-     * @return ObjectWrapper created according given parameters
-     * @see #createObjectWrapper(java.nio.file.Path, boolean, java.lang.String) 
-     * @see #createObjectWrapper() 
-     */
+    @Override
     public ObjectWrapper createObjectWrapper(Path path, boolean isVolume, boolean attachHandle, boolean createHandleIfMissing)
     {
-        if(attachHandle)
+        if (attachHandle)
         {
-            if(isVolume)
+            if (isVolume)
             {
                 return createObjectWrapper(path, isVolume, handleService.getVolumeHandle(path));
             }
@@ -104,6 +97,6 @@ public abstract class ObjectWrapperFactory
         else
         {
             return createObjectWrapper(path, isVolume, null);
-        }        
+        }
     }
 }

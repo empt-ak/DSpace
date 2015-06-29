@@ -6,7 +6,6 @@
 package cz.muni.ics.dspace5.impl;
 
 import cz.muni.ics.dspace5.api.module.ObjectWrapper;
-import cz.muni.ics.dspace5.movingwall.MovingWallService;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;

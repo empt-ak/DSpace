@@ -5,8 +5,8 @@
  */
 package cz.muni.ics.dspace5;
 
+import cz.muni.ics.digilib.services.DSpaceExecutor;
 import cz.muni.ics.dspace5.impl.DSpaceWrapper;
-import cz.muni.ics.dspace5.movingwall.MovingWallService;
 
 /**
  *
@@ -16,6 +16,6 @@ public class MovingWall
 {
     public static void main(String[] args)
     {
-        DSpaceWrapper.getInstance().getBean("mowingWallService", MovingWallService.class).execute(args);
+        DSpaceWrapper.getInstance().getBean("dspaceExecutor", DSpaceExecutor.class).execute("movingwall", args);
     }
 }
