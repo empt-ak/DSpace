@@ -64,7 +64,7 @@ public class CollectionProcessorImpl implements CollectionProcessor
     private void init()
     {
         this.collectionFileNames = configurationService.getProperty("dspace.collection.files").split(",");
-        logger.info("Allowed names for Collection files to be imported set to " + Arrays.toString(collectionFileNames));
+        logger.debug("Allowed names for Collection files to be imported set to " + Arrays.toString(collectionFileNames));
     }
 
     @Override

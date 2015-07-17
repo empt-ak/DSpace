@@ -6,10 +6,12 @@
 package cz.muni.ics.dspace5.impl.io;
 
 import cz.muni.ics.dspace5.api.CommandLine;
-import cz.muni.ics.dspace5.impl.ImportDataMap;
+import cz.muni.ics.dspace5.impl.InputDataMap;
+import java.util.List;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.MissingArgumentException;
+import org.apache.commons.cli.MissingOptionException;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
@@ -23,17 +25,26 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public abstract class AbstractCommandLine implements CommandLine
 {
+    protected Options options = new Options();
 
     private static final Logger logger = Logger.getLogger(AbstractCommandLine.class);
+    private Class subClass;
     @Autowired
     protected CommandLineParser commandLineParser;
     @Autowired
     protected HelpFormatter helpFormatter;
     @Autowired
-    protected ImportDataMap importDataMap;
+    protected InputDataMap inputDataMap;
     @Autowired
     protected ConfigurationService configurationService;
 
+    public void setSubClass(Class subClass)
+    {
+        this.subClass = subClass;
+    }
+    
+    public abstract void setOptions(List<Option> options); // lets force sublcasses implement this
+    
     protected org.apache.commons.cli.CommandLine getParsedCommandLine(String[] args, Options options) throws ParseException
     {
         org.apache.commons.cli.CommandLine cmd = null;
@@ -42,9 +53,9 @@ public abstract class AbstractCommandLine implements CommandLine
         {
             cmd = commandLineParser.parse(options, args);
         }
-        catch(MissingArgumentException mae)
+        catch(MissingArgumentException | MissingOptionException mae)
         {
-            helpFormatter.printHelp("posix", options);
+            helpFormatter.printHelp(buildHelp(), options);
             throw mae;
         }
         catch (ParseException ex)
@@ -55,56 +66,32 @@ public abstract class AbstractCommandLine implements CommandLine
 
         return cmd;
     }
-
-    /**
-     * Adds following options into command line options object:
-     *
-     * <table>
-     * <tr>
-     * <td>short option</td>
-     * <td>long option</td>
-     * <td>description</td>
-     * </tr>
-     * <tr>
-     * <td>p</td>
-     * <td>path</td>
-     * <td>path to be imported</td>
-     * </tr>
-     * <tr>
-     * <td>u</td>
-     * <td>user</td>
-     * <td>email of user, executing import</td>
-     * </tr>
-     * </table>
-     *
-     * @return {@code Option} object with options specified above.
-     */
-    protected Options getBasicOptions()
+    
+    protected void parseUser(org.apache.commons.cli.CommandLine cmd)
     {
-        Options options = new Options();
-
-        options.addOption(
-                Option.builder("p")
-                .longOpt("path")
-                .argName("path")
-                .hasArg(true)
-                .type(String.class)
-                .required(true)
-                .desc("Path to be imported.")
-                .build()
-        );
-
-        logger.debug(options.getOption("p"));
-
-        options.addOption(Option.builder("u")
-                .longOpt("user")
-                .argName("u")
-                .hasArg(true)
-                .type(String.class)
-                .required(false)
-                .desc("Flag specifying user executing import. The value is email set when creating the user.")
-                .build());
-
-        return options;
+        String username = cmd.getOptionValue("user");
+        
+        if(username != null)
+        {
+            inputDataMap.put("username", username);
+        }
+    }   
+    
+    private String buildHelp()
+    {
+        
+        StringBuilder sb = new StringBuilder();
+//        switch(subClass.getSimpleName())
+//        {
+//            case "Import":
+//            {
+                sb.append("cz.muni.ics.dspace5.");
+                sb.append(subClass.getSimpleName());    
+                sb.append(" --parameter=value, where parameters may be following:\n\n");
+//            }
+//            break;
+//        }        
+        
+        return sb.toString();
     }
 }

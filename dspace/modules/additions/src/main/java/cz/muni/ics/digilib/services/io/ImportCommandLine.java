@@ -7,8 +7,9 @@ package cz.muni.ics.digilib.services.io;
 
 import cz.muni.ics.dspace5.impl.io.AbstractCommandLine;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.Set;
 import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.log4j.Logger;
 
@@ -19,104 +20,69 @@ import org.apache.log4j.Logger;
 public class ImportCommandLine extends AbstractCommandLine
 {
     private static final Logger logger = Logger.getLogger(ImportCommandLine.class);
+    
+    private Set<String> movingWallOptions;
 
-    @Override
-    public Options getOptions()
+    public void setMovingWallOptions(Set<String> movingWallOptions)
     {
-        Options options = getBasicOptions();
-
-        options.addOption(
-                Option.builder("m")
-                        .longOpt("mode")
-                        .argName("mode")
-                        .hasArg(true)
-                        .type(String.class)
-                        .required(false)
-                        .desc("Mode used on import. Possible values are : 'update' "
-                                + "which updates everything on given path and below, "
-                                + "'single' which updates only given path. Default "
-                                + "value is 'update'")
-                        .build()
-        );
-
-        logger.debug(options.getOption("m"));
-
-        options.addOption(
-                Option.builder("foe")
-                        .longOpt("fail-on-error")
-                        .argName("foe")
-                        .hasArg(true)
-                        .type(Boolean.class)
-                        .required(false)
-                        .desc("Flag specifying whether import should fail, if there is any error, or can continue. Default value is false.")
-                        .build()
-        );
-        
-        options.addOption(
-                Option.builder("mw")
-                    .longOpt("movingwall")
-                    .argName("mw")
-                    .hasArg(true)
-                    .required(false)
-                    .desc("Flag specifying mode of moving wall. Possible values are [lock,unlock,auto,ignore]. "
-                            + "By default the value is set to auto which locks all objects that should be under "
-                            + "restrictions. Unlock on the other hand unlocks everything. Auto mode locks and unlocks "
-                            + "objects based on current state (locked object after givne time should be unlocked and otherwise)"
-                            + "Ignore flag does not execute moving wall at all.")
-                    .build()
-        );
-        
-        options.addOption(
-                Option.builder("c")
-                    .longOpt("check")
-                    .hasArg(false)
-                    .required(false)
-                    .desc("Flag specifying whether there should be detail and meta.xml check when object tree is built.")
-                    .build()
-        );
-
-        logger.debug(options.getOption("foe"));
-        
-        return options;
+        this.movingWallOptions = movingWallOptions;
     }
 
     @Override
+    public void setOptions(List<Option> options)
+    {
+        for(Option o : options)
+        {
+            logger.debug("Adding option: "+o);
+            this.options.addOption(o);
+        }
+    }
+    
+    @Override
     public void process(String[] args) throws IllegalArgumentException, ParseException
     {
-        org.apache.commons.cli.CommandLine cmd = getParsedCommandLine(args, getOptions());
+        org.apache.commons.cli.CommandLine cmd = getParsedCommandLine(args, options);
         
-        importDataMap.put("path", Paths.get(configurationService.getProperty("meditor.rootbase"),
-                cmd.getOptionValue("p"))
-        );
-
-        String importMode = cmd.getOptionValue("mode", "update");
-        switch(importMode)
+        String method = cmd.getOptionValue("method", "update");
+        
+        switch(method)
         {
-            case "update":
-                break;
-            case "single":
-                break;
+            case "update": break;
+            case "single": break;
             default:
-                throw new IllegalArgumentException("Unexpected -m argument. Should be [update/single] but was ["+importMode+"]");
-        }   
-
-        importDataMap.put("mode", importMode);
-
-        importDataMap.put("failOnError", Boolean.parseBoolean(cmd.getOptionValue("foe", "false")));
-
-        if(cmd.hasOption("u"))
+                throw new IllegalArgumentException("Unexpected --method argument. Should be [update/single] but was ["+method+"]");
+        } 
+        
+        inputDataMap.put("method", method);
+        
+        String value = cmd.getOptionValue("value");
+        
+        if(value != null)
         {
-            importDataMap.put("user",cmd.getOptionValue("u"));
+            inputDataMap.put("value", Paths.get(configurationService.getProperty("meditor.rootbase"),value));
+        }
+        else
+        {
+            throw new IllegalArgumentException("Value is not set should be any path in ME structure.");
         }
         
+        super.parseUser(cmd);
         
-        importDataMap.put("movingwall", cmd.getOptionValue("mw","auto"));
-                
+        
         if(cmd.hasOption("check"))
         {
-            importDataMap.put("precheck", true);
+            inputDataMap.put("check", true);
         }
-
-        importDataMap.dump();
+        
+        String movingWall = cmd.getOptionValue("movingwall", "off");
+        
+        if(!movingWallOptions.contains(movingWall))
+        {
+            throw new IllegalArgumentException("--movingwall has invalid value. Should be lock,unlock,auto or off but was ["+movingWall+"].");
+        }
+        else
+        {
+            inputDataMap.put("mwmethod", movingWall);
+        }
     }
 }

@@ -53,7 +53,7 @@ public class DSpaceTools
         knownDateFormats.add(DateTimeFormat.forPattern("yyyy-MM-dd"));
         knownDateFormats.add(DateTimeFormat.forPattern("yyyy-MM"));
         knownDateFormats.add(DateTimeFormat.forPattern("yyyy"));
-        logger.info("@PostConstruct:- knownDateFormats initialized.");
+        logger.debug("@PostConstruct:- knownDateFormats initialized.");
     }
 
     /**

@@ -10,7 +10,7 @@ import cz.muni.ics.dspace5.api.ObjectWrapperFactory;
 import cz.muni.ics.dspace5.api.module.ObjectWrapper;
 import cz.muni.ics.dspace5.api.module.ObjectWrapperResolver;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
-import cz.muni.ics.dspace5.impl.ImportDataMap;
+import cz.muni.ics.dspace5.impl.InputDataMap;
 import cz.muni.ics.dspace5.impl.io.FolderProvider;
 import java.io.FileNotFoundException;
 import java.nio.file.Files;
@@ -34,7 +34,7 @@ public class SerialResolver implements ObjectWrapperResolver
     @Autowired
     private DSpaceTools dspaceTools;
     @Autowired
-    private ImportDataMap importDataMap;
+    private InputDataMap inputDataMap;
     @Autowired
     private HandleService handleService;
     @Autowired
@@ -46,8 +46,8 @@ public class SerialResolver implements ObjectWrapperResolver
     public ObjectWrapper resolveObjectWrapper(ObjectWrapper objectWrapper, boolean mainCall) throws FileNotFoundException
     {
         int level = dspaceTools.getPathLevel(objectWrapper.getPath());
-        boolean updateMode = importDataMap.getValue("mode").equals("update");
-        if(importDataMap.containsKey("precheck"))
+        boolean updateMode = inputDataMap.getValue("method").equals("update");
+        if(inputDataMap.containsKey("check"))
         {
             if(!Files.exists(objectWrapper.getPath().resolve("detail.xml")))
             {

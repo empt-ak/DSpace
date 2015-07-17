@@ -55,13 +55,16 @@ public class ItemManager extends AbstractDSpaceManager<Item>
             
             moduleManager.getModule(objectWrapper).getItemProcessor().processItem(workingItem, parents);
             
-            try
+            if(inputDataMap.containsKey("mwmethod") && !inputDataMap.getValue("mwmethod").equals("off"))
             {
-                moduleManager.getModule(objectWrapper).getItemProcessor().movingWall(workingItem);
-            }
-            catch(MovingWallException me)
-            {
-                logger.error(me);
+                try
+                {
+                    moduleManager.getModule(objectWrapper).getItemProcessor().movingWall(workingItem);
+                }
+                catch(MovingWallException me)
+                {
+                    logger.error(me);
+                }
             }
             
             moduleManager.getModule(objectWrapper).getItemProcessor().clear();

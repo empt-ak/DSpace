@@ -58,7 +58,7 @@ public class MovingWallFactoryBean
         if (!StringUtils.isEmpty(pNames))
         {
             Collections.addAll(skipNames, pNames.split(","));
-            logger.info("MovingWall ignore set to types: " + skipNames);
+            logger.debug("MovingWall ignore set to types: " + skipNames);
         }
     }
 

@@ -15,7 +15,7 @@ import cz.muni.ics.dspace5.api.module.ObjectWrapper;
 import cz.muni.ics.dspace5.exceptions.MovingWallException;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
-import cz.muni.ics.dspace5.impl.ImportDataMap;
+import cz.muni.ics.dspace5.impl.InputDataMap;
 import cz.muni.ics.dspace5.metadata.MetadataWrapper;
 import cz.muni.ics.dspace5.movingwall.MWLockerProvider;
 import java.io.BufferedInputStream;
@@ -55,7 +55,7 @@ public class ItemProcessorImpl implements ItemProcessor
     @Autowired
     private DSpaceTools dSpaceTools;
     @Autowired
-    private ImportDataMap importDataMap;
+    private InputDataMap inputDataMap;
     @Autowired
     private ContextWrapper contextWrapper;
     @Autowired
@@ -76,7 +76,7 @@ public class ItemProcessorImpl implements ItemProcessor
     private void init()
     {
         this.itemFileNames = configurationService.getProperty("dspace.item.pdf.allowednames").split(",");
-        logger.info("Allowed names for Item files to be imported set to " + Arrays.toString(itemFileNames));
+        logger.debug("Allowed names for Item files to be imported set to " + Arrays.toString(itemFileNames));
     }
 
     @Override
@@ -216,7 +216,7 @@ public class ItemProcessorImpl implements ItemProcessor
     {
         movingWallFactoryBean.parse(monographyChapter);
         
-        if (importDataMap.containsKey("movingwall") && !importDataMap.getValue("movingwall").equals("ignore"))
+        if (inputDataMap.containsKey("movingwall") && !inputDataMap.getValue("movingwall").equals("ignore"))
         {
             Bundle[] original = null;
             

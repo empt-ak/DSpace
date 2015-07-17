@@ -9,7 +9,7 @@ import cz.muni.ics.dspace5.api.module.ModuleManager;
 import cz.muni.ics.dspace5.api.module.ObjectWrapper;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
-import cz.muni.ics.dspace5.impl.ImportDataMap;
+import cz.muni.ics.dspace5.impl.InputDataMap;
 import java.sql.SQLException;
 import java.util.List;
 import org.apache.log4j.Logger;
@@ -32,7 +32,7 @@ public abstract class AbstractDSpaceManager<T extends DSpaceObject> implements D
     @Autowired
     protected ModuleManager moduleManager;
     @Autowired
-    protected ImportDataMap importDataMap;
+    protected InputDataMap inputDataMap;
     @Autowired
     protected ContextWrapper contextWrapper;
     @Autowired
@@ -80,7 +80,7 @@ public abstract class AbstractDSpaceManager<T extends DSpaceObject> implements D
     protected void safeFailLog(Exception ex)
     {
         logger.error(ex, ex.getCause());
-        if (importDataMap.getTypedValue("failOnError"))
+        if (inputDataMap.getTypedValue("failOnError"))
         {
             // TODO ?
             // rework into runtime exception

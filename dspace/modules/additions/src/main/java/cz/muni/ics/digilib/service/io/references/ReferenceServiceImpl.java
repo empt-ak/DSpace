@@ -51,7 +51,7 @@ public class ReferenceServiceImpl implements ReferenceService
     private void init()
     {
         this.referenceFileName = configurationService.getProperty("meditor.reference.file");
-        logger.info("Reference file set to: "+referenceFileName);
+        logger.debug("Reference file set to: "+referenceFileName);
     }
     
     @Override

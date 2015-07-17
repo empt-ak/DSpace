@@ -5,7 +5,6 @@
  */
 package cz.muni.ics.dspace5.api;
 
-import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
 /**
@@ -14,14 +13,6 @@ import org.apache.commons.cli.ParseException;
  */
 public interface CommandLine
 {
-
-    /**
-     * Method returns options for given command line type.
-     *
-     * @return options for command line
-     */
-    Options getOptions();
-
     /**
      * Method processes given arguments from command line.
      *

@@ -78,14 +78,18 @@ public class CommunityManager extends AbstractDSpaceManager<Community>
             
             moduleManager.getModule(objectWrapper).getCommunityProcessor().processCommunity(workingCommunity, parents);  
             
-            try
+            if(inputDataMap.containsKey("mwmethod") && !inputDataMap.getValue("mwmethod").equals("off"))
             {
-                moduleManager.getModule(objectWrapper).getCommunityProcessor().movingWall(workingCommunity);
+                try
+                {
+                    moduleManager.getModule(objectWrapper).getCommunityProcessor().movingWall(workingCommunity);
+                }
+                catch(MovingWallException me)
+                {
+                    logger.error(me);
+                }
             }
-            catch(MovingWallException me)
-            {
-                logger.error(me);
-            }
+            
             
             moduleManager.getModule(objectWrapper).getCommunityProcessor().clear();
             

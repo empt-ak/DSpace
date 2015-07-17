@@ -56,14 +56,17 @@ public class CollectionManager extends AbstractDSpaceManager<Collection>
             
             moduleManager.getModule(objectWrapper).getCollectionProcessor().processCollection(workingCollection, parents); 
             
-            try
+            if(inputDataMap.containsKey("mwmethod") && !inputDataMap.getValue("mwmethod").equals("off"))
             {
-                moduleManager.getModule(objectWrapper).getCollectionProcessor().movingWall(workingCollection);
+                try
+                {
+                    moduleManager.getModule(objectWrapper).getCollectionProcessor().movingWall(workingCollection);
+                }
+                catch(MovingWallException mw)
+                {
+                    logger.error(mw);
+                }  
             }
-            catch(MovingWallException mw)
-            {
-                logger.error(mw);
-            }           
             
             moduleManager.getModule(objectWrapper).getCollectionProcessor().clear();
             

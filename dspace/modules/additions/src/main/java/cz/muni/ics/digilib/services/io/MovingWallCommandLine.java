@@ -7,8 +7,9 @@ package cz.muni.ics.digilib.services.io;
 
 import cz.muni.ics.dspace5.impl.io.AbstractCommandLine;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.Set;
 import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.log4j.Logger;
 
@@ -20,46 +21,48 @@ public class MovingWallCommandLine extends AbstractCommandLine
 {
 
     private static final Logger logger = Logger.getLogger(MovingWallCommandLine.class);
+    
+    private Set<String> movingWallOptions;
+
+    public void setMovingWallOptions(Set<String> movingWallOptions)
+    {
+        this.movingWallOptions = movingWallOptions;
+    }
 
     @Override
-    public Options getOptions()
+    public void setOptions(List<Option> options)
     {
-        Options options = getBasicOptions();
-
-        options.addOption(
-                Option.builder("m")
-                .longOpt("mode")
-                .argName("mode")
-                .hasArg(true)
-                .type(String.class)
-                .required(false)
-                .desc("Mode of moving wall. Value can be one of following: 'lock' "
-                        + "for locking everything, 'unlock' for unlocking everything or "
-                        + "'auto' for locking everything that should be locker, and unlocking "
-                        + "(if necessary) locked items. If this parameter is ommited then its set"
-                        + " by default that mode will be 'auto'.")
-                .build()
-        );
-
-        return options;
+        for (Option o : options)
+        {
+            logger.debug("Adding option: " + o);
+            this.options.addOption(o);
+        }
     }
 
     @Override
     public void process(String[] args) throws IllegalArgumentException, ParseException
     {
-        org.apache.commons.cli.CommandLine cmd = getParsedCommandLine(args, getOptions());
+        org.apache.commons.cli.CommandLine cmd = getParsedCommandLine(args, options);
 
-        importDataMap.put("path", Paths.get(configurationService.getProperty("meditor.rootbase"), cmd.getOptionValue("p")));
+        
+        String method = cmd.getOptionValue("method","auto");
+        
+        if(!movingWallOptions.contains(method))
+        {
+            throw new IllegalArgumentException();
+        }
+        
+        inputDataMap.put("mwmethod", method);
+        
+        super.parseUser(cmd);
+                
+        inputDataMap.put("value", Paths.get(configurationService.getProperty("meditor.rootbase"), cmd.getOptionValue("p")));
 
         if (cmd.hasOption("u"))
         {
-            importDataMap.put("user", cmd.getOptionValue("u"));
+            inputDataMap.put("user", cmd.getOptionValue("u"));
         }
         
-        importDataMap.put("movingWallMode", cmd.getOptionValue("mode", "auto"));
-
-        importDataMap.put("movingWallOnly", true);
-
-        importDataMap.dump();
+        inputDataMap.put("mwonly", true);
     }
 }
