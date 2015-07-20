@@ -5,7 +5,7 @@
  */
 package cz.muni.ics.dspace5;
 
-import cz.muni.ics.digilib.services.DSpaceExecutor;
+import cz.muni.ics.dspace5.api.DSpaceExecutor;
 import cz.muni.ics.dspace5.impl.DSpaceWrapper;
 
 /**
