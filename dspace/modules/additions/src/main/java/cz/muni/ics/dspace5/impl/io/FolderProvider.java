@@ -78,7 +78,7 @@ public class FolderProvider
      * @return List of folders inside given folder meeting {@code} regex}, empty
      *         list if there are none.
      */
-    public List<Path> getFoldersFromPath(Path path, String regex)
+    public List<Path> getFoldersFromPath(Path path, final String regex)
     {
         final List<Path> resultList = new ArrayList<>();
         final PathMatcher matcher = path.getFileSystem().getPathMatcher("regex:" + regex);
@@ -88,7 +88,16 @@ public class FolderProvider
             @Override
             public boolean accept(Path entry) throws IOException
             {
-                return Files.isDirectory(entry) && matcher.matches(entry);
+                if(Files.isDirectory(entry) && matcher.matches(entry.getFileName()))
+                {
+                    logger.debug(entry + " was matched against [regex:"+regex+"]");
+                    return true;
+                }
+                else
+                {
+                    logger.debug(entry + " was not matched against [regex:"+regex+"]");
+                    return false;
+                }                
             }
         }))
         {

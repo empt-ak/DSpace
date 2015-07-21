@@ -8,27 +8,27 @@
           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
 ">
-<!--    <bean
+    <bean
         id="serialCollectionProcessor"
-        class="cz.muni.ics.digilib.modules.serial.CollectionProcessorImpl"
+        class="cz.muni.ics.dmlcz5.modules.serial.CollectionProcessorImpl"
     />
     <bean
         id="serialCommunityProcessor"
-        class="cz.muni.ics.digilib.modules.serial.CommunityProcessorImpl"
+        class="cz.muni.ics.dmlcz5.modules.serial.CommunityProcessorImpl"
     />
     <bean
         id="serialItemProcessor"
-        class="cz.muni.ics.digilib.modules.serial.ItemProcessorImpl"
+        class="cz.muni.ics.dmlcz5.modules.serial.ItemProcessorImpl"
     />
     
     <bean 
         id="serialResolver"
-        class="cz.muni.ics.digilib.modules.serial.SerialResolver"
+        class="cz.muni.ics.dmlcz5.modules.serial.SerialResolver"
     />  
     
     <bean
         id="serialModule"
-        class="cz.muni.ics.digilib.modules.serial.SerialModule"
+        class="cz.muni.ics.dmlcz5.modules.serial.SerialModule"
     >
         <lookup-method
             name="getObjectWrapperResolver"
@@ -46,5 +46,5 @@
             name="getItemProcessor"
             bean="serialItemProcessor"
         />        
-    </bean>-->
+    </bean>
 </beans>

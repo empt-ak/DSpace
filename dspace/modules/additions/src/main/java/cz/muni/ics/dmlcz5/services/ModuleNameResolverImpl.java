@@ -6,7 +6,9 @@
 package cz.muni.ics.dmlcz5.services;
 
 import cz.muni.ics.dspace5.api.module.ModuleNameResolver;
+import cz.muni.ics.dspace5.impl.DSpaceTools;
 import java.nio.file.Path;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,7 +18,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class ModuleNameResolverImpl implements ModuleNameResolver
 {
-
+    @Autowired
+    private DSpaceTools dSpaceTools;
+    
     @Override
     public String getModuleName(Path path) throws IllegalArgumentException
     {
@@ -25,17 +29,6 @@ public class ModuleNameResolverImpl implements ModuleNameResolver
             throw new IllegalArgumentException("Path is null.");
         }
         
-        if(path.toString().contains("serial"))
-        {
-            return "serial";
-        }
-        else if(path.toString().contains("monograph"))
-        {
-            return "monograph";
-        }
-        else
-        {
-            throw new IllegalArgumentException("Module for path "+path+" is not supported.");
-        }
+        return dSpaceTools.getOnlyMEPath(path).getName(0).toString();
     }    
 }

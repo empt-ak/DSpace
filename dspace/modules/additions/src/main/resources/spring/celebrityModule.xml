@@ -8,43 +8,43 @@
           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
 ">
-<!--    <bean
-        id="serialCollectionProcessor"
-        class="cz.muni.ics.digilib.modules.serial.CollectionProcessorImpl"
+    <bean
+        id="celebrityCollectionProcessor"
+        class="cz.muni.ics.dmlcz5.modules.celebrity.CollectionProcessorImpl"
     />
     <bean
-        id="serialCommunityProcessor"
-        class="cz.muni.ics.digilib.modules.serial.CommunityProcessorImpl"
+        id="celebrityCommunityProcessor"
+        class="cz.muni.ics.dmlcz5.modules.celebrity.CommunityProcessorImpl"
     />
     <bean
-        id="serialItemProcessor"
-        class="cz.muni.ics.digilib.modules.serial.ItemProcessorImpl"
+        id="celebrityItemProcessor"
+        class="cz.muni.ics.dmlcz5.modules.celebrity.ItemProcessorImpl"
     />
     
     <bean 
-        id="serialResolver"
-        class="cz.muni.ics.digilib.modules.serial.SerialResolver"
+        id="celebrityResolver"
+        class="cz.muni.ics.dmlcz5.modules.celebrity.CelebrityResolver"
     />  
     
     <bean
-        id="serialModule"
-        class="cz.muni.ics.digilib.modules.serial.SerialModule"
+        id="celebrityModule"
+        class="cz.muni.ics.dmlcz5.modules.celebrity.CelebrityModule"
     >
         <lookup-method
             name="getObjectWrapperResolver"
-            bean="serialResolver"
+            bean="celebrityResolver"
         />
         <lookup-method
             name="getCollectionProcessor"
-            bean="serialCollectionProcessor"
+            bean="celebrityCollectionProcessor"
         />
         <lookup-method
             name="getCommunityProcessor"
-            bean="serialCommunityProcessor"
+            bean="celebrityCommunityProcessor"
         />
         <lookup-method
             name="getItemProcessor"
-            bean="serialItemProcessor"
+            bean="celebrityItemProcessor"
         />        
-    </bean>-->
+    </bean>
 </beans>

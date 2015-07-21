@@ -8,43 +8,43 @@
           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
 ">
-<!--    <bean
-        id="serialCollectionProcessor"
-        class="cz.muni.ics.digilib.modules.serial.CollectionProcessorImpl"
+    <bean
+        id="proceedingsCollectionProcessor"
+        class="cz.muni.ics.dmlcz5.modules.proceedings.CollectionProcessorImpl"
     />
     <bean
-        id="serialCommunityProcessor"
-        class="cz.muni.ics.digilib.modules.serial.CommunityProcessorImpl"
+        id="proceedingsCommunityProcessor"
+        class="cz.muni.ics.dmlcz5.modules.proceedings.CommunityProcessorImpl"
     />
     <bean
-        id="serialItemProcessor"
-        class="cz.muni.ics.digilib.modules.serial.ItemProcessorImpl"
+        id="proceedingsItemProcessor"
+        class="cz.muni.ics.dmlcz5.modules.proceedings.ItemProcessorImpl"
     />
     
     <bean 
-        id="serialResolver"
-        class="cz.muni.ics.digilib.modules.serial.SerialResolver"
+        id="proceedingsResolver"
+        class="cz.muni.ics.dmlcz5.modules.proceedings.ProceedingsResolver"
     />  
     
     <bean
-        id="serialModule"
-        class="cz.muni.ics.digilib.modules.serial.SerialModule"
+        id="proceedingsModule"
+        class="cz.muni.ics.dmlcz5.modules.proceedings.ProceedingsModule"
     >
         <lookup-method
             name="getObjectWrapperResolver"
-            bean="serialResolver"
+            bean="proceedingsResolver"
         />
         <lookup-method
             name="getCollectionProcessor"
-            bean="serialCollectionProcessor"
+            bean="proceedingsCollectionProcessor"
         />
         <lookup-method
             name="getCommunityProcessor"
-            bean="serialCommunityProcessor"
+            bean="proceedingsCommunityProcessor"
         />
         <lookup-method
             name="getItemProcessor"
-            bean="serialItemProcessor"
+            bean="proceedingsItemProcessor"
         />        
-    </bean>-->
+    </bean>
 </beans>

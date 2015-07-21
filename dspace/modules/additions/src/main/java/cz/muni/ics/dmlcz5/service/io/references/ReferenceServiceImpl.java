@@ -100,7 +100,10 @@ public class ReferenceServiceImpl implements ReferenceService
                 builder.append("<b>").append(r.getTitle()).append("</b>");
             }
             
-            builder.append(p.matcher(r.getSuffix()).replaceAll(" <a href=\"$1\">$1</a>"));           
+            if(!StringUtils.isEmpty(r.getSuffix()))
+            {
+                builder.append(p.matcher(r.getSuffix()).replaceAll(" <a href=\"$1\">$1</a>"));  
+            }                     
             
             if(r.getLinks() != null && !r.getLinks().getLink().isEmpty())
             {

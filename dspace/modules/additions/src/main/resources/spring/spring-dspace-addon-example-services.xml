@@ -226,6 +226,7 @@
                 <value>cz.muni.ics.dmlcz5.domain.Issue</value>
                 <value>cz.muni.ics.dmlcz5.domain.Journal</value>
                 <value>cz.muni.ics.dmlcz5.domain.Volume</value>
+                <value>cz.muni.ics.dmlcz5.service.io.references.References</value>
             </list>
         </constructor-arg>
     </bean>
@@ -394,8 +395,10 @@
     >
         <property name="availableModules">
             <map>
-                <!--<entry key="serial" value-ref="serialModule" />-->
+                <entry key="serial" value-ref="serialModule" />
                 <entry key="monograph" value-ref="monographModule" />
+                <entry key="proceedings" value-ref="proceedingsModule" />
+                <entry key="celebrity" value-ref="celebrityModule" />
             </map>
         </property>
     </bean>
