@@ -48,7 +48,7 @@ public class ContextWrapper implements ApplicationListener<ContextRefreshedEvent
                  nor is passed as classpath argument (like when commnad ./dpsace dsrun is executed)
                  */
                 //TODO
-                System.setProperty("dspace.configuration", "/opt/oktavo5/config/dspace.cfg");
+                System.setProperty("dspace.configuration", "/opt/dmlcz5/config/dspace.cfg");
 
                 context = new Context();
                 logger.debug("Context created.");

@@ -36,6 +36,8 @@
     -->
     <import resource="serialModule.xml" />
     <import resource="monographModule.xml" />
+    <import resource="proceedingsModule.xml" />
+    <import resource="celebrityModule.xml" />
     
     
     
@@ -55,7 +57,7 @@
     
     <bean
         id="commandLineService"
-        class="cz.muni.ics.digilib.services.io.CommandLineServiceImpl"
+        class="cz.muni.ics.dmlcz5.services.io.CommandLineServiceImpl"
     >
         <lookup-method
             name="getDeleteCommandLine"
@@ -85,7 +87,7 @@
     
     <bean
         id="deleteCommandLine"
-        class="cz.muni.ics.digilib.services.io.DeleteCommandLine"
+        class="cz.muni.ics.dmlcz5.services.io.DeleteCommandLine"
         p:subClass="cz.muni.ics.dspace5.Delete"
     >
         <property name="options">
@@ -128,7 +130,7 @@
     
     <bean
         id="importCommandLine"
-        class="cz.muni.ics.digilib.services.io.ImportCommandLine"
+        class="cz.muni.ics.dmlcz5.services.io.ImportCommandLine"
         p:subClass="cz.muni.ics.dspace5.Import"
         p:movingWallOptions-ref="movingWallOptions"
     >
@@ -180,7 +182,7 @@
     
     <bean
         id="movingWallCommandLine"
-        class="cz.muni.ics.digilib.services.io.MovingWallCommandLine"
+        class="cz.muni.ics.dmlcz5.services.io.MovingWallCommandLine"
         p:subClass="cz.muni.ics.dspace5.MovingWall"
         p:movingWallOptions-ref="movingWallOptions"
     >
@@ -220,15 +222,10 @@
     >
         <constructor-arg>
             <list>
-                <value>cz.muni.ics.digilib.domain.Periodical</value>
-                <value>cz.muni.ics.digilib.domain.Volume</value>
-                <value>cz.muni.ics.digilib.domain.Issue</value>
-                <value>cz.muni.ics.digilib.domain.Article</value>
-                <value>cz.muni.ics.digilib.domain.MonographicSeries</value>
-                <value>cz.muni.ics.digilib.domain.Monography</value>
-                <value>cz.muni.ics.digilib.domain.MonographyChapter</value>
-                <value>cz.muni.ics.digilib.service.io.references.References</value>
-                <value>cz.muni.ics.digilib.domain.ArticleMeta</value>
+                <value>cz.muni.ics.dmlcz5.domain.Article</value>
+                <value>cz.muni.ics.dmlcz5.domain.Issue</value>
+                <value>cz.muni.ics.dmlcz5.domain.Journal</value>
+                <value>cz.muni.ics.dmlcz5.domain.Volume</value>
             </list>
         </constructor-arg>
     </bean>
@@ -242,7 +239,7 @@
     
     <bean
         id="objectWrapper"
-        class="cz.muni.ics.digilib.ObjectWrapperImpl"
+        class="cz.muni.ics.dmlcz5.ObjectWrapperImpl"
         scope="prototype"
     />
     
@@ -312,27 +309,27 @@
     
     <bean
         id="simpleElementConverter"
-        class="cz.muni.ics.digilib.convertors.SimpleElementConverter"
+        class="cz.muni.ics.dmlcz5.convertors.SimpleElementConverter"
     />      
             
     <bean
         id="composedElementConverter"
-        class="cz.muni.ics.digilib.convertors.ComposedElementConverter"
+        class="cz.muni.ics.dmlcz5.convertors.ComposedElementConverter"
     />
     
     <bean
         id="relatedDocumentConverter"
-        class="cz.muni.ics.digilib.convertors.RelatedDocumentConverter"
+        class="cz.muni.ics.dmlcz5.convertors.RelatedDocumentConverter"
     />
     
     <bean 
         id="contributorConverter"
-        class="cz.muni.ics.digilib.convertors.ContributorConvertor"
+        class="cz.muni.ics.dmlcz5.convertors.ContributorConvertor"
     />
     
     <bean
         id="authorConverter"
-        class="cz.muni.ics.digilib.convertors.AuthorConverter"
+        class="cz.muni.ics.dmlcz5.convertors.AuthorConverter"
     />
         
     <bean
@@ -363,17 +360,17 @@
     
     <bean
         id="collectionLocker"
-        class="cz.muni.ics.digilib.movingwall.CollectionMWLocker"
+        class="cz.muni.ics.dmlcz5.movingwall.CollectionMWLocker"
     />
     
     <bean
         id="bitstreamLocker"
-        class="cz.muni.ics.digilib.movingwall.BitstreamMWLocker"
+        class="cz.muni.ics.dmlcz5.movingwall.BitstreamMWLocker"
     />
     
     <bean
         id="mwLockerProvider"
-        class="cz.muni.ics.digilib.movingwall.MWLockerProviderImpl"
+        class="cz.muni.ics.dmlcz5.movingwall.MWLockerProviderImpl"
     >
         <property name="implementedClasses">
             <list>
@@ -397,7 +394,7 @@
     >
         <property name="availableModules">
             <map>
-                <entry key="serial" value-ref="serialModule" />
+                <!--<entry key="serial" value-ref="serialModule" />-->
                 <entry key="monograph" value-ref="monographModule" />
             </map>
         </property>

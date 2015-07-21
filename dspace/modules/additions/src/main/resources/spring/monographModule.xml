@@ -10,25 +10,25 @@
 ">
     <bean
         id="monographCollectionProcessor"
-        class="cz.muni.ics.digilib.modules.monograph.CollectionProcessorImpl"
+        class="cz.muni.ics.dmlcz5.modules.monograph.CollectionProcessorImpl"
     />
     <bean
         id="monographCommunityProcessor"
-        class="cz.muni.ics.digilib.modules.monograph.CommunityProcessorImpl"
+        class="cz.muni.ics.dmlcz5.modules.monograph.CommunityProcessorImpl"
     />
     <bean
         id="monographItemProcessor"
-        class="cz.muni.ics.digilib.modules.monograph.ItemProcessorImpl"
+        class="cz.muni.ics.dmlcz5.modules.monograph.ItemProcessorImpl"
     />
     
     <bean 
         id="monographResolver"
-        class="cz.muni.ics.digilib.modules.monograph.MonographResolver"
+        class="cz.muni.ics.dmlcz5.modules.monograph.MonographResolver"
     />  
     
     <bean
         id="monographModule"
-        class="cz.muni.ics.digilib.modules.monograph.MonographyModule"
+        class="cz.muni.ics.dmlcz5.modules.monograph.MonographModule"
     >
         <lookup-method
             name="getObjectWrapperResolver"

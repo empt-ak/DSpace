@@ -9,8 +9,35 @@
         <date-format>MM/dd/yyyy HH:mm</date-format>
         <wildcard>true</wildcard>
     </configuration>
-  
+    
     <mapping>
+        <class-a>cz.muni.ics.dmlcz5.domain.Journal</class-a>
+        <class-b>cz.muni.ics.dspace5.metadata.MetadataWrapper</class-b>
+        <field custom-converter-id="composedconverter" custom-converter-param="dc.title">
+            <a>title</a>
+            <b>metadata</b>
+        </field>
+    </mapping>
+    
+    <mapping>
+        <class-a>cz.muni.ics.dmlcz5.domain.Issue</class-a>
+        <class-b>cz.muni.ics.dspace5.metadata.MetadataWrapper</class-b>
+        <field custom-converter-id="composedconverter" custom-converter-param="dc.title">
+            <a>title</a>
+            <b>metadata</b>
+        </field>
+    </mapping>
+    
+    <mapping>
+        <class-a>cz.muni.ics.dmlcz5.domain.Article</class-a>
+        <class-b>cz.muni.ics.dspace5.metadata.MetadataWrapper</class-b>
+        <field custom-converter-id="composedconverter" custom-converter-param="dc.title">
+            <a>title</a>
+            <b>metadata</b>
+        </field>
+    </mapping>
+  
+<!--    <mapping>
         <class-a>cz.muni.ics.digilib.domain.Periodical</class-a>
         <class-b>cz.muni.ics.dspace5.metadata.MetadataWrapper</class-b>
         <field custom-converter-id="simpleconverter" custom-converter-param="dc.title">
@@ -182,5 +209,5 @@
             <a>number</a>
             <b>metadata</b>
         </field>
-    </mapping>
+    </mapping>-->
 </mappings> 
