@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+
+<dspace-dc-types>
+
+    <dspace-header>
+        <title>DSpace Dublin Core Types Registry</title>    
+    </dspace-header>
+
+    <dc-schema>
+        <name>dc</name>
+        <namespace>http://dublincore.org/documents/dcmi-terms/</namespace>
+    </dc-schema>
+
+    <dc-type>
+        <schema>dc</schema>
+        <element>publisher</element>
+        <qualifier>place</qualifier>
+        <scope_note>Place where entry was published.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>date</element>
+        <qualifier>start</qualifier>
+        <scope_note>Date when publication started.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>date</element>
+        <qualifier>end</qualifier>
+        <scope_note>Date when publication ended.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>identifier</element>
+        <qualifier>seriesnumber</qualifier>
+        <scope_note>Number of entry in series.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>title</element>
+        <qualifier>acronym</qualifier>
+        <scope_note>Acronymed title.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>identifier</element>
+        <qualifier>conferencenumber</qualifier>
+        <scope_note>Number of conference.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>title</element>
+        <qualifier>formalized</qualifier>
+        <scope_note>Formalized title of entry.</scope_note>
+    </dc-type>
+<dc-type>
+        <schema>dc</schema>
+        <element>title</element>
+        <qualifier>volume</qualifier>
+        <scope_note>Formalized title of entry.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>contributor</element>
+        <qualifier>translator</qualifier>
+        <scope_note>Translator.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>contributor</element>
+        <qualifier>conference</qualifier>
+        <scope_note>Conference.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>identifier</element>
+        <qualifier>issuenumber</qualifier>
+        <scope_note>Number of issue.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>publisher</element>
+        <qualifier>issuer</qualifier>
+        <scope_note>Who issued entry.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>publisher</element>
+        <qualifier>printer</qualifier>
+        <scope_note>Who printed entry.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>subject</element>
+        <qualifier>msc</qualifier>
+        <scope_note>Number of conference.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>identifier</element>
+        <qualifier>idmr</qualifier>
+        <scope_note>Number of conference.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>identifier</element>
+        <qualifier>idzbl</qualifier>
+        <scope_note>Number of conference.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>identifier</element>
+        <qualifier>position</qualifier>
+        <scope_note>Number of conference.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>identifier</element>
+        <qualifier>idjfm</qualifier>
+        <scope_note>Number of conference.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>identifier</element>
+        <qualifier>ulrych</qualifier>
+        <scope_note>Number of conference.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>description</element>
+        <qualifier>section</qualifier>
+        <scope_note>Number of conference.</scope_note>
+    </dc-type>
+</dspace-dc-types>

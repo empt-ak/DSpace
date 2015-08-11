@@ -8,13 +8,91 @@
         <stop-on-errors>true</stop-on-errors>
         <date-format>MM/dd/yyyy HH:mm</date-format>
         <wildcard>true</wildcard>
+        <variables>
+            <variable name="metadata">cz.muni.ics.dspace5.metadata.MetadataWrapper</variable>
+            <variable name="classpath">cz.muni.ics.dmlcz5.domain</variable>
+        </variables>
     </configuration>
     
     <mapping>
         <class-a>cz.muni.ics.dmlcz5.domain.Journal</class-a>
         <class-b>cz.muni.ics.dspace5.metadata.MetadataWrapper</class-b>
+        
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.identifier.issn">
+            <a>issn</a>
+            <b>metadata</b>
+        </field>
         <field custom-converter-id="composedconverter" custom-converter-param="dc.title">
             <a>title</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.title.alternative">
+            <a>titleAbbreviated</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="composedconverter" custom-converter-param="dc.description.abstract">
+            <a>description</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.description.uri">
+            <a>url</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="composedconverter" custom-converter-param="dc.rights">
+            <a>copyright</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="composedconverter" custom-converter-param="dc.publisher">
+            <a>publisher</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="composedconverter" custom-converter-param="dc.publisher.place">
+            <a>place</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.language">
+            <a>language</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.date.start">
+            <a>start</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.date.end">
+            <a>end</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dcterms.accrualPeriodicity">
+            <a>periodicity</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="dmlnoteconverter" custom-converter-param="dc.description">
+            <a>note</a>
+            <b>metadata</b>
+        </field>
+    </mapping>
+    
+    <mapping>
+        <class-a>cz.muni.ics.dmlcz5.domain.Volume</class-a>
+        <class-b>cz.muni.ics.dspace5.metadata.MetadataWrapper</class-b>
+        <field custom-converter-id="composedconverter" custom-converter-param="dc.title">
+            <a>title</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.date">
+            <a>date</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="composedconverter" custom-converter-param="dc.description.abstract">
+            <a>description</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="dmlnoteconverter" custom-converter-param="dc.description">
+            <a>note</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.identifier.position">
+            <a>number</a>
             <b>metadata</b>
         </field>
     </mapping>
@@ -22,8 +100,120 @@
     <mapping>
         <class-a>cz.muni.ics.dmlcz5.domain.Issue</class-a>
         <class-b>cz.muni.ics.dspace5.metadata.MetadataWrapper</class-b>
-        <field custom-converter-id="composedconverter" custom-converter-param="dc.title">
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.title">
+            <a>name</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.identifier.position">
+            <a>number</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.date">
+            <a>date</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.identifier.seriesno">
+            <a>numberInSeries</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.title.acronym">
+            <a>acronym</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.conferencenumber">
+            <a>conferenceNumber</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.title.formalized">
+            <a>formalizedName</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.title">
             <a>title</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="titlecompconverter" custom-converter-param="dc.title">
+            <a>titlecomp</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="dmlpersonconverter" custom-converter-param="dc.contributor.editor">
+            <a>editor</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="dmlpersonconverter" custom-converter-param="dc.contributor">
+            <a>creator</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="dmlpersonconverter" custom-converter-param="dc.contributor">
+            <a>contributor</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.coverage.spatial">
+            <a>place</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.contributor.conference">
+            <a>organizedby</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.identifier.isbn">
+            <a>isbn</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.language">
+            <a>language</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.identifier.issuenumber">
+            <a>issueNumber</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.rights">
+            <a>copyright</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.publisher">
+            <a>publishers</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.date.created">
+            <a>publYear</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.publisher.place">
+            <a>places</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.identifier.issn">
+            <a>issn</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="dmlpersonconverter" custom-converter-param="dc.publisher.issuer">
+            <a>issuer</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.publisher.printer">
+            <a>printer</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="composedconverter" custom-converter-param="dc.description.abstract">
+            <a>description</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.subject.msc">
+            <a>msc</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.identifier.idmr">
+            <a>idMR</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.identifier.idzbl">
+            <a>idZBL</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="dmlnoteconverter" custom-converter-param="dc.description">
+            <a>note</a>
             <b>metadata</b>
         </field>
     </mapping>
@@ -31,183 +221,74 @@
     <mapping>
         <class-a>cz.muni.ics.dmlcz5.domain.Article</class-a>
         <class-b>cz.muni.ics.dspace5.metadata.MetadataWrapper</class-b>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.identifier.position">
+            <a>number</a>
+            <b>metadata</b>
+        </field>
         <field custom-converter-id="composedconverter" custom-converter-param="dc.title">
             <a>title</a>
             <b>metadata</b>
-        </field>
-    </mapping>
-  
-<!--    <mapping>
-        <class-a>cz.muni.ics.digilib.domain.Periodical</class-a>
-        <class-b>cz.muni.ics.dspace5.metadata.MetadataWrapper</class-b>
-        <field custom-converter-id="simpleconverter" custom-converter-param="dc.title">
-            <a>titleMain</a>
-            <b>metadata</b>
-        </field>
-        <field custom-converter-id="simpleconverter" custom-converter-param="dc.title.alternative">
-            <a>titleVariant</a>
-            <b>metadata</b>
-        </field>
-        <field custom-converter-id="simpleconverter" custom-converter-param="dc.identifier.issn">
-            <a>issn</a>
-            <b>metadata</b>
-        </field>
-        <field custom-converter-id="simpleconverter" custom-converter-param="muni.categorytype">
-            <a>category</a>
-            <b>metadata</b>
-        </field>
-        <field custom-converter-id="composedconverter" custom-converter-param="dc.description.abstract">
-            <a>description</a>
-            <b>metadata</b>
-        </field>
-    </mapping> 
-    
-    <mapping>
-        <class-a>cz.muni.ics.digilib.domain.Volume</class-a>
-        <class-b>cz.muni.ics.dspace5.metadata.MetadataWrapper</class-b>
-        <field custom-converter-id="simpleconverter" custom-converter-param="dc.title">
-            <a>volumeName</a>
-            <b>metadata</b>
-        </field>
-    </mapping> 
-    
-    <mapping>
-        <class-a>cz.muni.ics.digilib.domain.Issue</class-a>
-        <class-b>cz.muni.ics.dspace5.metadata.MetadataWrapper</class-b>
-        <field custom-converter-id="simpleconverter" custom-converter-param="dc.title">
-            <a>issueName</a>
-            <b>metadata</b>
-        </field>
-        <field custom-converter-id="simpleconverter" custom-converter-param="dc.identifier.issn">
-            <a>issn</a>
-            <b>metadata</b>
-        </field>
-    </mapping> 
-    
-    <mapping>
-        <class-a>cz.muni.ics.digilib.domain.Article</class-a>
-        <class-b>cz.muni.ics.dspace5.metadata.MetadataWrapper</class-b>        
-        <field custom-converter-id="composedconverter" custom-converter-param="dc.title">
-            <a>title</a>
-            <b>metadata</b>
-        </field>
-        <field custom-converter-id="composedconverter" custom-converter-param="dc.subject">
-            <a>keyword</a>
+        </field>        
+        <field custom-converter-id="dmlpersonconverter" custom-converter-param="dc.contributor.author">
+            <a>author</a>
             <b>metadata</b>
         </field>
         <field custom-converter-id="simpleconverter" custom-converter-param="dc.language">
             <a>language</a>
             <b>metadata</b>
         </field>
-        <field custom-converter-id="simpleconverter" custom-converter-param="muni.categorytype">
-            <a>articleType</a>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.date">
+            <a>date</a>
             <b>metadata</b>
         </field>
-        <field custom-converter-id="composedconverter" custom-converter-param="dc.description.abstract">
-            <a>description</a>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.rights">
+            <a>copyright</a>
             <b>metadata</b>
         </field>
-        <field custom-converter-id="composedconverter" custom-converter-param="dc.description">
-            <a>note</a>
-            <b>metadata</b>
-        </field>
-        <field custom-converter-id="contributorconverter" custom-converter-param="dc.contributor">
-            <a>contributor</a>
-            <b>metadata</b>
-        </field>
-        <field custom-converter-id="authorconverter" custom-converter-param="dc.contributor.author">
-            <a>author</a>
-            <b>metadata</b>
-        </field>
-        <field custom-converter-id="relateddocumentconverter" custom-converter-param="dc.relation">
-            <a>link</a>
-            <b>metadata</b>
-        </field>
-    </mapping> 
-    
-    
-    <mapping>
-        <class-a>cz.muni.ics.digilib.domain.MonographicSeries</class-a>
-        <class-b>cz.muni.ics.dspace5.metadata.MetadataWrapper</class-b>
-        <field custom-converter-id="composedconverter" custom-converter-param="dc.title">
-            <a>title</a>
-            <b>metadata</b>
-        </field>
-        <field custom-converter-id="simpleconverter" custom-converter-param="dc.publisher">
-            <a>publisher</a>
-            <b>metadata</b>
-        </field>
-        <field custom-converter-id="simpleconverter" custom-converter-param="muni.categorytype">
-            <a>category</a>
-            <b>metadata</b>
-        </field>
-        <field custom-converter-id="composedconverter" custom-converter-param="dc.description.abstract">
-            <a>description</a>
-            <b>metadata</b>
-        </field>
-    </mapping>
-    
-    <mapping>
-        <class-a>cz.muni.ics.digilib.domain.Monography</class-a>
-        <class-b>cz.muni.ics.dspace5.metadata.MetadataWrapper</class-b>
-        <field custom-converter-id="composedconverter" custom-converter-param="dc.title">
-            <a>title</a>
-            <b>metadata</b>
-        </field>
-        <field custom-converter-id="simpleconverter" custom-converter-param="dc.publisher">
-            <a>publisher</a>
-            <b>metadata</b>
-        </field>
-        <field custom-converter-id="composedconverter" custom-converter-param="dc.description.abstract">
-            <a>description</a>
-            <b>metadata</b>
-        </field>
-        <field custom-converter-id="relateddocumentconverter" custom-converter-param="dc.relation">
-            <a>linkToRelatedDocument</a>
-            <b>metadata</b>
-        </field>        
-    </mapping>
-    
-    <mapping>
-        <class-a>cz.muni.ics.digilib.domain.MonographyChapter</class-a>
-        <class-b>cz.muni.ics.dspace5.metadata.MetadataWrapper</class-b>
-        <field custom-converter-id="composedconverter" custom-converter-param="dc.title">
-            <a>title</a>
-            <b>metadata</b>
-        </field>
-        <field custom-converter-id="composedconverter" custom-converter-param="dc.description.abstract">
-            <a>description</a>
-            <b>metadata</b>
-        </field>
-        <field custom-converter-id="contributorconverter" custom-converter-param="dc.contributor">
-            <a>contributor</a>
-            <b>metadata</b>
-        </field>
-        <field custom-converter-id="authorconverter" custom-converter-param="dc.contributor.author">
-            <a>author</a>
-            <b>metadata</b>
-        </field>
-        <field custom-converter-id="composedconverter" custom-converter-param="dc.subject">
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.subject">
             <a>keyword</a>
             <b>metadata</b>
         </field>
-        <field custom-converter-id="relateddocumentconverter" custom-converter-param="dc.relation">
-            <a>link</a>
+        <field custom-converter-id="composedconverter" custom-converter-param="dc.description.abstract">
+            <a>summary</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.subject.msc">
+            <a>msc</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.identifier.idmr">
+            <a>idMR</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.identifier.idzbl">
+            <a>idZBL</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.identifier.idjfm">
+            <a>idJFM</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.identifier.doi">
+            <a>doi</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.identifier.ulrych">
+            <a>idUlrych</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.type">
+            <a>category</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.format.extent">
+            <a>rangePages</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.description.section">
+            <a>section</a>
             <b>metadata</b>
         </field>
     </mapping>
     
-    <mapping>
-        <class-a>cz.muni.ics.digilib.domain.ArticleMeta</class-a>
-        <class-b>cz.muni.ics.dspace5.metadata.MetadataWrapper</class-b>
-        
-        <field custom-converter-id="simpleconverter" custom-converter-param="muni.section">
-            <a>section</a>
-            <b>metadata</b>
-        </field>
-        <field custom-converter-id="simpleconverter" custom-converter-param="muni.positionnumber">
-            <a>number</a>
-            <b>metadata</b>
-        </field>
-    </mapping>-->
 </mappings> 

@@ -85,7 +85,7 @@
         <aspect name="Discovery" path="resource://aspects/Discovery/" />
         <aspect name="Administration" path="resource://aspects/Administrative/" />
         <aspect name="E-Person" path="resource://aspects/EPerson/" />
-        <aspect name="Submission and Workflow" path="resource://aspects/Submission/" />
+        <!--<aspect name="Submission and Workflow" path="resource://aspects/Submission/" />-->
 
         <!-- ========================
              Usage Statistics Engines
@@ -107,7 +107,7 @@
              Approval Workflow Systems
              ========================= -->
         <!-- By default, DSpace uses a legacy 3-step approval workflow for new submissions -->
-        <aspect name="Original Workflow" path="resource://aspects/Workflow/" />
+        <!--<aspect name="Original Workflow" path="resource://aspects/Workflow/" />-->
 
         <!-- If you prefer, a Configurable XML-based Workflow is available. To enable it, you can
              uncomment the below aspect and comment out the "Original Workflow" aspect above.
@@ -148,6 +148,7 @@
             It's accessible for admins in the XMLTest menu or via the /XMLTest/ URL.
         -->
         <!-- <aspect name="XML Tests" path="resource://aspects/XMLTest/"/> -->
+        <aspect name="DMLCZ5" path="resource://aspects/dmlcz5/" />
     </aspects>
 
     <!--
@@ -182,7 +183,8 @@
         <!-- <theme name="Test Theme 2" regex="community-list" path="theme2/"/> -->
 
         <!-- Mirage theme, @mire contributed theme, default since DSpace 3.0 -->
-        <theme name="Atmire Mirage Theme" regex=".*" path="Mirage/" />
+        <!--<theme name="Atmire Mirage Theme" regex=".*" path="Mirage/" />-->
+        <theme name="DMLCZ 5" regex=".*" path="dmlcz5/" />
 	<!--<theme name="Mirage 2" regex=".*" path="Mirage2/" /> -->
 
         <!-- Reference theme, the default Manakin XMLUI layout up to DSpace 1.8 -->

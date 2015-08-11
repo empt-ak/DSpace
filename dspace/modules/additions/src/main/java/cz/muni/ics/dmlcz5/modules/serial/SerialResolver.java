@@ -48,12 +48,7 @@ public class SerialResolver implements ObjectWrapperResolver
         int level = dspaceTools.getPathLevel(objectWrapper.getPath());
         boolean updateMode = inputDataMap.getValue("method").equals("update");
         if(inputDataMap.containsKey("check"))
-        {
-            if(!Files.exists(objectWrapper.getPath().resolve("detail.xml")))
-            {
-                throw new FileNotFoundException(objectWrapper.getPath().resolve("detail.xml")+ " is missing.");
-            }
-            
+        {            
             if(!Files.exists(objectWrapper.getPath().resolve("meta.xml")))
             {
                 throw new FileNotFoundException(objectWrapper.getPath().resolve("meta.xml") + " is missing.");
@@ -95,6 +90,7 @@ public class SerialResolver implements ObjectWrapperResolver
                     List<ObjectWrapper> volumeIssues = new ArrayList<>();
 
                     String volumeNumber = StringUtils.substringBefore(volume.getPath().getFileName().toString(), ".xml");
+//                    logger.fatal(volumeNumber);
 
                     for (ObjectWrapper issue : issues)
                     {

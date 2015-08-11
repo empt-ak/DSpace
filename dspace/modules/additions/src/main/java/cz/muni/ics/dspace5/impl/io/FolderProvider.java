@@ -88,16 +88,17 @@ public class FolderProvider
             @Override
             public boolean accept(Path entry) throws IOException
             {
-                if(Files.isDirectory(entry) && matcher.matches(entry.getFileName()))
-                {
-                    logger.debug(entry + " was matched against [regex:"+regex+"]");
-                    return true;
-                }
-                else
-                {
-                    logger.debug(entry + " was not matched against [regex:"+regex+"]");
-                    return false;
-                }                
+                return Files.isDirectory(entry) && matcher.matches(entry.getFileName());
+//                if(Files.isDirectory(entry) && matcher.matches(entry.getFileName()))
+//                {
+//                    logger.debug(entry + " was matched against [regex:"+regex+"]");
+//                    return true;
+//                }
+//                else
+//                {
+//                    logger.debug(entry + " was not matched against [regex:"+regex+"]");
+//                    return false;
+//                }                
             }
         }))
         {

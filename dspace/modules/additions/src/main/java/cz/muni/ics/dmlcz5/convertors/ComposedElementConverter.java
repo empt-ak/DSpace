@@ -20,25 +20,33 @@ import org.dspace.content.Metadatum;
  */
 public class ComposedElementConverter extends DSpaceDozerConvertor
 {
+
     private static final Logger logger = Logger.getLogger(ComposedElementConverter.class);
+    private String valueFieldName;
+
+    public void setValueFieldName(String valueFieldName)
+    {
+        this.valueFieldName = valueFieldName;
+    }
+    
+    
 
     @Override
     public Object convert(Object existingDestinationFieldValue, Object sourceFieldValue, Class<?> destinationClass, Class<?> sourceClass)
     {
-        if(sourceFieldValue != null)
+        List<Metadatum> resultList = new ArrayList<>();
+
+        if (existingDestinationFieldValue != null)
         {
-            List<Metadatum> resultList = new ArrayList<>();
-            
-            if(existingDestinationFieldValue != null)
-            {
-                resultList.addAll((List<Metadatum>) existingDestinationFieldValue);
-            }
-            
-            if(sourceFieldValue instanceof Collection)
+            resultList.addAll((List<Metadatum>) existingDestinationFieldValue);
+        }
+        if (sourceFieldValue != null)
+        {
+            if (sourceFieldValue instanceof Collection)
             {
                 List sourceList = (List) sourceFieldValue;
-                
-                for(Object o : sourceList)
+
+                for (Object o : sourceList)
                 {
                     resultList.add(convertObject(o));
                 }
@@ -47,30 +55,28 @@ public class ComposedElementConverter extends DSpaceDozerConvertor
             {
                 resultList.add(convertObject(sourceFieldValue));
             }
-            
-            return resultList;
         }
-        
-        return null;
+
+        return resultList;
     }
-    
+
     private Metadatum convertObject(Object inputValue)
     {
         try
         {
-            return metadatumFactory.createMetadatum(schema, 
-                element, 
-                qualifier, 
-                (String) PropertyUtils.getProperty(inputValue, "lang"),
-                (String) PropertyUtils.getProperty(inputValue, "value")
+            return metadatumFactory.createMetadatum(schema,
+                    element,
+                    qualifier,
+                    (String) PropertyUtils.getProperty(inputValue, "lang"),
+                    (String) PropertyUtils.getProperty(inputValue, valueFieldName)
             );
         }
-        catch(IllegalAccessException | InvocationTargetException | NoSuchMethodException ex)
+        catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex)
         {
-            logger.error(ex,ex.getCause());
+            logger.error(ex, ex.getCause());
         }
-        
+
         return null;
     }
-    
+
 }

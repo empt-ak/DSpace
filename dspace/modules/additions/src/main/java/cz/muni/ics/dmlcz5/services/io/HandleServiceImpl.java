@@ -8,7 +8,6 @@ package cz.muni.ics.dmlcz5.services.io;
 import cz.muni.ics.dspace5.api.HandleService;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
-import cz.muni.ics.dspace5.impl.io.FolderProvider;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
@@ -20,9 +19,7 @@ import java.nio.file.AccessDeniedException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import javax.annotation.PostConstruct;
@@ -55,8 +52,6 @@ public class HandleServiceImpl implements HandleService
     @Autowired
     private ConfigurationService configurationService;
     @Autowired
-    private FolderProvider folderProvider;
-    @Autowired
     private ContextWrapper contextWrapper;
     @Autowired
     private DSpaceTools dSpaceTools;
@@ -66,6 +61,7 @@ public class HandleServiceImpl implements HandleService
     @Override
     public String getHandleForPath(Path path, boolean createIfMissing) throws IllegalArgumentException
     {
+        logger.fatal("looking handle for path"+path);
         String result = null;
         
         if(handleMap.containsKey(path))
@@ -82,136 +78,16 @@ public class HandleServiceImpl implements HandleService
         }
         
         return result;
-//        Path dspaceFile = path.resolve(handleFile);
-//        logger.debug("Attempting to read dspaceID from " + dspaceFile);
-//
-//        String suffix = null;
-//
-//        if (Files.exists(dspaceFile))
-//        {
-//            try
-//            {
-//                suffix = new String(Files.readAllBytes(dspaceFile));
-//                logger.debug("File found. Suffix is set as: " + suffix);
-//            }
-//            catch (IOException ex)
-//            {
-//                logger.error(ex);
-//            }
-//        }
-//        else if (createIfMissing)
-//        {
-//            logger.debug("File was not found. Creating new suffix.");
-//
-//            String newSuffix = null;
-//            try
-//            {
-//                newSuffix = getNewHandle();
-//            }
-//            catch (SQLException ex)
-//            {
-//                throw new RuntimeException(ex);
-//            }
-//
-////            if (newSuffix == null)
-////            {
-////                throw new RuntimeException("FATAL ERROR CREATING HANDLE. Nothing was obtained from database. @path "+dspaceFile);
-////            }
-////            else
-////            {
-//            try
-//            {
-//                Files.write(dspaceFile, newSuffix.getBytes(), StandardOpenOption.CREATE_NEW);
-//                logger.debug("File with suffix [" + newSuffix + " created.");
-//            }
-//            catch (IOException ex)
-//            {
-//                logger.error(ex);
-//                throw new RuntimeException("FATAL ERROR CREATING HANDLE FILE. Suffix obtained from database @ " + newSuffix + " @path " + dspaceFile + " failed to write.");
-//            }
-//
-//            suffix = newSuffix;
-////            }
-//        }
-//
-//        if (suffix == null)
-//        {
-//            return null;
-//        }
-//        else
-//        {
-//            return handlePrefix + suffix;
-//        }
     }
 
     @Override
     public String getVolumeHandle(Path path) throws IllegalArgumentException
-    {
-        List<Path> volume = folderProvider.getIssuesFromPath(path);
-
-        String volumeSuffix = null;
-        boolean missing = false;
-
-        for (Path p : volume)
-        {
-            Path dspaceVolumeID = p.resolve("dspace_volume_id.txt");
-
-            if (!Files.exists(dspaceVolumeID))
-            {
-                missing = true;
-            }
-            else
-            {
-                if (volumeSuffix == null)
-                {
-                    try
-                    {
-                        volumeSuffix = new String(Files.readAllBytes(dspaceVolumeID));
-                    }
-                    catch (IOException ex)
-                    {
-                        logger.error(ex, ex.getCause());
-                        throw new RuntimeException("ERROR WHILE READING FROM dspace_volume_id.txt at path [" + dspaceVolumeID + "]");
-                    }
-                }
-            }
-        }
-
-        if (volumeSuffix == null)
-        {
-            try
-            {
-                volumeSuffix = getNewHandle();
-            }
-            catch (SQLException ex)
-            {
-                throw new RuntimeException(ex);
-            }
-
-        }
-
-        if (missing)
-        {
-            for (Path p : volume)
-            {
-                Path dspaceVolumeID = p.resolve("dspace_volume_id.txt");
-
-                if (!Files.exists(dspaceVolumeID))
-                {
-                    try
-                    {
-                        Files.write(dspaceVolumeID, volumeSuffix.getBytes(), StandardOpenOption.CREATE_NEW);
-                    }
-                    catch (IOException ex)
-                    {
-                        logger.fatal(ex, ex.getCause());
-                        throw new RuntimeException("ERROR WHILE WRITING TO dspace_volume_id.txt at path [" + dspaceVolumeID + "]");
-                    }
-                }
-            }
-        }
-
-        return handlePrefix + volumeSuffix;
+    {        
+        //volume is passed as first issue
+        //but volume as path is assigned after handle is assigned
+        //therefore we need to get volume number first, then let
+        //the objectwrapper factory assign path.
+        return getHandleForPath(path.getParent().resolve(dSpaceTools.getVolumeNumber(path)), true);
     }
 
     /**
@@ -339,7 +215,7 @@ public class HandleServiceImpl implements HandleService
             {
                 for(Path p : handleMap.keySet())
                 {
-                    writer.write(handleMap.get(p)+"\t"+dSpaceTools.getOnlyMEPath(p));
+                    writer.write(handleMap.get(p)+"\t"+dSpaceTools.getOnlyMEPath(p)+"\n");
                 }
             }
             catch(IOException ex)

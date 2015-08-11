@@ -301,9 +301,10 @@
             <map>
                 <entry key="simpleconverter" value-ref="simpleElementConverter" />
                 <entry key="composedconverter" value-ref="composedElementConverter" />
-                <entry key="contributorconverter" value-ref="contributorConverter" />
-                <entry key="authorconverter" value-ref="authorConverter" />
-                <entry key="relateddocumentconverter" value-ref="relatedDocumentConverter" />
+                <!--<entry key="relateddocumentconverter" value-ref="relatedDocumentConverter" />-->
+                <entry key="dmlnoteconverter" value-ref="dmlNoteConverter" />
+                <entry key="titlecompconverter" value-ref="titlecompConverter" />
+                <entry key="dmlpersonconverter" value-ref="dmlPersonConverter" />
             </map>
         </property>
     </bean> 
@@ -316,21 +317,29 @@
     <bean
         id="composedElementConverter"
         class="cz.muni.ics.dmlcz5.convertors.ComposedElementConverter"
+        p:valueFieldName="value"
     />
     
     <bean
-        id="relatedDocumentConverter"
-        class="cz.muni.ics.dmlcz5.convertors.RelatedDocumentConverter"
-    />
-    
-    <bean 
-        id="contributorConverter"
-        class="cz.muni.ics.dmlcz5.convertors.ContributorConvertor"
+        id="dmlNoteConverter"
+        class="cz.muni.ics.dmlcz5.convertors.ComposedElementConverter"
+        p:valueFieldName="content"
     />
     
     <bean
-        id="authorConverter"
-        class="cz.muni.ics.dmlcz5.convertors.AuthorConverter"
+        id="titlecompConverter"
+        class="cz.muni.ics.dmlcz5.convertors.TitlecompConverter"
+        p:subtitleSchema="dc"
+        p:subtitleElement="title"
+        p:subtitleQualifier="alternative"
+        p:volumeSchema="dc"
+        p:volumeElement="title"
+        p:volumeQualifier="volume"
+    />
+    
+    <bean
+        id="dmlPersonConverter"
+        class="cz.muni.ics.dmlcz5.convertors.DmlPersonConvertor"
     />
         
     <bean

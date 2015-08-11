@@ -11,7 +11,6 @@ import cz.muni.ics.dspace5.api.ObjectMapper;
 import cz.muni.ics.dspace5.api.module.CommunityProcessor;
 import cz.muni.ics.dspace5.api.module.ObjectWrapper;
 import cz.muni.ics.dspace5.exceptions.MovingWallException;
-import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.metadata.MetadataWrapper;
 import cz.muni.ics.dspace5.metadata.MetadatumFactory;
 import java.io.FileInputStream;
@@ -44,8 +43,6 @@ public class CommunityProcessorImpl implements CommunityProcessor
     @Autowired
     private MetadatumFactory metadatumFactory;
     @Autowired
-    private DSpaceTools dSpaceTools;
-    @Autowired
     private MovingWallFactoryBean movingWallFactoryBean;
 
     private ObjectWrapper currentWrapper;
@@ -54,13 +51,13 @@ public class CommunityProcessorImpl implements CommunityProcessor
     @Override
     public void setup(ObjectWrapper objectWrapper) throws IllegalStateException, IllegalArgumentException
     {
-        if(objectWrapper == null)
+        if (objectWrapper == null)
         {
             throw new IllegalArgumentException("");
         }
         //TODO exceptions
         this.currentWrapper = objectWrapper;
-        
+
         try
         {
             this.journal = objectMapper.convertPathToObject(objectWrapper.getPath(), "meta.xml");
@@ -84,8 +81,8 @@ public class CommunityProcessorImpl implements CommunityProcessor
             // TODO
             throw new IllegalStateException();
         }
-        
-        metadataWrapper.getMetadata().add(metadatumFactory.createMetadatum("muni", "mepath", null, null, dSpaceTools.getOnlyMEPath(currentWrapper.getPath()).toString()));
+
+        metadataWrapper.put(metadatumFactory.createMetadatum("dc", "type", null, null, "monograph"));
 
         return metadataWrapper.getMetadata();
     }

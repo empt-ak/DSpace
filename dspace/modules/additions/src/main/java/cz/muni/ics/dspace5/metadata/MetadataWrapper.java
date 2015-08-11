@@ -16,13 +16,14 @@ import org.dspace.content.Metadatum;
 public class MetadataWrapper
 {
     private List<Metadatum> metadata;
+    
+    public MetadataWrapper()
+    {
+        this.metadata = new ArrayList<>();
+    }
 
     public List<Metadatum> getMetadata()
     {
-        if(metadata == null)
-        {
-            metadata = new ArrayList<>();
-        }
         return metadata;
     }
 
@@ -38,11 +39,6 @@ public class MetadataWrapper
     
     public void put(Metadatum metadatum)
     {
-        if(metadata == null)
-        {
-            metadata = new ArrayList<>();
-        }
-        
         metadata.add(metadatum);
     }
 }

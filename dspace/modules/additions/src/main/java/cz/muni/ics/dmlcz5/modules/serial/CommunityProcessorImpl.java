@@ -13,15 +13,18 @@ import cz.muni.ics.dspace5.api.module.CommunityProcessor;
 import cz.muni.ics.dspace5.api.module.ObjectWrapper;
 import cz.muni.ics.dspace5.exceptions.MovingWallException;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
+import cz.muni.ics.dspace5.impl.InputDataMap;
 import cz.muni.ics.dspace5.metadata.MetadataWrapper;
 import cz.muni.ics.dspace5.metadata.MetadatumFactory;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.dozer.Mapper;
 import org.dspace.authorize.AuthorizeException;
@@ -48,10 +51,13 @@ public class CommunityProcessorImpl implements CommunityProcessor
     private DSpaceTools dSpaceTools;
     @Autowired
     private MovingWallFactoryBean movingWallFactoryBean;
+    @Autowired
+    private InputDataMap inputDataMap;
 
     private ObjectWrapper currentWrapper;
     private Journal journal;
     private Volume volume;
+    private boolean isVolume = false;
 
     @Override
     public void setup(ObjectWrapper objectWrapper) throws IllegalStateException, IllegalArgumentException
@@ -67,6 +73,8 @@ public class CommunityProcessorImpl implements CommunityProcessor
             try
             {
                 this.journal = objectMapper.convertPathToObject(objectWrapper.getPath(), "meta.xml");
+                // this is workaround for volumes see comment in next else branch
+                this.inputDataMap.put("volumeList", journal.getVolume());
             }
             catch (FileNotFoundException ex)
             {
@@ -75,21 +83,17 @@ public class CommunityProcessorImpl implements CommunityProcessor
         }
         else if(objectWrapper.getLevel().equals(ObjectWrapper.LEVEL.SUBCOM))
         {
-            try
-            {
-                this.volume = objectMapper.convertPathToObject(objectWrapper.getPath(), "");
-            }
-            catch(FileNotFoundException nfe)
-            {
-                logger.error(nfe,nfe.getCause());
-            }
+            // this will do nothing because volume is stored in parent branch
+            // volume will be set up in #processMetadata. its a nasty hack
+            // since faculty of arts editor works slightly different and this
+            // is sort of unexpected behaviour. we just set flag #isVolume
+            // to true so process method will know what to do
+            isVolume = true;
         }
         else
         {
             throw new IllegalArgumentException();
         }
-        
-        
     }
 
     @Override
@@ -99,9 +103,25 @@ public class CommunityProcessorImpl implements CommunityProcessor
         if (this.journal != null)
         {
             mapper.map(this.journal, metadataWrapper);
+            
+            metadataWrapper.getMetadata().add(metadatumFactory.createMetadatum("dc", "type", null, null, "serial"));
         }
-        else if(this.volume != null)
+        else if(isVolume)
         {
+            logger.fatal("its voljume");
+            List<Volume> volumes = inputDataMap.getTypedValue("volumeList", List.class);
+            BigInteger currentVolume = new BigInteger(StringUtils.substringBefore(this.currentWrapper.getPath().getFileName().toString(),".xml"));
+            logger.fatal("karent voljume is "+currentVolume);
+            for(Volume v : volumes)
+            {
+                logger.fatal(currentVolume+" x "+v.getNumber());
+                if(v.getNumber().equals(currentVolume))
+                {
+                    logger.fatal("oi m8 ill rek u");
+                    this.volume = v;
+                    break;
+                }
+            }
             mapper.map(this.volume, metadataWrapper);
         }
         else
@@ -110,7 +130,7 @@ public class CommunityProcessorImpl implements CommunityProcessor
             throw new IllegalStateException();
         }
         
-        metadataWrapper.getMetadata().add(metadatumFactory.createMetadatum("muni", "mepath", null, null, dSpaceTools.getOnlyMEPath(currentWrapper.getPath()).toString()));
+        //metadataWrapper.getMetadata().add(metadatumFactory.createMetadatum("muni", "mepath", null, null, dSpaceTools.getOnlyMEPath(currentWrapper.getPath()).toString()));
 
         return metadataWrapper.getMetadata();
     }
@@ -126,6 +146,15 @@ public class CommunityProcessorImpl implements CommunityProcessor
         {
             logger.info("For handle@" + currentWrapper.getHandle() + iax.getMessage());
         }
+        if(this.journal != null)
+        {
+            // here we set volumes to object of object wrapper
+            // so object manager at lower level will have access to it
+            logger.fatal("oh look its journal setting volumes.");
+            logger.fatal(journal.getVolume());
+            this.currentWrapper.setObject(journal.getVolume());
+            logger.fatal("OW$"+this.currentWrapper.getObject());
+        }
     }
 
     @Override
@@ -134,6 +163,7 @@ public class CommunityProcessorImpl implements CommunityProcessor
         this.currentWrapper = null;
         this.journal = null;
         this.volume = null;
+        this.isVolume = false;
     }
 
     /**

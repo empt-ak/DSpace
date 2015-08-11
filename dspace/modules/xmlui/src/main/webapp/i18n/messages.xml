@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<catalogue xml:lang="en" xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
+    <!--<message key="navigation.main.button.about">DSpace Home</message>-->
+    <message key="navigation.main.button.news">News</message>
+    <message key="navigation.main.button.faq">FAQ</message>    
+    <message key="navigation.main.button.terms">Conditions of Use</message>
+    <message key="navigation.main.button.matharchives">Math archives</message>
+    <message key="navigation.main.button.contactus">Contact Us</message>
+    <message key="navigation.main.button.search">Search ...</message>
+    <message key="navigation.main.button.toggle">Toggle navigation</message>
+    <message key="navigation.pun.previous">Previous</message>
+    <message key="navigation.pun.up">Up</message>
+    <message key="navigation.pun.next">Next</message>
+    
+    <message key="page.head.title">Czech Digital Mathematics Library</message>
+    
+    <message key="page.sidebar.left.browseby">Browse by</message>
+    <message key="page.sidebar.left.browseby.collection">Collections</message>
+    <message key="page.sidebar.left.browseby.title">Titles</message>
+    <message key="page.sidebar.left.browseby.author">Authors</message>
+    <message key="page.sidebar.left.browseby.msc">MSC</message>
+    <message key="page.sidebar.left.projects">Projects and partners</message>
+    <message key="page.sidebar.left.rss">RSS channels</message>
+    <message key="page.sidebar.right.discovery.keyword">Keywords</message>
+    <message key="page.sidebar.right.discovery.author">Authors</message>
+    <message key="page.sidebar.right.discovery.msc">MSC</message>
+    <message key="page.sidebar.right.discovery.more">View More</message>
+    
+    
+    <message key="page.landing.thumbnail">Thumbnail of this entry</message>
+    <message key="page.landing.category.serial">Journals</message>
+    <message key="page.landing.category.monograph">Monographs</message>
+    <message key="page.landing.category.proceedings">Proceedings</message>
+    <message key="page.landing.category.celebrity">Eminent Czech mathematicians</message>
+    <message key="page.landing.jubotron">Welcome to DML-CZ (Czech Digital Mathematics Library), the website offering an open access to the metadata and fulltext of mathematical journals, proceedings and books published throughout history in the Czech lands.</message>
+
+    <message key="page.community.serial.thumbnail">Thumbnail of this serial</message>
+    <message key="page.community.serial.issn">ISSN:</message>
+    <message key="page.community.serial.publisher">Publisher:</message>
+    <message key="page.community.serial.publicationplace">Publication place:</message>
+    <message key="page.community.serial.website">Journal website:</message>
+    <message key="page.community.serial.description">Description:</message>
+    <message key="page.community.serial.published">Published:</message>
+    <message key="page.community.serial.label.volumes">Volumes (Years)</message>
+    <message key="page.community.serial.label.volume">Volume</message>
+    <message key="page.community.serial.volume.issues">Issues within this volume</message>
+    <message key="page.community.serial.volume.thumbnail">Thumbnail of this volume</message>
+    
+    <message key="a">a</message>
+    
+</catalogue>

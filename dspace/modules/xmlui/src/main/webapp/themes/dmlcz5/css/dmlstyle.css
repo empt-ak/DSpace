@@ -1,0 +1,111 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jul 24, 2015, 8:39:25 AM
+    Author     : Dominik Szalai - emptulik at gmail.com
+*/
+
+html
+{
+    position: relative;
+    min-height: 100%;
+}
+body
+{
+    margin-bottom: 50px;
+}
+footer
+{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    background-color: #f5f5f5;
+}
+footer p.footer-text
+{
+    margin: 5px;
+    //margin: 20px;
+    color: #777;
+}
+.media-body
+{
+    text-align: justify;
+}
+.section-list
+{
+    padding-left: 15px;
+}
+
+dd
+{
+    text-align: justify;
+}
+
+.journal-title,
+.volume-title,
+.issue-title,
+.volume-title,
+.article-title
+{
+    margin-top: 0px;
+}
+
+.item-extent
+{
+    margin-top: 10px;
+}
+
+.issue-item-authors
+{
+    color: #999;
+}
+
+.issue-item-row
+{
+    border-bottom: 1px solid #eee;
+    /*    text-overflow: ellipsis;
+        height: 80px;
+        white-space: nowrap;*/
+}
+
+.issue-item-abstract
+{
+    text-align: justify;
+}
+
+.dml-banner
+{
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+a.dml-link,
+a.dml-link:hover,
+a.dml-link:visited,
+a.dml-link:active
+{
+    color: inherit;
+}
+
+.pun
+{
+    background-color: #f5f5f5;
+    margin-bottom: 10px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.pun ul.pager
+{
+    margin: 0px !important;
+}
+
+.no-entry-alert
+{
+    margin-top: 35px;
+}
