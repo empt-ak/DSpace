@@ -150,6 +150,7 @@
             It's accessible for admins in the XMLTest menu or via the /XMLTest/ URL.
         -->
         <!-- <aspect name="XML Tests" path="resource://aspects/XMLTest/"/> -->
+	<aspect name="DMLCZ5" path="resource://aspects/dmlcz5/" />
     </aspects>
 
     <!--
@@ -184,7 +185,8 @@
         <!-- <theme name="Test Theme 2" regex="community-list" path="theme2/"/> -->
 
         <!-- Mirage theme, @mire contributed theme, default since DSpace 3.0 -->
-        <theme name="Atmire Mirage Theme" regex=".*" path="Mirage/" />
+<!--        <theme name="Atmire Mirage Theme" regex=".*" path="Mirage/" /> -->
+	<theme name="dmlcz5 Theme" regex=".*" path="dmlcz5/" />
 
         <!-- Reference theme, the default Manakin XMLUI layout up to DSpace 1.8 -->
         <!-- <theme name="Default Reference Theme" regex=".*" path="Reference/" /> -->
