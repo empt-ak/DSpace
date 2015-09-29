@@ -5,6 +5,7 @@
  */
 package cz.muni.ics.dspace5.impl;
 
+import java.nio.file.Path;
 import java.sql.SQLException;
 import javax.annotation.PreDestroy;
 import org.apache.log4j.Logger;
@@ -23,6 +24,7 @@ public class ContextWrapper implements ApplicationListener<ContextRefreshedEvent
 
     private static final Logger logger = Logger.getLogger(ContextWrapper.class);
     private Context context;
+    private static final Path configFilename = Paths.get("dspace.cfg");
 
     private DSpaceTools dSpaceTools;
 
@@ -48,7 +50,7 @@ public class ContextWrapper implements ApplicationListener<ContextRefreshedEvent
                  nor is passed as classpath argument (like when commnad ./dpsace dsrun is executed)
                  */
                 //TODO
-                System.setProperty("dspace.configuration", "/opt/oktavo5/config/dspace.cfg");
+                System.setProperty("dspace.configuration", dSpaceTools.getLocationPath().resolve(configFilename).toString());
 
                 context = new Context();
                 logger.debug("Context created.");

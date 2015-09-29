@@ -5,6 +5,7 @@
  */
 package cz.muni.ics.dspace5.impl;
 
+import cz.muni.ics.dspace5.api.ConfigLocationBean;
 import cz.muni.ics.dspace5.api.module.ObjectWrapper;
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,6 +45,8 @@ public class DSpaceTools
     private ConfigurationService configurationService;
     @Autowired
     private ContextWrapper contextWrapper;
+    @Autowired
+    private ConfigLocationBean configLocationBean;
     private static final Logger logger = Logger.getLogger(DSpaceTools.class);
     private final List<DateTimeFormatter> knownDateFormats = new ArrayList<>();
 
@@ -54,6 +57,16 @@ public class DSpaceTools
         knownDateFormats.add(DateTimeFormat.forPattern("yyyy-MM"));
         knownDateFormats.add(DateTimeFormat.forPattern("yyyy"));
         logger.debug("@PostConstruct:- knownDateFormats initialized.");
+    }
+
+    /**
+     * See {@link ConfigLocationBean#getLocation() }
+     *
+     * @return location of configuration file
+     */
+    public Path getLocationPath()
+    {
+        return configLocationBean.getLocation();
     }
 
     /**
