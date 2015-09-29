@@ -17,6 +17,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -44,104 +47,148 @@ public class CelebrityResolver implements ObjectWrapperResolver
     {
         int level = dspaceTools.getPathLevel(objectWrapper.getPath());
         boolean updateMode = inputDataMap.getValue("method").equals("update");
-        
-        if(inputDataMap.containsKey("precheck"))
+        if(inputDataMap.containsKey("check"))
         {            
             if(!Files.exists(objectWrapper.getPath().resolve("meta.xml")))
             {
                 throw new FileNotFoundException(objectWrapper.getPath().resolve("meta.xml") + " is missing.");
             }
         }
-        
+
         ObjectWrapper topLevelResult = null;
 
         if (level == 0)
         {
             objectWrapper.setHandle(handleService.getHandleForPath(objectWrapper.getPath(), true));
+            //special handling of top comm
             objectWrapper.setLevel(ObjectWrapper.LEVEL.COM);
 
             logger.debug("@level " + level + " @path [" + objectWrapper.getPath() + "] resolved as " + ObjectWrapper.LEVEL.COM + " with handle @" + objectWrapper.getHandle());
 
             if (updateMode)
             {
-                List<Path> monographyPaths = folderProvider.getFoldersFromPath(objectWrapper.getPath());
-                List<ObjectWrapper> monographies = new ArrayList<>(monographyPaths.size());
+                List<Path> paths = folderProvider.getFoldersAsIssues(objectWrapper.getPath());
+                List<ObjectWrapper> issues = new ArrayList<>(paths.size());
+                SortedSet<ObjectWrapper> volumes = new TreeSet<>();
 
-                for (Path monoPath : monographyPaths)
+                for (Path p : paths)
                 {
-                    ObjectWrapper monography = objectWrapperFactory.createObjectWrapper(monoPath, false, true, true);
+                    ObjectWrapper issue = objectWrapperFactory.createObjectWrapper(p, false, true, true);
+                    // recreate articles
+                    resolveObjectWrapper(issue, false);
 
-                    resolveObjectWrapper(monography, false);
+                    issues.add(issue);
 
-                    monographies.add(monography);
+                    ObjectWrapper volume = objectWrapperFactory.createObjectWrapper(p, true, true, true);
+
+                    volumes.add(volume);
                 }
 
-                objectWrapper.setChildren(monographies);
+                for (ObjectWrapper volume : volumes)
+                {
+                    logger.debug("Mapping volume " + volume.getPath() + " @handle [" + volume.getHandle() + "]");
+                    List<ObjectWrapper> volumeIssues = new ArrayList<>();
+
+                    String volumeNumber = StringUtils.substringBefore(volume.getPath().getFileName().toString(), ".xml");
+//                    logger.fatal(volumeNumber);
+
+                    for (ObjectWrapper issue : issues)
+                    {
+                        if (dspaceTools.getVolumeNumber(issue.getPath()).equals(volumeNumber))
+                        {
+                            logger.debug("Issue [" + issue.getPath() + "] belongs to volume " + volumeNumber);
+                            volumeIssues.add(issue);
+                        }
+                    }
+
+                    volume.setChildren(volumeIssues);
+                }
+
+                //resolve volume to issue
+                objectWrapper.setChildren(new ArrayList<>(volumes));
             }
+
             topLevelResult = objectWrapper;
         }
-        if (level == 1)
+        else if (level == 1)
         {
             if (mainCall)
             {
                 Path root = dspaceTools.getRoot(objectWrapper.getPath());
-                objectWrapper.setLevel(ObjectWrapper.LEVEL.COL);
+
                 objectWrapper.setHandle(handleService.getHandleForPath(objectWrapper.getPath(), true));
-                
+                objectWrapper.setLevel(ObjectWrapper.LEVEL.COL);
+
                 ObjectWrapper rootObject = objectWrapperFactory.createObjectWrapper(root, false, true, true);
-                
+                ObjectWrapper volume = objectWrapperFactory.createObjectWrapper(objectWrapper.getPath(), true, true, true);
+
                 resolveObjectWrapper(objectWrapper, false);
-                
-                List<ObjectWrapper> monographies = new ArrayList<>(1);
-                monographies.add(objectWrapper);
-                
-                rootObject.setChildren(monographies);
-                
+                List<ObjectWrapper> issues = new ArrayList<>();
+                List<ObjectWrapper> volumes = new ArrayList<>();
+                // add issue to list of issue for volume
+                issues.add(objectWrapper);
+                //add issues to volume
+                volume.setChildren(issues);
+                //add volume into volumes
+                volumes.add(volume);
+                //set volumes for root
+                rootObject.setChildren(volumes);
+
                 topLevelResult = rootObject;
             }
             else
             {
+
                 logger.debug("@level " + level + " @path [" + objectWrapper.getPath() + "] resolved as " + ObjectWrapper.LEVEL.COL + " with handle @" + objectWrapper.getHandle());
 
                 if (updateMode)
                 {
-//                    List<Path> monoChapterPaths = folderProvider.getFoldersFromPath(objectWrapper.getPath());
-                    List<Path> monoChapterPaths = folderProvider.getFoldersAsArticles(objectWrapper.getPath());
-                    List<ObjectWrapper> monographyChapters = new ArrayList<>(monoChapterPaths.size());
+                    List<Path> paths = folderProvider.getFoldersAsArticles(objectWrapper.getPath());
+                    List<ObjectWrapper> articles = new ArrayList<>(paths.size());
 
-                    for (Path monoPath : monoChapterPaths)
+                    for (Path p : paths)
                     {
-                        ObjectWrapper monographyChapter = objectWrapperFactory.createObjectWrapper(monoPath, false, true, true);
+                        ObjectWrapper article = objectWrapperFactory.createObjectWrapper(p, false, true, true);
 
-                        resolveObjectWrapper(monographyChapter, false);
-                        monographyChapters.add(monographyChapter);
+                        resolveObjectWrapper(article, false);
+
+                        articles.add(article);
                     }
-                    objectWrapper.setChildren(monographyChapters);
+
+                    objectWrapper.setChildren(articles);
                 }
             }
         }
-        if (level == 2)
+        else if (level == 2)
         {
             if (mainCall)
             {
                 Path root = dspaceTools.getRoot(objectWrapper.getPath());
-                Path monographyPath = dspaceTools.getIssue(objectWrapper.getPath());
-                
-                objectWrapper.setLevel(ObjectWrapper.LEVEL.ITEM);
+                Path issuePath = dspaceTools.getIssue(objectWrapper.getPath());
+
                 objectWrapper.setHandle(handleService.getHandleForPath(objectWrapper.getPath(), true));
-                
-                ObjectWrapper monoSeries = objectWrapperFactory.createObjectWrapper(root, false, true, true);
-                ObjectWrapper mono = objectWrapperFactory.createObjectWrapper(monographyPath, false, true, true);
-                
-                List<ObjectWrapper> articles = new ArrayList<>(1);
-                List<ObjectWrapper> monographies = new ArrayList<>(1);
+                objectWrapper.setLevel(ObjectWrapper.LEVEL.ITEM);
+
+                ObjectWrapper rootObject = objectWrapperFactory.createObjectWrapper(root, false, true, true);
+                ObjectWrapper volume = objectWrapperFactory.createObjectWrapper(issuePath, true, true, true);
+                ObjectWrapper issue = objectWrapperFactory.createObjectWrapper(issuePath, false, true, true);
+
+                List<ObjectWrapper> articles = new ArrayList<>();
+                List<ObjectWrapper> issues = new ArrayList<>();
+                List<ObjectWrapper> volumes = new ArrayList<>();
+
                 articles.add(objectWrapper);
-                mono.setChildren(articles);
-                monographies.add(mono);
-                
-                monoSeries.setChildren(monographies);
-                
-                topLevelResult = monoSeries;
+                issue.setChildren(articles);
+                // add issue to list of issue for volume
+                issues.add(issue);
+                //add issues to volume
+                volume.setChildren(issues);
+                //add volume into volumes
+                volumes.add(volume);
+                //set volumes for root
+                rootObject.setChildren(volumes);
+
+                topLevelResult = rootObject;
             }
 
             logger.debug("@level " + level + " @path [" + objectWrapper.getPath() + "] resolved as " + ObjectWrapper.LEVEL.ITEM + " with handle @" + objectWrapper.getHandle());

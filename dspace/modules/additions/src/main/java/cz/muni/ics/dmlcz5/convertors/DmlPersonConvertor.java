@@ -43,7 +43,7 @@ public class DmlPersonConvertor extends DSpaceDozerConvertor
                 {
                     if (StringUtils.isEmpty(qualifier))
                     {
-                        if (!StringUtils.isEmpty(p.getRole()))
+                        if (StringUtils.isEmpty(p.getRole()))
                         {
                             logger.error("##" + p.getRole() + "##" + p.getValue());
                             //throw new IllegalArgumentException("Role is empty, when it not should be.");

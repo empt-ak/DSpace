@@ -52,12 +52,11 @@
                 <xsl:value-of 
                     select="$theme" 
                 />
-                <xsl:text>/js/chart.min.js</xsl:text>
-                <!--<xsl:text>/js/Chart.min.alpha.2.js</xsl:text>-->
+                <xsl:text>/js/dmlcz5.min.js</xsl:text>
             </xsl:attribute>
                     &#160;
         </script>
-<!--        <script>
+        <script>
             <xsl:attribute 
                 name="src"
             >
@@ -68,18 +67,48 @@
                 <xsl:value-of 
                     select="$theme" 
                 />
-                <xsl:text>/js/colorchain.js</xsl:text>
+                <xsl:text>/js/holder.min.js</xsl:text>
             </xsl:attribute>
                     &#160;
-        </script>-->
+        </script>
+        <script>
+            <xsl:attribute 
+                name="src"
+            >
+                <xsl:value-of 
+                    select="$contextPath" 
+                />
+                <xsl:text>/themes/</xsl:text>
+                <xsl:value-of 
+                    select="$theme" 
+                />
+                <xsl:text>/js/chart.min.js</xsl:text>
+            </xsl:attribute>
+                    &#160;
+        </script>
+        <script>
+            <xsl:attribute 
+                name="src"
+            >
+                <xsl:value-of 
+                    select="$contextPath" 
+                />
+                <xsl:text>/themes/</xsl:text>
+                <xsl:value-of 
+                    select="$theme" 
+                />
+                <xsl:text>/js/jquery.stickem.min.js</xsl:text>
+            </xsl:attribute>
+                    &#160;
+        </script>
         
         <script>
             $(document).ready(function(){
-            
-<!--            if($(".item-keyword")[0].scrollWidth > $(".item-keyword").innerWidth()){
-                console.log('hue');
-            }-->
-            
+<!--            $('.container-fluid').stickem({
+            item : '#sticky-sidebar',
+            container: '.container-fluid',
+            stickClass: 'stickit'
+            });-->
             if($("#myChart").length){
             var colors = getRandomColor(6);
             
@@ -138,7 +167,7 @@
             MathJax.Hub.Config({
                 tex2jax: {
                     inlineMath: [['$','$'], ['\\(','\\)']],
-                    ignoreClass: "detail-field-data|detailtable|exception|issue-item-abstract|issue-item-title|keyword-sidebar"
+                    ignoreClass: "detail-field-data|detailtable|exception|issue-item-abstract|issue-item-title|disable-math"
                 },
                 TeX: {
                     Macros: {

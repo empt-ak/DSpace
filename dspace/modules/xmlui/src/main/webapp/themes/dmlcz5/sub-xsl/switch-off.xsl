@@ -28,4 +28,5 @@
     <xsl:template match="/dri:document/dri:body/dri:div[@id='aspect.artifactbrowser.CommunityViewer.div.community-home']"></xsl:template>
     <xsl:template match="/dri:document/dri:body/dri:div[@id='aspect.artifactbrowser.CollectionViewer.div.collection-home']"></xsl:template>
     <xsl:template match="/dri:document/dri:body/dri:div[@id='aspect.artifactbrowser.ItemViewer.div.item-view']"></xsl:template>
+    <xsl:template match="/dri:document/dri:body/dri:div[@id='aspect.discovery.RelatedItems.div.item-related-container']"></xsl:template>
 </xsl:stylesheet>

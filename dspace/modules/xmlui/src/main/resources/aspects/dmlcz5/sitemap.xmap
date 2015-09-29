@@ -22,6 +22,7 @@ in various configurations.
             <map:transformer name="CommunityAspect" src="cz.muni.ics.dmlcz5.aspects.CommunityAspect" />
             <map:transformer name="CollectionAspect" src="cz.muni.ics.dmlcz5.aspects.CollectionAspect" />
             <map:transformer name="ItemAspect" src="cz.muni.ics.dmlcz5.aspects.ItemAspect" />
+            <map:transformer name="AboutUsAspect" src="cz.muni.ics.dmlcz5.aspects.statik.AboutUsAspect" />
         </map:transformers>
   
     </map:components>
@@ -34,16 +35,13 @@ in various configurations.
                 <map:transform type="MainAspect" />
             </map:match>
             
-            <map:match pattern="handle/*/*">
-                <map:transform type="CommunityAspect" />
-<!--                <map:transform type="CollectionAspect" />
-                <map:transform type="ItemAspect" />-->
+            <map:match pattern="aboutus">
+                <map:transform type="AboutUsAspect" />
             </map:match>
             
             <map:match pattern="handle/*/*">
+                <map:transform type="CommunityAspect" />
                 <map:transform type="CollectionAspect" />
-            </map:match>
-            <map:match pattern="handle/*/*">
                 <map:transform type="ItemAspect" />
             </map:match>
 

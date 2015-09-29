@@ -91,7 +91,7 @@
             <a>note</a>
             <b>metadata</b>
         </field>
-        <field custom-converter-id="simpleconverter" custom-converter-param="dc.identifier.position">
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.title">
             <a>number</a>
             <b>metadata</b>
         </field>
@@ -100,7 +100,11 @@
     <mapping>
         <class-a>cz.muni.ics.dmlcz5.domain.Issue</class-a>
         <class-b>cz.muni.ics.dspace5.metadata.MetadataWrapper</class-b>
-        <field custom-converter-id="simpleconverter" custom-converter-param="dc.title">
+        <field custom-converter-id="composedconverter" custom-converter-param="dc.title">
+            <a>title</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.title.name">
             <a>name</a>
             <b>metadata</b>
         </field>
@@ -120,18 +124,14 @@
             <a>acronym</a>
             <b>metadata</b>
         </field>
-        <field custom-converter-id="simpleconverter" custom-converter-param="dc.conferencenumber">
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.conference.number">
             <a>conferenceNumber</a>
             <b>metadata</b>
         </field>
         <field custom-converter-id="simpleconverter" custom-converter-param="dc.title.formalized">
             <a>formalizedName</a>
             <b>metadata</b>
-        </field>
-        <field custom-converter-id="simpleconverter" custom-converter-param="dc.title">
-            <a>title</a>
-            <b>metadata</b>
-        </field>
+        </field>        
         <field custom-converter-id="titlecompconverter" custom-converter-param="dc.title">
             <a>titlecomp</a>
             <b>metadata</b>
@@ -148,11 +148,11 @@
             <a>contributor</a>
             <b>metadata</b>
         </field>
-        <field custom-converter-id="simpleconverter" custom-converter-param="dc.coverage.spatial">
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.conference.place">
             <a>place</a>
             <b>metadata</b>
         </field>
-        <field custom-converter-id="simpleconverter" custom-converter-param="dc.contributor.conference">
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.conference.organizer">
             <a>organizedby</a>
             <b>metadata</b>
         </field>

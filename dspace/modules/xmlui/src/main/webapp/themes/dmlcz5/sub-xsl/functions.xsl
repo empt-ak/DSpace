@@ -56,7 +56,7 @@
         </xsl:if>
         <xsl:value-of
             select="document($solrGetType)/response/result/doc/int[@name='search.resourceid']"
-            />
+        />
     </xsl:template>
   
     <xsl:template name="replace-gt">
@@ -186,5 +186,23 @@
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:for-each>
+    </xsl:template>
+    
+    
+    <xsl:template
+        name="buildTitle"
+    >   
+        <!--
+        true only and if only we are at landing page
+        -->
+        <xsl:if
+            test="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='title'] != /dri:document/dri:meta/dri:pageMeta/dri:trail[0]"
+        >    
+            <xsl:value-of
+                select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='title']"
+            />
+            <xsl:text> | </xsl:text>
+        </xsl:if> 
+        <i18n:text>page.title</i18n:text>
     </xsl:template>
 </xsl:stylesheet>

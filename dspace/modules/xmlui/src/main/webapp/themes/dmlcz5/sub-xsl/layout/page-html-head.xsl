@@ -25,8 +25,16 @@
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="Digital library offering an open access to the metadata and fulltext of mathematical texts published throughout history in the Czech lands" />
+        <xsl:if test="//dri:metadata[@element='xhtml_head_item']">
+            <xsl:value-of select="//dri:metadata[@element='xhtml_head_item']" disable-output-escaping="yes"/>
+        </xsl:if>
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <title>Bootstrap 101 Template</title>
+        <title>
+            <xsl:call-template
+                name="buildTitle"
+            />
+        </title>
 
         <!-- Bootstrap -->
         <link rel="stylesheet">
@@ -42,7 +50,7 @@
                 <xsl:value-of
                     select="$resourcePath"
                 />
-                <xsl:text>/css/octicons.css</xsl:text>
+                <xsl:text>/css/octicons.min.css</xsl:text>
             </xsl:attribute>
         </link>
         <link rel="stylesheet">
@@ -50,7 +58,15 @@
                 <xsl:value-of
                     select="$resourcePath"
                 />
-                <xsl:text>/css/dmlstyle.css</xsl:text>
+                <xsl:text>/css/font-awesome.min.css</xsl:text>
+            </xsl:attribute>
+        </link>
+        <link rel="stylesheet">
+            <xsl:attribute name="href">
+                <xsl:value-of
+                    select="$resourcePath"
+                />
+                <xsl:text>/css/dmlstyle.min.css</xsl:text>
             </xsl:attribute>
         </link>
 

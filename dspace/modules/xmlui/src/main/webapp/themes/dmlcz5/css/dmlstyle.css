@@ -15,20 +15,25 @@ html
 }
 body
 {
-    margin-bottom: 50px;
+    margin-bottom: 240px;
 }
 footer
 {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 50px;
+    height: 240px;
     background-color: #f5f5f5;
 }
-footer p.footer-text
+
+footer div.footer-content
 {
-    margin: 5px;
-    //margin: 20px;
+    margin: 20px;
+}
+
+footer p.footer-text
+{    
+    /*margin: 20px;*/
     color: #777;
 }
 .media-body
@@ -59,7 +64,9 @@ dd
     margin-top: 10px;
 }
 
-.issue-item-authors
+.serial-item-authors,
+.proceedings-item-authors,
+.celebrity-volume-abstract
 {
     color: #999;
 }
@@ -70,6 +77,11 @@ dd
     /*    text-overflow: ellipsis;
         height: 80px;
         white-space: nowrap;*/
+}
+
+.dml-content-body
+{
+    margin-bottom: 75px;
 }
 
 .issue-item-abstract
@@ -108,4 +120,82 @@ a.dml-link:active
 .no-entry-alert
 {
     margin-top: 35px;
+}
+
+.collection-item-authors,
+.celebrity-collection-entry
+{
+    margin-top: 5px;
+    padding-left: 15px;
+}
+
+.monograph-table td
+{
+    padding-left: 10px !important;
+}
+
+table.table-toc td
+{
+    border-top: none !important;
+}
+
+.table-cell-extent
+{    
+    text-align: right;
+}
+
+.item-description-title
+{
+    margin-bottom: 0px;
+}
+
+.offset-top-20
+{
+    margin-top: 20px;
+}
+
+.offset-top-75
+{
+    margin-top: 75px;
+}
+
+.item-keyword
+{
+    margin-top: 35px;
+}
+
+
+.item-download h5
+{
+    margin-bottom: 2px;
+}
+
+.item-author h5,
+.item-msc h5,
+.item-zbl h5,
+.item-mr h5
+{
+    margin-bottom: 2px;
+    margin-top: 30px;
+}
+
+.similarity-item-header
+{
+    background-color: wheat;
+}
+
+.item-citation
+{
+    background-color: #f5f5f5;
+}
+
+.collection-item-list
+{
+    margin-top: 25px;
+}
+
+.stickit
+{
+    position: fixed;
+    top: 0;
 }

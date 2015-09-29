@@ -5,6 +5,8 @@
  */
 package cz.muni.ics.dmlcz5.aspects;
 
+import cz.muni.ics.dmlcz5.aspects.comparators.CollectionCelebrityComparator;
+import cz.muni.ics.dmlcz5.aspects.comparators.CollectionProceedingComparator;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,6 +14,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import org.apache.cocoon.ProcessingException;
 import org.dspace.app.xmlui.cocoon.AbstractDSpaceTransformer;
 import org.dspace.app.xmlui.utils.HandleUtil;
@@ -51,72 +55,131 @@ public class CommunityAspect extends AbstractDSpaceTransformer
                 //ReferenceSet rstable = home.addReferenceSet("volume-table", ReferenceSet.TYPE_SUMMARY_LIST);
                 if (comm.getSubcommunities() != null && comm.getSubcommunities().length > 0)
                 {
-                    Map<String, List<Community>> map = prepareMap(comm.getSubcommunities());
-
-                    for (String subTable : map.keySet())
+                    switch (comm.getMetadataByMetadataString("dc.type")[0].value)
                     {
-                        Division divSubTable = home.addDivision("sub-table", subTable);
-
-                        for (int i = 0; i < map.get(subTable).size(); i++)
+                        case "serial":
                         {
-                            Community volume = map.get(subTable).get(i);
+                            // WARN !!!!
+                            // because of multiple title error see issues #25 and #26 on github
+                            // it may happen that volumes are not ordered correctly !
+                            // it didnt happen on test suite, but may occur in future
+                            Map<String, List<Community>> map = prepareMap(comm.getSubcommunities());
 
-                            ReferenceSet rs = divSubTable.addReferenceSet("volume", ReferenceSet.TYPE_SUMMARY_VIEW, null, String.valueOf(i));
-                            rs.addReference(volume);
-
-                            for (Collection issue : volume.getCollections())
+                            for (String subTable : map.keySet())
                             {
-                                rs.addReference(issue);
+                                Division divSubTable = home.addDivision("sub-table", subTable);
+
+                                for (int i = 0; i < map.get(subTable).size(); i++)
+                                {
+                                    Community volume = map.get(subTable).get(i);
+
+                                    ReferenceSet rs = divSubTable.addReferenceSet("volume", ReferenceSet.TYPE_SUMMARY_VIEW, null, String.valueOf(i));
+                                    rs.addReference(volume);
+
+                                    for (Collection issue : AspectUtils.getSortedIssuesForVolume(volume.getCollections()))
+                                    {
+                                        rs.addReference(issue);
+                                    }
+                                }
                             }
                         }
+                        break;
+                        case "celebrity":
+                        {
+                            ReferenceSet rs = home.addReferenceSet("community-volumes", ReferenceSet.TYPE_SUMMARY_LIST);
+                            for (Community c : comm.getSubcommunities())
+                            {
+                                rs.addReference(c);
+                            }
+                        }
+                        break;
+                        default:
+                            throw new ProcessingException("hng");
                     }
+
                 }
                 else if (comm.getCollections() != null && comm.getCollections().length > 0)
                 {
-                    Division debug = home.addDivision("DEBUG");
-                    debug.addPara(comm.getCollections().length+"");
-//                    switch (comm.getMetadataByMetadataString("dc.type")[0].value)
-//                    {
-//                        case "monograph":
-//                        {
-////                            SortedSet<Collection> set = new TreeSet<>(new CollectionMonographyComparator());
-////                            set.addAll(Arrays.asList(comm.getCollections()));
-//                            
-//                            ReferenceSet rs = home.addReferenceSet("collection-list", ReferenceSet.TYPE_SUMMARY_LIST);
-//                            for(Collection c : comm.getCollections())
-//                            {
-//                                rs.addReference(c);
-//                            }
-//                        }
-//                        break;
-//                        default:
-//                        {
-//                            ReferenceSet rs = home.addReferenceSet("collection-list", ReferenceSet.TYPE_SUMMARY_LIST);
-//
-//                            for (Collection c : comm.getCollections())
-//                            {
-//                                rs.addReference(c);
-//                            }
-//                        }
-//                    }
+                    ReferenceSet rs = home.addReferenceSet("collection-list", ReferenceSet.TYPE_SUMMARY_LIST);
+
+                    switch (comm.getMetadataByMetadataString("dc.type")[0].value)
+                    {
+                        case "monograph":
+                        {
+                            for (Collection c : comm.getCollections())
+                            {
+                                rs.addReference(c);
+                            }
+                        }
+                        break;
+                        case "proceedings":
+                        {
+                            SortedSet<Collection> set = new TreeSet<>(new CollectionProceedingComparator());
+                            set.addAll(Arrays.asList(comm.getCollections()));
+
+                            for (Collection c : set)
+                            {
+                                rs.addReference(c);
+                            }
+                        }
+                        break;
+                        default:
+                        {
+                            for (Collection c : comm.getCollections())
+                            {
+                                rs.addReference(c);
+                            }
+                        }
+                    }
                 }
             }
             else
             {
                 Division home = body.addDivision("community-view", "volume");
                 ReferenceSet volume = home.addReferenceSet("volume", ReferenceSet.TYPE_DETAIL_VIEW);
+                ReferenceSet parent = home.addReferenceSet("parent-community", ReferenceSet.TYPE_DETAIL_VIEW);
+                parent.addReference(comm.getParentCommunity());
                 volume.addReference(comm);
 
                 if (comm.getCollections() != null && comm.getCollections().length > 0)
                 {
-                    for (Collection col : comm.getCollections())
+                    ReferenceSet issues = home.addReferenceSet("issues", ReferenceSet.TYPE_SUMMARY_LIST);
+
+                    switch (comm.getParentCommunity().getMetadataByMetadataString("dc.type")[0].value)
                     {
-                        volume.addReference(col);
+                        case "serial":
+                        {
+                            for (Collection col : AspectUtils.getSortedIssuesForVolume(comm.getCollections()))
+                            {
+                                issues.addReference(col);
+                            }
+                        }
+                        break;
+                        case "celebrity":
+                        {
+                            SortedSet<Collection> temp = new TreeSet<>(new CollectionCelebrityComparator());
+                            temp.addAll(Arrays.asList(comm.getCollections()));
+                            
+                            for(Collection c : temp)
+                            {
+                                issues.addReference(c);
+                            }
+                        }
+                        break;
+                        default:
+                            throw new ProcessingException("asd");
                     }
                 }
             }
         }
     }
+
+//    @Override
+//    public void addPageMeta(PageMeta pageMeta) throws SAXException, WingException, UIException, SQLException, IOException, AuthorizeException
+//    {
+//        pageMeta.addMetadata("communityType").addContent(contextPath);
+//    }
+    
 
     private Map<String, List<Community>> prepareMap(Community[] volumes)
     {

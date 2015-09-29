@@ -28,6 +28,8 @@
         >
             <div class="alert alert-danger">
                 
+                <xsl:value-of select="$communityType" />
+                <br/>
                 <xsl:variable name="solrQuery">
                     <xsl:text>select?q=*%3A*&amp;fq=location%3A</xsl:text>
                     <xsl:call-template
@@ -69,7 +71,7 @@
                             name="href"
                         >
                             <xsl:value-of
-                                select="/dri:document/dri:meta/dri:pageMeta/dri:trail[1]/@target"
+                                select="$contextPath"
                             />
                         </xsl:attribute>
                         <h1>

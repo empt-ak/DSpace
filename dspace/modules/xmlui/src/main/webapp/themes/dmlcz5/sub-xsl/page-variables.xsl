@@ -46,12 +46,35 @@
     
     <xsl:variable
         name="debug"
-        select="'true'"
+        select="'false'"
     />
     
     <xsl:variable
         name="currentViewHandle"
         select="substring-after(/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='focus' and @qualifier='container'],'hdl:')"
     />
+    
+    <xsl:variable
+        name="communityType"        
+    >
+        <!-- if we are looking at community trail position = 2
+        then @target is not set (is null) therefore we select community type out of
+        current object which at position 2 is always a community
+        -->
+        <xsl:choose>
+            <xsl:when
+                test="/dri:document/dri:meta/dri:pageMeta/dri:trail[2][not(@target)]"
+            >
+                <xsl:value-of
+                    select="document(concat('cocoon:///metadata/handle/',$currentViewHandle,'/mets.xml?sections=dmdSec'))/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='type']"       
+                />
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of
+                    select="document(concat('cocoon:///metadata',substring-after(/dri:document/dri:meta/dri:pageMeta/dri:trail[2]/@target,$contextPath),'/mets.xml?sections=dmdSec'))/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='type']"       
+                />
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:variable>
         
 </xsl:stylesheet>

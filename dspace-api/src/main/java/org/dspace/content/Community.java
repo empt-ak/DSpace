@@ -7,6 +7,12 @@
  */
 package org.dspace.content;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.MissingResourceException;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.log4j.Logger;
 import org.dspace.app.util.AuthorizeUtil;
@@ -16,18 +22,16 @@ import org.dspace.authorize.AuthorizeManager;
 import org.dspace.authorize.ResourcePolicy;
 import org.dspace.browse.ItemCountException;
 import org.dspace.browse.ItemCounter;
-import org.dspace.core.*;
+import org.dspace.core.Constants;
+import org.dspace.core.Context;
+import org.dspace.core.I18nUtil;
+import org.dspace.core.LogManager;
 import org.dspace.eperson.Group;
 import org.dspace.event.Event;
 import org.dspace.handle.HandleManager;
 import org.dspace.storage.rdbms.DatabaseManager;
 import org.dspace.storage.rdbms.TableRow;
 import org.dspace.storage.rdbms.TableRowIterator;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.SQLException;
-import java.util.*;
 
 /**
  * Class representing a community
@@ -658,21 +662,33 @@ public class Community extends DSpaceObject
         // Get the table rows
         TableRowIterator tri = null;
         try {
-            String query = "SELECT c.* FROM community2collection c2c, collection c "
-                    + "LEFT JOIN metadatavalue m on (m.resource_id = c.collection_id and m.resource_type_id = ? and m.metadata_field_id = ?) "
-                    + "WHERE c2c.collection_id=c.collection_id AND c2c.community_id=? ";
+            String query ="select distinct(collection_id),logo_bitstream_id,template_item_id,workflow_step_1,"
+                    + "workflow_step_2,workflow_step_3, submitter,admin from (SELECT c.* FROM community2collection c2c, collection c " +
+"LEFT JOIN metadatavalue m on (m.resource_id = c.collection_id and m.resource_type_id = ? and m.metadata_field_id = ?) WHERE "
+                    + "c2c.collection_id=c.collection_id AND c2c.community_id=? order by m.text_value) t";
+//            String query = "SELECT c.* FROM community2collection c2c, collection c "
+//                    + "LEFT JOIN metadatavalue m on (m.resource_id = c.collection_id and m.resource_type_id = ? and m.metadata_field_id = ?) "
+//                    + "WHERE c2c.collection_id=c.collection_id AND c2c.community_id=? ";
             if(DatabaseManager.isOracle()){
                 query += " ORDER BY cast(m.text_value as varchar2(128))";
-            }else{
-                query += " ORDER BY m.text_value";
+//            }else{
+//                query += " ORDER BY c.collection_id, m.text_value";
+////                query += " ORDER BY m.text_value";
             }
             tri = DatabaseManager.query(
                     ourContext,
                     query,
-                    Constants.COLLECTION,
+                    Constants.COLLECTION,                    
                     MetadataField.findByElement(ourContext, MetadataSchema.find(ourContext, MetadataSchema.DC_SCHEMA).getSchemaID(), "title", null).getFieldID(),
                     getID()
             );
+//            tri = DatabaseManager.query(
+//                    ourContext,
+//                    query,
+//                    Constants.COLLECTION,
+//                    MetadataField.findByElement(ourContext, MetadataSchema.find(ourContext, MetadataSchema.DC_SCHEMA).getSchemaID(), "title", null).getFieldID(),
+//                    getID()
+//            );
         } catch (SQLException e) {
             log.error("Find all Collections for this community - ",e);
             throw e;
@@ -729,15 +745,21 @@ public class Community extends DSpaceObject
         // Get the table rows
         TableRowIterator tri = null;
         try {
-            String query = "SELECT c.* FROM community2community c2c, community c " +
-                    "LEFT JOIN metadatavalue m on (m.resource_id = c.community_id and m.resource_type_id = ? and m.metadata_field_id = ?) " +
-                    "WHERE c2c.child_comm_id=c.community_id " +
-                    "AND c2c.parent_comm_id= ? ";
-            if(DatabaseManager.isOracle()){
-                query += " ORDER BY cast(m.text_value as varchar2(128))";
-            }else{
-                query += " ORDER BY m.text_value";
-            }
+            String query = "SELECT DISTINCT ON(community_id) community_id,logo_bitstream_id, admin from (" +
+"SELECT c.* " +
+"FROM community2community c2c, community c " +
+"LEFT JOIN metadatavalue m on (m.resource_id = c.community_id and m.resource_type_id = ? and m.metadata_field_id = ?) " +
+"WHERE c2c.child_comm_id=c.community_id AND c2c.parent_comm_id= ? " +
+"ORDER BY m.text_value) t";
+//            String query = "SELECT c.* FROM community2community c2c, community c " +
+//                    "LEFT JOIN metadatavalue m on (m.resource_id = c.community_id and m.resource_type_id = ? and m.metadata_field_id = ?) " +
+//                    "WHERE c2c.child_comm_id=c.community_id " +
+//                    "AND c2c.parent_comm_id= ? ";
+//            if(DatabaseManager.isOracle()){
+//                query += " ORDER BY cast(m.text_value as varchar2(128))";
+//            }else{
+//                query += " ORDER BY m.text_value";
+//            }
 
             tri = DatabaseManager.query(
                     ourContext,

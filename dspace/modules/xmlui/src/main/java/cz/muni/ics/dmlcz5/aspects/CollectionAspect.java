@@ -20,6 +20,7 @@ import org.dspace.app.xmlui.wing.element.Division;
 import org.dspace.app.xmlui.wing.element.ReferenceSet;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Collection;
+import org.dspace.content.Community;
 import org.dspace.content.DSpaceObject;
 import org.dspace.content.Item;
 import org.dspace.content.ItemIterator;
@@ -36,30 +37,46 @@ public class CollectionAspect extends AbstractDSpaceTransformer
     public void addBody(Body body) throws SAXException, WingException, UIException, SQLException, IOException, AuthorizeException, ProcessingException
     {
         DSpaceObject dso = HandleUtil.obtainHandle(objectModel);
-        if(dso instanceof Collection)
+        if (dso instanceof Collection)
         {
             Collection col = (Collection) dso;
-            
+
             Division home = body.addDivision("collection-view");
             home.addReferenceSet("current-collection", ReferenceSet.TYPE_DETAIL_VIEW).addReference(col);
-            
-            
-            ReferenceSet items = home.addReferenceSet("item-list", ReferenceSet.TYPE_SUMMARY_LIST);
-            
-            //SortedSet<Item> sortedSet = new TreeSet<>();
-            
+
+            // celebrities has volumes, monos and proceedings do not
+            // double call on getparent results in nullpointer exception
+            Community topComm = null;
+            try
+            {
+                topComm = (Community) col.getParentObject().getParentObject();
+            }
+            catch (NullPointerException npe)
+            {
+
+            }
+
+            ReferenceSet items = null;
+            if (topComm != null && topComm.getMetadataByMetadataString("dc.type")[0].value.equals("celebrity"))
+            {
+                items = home.addReferenceSet("item-list", ReferenceSet.TYPE_SUMMARY_LIST);
+            }
+            else
+            {
+                items = home.addReferenceSet("item-list", ReferenceSet.TYPE_SUMMARY_LIST);
+            }
+
             SortedSet<Item> sortedSet = new TreeSet<>(new ItemComparator());
             ItemIterator ii = col.getItems();
-            while(ii.hasNext())
+            while (ii.hasNext())
             {
                 sortedSet.add(ii.next());
             }
-            
-            
-            for(Item i : sortedSet)
+
+            for (Item i : sortedSet)
             {
                 items.addReference(i);
-            }           
+            }
         }
     }
 }
