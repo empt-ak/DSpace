@@ -81,12 +81,14 @@
              ===================== -->
         <!-- Base DSpace XMLUI Aspects for Display, Browse, Search, Admin, Login and Submission -->
         <aspect name="Displaying Artifacts" path="resource://aspects/ViewArtifacts/" />
-        <aspect name="Browsing Artifacts" path="resource://aspects/BrowseArtifacts/" />
         <aspect name="Discovery" path="resource://aspects/Discovery/" />
+        
+        <!--
+        <aspect name="Browsing Artifacts" path="resource://aspects/BrowseArtifacts/" />        
         <aspect name="Administration" path="resource://aspects/Administrative/" />
         <aspect name="E-Person" path="resource://aspects/EPerson/" />
         <aspect name="Submission and Workflow" path="resource://aspects/Submission/" />
-
+		-->
         <!-- ========================
              Usage Statistics Engines
              ======================== -->
