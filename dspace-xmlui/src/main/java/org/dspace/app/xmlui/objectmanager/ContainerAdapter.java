@@ -10,20 +10,17 @@ package org.dspace.app.xmlui.objectmanager;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
-
 import org.apache.log4j.Logger;
 import org.dspace.app.xmlui.wing.AttributeMap;
 import org.dspace.app.xmlui.wing.WingException;
 import org.dspace.authorize.AuthorizeException;
-import org.dspace.browse.ItemCounter;
-import org.dspace.browse.ItemCountException;
 import org.dspace.content.Bitstream;
 import org.dspace.content.Collection;
 import org.dspace.content.Community;
 import org.dspace.content.DSpaceObject;
+import org.dspace.content.Metadatum;
 import org.dspace.content.crosswalk.CrosswalkException;
 import org.dspace.content.crosswalk.DisseminationCrosswalk;
-import org.dspace.core.ConfigurationManager;
 import org.dspace.core.Constants;
 import org.dspace.core.Context;
 import org.jdom.Document;
@@ -255,71 +252,88 @@ public class ContainerAdapter extends AbstractAdapter
             {
                 Collection collection = (Collection) dso;
                 
-                String description = collection.getMetadata("introductory_text");
-                String description_abstract = collection.getMetadata("short_description");
-                String description_table = collection.getMetadata("side_bar_text");
-                String identifier_uri = "http://hdl.handle.net/" + collection.getHandle();
-                String provenance = collection.getMetadata("provenance_description");
-                String rights = collection.getMetadata("copyright_text");
-                String rights_license = collection.getMetadata("license");
-                String title = collection.getMetadata("name");
+                createField("dc","identifier","uri",null,"http://hdl.handle.net/" + collection.getHandle());
                 
-                createField("dc","description",null,null,description);
-                createField("dc","description","abstract",null,description_abstract);
-                createField("dc","description","tableofcontents",null,description_table);
-                createField("dc","identifier","uri",null,identifier_uri);
-                createField("dc","provenance",null,null,provenance);
-                createField("dc","rights",null,null,rights);
-                createField("dc","rights","license",null,rights_license);
-                createField("dc","title",null,null,title);
-                
-                boolean showCount = ConfigurationManager.getBooleanProperty("webui.strengths.show");
-                 
-                if (showCount)
+                Metadatum[] metadata = collection.getMetadata("*", "*", "*", "*");
+               
+                for(Metadatum m : metadata)
                 {
-                    try
-                    {	// try to determine Collection size (i.e. # of items)
-                        int size = new ItemCounter(this.dspaceContext).getCount(collection);
-                        createField("dc","format","extent",null, String.valueOf(size)); 
-                    }
-                    catch (ItemCountException e)
-                    {
-                        throw new IOException("Could not obtain Collection item count", e);
-                    }
+                    createField(m.schema, m.element, m.qualifier, m.language, m.value);
                 }
+                
+//                String description = collection.getMetadata("introductory_text");
+//                String description_abstract = collection.getMetadata("short_description");
+//                String description_table = collection.getMetadata("side_bar_text");
+//                String identifier_uri = "http://hdl.handle.net/" + collection.getHandle();
+//                String provenance = collection.getMetadata("provenance_description");
+//                String rights = collection.getMetadata("copyright_text");
+//                String rights_license = collection.getMetadata("license");
+//                String title = collection.getMetadata("name");
+//                
+//                createField("dc","description",null,null,description);
+//                createField("dc","description","abstract",null,description_abstract);
+//                createField("dc","description","tableofcontents",null,description_table);
+//                createField("dc","identifier","uri",null,identifier_uri);
+//                createField("dc","provenance",null,null,provenance);
+//                createField("dc","rights",null,null,rights);
+//                createField("dc","rights","license",null,rights_license);
+//                createField("dc","title",null,null,title);
+//                
+//                boolean showCount = ConfigurationManager.getBooleanProperty("webui.strengths.show");
+//                 
+//                if (showCount)
+//                {
+//                    try
+//                    {	// try to determine Collection size (i.e. # of items)
+//                        int size = new ItemCounter(this.dspaceContext).getCount(collection);
+//                        createField("dc","format","extent",null, String.valueOf(size)); 
+//                    }
+//                    catch (ItemCountException e)
+//                    {
+//                        throw new IOException("Could not obtain Collection item count", e);
+//                    }
+//                }
             } 
             else if (dso.getType() == Constants.COMMUNITY) 
             {
                 Community community = (Community) dso;
                 
-                String description = community.getMetadata("introductory_text");
-                String description_abstract = community.getMetadata("short_description");
-                String description_table = community.getMetadata("side_bar_text");
-                String identifier_uri = "http://hdl.handle.net/" + community.getHandle();
-                String rights = community.getMetadata("copyright_text");
-                String title = community.getMetadata("name");
+                createField("dc","identifier","uri",null,"http://hdl.handle.net/" + community.getHandle());
+                Metadatum[] dcvs = community.getMetadata("*", "*", "*", "*");
                 
-                createField("dc","description",null,null,description);
-                createField("dc","description","abstract",null,description_abstract);
-                createField("dc","description","tableofcontents",null,description_table);
-                createField("dc","identifier","uri",null,identifier_uri);
-                createField("dc","rights",null,null,rights);
-                createField("dc","title",null,null,title);
-                
-                boolean showCount = ConfigurationManager.getBooleanProperty("webui.strengths.show");
-        		
-                if (showCount)
+                for(Metadatum m : dcvs)
                 {
-                    try
-                    {	// try to determine Community size (i.e. # of items)
-                        int size = new ItemCounter(this.dspaceContext).getCount(community);
-                        createField("dc","format","extent",null, String.valueOf(size)); 
-                    }
-                    catch (ItemCountException e)
-                    {
-                        throw new IOException("Could not obtain Collection item count", e);
-                    }
+                    createField(m.schema,m.element,m.qualifier,m.language,m.value);
                 }
+                
+//                String description = community.getMetadata("introductory_text");
+//                String description_abstract = community.getMetadata("short_description");
+//                String description_table = community.getMetadata("side_bar_text");
+//                String identifier_uri = "http://hdl.handle.net/" + community.getHandle();
+//                String rights = community.getMetadata("copyright_text");
+//                String title = community.getMetadata("name");
+//                
+//                createField("dc","description",null,null,description);
+//                createField("dc","description","abstract",null,description_abstract);
+//                createField("dc","description","tableofcontents",null,description_table);
+//                createField("dc","identifier","uri",null,identifier_uri);
+//                createField("dc","rights",null,null,rights);
+//                createField("dc","title",null,null,title);
+//                
+//                boolean showCount = ConfigurationManager.getBooleanProperty("webui.strengths.show");
+//        		
+//                if (showCount)
+//                {
+//                    try
+//                    {	// try to determine Community size (i.e. # of items)
+//                        int size = new ItemCounter(this.dspaceContext).getCount(community);
+//                        createField("dc","format","extent",null, String.valueOf(size)); 
+//                    }
+//                    catch (ItemCountException e)
+//                    {
+//                        throw new IOException("Could not obtain Collection item count", e);
+//                    }
+//                }
             }
             
             // ///////////////////////////////

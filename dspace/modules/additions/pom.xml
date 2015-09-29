@@ -72,6 +72,20 @@
    Runtime and Compile Time dependencies for DSpace.
    -->
    <dependencies>
+	   <dependency>
+            <groupId>net.sf.dozer</groupId>
+            <artifactId>dozer</artifactId>
+            <version>5.5.1</version>
+        </dependency>
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version>3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+        </dependency>
       <dependency>
          <groupId>org.dspace</groupId>
          <artifactId>dspace-api</artifactId>

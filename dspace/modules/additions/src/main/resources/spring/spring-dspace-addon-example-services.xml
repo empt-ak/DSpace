@@ -9,16 +9,179 @@
 
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:context="http://www.springframework.org/schema/context"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/util
+            http://www.springframework.org/schema/util/spring-util-2.5.xsd
            http://www.springframework.org/schema/context
-           http://www.springframework.org/schema/context/spring-context-2.5.xsd"
-    default-autowire-candidates="*Service,*DAO,javax.sql.DataSource">
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
-    <context:annotation-config /> <!-- allows us to use spring annotations in beans -->
+    <!-- 
+        allows us to use spring annotations in beans 
+    -->
+    <context:annotation-config/> 
+    
+    <!--
+        where to look
+    -->
+    <context:component-scan base-package="cz.muni.ics" /> 
 
-    <bean id="org.dspace.example.Example" class="org.dspace.example.impl.ExampleImpl" />
+    <!--
+        import configurations of modules
+    -->
+    
+    
+    
+    <!--
+        command lines
+    -->
+    <bean
+        id="commandLineParser"
+        class="org.apache.commons.cli.DefaultParser"
+    />
 
+    <bean
+        id="helpFormatter"
+        class="org.apache.commons.cli.HelpFormatter"
+        p:optionComparator-ref="optionComparator"
+    />
+    
+    <bean
+        id="jaxbc"
+        class="javax.xml.bind.JAXBContext"
+        factory-method="newInstance"
+    >
+        <constructor-arg>
+            <list>
+               
+            </list>
+        </constructor-arg>
+    </bean>
+    
+    <bean
+        id="unmarshaller"
+        class="javax.xml.bind.Unmarshaller"
+        factory-bean="jaxbc"
+        factory-method="createUnmarshaller"
+    />
+    
+    <bean
+        id="issuePathComparator"
+        class="cz.muni.ics.dspace5.comparators.IssuePathComparator"
+    />
+    
+    <bean
+        id="articlePathComparator"
+        class="cz.muni.ics.dspace5.comparators.ArticlePathComparator"
+    />
+    
+    <bean
+        id="optionComparator"
+        class="cz.muni.ics.dspace5.comparators.OptionComparator"
+    />
+    
+    <bean
+        id="comparatorFactory"
+        class="cz.muni.ics.dspace5.comparators.ComparatorFactory"
+    >
+        <lookup-method
+            name="provideIssuePathComparator"
+            bean="issuePathComparator"
+        />        
+        <lookup-method
+            name="provideArticlePathComparator"
+            bean="articlePathComparator"
+        />
+        <lookup-method
+            name="provideOptionComparator"
+            bean="optionComparator"
+        />
+    </bean>
+    
+    <bean
+        id="objectWrapperFactory"
+        class="cz.muni.ics.dspace5.impl.ObjectWrapperFactoryImpl"
+    >
+        <lookup-method
+            name="createObjectWrapper"
+            bean="objectWrapper"
+        />
+    </bean>
+    
+    <bean
+        id="mapper"
+        class="org.dozer.DozerBeanMapper"
+        scope="singleton"
+    >
+        <property name="mappingFiles">
+            <list>
+                <value>dozer-mapping.xml</value>
+            </list>
+        </property>        
+    </bean> 
+        
+    <bean
+        id="documentBuilderFactory"
+        class="javax.xml.parsers.DocumentBuilderFactory"
+        factory-method="newInstance"
+    />
+    
+    <bean
+        id="documentBuilder"
+        class="javax.xml.parsers.DocumentBuilder"
+        factory-bean="documentBuilderFactory"
+        factory-method="newDocumentBuilder"
+    />
+    
+    <bean
+        id="xPathFactory"
+        class="javax.xml.xpath.XPathFactory"
+        factory-method="newInstance"
+    />
+    
+    <bean
+        id="xPath"
+        class="javax.xml.xpath.XPath"
+        factory-bean="xPathFactory"
+        factory-method="newXPath"
+    /> 
+    
+    <bean
+        id="moduleManager"
+        class="cz.muni.ics.dspace5.impl.ModuleManagerImpl"
+    >
+        <property name="availableModules">
+            <map>
+               
+            </map>
+        </property>
+    </bean>
+    
+    <bean
+        id="deleteObjectService"
+        class="cz.muni.ics.dspace5.impl.io.DeleteObjectService"
+    />
+    
+    <bean
+        id="importAndMovingWallObjectService"
+        class="cz.muni.ics.dspace5.impl.io.ImportAndMovingWallObjectService"
+    />
+    
+    <bean
+        id="dspaceExecutor"
+        class="cz.muni.ics.dspace5.impl.io.DSpaceExecutorImpl"
+    >
+        <property name="dspaceServices">
+            <map>
+                <entry key="delete" value-ref="deleteObjectService" />
+                <entry key="import" value-ref="importAndMovingWallObjectService" />
+                <entry key="movingwall" value-ref="importAndMovingWallObjectService" />
+            </map>
+        </property>
+    </bean>
 </beans>
