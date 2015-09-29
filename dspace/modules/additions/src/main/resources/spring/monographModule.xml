@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+          http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+">
+    <bean
+        id="monographCollectionProcessor"
+        class="cz.muni.ics.dmlcz5.modules.monograph.CollectionProcessorImpl"
+    />
+    <bean
+        id="monographCommunityProcessor"
+        class="cz.muni.ics.dmlcz5.modules.monograph.CommunityProcessorImpl"
+    />
+    <bean
+        id="monographItemProcessor"
+        class="cz.muni.ics.dmlcz5.modules.monograph.ItemProcessorImpl"
+    />
+    
+    <bean 
+        id="monographResolver"
+        class="cz.muni.ics.dmlcz5.modules.monograph.MonographResolver"
+    />  
+    
+    <bean
+        id="monographModule"
+        class="cz.muni.ics.dmlcz5.modules.monograph.MonographModule"
+    >
+        <lookup-method
+            name="getObjectWrapperResolver"
+            bean="monographResolver"
+        />
+        <lookup-method
+            name="getCollectionProcessor"
+            bean="monographCollectionProcessor"
+        />
+        <lookup-method
+            name="getCommunityProcessor"
+            bean="monographCommunityProcessor"
+        />
+        <lookup-method
+            name="getItemProcessor"
+            bean="monographItemProcessor"
+        />        
+    </bean>
+</beans>

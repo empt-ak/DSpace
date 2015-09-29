@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+          http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+">
+    <bean
+        id="celebrityCollectionProcessor"
+        class="cz.muni.ics.dmlcz5.modules.celebrity.CollectionProcessorImpl"
+    />
+    <bean
+        id="celebrityCommunityProcessor"
+        class="cz.muni.ics.dmlcz5.modules.celebrity.CommunityProcessorImpl"
+    />
+    <bean
+        id="celebrityItemProcessor"
+        class="cz.muni.ics.dmlcz5.modules.celebrity.ItemProcessorImpl"
+    />
+    
+    <bean 
+        id="celebrityResolver"
+        class="cz.muni.ics.dmlcz5.modules.celebrity.CelebrityResolver"
+    />  
+    
+    <bean
+        id="celebrityModule"
+        class="cz.muni.ics.dmlcz5.modules.celebrity.CelebrityModule"
+    >
+        <lookup-method
+            name="getObjectWrapperResolver"
+            bean="celebrityResolver"
+        />
+        <lookup-method
+            name="getCollectionProcessor"
+            bean="celebrityCollectionProcessor"
+        />
+        <lookup-method
+            name="getCommunityProcessor"
+            bean="celebrityCommunityProcessor"
+        />
+        <lookup-method
+            name="getItemProcessor"
+            bean="celebrityItemProcessor"
+        />        
+    </bean>
+</beans>

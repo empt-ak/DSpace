@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+          http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+">
+    <bean
+        id="proceedingsCollectionProcessor"
+        class="cz.muni.ics.dmlcz5.modules.proceedings.CollectionProcessorImpl"
+    />
+    <bean
+        id="proceedingsCommunityProcessor"
+        class="cz.muni.ics.dmlcz5.modules.proceedings.CommunityProcessorImpl"
+    />
+    <bean
+        id="proceedingsItemProcessor"
+        class="cz.muni.ics.dmlcz5.modules.proceedings.ItemProcessorImpl"
+    />
+    
+    <bean 
+        id="proceedingsResolver"
+        class="cz.muni.ics.dmlcz5.modules.proceedings.ProceedingsResolver"
+    />  
+    
+    <bean
+        id="proceedingsModule"
+        class="cz.muni.ics.dmlcz5.modules.proceedings.ProceedingsModule"
+    >
+        <lookup-method
+            name="getObjectWrapperResolver"
+            bean="proceedingsResolver"
+        />
+        <lookup-method
+            name="getCollectionProcessor"
+            bean="proceedingsCollectionProcessor"
+        />
+        <lookup-method
+            name="getCommunityProcessor"
+            bean="proceedingsCommunityProcessor"
+        />
+        <lookup-method
+            name="getItemProcessor"
+            bean="proceedingsItemProcessor"
+        />        
+    </bean>
+</beans>
