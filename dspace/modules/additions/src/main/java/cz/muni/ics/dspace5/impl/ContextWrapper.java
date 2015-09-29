@@ -6,7 +6,6 @@
 package cz.muni.ics.dspace5.impl;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.SQLException;
 import javax.annotation.PreDestroy;
 import org.apache.log4j.Logger;

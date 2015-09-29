@@ -58,9 +58,10 @@ public class DSpaceTools
         knownDateFormats.add(DateTimeFormat.forPattern("yyyy"));
         logger.debug("@PostConstruct:- knownDateFormats initialized.");
     }
-    
+
     /**
      * See {@link ConfigLocationBean#getLocation() }
+     *
      * @return location of configuration file
      */
     public Path getLocationPath()
