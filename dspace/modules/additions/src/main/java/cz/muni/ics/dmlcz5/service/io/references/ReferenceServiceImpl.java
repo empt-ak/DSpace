@@ -134,10 +134,10 @@ public class ReferenceServiceImpl implements ReferenceService
         List<String> metadata = getParsedReferences(objectWrapper);
         List<Metadatum> result = new ArrayList<>(metadata.size());
         
-        for(String s : metadata)
-        {
-            result.add(metadatumFactory.createMetadatum("muni", "reference", null, null, s));
-        }
+//        for(String s : metadata)
+//        {
+//            result.add(metadatumFactory.createMetadatum("muni", "reference", null, null, s));
+//        }
         
         return result;
     }

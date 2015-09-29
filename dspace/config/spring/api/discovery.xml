@@ -110,6 +110,7 @@
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject" />
                 <ref bean="searchFilterIssued" />
+                <ref bean="searchFilterMSC" />
             </list>
         </property>
         <!--The sort filters for the discovery search-->
@@ -215,6 +216,7 @@
                 <ref bean="searchFilterTitle" />
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject" />
+                <ref bean="searchFilterMSC" />
                 <ref bean="searchFilterIssued" />
             </list>
         </property>
