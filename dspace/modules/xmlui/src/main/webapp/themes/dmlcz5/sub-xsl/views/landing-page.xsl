@@ -28,25 +28,31 @@
     
     <xsl:template match="dri:body/dri:div[@id='cz.muni.ics.dmlcz5.aspects.MainAspect.div.landing-page']">
         <div class="jumbotron">
-            <div class="container">
+            <p class="lead">
                 <i18n:text>page.landing.jubotron</i18n:text>
-            </div>
+            </p>
         </div>
         
         <ul class="nav nav-tabs" role="tablist">
             <xsl:for-each select="./dri:div[@id='cz.muni.ics.dmlcz5.aspects.MainAspect.div.topcoms']">
-                <li role="presentation">
-                    <xsl:if test="position() = 1">
-                        <xsl:attribute name="class">
-                            <xsl:text>active</xsl:text>
+                <li class="nav-item">
+                    <a data-toggle="tab" role="tab">
+                        <xsl:attribute
+                            name="class"
+                        >
+                            <xsl:choose>
+                                <xsl:when
+                                    test="position() = 1"
+                                >
+                                    <xsl:text>nav-link active</xsl:text>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:text>nav-link</xsl:text>
+                                </xsl:otherwise>
+                            </xsl:choose>
                         </xsl:attribute>
-                    </xsl:if>
-                    <a data-toggle="tab">
                         <xsl:attribute name="href">
                             <xsl:text>#</xsl:text>
-                            <xsl:value-of select="./@rend" />
-                        </xsl:attribute>
-                        <xsl:attribute name="aria-controls">
                             <xsl:value-of select="./@rend" />
                         </xsl:attribute>
                         <i18n:text>
@@ -54,8 +60,8 @@
                                 select="concat('page.landing.category.',./@rend)"
                             />
                         </i18n:text>
-                    </a>                    
-                </li>                
+                    </a>
+                </li>                           
             </xsl:for-each>
         </ul>
         <div class="tab-content">

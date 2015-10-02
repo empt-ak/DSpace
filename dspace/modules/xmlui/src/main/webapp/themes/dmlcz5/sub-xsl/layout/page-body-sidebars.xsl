@@ -21,75 +21,89 @@
                 exclude-result-prefixes="i18n dri mets xlink xsl dim xhtml mods dc">
     
     <xsl:template name="buildLeftSidebar">
-        <div class="list-group">
-            <a class="list-group-item active">
+        <div class="card">
+            <div class="card-header">
                 <i18n:text>page.sidebar.left.browseby</i18n:text>
-            </a>
-            <a href="#" class="list-group-item">
-                <i18n:text>page.sidebar.left.browseby.collection</i18n:text>
-            </a>
-            <a href="#" class="list-group-item">
-                <i18n:text>page.sidebar.left.browseby.title</i18n:text>
-            </a>
-            <a href="#" class="list-group-item">
-                <i18n:text>page.sidebar.left.browseby.author</i18n:text>
-            </a>
-            <a href="#" class="list-group-item">
-                <i18n:text>page.sidebar.left.browseby.msc</i18n:text>
-            </a>            
-        </div>
-        <xsl:if
-            test="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='feed']"
-        >  
-            <div class="list-group"> 
-                <a class="list-group-item active">
-                    <i18n:text>page.sidebar.left.rss</i18n:text>
-                </a>
-                <xsl:for-each
-                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='feed']"
-                >
-                    <a class="list-group-item">
-                        <xsl:attribute
-                            name="href"
-                        >
-                            <xsl:value-of
-                                select="." 
-                            />
-                        </xsl:attribute>
-                        <span class="octicon octicon-rss">&#160;</span>
-                        <xsl:choose>
-                            <xsl:when 
-                                test="contains(., 'rss_1.0')"
-                            >
-                                <xsl:text>RSS 1.0</xsl:text>
-                            </xsl:when>
-                            <xsl:when 
-                                test="contains(., 'rss_2.0')"
-                            >
-                                <xsl:text>RSS 2.0</xsl:text>
-                            </xsl:when>
-                            <xsl:when 
-                                test="contains(., 'atom_1.0')"
-                            >
-                                <xsl:text>Atom</xsl:text>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <xsl:value-of 
-                                    select="@qualifier"
-                                />
-                            </xsl:otherwise>
-                        </xsl:choose>
-                    </a>
-                </xsl:for-each>            
             </div>
-        </xsl:if>
-        <ul class="list-group" id="sticky-sidebar">
-            <li class="list-group-item active">!Toolbox</li>
-            <li class="list-group-item">!Total authors: xyz</li>
-            <li class="list-group-item">!Total articles: xyz</li>
-            <li class="list-group-item">!More statistics </li>
-            <li class="list-group-item">!Back to top</li>
-        </ul>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <a href="#">
+                        <i18n:text>page.sidebar.left.browseby.collection</i18n:text>
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a href="#">
+                        <i18n:text>page.sidebar.left.browseby.title</i18n:text>
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a href="#">
+                        <i18n:text>page.sidebar.left.browseby.author</i18n:text>
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a href="#">
+                        <i18n:text>page.sidebar.left.browseby.msc</i18n:text>
+                    </a>
+                </li>
+            </ul>
+            <xsl:if
+                test="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='feed']"
+            >  
+                <div class="card-header">
+                    <i18n:text>page.sidebar.left.rss</i18n:text>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <xsl:for-each
+                        select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='feed']"
+                    >
+                        <li class="list-group-item">
+                            <span class="fa fa-rss">&#160;</span>
+                            <a>
+                                <xsl:attribute
+                                    name="href"
+                                >
+                                    <xsl:value-of
+                                        select="." 
+                                    />
+                                </xsl:attribute>                                
+                                <xsl:choose>
+                                    <xsl:when 
+                                        test="contains(., 'rss_1.0')"
+                                    >
+                                        <xsl:text>RSS 1.0</xsl:text>
+                                    </xsl:when>
+                                    <xsl:when 
+                                        test="contains(., 'rss_2.0')"
+                                    >
+                                        <xsl:text>RSS 2.0</xsl:text>
+                                    </xsl:when>
+                                    <xsl:when 
+                                        test="contains(., 'atom_1.0')"
+                                    >
+                                        <xsl:text>Atom</xsl:text>
+                                    </xsl:when>
+                                    <xsl:otherwise>
+                                        <xsl:value-of 
+                                            select="@qualifier"
+                                        />
+                                    </xsl:otherwise>
+                                </xsl:choose>
+                            </a>
+                        </li>
+                    </xsl:for-each>
+                </ul>
+            </xsl:if>
+            <div class="card-header">
+                !Toolbox
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">!Total authors: xyz</li>
+                <li class="list-group-item">!Total articles: xyz</li>
+                <li class="list-group-item">!More statistics </li>
+                <li class="list-group-item">!Back to top</li>
+            </ul>
+        </div>
     </xsl:template>
     
     <xsl:template name="buildRightSidebar">

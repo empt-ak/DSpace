@@ -20,78 +20,63 @@
                 xmlns="http://www.w3.org/1999/xhtml"
                 exclude-result-prefixes="i18n dri mets xlink xsl dim xhtml mods dc">
     <xsl:template name="buildNavigation">
-        <nav class="navbar navbar-default">
-            <div class="container-fluid">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                        <span class="sr-only">
-                            <i18n:text>navigation.main.button.toggle</i18n:text>
-                        </span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
+        <nav class="navbar navbar-light bg-faded">
+            <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2">
+    &#9776;
+            </button>
+            <div class="collapse navbar-toggleable-xs" id="exCollapsingNavbar2">
+                <ul class="nav navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link">
+                            <xsl:attribute
+                                name="href"
+                            >
+                                <xsl:value-of
+                                    select="concat($contextPath,'/aboutus')"
+                                />
+                            </xsl:attribute>
+                            <i18n:text>navigation.main.button.aboutus</i18n:text>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i18n:text>navigation.main.button.news</i18n:text>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i18n:text>navigation.main.button.faq</i18n:text>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i18n:text>navigation.main.button.terms</i18n:text>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i18n:text>navigation.main.button.matharchives</i18n:text>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i18n:text>navigation.main.button.contactus</i18n:text>
+                        </a>
+                    </li>
+                </ul>
+                <form class="form-inline navbar-form pull-right">
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        placeholder="navigation.main.button.search"
+                        i18n:attr="placeholder" 
+                    />
+                    <button class="btn btn-success-outline" type="submit">
+                        <span class="fa fa-search"></span>
                     </button>
-                    <!--<a class="navbar-brand" href="#">Brand</a>-->
-                </div>
-
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <form class="navbar-form navbar-right" role="search">
-                        <div class="form-group">
-                            <input 
-                                type="text" 
-                                class="form-control" 
-                                placeholder="navigation.main.button.search"
-                                i18n:attr="placeholder" 
-                            />
-                        </div>
-                        <button type="submit" class="btn btn-default">
-                            <span class="glyphicon glyphicon-search"></span>
-                        </button>
-                    </form>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a>
-                                <xsl:attribute
-                                    name="href"
-                                >
-                                    <xsl:value-of
-                                        select="concat($contextPath,'/aboutus')"
-                                    />
-                                </xsl:attribute>
-                                <i18n:text>navigation.main.button.aboutus</i18n:text>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i18n:text>navigation.main.button.news</i18n:text>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i18n:text>navigation.main.button.faq</i18n:text>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i18n:text>navigation.main.button.terms</i18n:text>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i18n:text>navigation.main.button.matharchives</i18n:text>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i18n:text>navigation.main.button.contactus</i18n:text>
-                            </a>
-                        </li>                                                  
-                    </ul>                        
-                </div><!-- /.navbar-collapse -->
-            </div><!-- /.container-fluid -->
-        </nav>
+                </form>
+            </div>
+        </nav>       
     </xsl:template>
     
     <xsl:template 
@@ -165,7 +150,7 @@
     > 
         <div class="pun">      
             <ul class="pager">
-                <li class="previous disabled">
+                <li class="pager-prev disabled">
                     <a href="#">
                         <i18n:text>navigation.pun.previous</i18n:text>
                     </a>
@@ -175,7 +160,7 @@
                         <i18n:text>navigation.pun.up</i18n:text>
                     </a>
                 </li>-->
-                <li class="next disabled">
+                <li class="pager-next disabled">
                     <a href="#">
                         <i18n:text>navigation.pun.next</i18n:text>
                     </a>

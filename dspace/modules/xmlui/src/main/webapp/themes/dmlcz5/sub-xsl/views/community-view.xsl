@@ -59,10 +59,10 @@
                         <xsl:for-each
                             select="document($externalMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='identifier' and @qualifier='issn']"
                         >
-                            <dt>
+                            <dt class="col-sm-3">
                                 <i18n:text>page.community.serial.issn</i18n:text>
                             </dt>
-                            <dd>
+                            <dd class="col-sm-9">
                                 <xsl:value-of
                                     select="./text()"
                                 />
@@ -73,10 +73,10 @@
                     <xsl:if
                         test="document($externalMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='publisher']"
                     >        
-                        <dt>
+                        <dt class="col-sm-3">
                             <i18n:text>page.community.serial.publisher</i18n:text>
                         </dt>
-                        <dd>
+                        <dd class="col-sm-9">
                             <xsl:value-of
                                 select="document($externalMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='publisher'][1]"
                             />
@@ -85,10 +85,10 @@
                     <xsl:if
                         test="document($externalMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='publisher' and @qualifier='place']"
                     >
-                        <dt>
+                        <dt class="col-sm-3">
                             <i18n:text>page.community.serial.publicationplace</i18n:text>
                         </dt>
-                        <dd>
+                        <dd class="col-sm-9">
                             <xsl:value-of
                                 select="document($externalMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='publisher' and @qualifier='place']"
                             />
@@ -97,10 +97,10 @@
                     <xsl:if
                         test="document($externalMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='uri']"
                     >
-                        <dt>
+                        <dt class="col-sm-3">
                             <i18n:text>page.community.serial.website</i18n:text>
                         </dt>
-                        <dd>
+                        <dd class="col-sm-9">
                             <a target="_blank">
                                 <xsl:attribute
                                     name="href"
@@ -120,10 +120,10 @@
                     <xsl:if
                         test="document($externalMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']"
                     >
-                        <dt>
+                        <dt class="col-sm-3">
                             <i18n:text>page.community.serial.description</i18n:text>
                         </dt>
-                        <dd>
+                        <dd class="col-sm-9">
                             <xsl:value-of
                                 select="document($externalMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']"
                             />
@@ -132,10 +132,10 @@
                     <xsl:if
                         test="document($externalMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='date' and @qualifier='start']"
                     >
-                        <dt>
+                        <dt class="col-sm-3">
                             <i18n:text>page.community.serial.published</i18n:text>
                         </dt>
-                        <dd>
+                        <dd class="col-sm-9">
                             <xsl:value-of
                                 select="document($externalMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='date' and @qualifier='start']"
                             />
@@ -169,7 +169,7 @@
                 </h3>
                 <div class="row">
                     <div class="col-md-6">
-                        <table class="table table-hover table-condensed">
+                        <table class="table table-hover">
                             <xsl:for-each
                                 select="./dri:div[@id='cz.muni.ics.dmlcz5.aspects.CommunityAspect.div.sub-table' and @rend='left']/dri:referenceSet[@id='cz.muni.ics.dmlcz5.aspects.CommunityAspect.referenceSet.volume']"
                             >
@@ -181,7 +181,7 @@
                                     <xsl:text>?sections=dmdSec</xsl:text>
                                 </xsl:variable>
                                 <tr>
-                                    <td class="col-md-3">
+                                    <td>
                                         <a>
                                             <xsl:attribute 
                                                 name="href"
@@ -202,7 +202,7 @@
                                         />
                                         <xsl:text> )</xsl:text>
                                     </td>
-                                    <td class="col-md-9">
+                                    <td>
                                         <xsl:for-each
                                             select="./dri:reference[@type='DSpace Collection']"
                                         >
@@ -245,7 +245,7 @@
                                     <xsl:text>?sections=dmdSec</xsl:text>
                                 </xsl:variable>
                                 <tr>
-                                    <td class="col-md-3">
+                                    <td>
                                         <a>
                                             <xsl:attribute 
                                                 name="href"
@@ -266,7 +266,7 @@
                                         />
                                         <xsl:text> )</xsl:text>
                                     </td>
-                                    <td class="col-md-9">
+                                    <td>
                                         <xsl:for-each
                                             select="./dri:reference[@type='DSpace Collection']"
                                         >

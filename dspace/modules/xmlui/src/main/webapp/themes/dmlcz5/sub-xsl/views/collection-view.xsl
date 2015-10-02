@@ -125,10 +125,10 @@
                     <xsl:if
                         test="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='contributor' and @qualifier='author']"
                     >
-                        <dt>
+                        <dt class="col-sm-3">
                             <i18n:text>page.collection.monograph.creator</i18n:text>
                         </dt>
-                        <dd>
+                        <dd class="col-sm-9">
                             <xsl:value-of
                                 select="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='contributor' and @qualifier='author']"
                             />
@@ -137,10 +137,10 @@
                     <xsl:if
                         test="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='contributor' and not(@qualifier='author')]"
                     >
-                        <dt>
+                        <dt class="col-sm-3">
                             <i18n:text>page.collection.monograph.contributor</i18n:text>
                         </dt>
-                        <dd>
+                        <dd class="col-sm-9">
                             <xsl:for-each
                                 select="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='contributor' and not(@qualifier='author')]"
                             >
@@ -163,10 +163,10 @@
                     <xsl:if
                         test="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='language']"
                     >
-                        <dt>
+                        <dt class="col-sm-3">
                             <i18n:text>page.collection.monograph.language</i18n:text>
                         </dt>
-                        <dd>
+                        <dd class="col-sm-9">
                             <xsl:value-of
                                 select="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='language']"
                             />
@@ -175,10 +175,10 @@
                     <xsl:if
                         test="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='publisher' and @qualifier='issuer']"
                     >
-                        <dt>
+                        <dt class="col-sm-3">
                             <i18n:text>page.collection.monograph.issued</i18n:text>
                         </dt>
-                        <dd>
+                        <dd class="col-sm-9">
                             <xsl:value-of
                                 select="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='publisher' and @qualifier='issuer']"
                             />
@@ -187,10 +187,10 @@
                     <xsl:if
                         test="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='publisher']"
                     >
-                        <dt>
+                        <dt class="col-sm-3">
                             <i18n:text>page.collection.monograph.publisher</i18n:text>
                         </dt>
-                        <dd>
+                        <dd class="col-sm-9">
                             <xsl:value-of
                                 select="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='publisher']"
                             />
@@ -199,10 +199,10 @@
                     <xsl:if
                         test="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='publisher' and @qualifier='place']"
                     >
-                        <dt>
+                        <dt class="col-sm-3">
                             <i18n:text>page.collection.monograph.place</i18n:text>
                         </dt>
-                        <dd>
+                        <dd class="col-sm-9">
                             <xsl:value-of
                                 select="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='publisher' and @qualifier='place']"
                             />
@@ -219,10 +219,10 @@
                     <xsl:if
                         test="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='publisher' and @qualifier='printer']"
                     >
-                        <dt>
+                        <dt class="col-sm-3">
                             <i18n:text>page.collection.monograph.printer</i18n:text>
                         </dt>
-                        <dd>
+                        <dd class="col-sm-9">
                             <xsl:value-of
                                 select="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='publisher' and @qualifier='printer']"
                             />
@@ -231,10 +231,10 @@
                     <xsl:if
                         test="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']"
                     >
-                        <dt>
+                        <dt class="col-sm-3">
                             <i18n:text>page.collection.monograph.description</i18n:text>
                         </dt>
-                        <dd>
+                        <dd class="col-sm-9">
                             <xsl:value-of
                                 select="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']"
                             />
@@ -243,10 +243,10 @@
                     <xsl:if
                         test="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and not(@qualifier)]"
                     >
-                        <dt>
+                        <dt class="col-sm-3">
                             <i18n:text>page.collection.monograph.note</i18n:text>
                         </dt>
-                        <dd>
+                        <dd class="col-sm-9">
                             <xsl:value-of
                                 select="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and not(@qualifier)]"
                             />
@@ -255,10 +255,10 @@
                     <xsl:if
                         test="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='subject' and @qualifier='msc']"
                     >
-                        <dt>
+                        <dt class="col-sm-3">
                             <i18n:text>page.collection.monograph.msc</i18n:text>
                         </dt>
-                        <dd>
+                        <dd class="col-sm-9">
                             <xsl:for-each
                                 select="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='subject' and @qualifier='msc']"
                             >
@@ -362,10 +362,10 @@
                     <xsl:if
                         test="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='contributor' and @qualifier='editor']"
                     >
-                        <dt>
+                        <dt class="col-sm-3">
                             <i18n:text>page.collection.proceedings.editors</i18n:text>
                         </dt>
-                        <dd>
+                        <dd class="col-sm-9">
                             <xsl:for-each
                                 select="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='contributor' and @qualifier='editor']"
                             >
@@ -383,10 +383,10 @@
                     <xsl:if
                         test="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='conference' and @qualifier='organizer']"
                     >
-                        <dt>
+                        <dt class="col-sm-3">
                             <i18n:text>page.collection.proceedings.organized</i18n:text>
                         </dt>
-                        <dd>
+                        <dd class="col-sm-9">
                             <xsl:for-each
                                 select="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='conference' and @qualifier='organizer']"
                             >
@@ -404,10 +404,10 @@
                     <xsl:if
                         test="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='conference' and @qualifier='place']"
                     >
-                        <dt>
+                        <dt class="col-sm-3">
                             <i18n:text>page.collection.proceedings.venue</i18n:text>
                         </dt>
-                        <dd>
+                        <dd class="col-sm-9">
                             <xsl:value-of
                                 select="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='conference' and @qualifier='place']"
                             />
@@ -420,10 +420,10 @@
                     <xsl:if
                         test="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='publisher']"
                     >
-                        <dt>
+                        <dt class="col-sm-3">
                             <i18n:text>page.collection.proceedings.publisher</i18n:text>
                         </dt>
-                        <dd>
+                        <dd class="col-sm-9">
                             <xsl:value-of
                                 select="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='publisher' and not(@qualifier)]"
                             />
@@ -440,10 +440,10 @@
                     <xsl:if
                         test="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='identifier' and @qualifier='isbn']"
                     >
-                        <dt>
+                        <dt class="col-sm-3">
                             <i18n:text>page.collection.proceedings.isbn</i18n:text>
                         </dt>
-                        <dd>
+                        <dd class="col-sm-9">
                             <xsl:value-of
                                 select="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='identifier' and @qualifier='isbn']"
                             />
@@ -453,10 +453,10 @@
                     <xsl:if
                         test="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='subject' and @qualifier='msc']"
                     >
-                        <dt>
+                        <dt class="col-sm-3">
                             <i18n:text>page.collection.proceedings.msc</i18n:text>
                         </dt>
-                        <dd>
+                        <dd class="col-sm-9">
                             <xsl:for-each
                                 select="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='subject' and @qualifier='msc']"
                             >
@@ -630,12 +630,12 @@
                                         </xsl:otherwise>
                                     </xsl:choose>
                                 </xsl:attribute>                                
-                                <div class="col-md-1 text-right item-extent">
+                                <div class="col-md-2 text-right item-extent">
                                     <xsl:value-of
                                         select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='format' and @qualifier='extent']"
                                     />
                                 </div>
-                                <div class="col-md-11">
+                                <div class="col-md-10">
                                     <a>
                                         <xsl:attribute 
                                             name="href"
@@ -654,7 +654,7 @@
                                         test="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='contributor' and @qualifier='author']"
                                     >                                    
                                         <div class="author-row">
-                                            <i class="glyphicon glyphicon-user" />&#160;
+                                            <i class="fa fa-user" />&#160;
                                             <span class="h5 serial-item-authors">
                                                 <xsl:for-each
                                                     select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='contributor' and @qualifier='author']"
