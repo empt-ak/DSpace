@@ -27,6 +27,8 @@
             test="contains($debug,'true')"
         >
             <div class="alert alert-danger">
+                <xsl:value-of select="$solrServer" />
+                <br />
                 
                 <xsl:value-of select="$communityType" />
                 <br/>

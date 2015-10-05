@@ -18,15 +18,16 @@
                 xmlns:mods="http://www.loc.gov/mods/v3"
                 xmlns:dc="http://purl.org/dc/elements/1.1/"
                 xmlns="http://www.w3.org/1999/xhtml"
-                exclude-result-prefixes="i18n dri mets xlink xsl dim xhtml mods dc">
+                xmlns:confman="org.dspace.core.ConfigurationManager"
+                exclude-result-prefixes="i18n dri mets xlink xsl dim xhtml mods dc confman">
 
     <xsl:variable 
         name="theme"
     >
         <xsl:text>dmlcz5</xsl:text>
     </xsl:variable>
-    
-    <xsl:variable 
+     
+   <xsl:variable 
         name="contextPath" 
         select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']" 
     />
@@ -41,12 +42,16 @@
     
     <xsl:variable 
         name="solrServer" 
-        select="'http://localhost:8080/solr5dml/search/'" 
-    />
+    >
+        <xsl:value-of
+            select="confman:getProperty('solr.server')"
+        />
+        <xsl:text>/search/</xsl:text>
+    </xsl:variable>
     
     <xsl:variable
         name="debug"
-        select="'false'"
+        select="'true'"
     />
     
     <xsl:variable

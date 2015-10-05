@@ -56,7 +56,7 @@ dd
 .volume-title,
 .article-title
 {
-    margin-top: 0px;
+    margin-top: 0;
 }
 
 .item-extent
@@ -81,7 +81,8 @@ dd
 
 .dml-content-body
 {
-    margin-bottom: 75px;
+    margin-top: 1.5em;
+    margin-bottom: 3em;
 }
 
 .issue-item-abstract
@@ -114,7 +115,7 @@ a.dml-link:active
 }
 .pun ul.pager
 {
-    margin: 0px !important;
+    margin: 0 !important;
 }
 
 .no-entry-alert
@@ -146,7 +147,7 @@ table.table-toc td
 
 .item-description-title
 {
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 .offset-top-20
@@ -194,8 +195,7 @@ table.table-toc td
     margin-top: 25px;
 }
 
-.stickit
+.disable-bottom-border
 {
-    position: fixed;
-    top: 0;
+    border-bottom: 0;
 }

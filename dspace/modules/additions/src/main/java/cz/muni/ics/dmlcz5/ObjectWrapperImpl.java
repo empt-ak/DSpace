@@ -117,47 +117,41 @@ public class ObjectWrapperImpl implements ObjectWrapper
     {
         // level.COM itself will never be compared
         // against any other top community
-
         // volume
-        if (this.getLevel().equals(LEVEL.SUBCOM))
+        switch (this.getLevel())
         {
-            if (!o.getLevel().equals(LEVEL.SUBCOM))
-            {
-                throw new ClassCastException("Trying to compare SUBCOM with " + o.getLevel());
-            }
-
-            int volume1 = Integer.parseInt(StringUtils
-                    .substringBefore(this.getPath().getFileName()
-                            .toString(), ".xml"));
-
-            int volume2 = Integer.parseInt(StringUtils
-                    .substringBefore(o.getPath().getFileName()
-                            .toString(), ".xml"));
-
-            return volume1 - volume2;
-        }
-        else if(this.getLevel().equals(LEVEL.COL))
-        {
-            if(!o.getLevel().equals(LEVEL.COL))
-            {
-                throw new ClassCastException("Trying to compare COL with "+o.getLevel());
-            }
-            
-            int issue1 = Integer.parseInt(dSpaceTools.getIssueNumber(this.getPath()));
-            int issue2 = Integer.parseInt(dSpaceTools.getIssueNumber(o.getPath()));
-            
-            return issue1 - issue2;
-        }
-        else if( this.getLevel().equals(LEVEL.ITEM))
-        {
-            int article1 = Integer.parseInt(this.getPath().getFileName().toString().substring(1));
-            int article2 = Integer.parseInt(o.getPath().getFileName().toString().substring(1));
-            
-            return article1-article2;
-        }
-        else
-        {
-            throw new ClassCastException("Trying to compare "+this.getLevel()+" with "+o.getLevel());
+            case SUBCOM:
+                if (!o.getLevel().equals(LEVEL.SUBCOM))
+                {
+                    throw new ClassCastException("Trying to compare SUBCOM with " + o.getLevel());
+                }
+                
+                int volume1 = Integer.parseInt(StringUtils
+                        .substringBefore(this.getPath().getFileName()
+                                .toString(), ".xml"));
+                
+                int volume2 = Integer.parseInt(StringUtils
+                        .substringBefore(o.getPath().getFileName()
+                                .toString(), ".xml"));
+                
+                return volume1 - volume2;
+            case COL:
+                if(!o.getLevel().equals(LEVEL.COL))
+                {
+                    throw new ClassCastException("Trying to compare COL with "+o.getLevel());
+                }
+                
+                int issue1 = Integer.parseInt(dSpaceTools.getIssueNumber(this.getPath()));
+                int issue2 = Integer.parseInt(dSpaceTools.getIssueNumber(o.getPath()));
+                
+                return issue1 - issue2;
+            case ITEM:
+                int article1 = Integer.parseInt(this.getPath().getFileName().toString().substring(1));
+                int article2 = Integer.parseInt(o.getPath().getFileName().toString().substring(1));
+                
+                return article1-article2;
+            default:
+                throw new ClassCastException("Trying to compare "+this.getLevel()+" with "+o.getLevel());
         }
     }
 
