@@ -31,6 +31,8 @@ and open the template in the editor.
     <message key="page.sidebar.left.browseby.msc">MSC</message>
     <message key="page.sidebar.left.projects">Projects and partners</message>
     <message key="page.sidebar.left.rss">RSS channels</message>
+    <message key="page.sidebar.left.count.author">Total authors:</message>
+    <message key="page.sidebar.left.count.article">Total articles:</message>
     <message key="page.sidebar.right.discovery.keyword">Keywords</message>
     <message key="page.sidebar.right.discovery.author">Authors</message>
     <message key="page.sidebar.right.discovery.msc">MSC</message>

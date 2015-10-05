@@ -644,11 +644,11 @@
                                                 select="document($itemMetadata)/mets:METS/@OBJID"
                                             />
                                         </xsl:attribute>
-                                        <h4 class="issue-item-title">
+                                        <div class="issue-item-title">
                                             <xsl:value-of
                                                 select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title'][1]"
                                             />
-                                        </h4>
+                                        </div>
                                     </a>
                                     <xsl:if
                                         test="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='contributor' and @qualifier='author']"

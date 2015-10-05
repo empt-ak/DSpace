@@ -97,28 +97,30 @@
                 <xsl:value-of 
                     select="$theme" 
                 />
-                <xsl:text>/js/jquery.stickem.min.js</xsl:text>
+                <xsl:text>/js/jquery.sticky.min.js</xsl:text>
             </xsl:attribute>
                     &#160;
         </script>
         
         <script>
+            $(window).load(function(){
+                $("#sticky").sticky({topSpacing: 0});
+            });
             $(document).ready(function(){
-<!--            $('.container-fluid').stickem({
-            item : '#sticky-sidebar',
-            container: '.container-fluid',
-            stickClass: 'stickit'
-            });-->
-            if($("#myChart").length){
-            var colors = getRandomColor(6);
             
-            var data = [
-            <xsl:variable name="solrQuery">
+            <xsl:if
+                test="$communityType = 'serial' and count(/dri:document/dri:meta/dri:pageMeta/dri:trail) = 3"
+            >
+                if($("#myChart").length){
+                var colors = getRandomColor(6);
+            
+                var data = [
+                <xsl:variable name="solrQuery">
                     <xsl:text>select?q=*%3A*&amp;fq=location%3A</xsl:text>
                     <xsl:call-template
-                    name="getSolrLocation"
-                />
-                <xsl:text>&amp;rows=0&amp;wt=xml&amp;facet=true&amp;facet.field=msc_keyword</xsl:text>
+                        name="getSolrLocation"
+                    />
+                    <xsl:text>&amp;rows=0&amp;wt=xml&amp;facet=true&amp;facet.field=msc_keyword</xsl:text>
                 </xsl:variable>
                 
                 <!--<xsl:value-of select="concat($solrServer,$solrQuery)" />-->
@@ -130,34 +132,21 @@
                         <xsl:text>,</xsl:text>
                     </xsl:if>
                 </xsl:for-each>
-            ];
-           // Get context with jQuery - using jQuery's .get() method.
-            var ctx = $("#myChart").get(0).getContext("2d");
-            // This will get the first returned node in the jQuery collection.
-            var myNewChart = new Chart(ctx).Pie(data,{responsive : true});
-            }
+                ];
+                // Get context with jQuery - using jQuery's .get() method.
+                var ctx = $("#myChart").get(0).getContext("2d");
+                // This will get the first returned node in the jQuery collection.
+                var myNewChart = new Chart(ctx).Pie(data,{responsive : true});
+                }
+                
+            </xsl:if>
+           
             
-            
-<!--            function getRandomColor(numberOfColors)
-            {
-                return ColorSequenceGenerator.createColorSequence(numberOfColors, {lightnessStart:80, saturationStart:70, randomHueOffset: true}).getColors();
-            }
-            
-            var colors = getRandomColor(10);
-            
-            console.log(data.length);
-            
-            $.each(colors,function(i,e){
-                console.log(e);
-            });-->
-            
-<!--            getRandomColor(10).each(function(){
-                console.log($(this));
-            });-->
+           
             
             function getRandomColor() {
-    return "#" + (Math.round(Math.random() * 0XFFFFFF)).toString(16);
-}
+            return "#" + (Math.round(Math.random() * 0XFFFFFF)).toString(16);
+            }
             
             });
             
@@ -165,15 +154,15 @@
         
         <script type="text/x-mathjax-config">
             MathJax.Hub.Config({
-                tex2jax: {
-                    inlineMath: [['$','$'], ['\\(','\\)']],
-                    ignoreClass: "detail-field-data|detailtable|exception|issue-item-abstract|issue-item-title|disable-math"
-                },
-                TeX: {
-                    Macros: {
-                        AA: '{\\mathring A}'
-                    }
-                }
+            tex2jax: {
+            inlineMath: [['$','$'], ['\\(','\\)']],
+            ignoreClass: "detail-field-data|detailtable|exception|issue-item-abstract|issue-item-title|disable-math"
+            },
+            TeX: {
+            Macros: {
+            AA: '{\\mathring A}'
+            }
+            }
             });
         </script>
         <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">&#160;</script>

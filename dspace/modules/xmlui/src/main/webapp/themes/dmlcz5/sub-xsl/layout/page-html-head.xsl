@@ -50,14 +50,6 @@
                 <xsl:value-of
                     select="$resourcePath"
                 />
-                <xsl:text>/css/octicons.min.css</xsl:text>
-            </xsl:attribute>
-        </link>
-        <link rel="stylesheet">
-            <xsl:attribute name="href">
-                <xsl:value-of
-                    select="$resourcePath"
-                />
                 <xsl:text>/css/font-awesome.min.css</xsl:text>
             </xsl:attribute>
         </link>

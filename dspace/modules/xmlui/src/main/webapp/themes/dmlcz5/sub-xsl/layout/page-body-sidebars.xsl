@@ -94,15 +94,29 @@
                     </xsl:for-each>
                 </ul>
             </xsl:if>
-            <div class="card-header disable-bottom-border">
-                !Toolbox
+            <div id="sticky">
+                <div class="card-header disable-bottom-border">
+                    !Toolbox
+                </div>
+                <ul class="list-group list-group-flush">              
+                    <li class="list-group-item">
+                        <i18n:text>page.sidebar.left.count.author</i18n:text>
+                        <xsl:text> </xsl:text>
+                        <xsl:value-of
+                            select="document(concat($solrServer,'select?q=*%3A*&amp;fl=author_keyword&amp;wt=xml&amp;rows=0'))/response/result/@numFound"
+                        />
+                    </li>
+                    <li class="list-group-item">
+                        <i18n:text>page.sidebar.left.count.article</i18n:text>
+                        <xsl:text> </xsl:text>
+                        <xsl:value-of
+                            select="document(concat($solrServer,'select?q=search.resourcetype%3A2&amp;rows=0&amp;wt=xml'))/response/result/@numFound"
+                            />
+                    </li>
+                    <li class="list-group-item">!More statistics </li>
+                    <li class="list-group-item">!Back to top</li>
+                </ul>
             </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">!Total authors: xyz</li>
-                <li class="list-group-item">!Total articles: xyz</li>
-                <li class="list-group-item">!More statistics </li>
-                <li class="list-group-item">!Back to top</li>
-            </ul>
         </div>
     </xsl:template>
     
