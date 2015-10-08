@@ -655,7 +655,7 @@
                                     >                                    
                                         <div class="author-row">
                                             <i class="fa fa-user" />&#160;
-                                            <span class="h5 serial-item-authors">
+                                            <span class="serial-item-authors">
                                                 <xsl:for-each
                                                     select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='contributor' and @qualifier='author']"
                                                 >
@@ -671,11 +671,15 @@
                                             </span>
                                         </div>
                                     </xsl:if>
-                                    <p class="issue-item-abstract">
-                                        <xsl:value-of
-                                            select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']"
-                                        />
-                                    </p>                                    
+                                    <xsl:if
+                                        test="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']"
+                                    >
+                                        <p class="issue-item-abstract">
+                                            <xsl:value-of
+                                                select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']"
+                                            />
+                                        </p>
+                                    </xsl:if>
                                 </div>                                
                             </div>
                         </li>                    

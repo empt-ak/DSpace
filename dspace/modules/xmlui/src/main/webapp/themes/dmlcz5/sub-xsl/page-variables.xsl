@@ -51,7 +51,7 @@
     
     <xsl:variable
         name="debug"
-        select="'true'"
+        select="'false'"
     />
     
     <xsl:variable

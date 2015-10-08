@@ -285,6 +285,7 @@
                 &#169; 2015 <a href="#">
                         <i18n:text>page.footer.copyright.text</i18n:text>
                     </a>
+                    <xsl:text> </xsl:text>
                     <i18n:text>page.footer.contact</i18n:text>                    
                     <a href="#">
                         <span id="my-email">

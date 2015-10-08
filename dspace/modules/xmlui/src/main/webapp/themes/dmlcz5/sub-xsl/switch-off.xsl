@@ -20,13 +20,42 @@
                 xmlns="http://www.w3.org/1999/xhtml"
                 exclude-result-prefixes="i18n dri mets xlink xsl dim xhtml mods dc">
 
-    <xsl:template match="/dri:document/dri:body/dri:div[@id='file.news.div.news']"></xsl:template>
-    <xsl:template match="/dri:document/dri:body/dri:div[@id='aspect.artifactbrowser.CommunityBrowser.div.comunity-browser']"></xsl:template>
-    <xsl:template match="/dri:document/dri:body/dri:div[@id='aspect.discovery.SiteRecentSubmissions.div.site-home']"></xsl:template>
-    <xsl:template match="/dri:document/dri:options/dri:list"></xsl:template>
-    <xsl:template match="/dri:document/dri:meta"></xsl:template>
-    <xsl:template match="/dri:document/dri:body/dri:div[@id='aspect.artifactbrowser.CommunityViewer.div.community-home']"></xsl:template>
-    <xsl:template match="/dri:document/dri:body/dri:div[@id='aspect.artifactbrowser.CollectionViewer.div.collection-home']"></xsl:template>
-    <xsl:template match="/dri:document/dri:body/dri:div[@id='aspect.artifactbrowser.ItemViewer.div.item-view']"></xsl:template>
-    <xsl:template match="/dri:document/dri:body/dri:div[@id='aspect.discovery.RelatedItems.div.item-related-container']"></xsl:template>
+    <xsl:template match="/dri:document/dri:body/dri:div[@id='file.news.div.news']" />
+    <xsl:template match="/dri:document/dri:body/dri:div[@id='aspect.artifactbrowser.CommunityBrowser.div.comunity-browser']" />
+    <xsl:template match="/dri:document/dri:body/dri:div[@id='aspect.discovery.SiteRecentSubmissions.div.site-home']" />
+    <xsl:template match="/dri:document/dri:options/dri:list" />
+    <xsl:template match="/dri:document/dri:meta" />
+    <xsl:template match="/dri:document/dri:body/dri:div[@id='aspect.artifactbrowser.CommunityViewer.div.community-home']" />
+    <xsl:template match="/dri:document/dri:body/dri:div[@id='aspect.artifactbrowser.CollectionViewer.div.collection-home']" />
+    <xsl:template match="/dri:document/dri:body/dri:div[@id='aspect.artifactbrowser.ItemViewer.div.item-view']" />
+    <xsl:template match="/dri:document/dri:body/dri:div[@id='aspect.discovery.RelatedItems.div.item-related-container']" />
+    <xsl:template match="dri:field[@type='hidden']">
+        <input type="hidden">
+            <xsl:attribute
+                name="name"
+            >
+                <xsl:value-of
+                    select="./@n"
+                />
+            </xsl:attribute>
+            <xsl:call-template
+                name="standard-attributes"
+            />
+            <xsl:attribute
+                name="value"
+            >
+                <xsl:value-of
+                    select="./dri:value"
+                />
+            </xsl:attribute>
+        </input>
+    </xsl:template>
+    
+    <xsl:template
+        name="standard-attributes"
+    >
+        <xsl:if test="@id">
+            <xsl:attribute name="id"><xsl:value-of select="translate(@id,'.','_')"/></xsl:attribute>
+        </xsl:if>
+    </xsl:template>
 </xsl:stylesheet>

@@ -23,6 +23,8 @@
     <xsl:import href="sub-xsl/views/community-view.xsl" />
     <xsl:import href="sub-xsl/views/collection-view.xsl" />
     <xsl:import href="sub-xsl/views/item-view.xsl" />
+    <xsl:import href="sub-xsl/views/discovery-view.xsl" />
+    <xsl:import href="sub-xsl/views/browse-by-view.xsl" />
     <xsl:import href="sub-xsl/views/exception-view.xsl" />
     
     <xsl:import href="sub-xsl/static/aboutus.xsl" />
