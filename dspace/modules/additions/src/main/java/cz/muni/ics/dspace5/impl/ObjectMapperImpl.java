@@ -31,6 +31,7 @@ public class ObjectMapperImpl implements ObjectMapper
     private Unmarshaller unmarshaller;
     
     @Override
+    @SuppressWarnings("unchecked")
     public <T> T convertPathToObject(Path p, String fileName) throws IllegalArgumentException, FileNotFoundException
     {
         Path workingPath = p.resolve(fileName);        
@@ -39,7 +40,7 @@ public class ObjectMapperImpl implements ObjectMapper
         
         try(InputStream is = Files.newInputStream(workingPath))
         {
-            logger.trace("Converting path : "+p);
+            logger.trace("Converting path : "+p);            
             t = (T) unmarshaller.unmarshal(is);
             logger.trace("Success");
         }
