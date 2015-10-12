@@ -9,42 +9,42 @@
           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
 ">
     <bean
-        id="monographCollectionProcessor"
-        class="cz.muni.ics.digilib.modules.monograph.CollectionProcessorImpl"
+        id="serialCollectionProcessor"
+        class="cz.muni.ics.digilaw.modules.serial.CollectionProcessorImpl"
     />
     <bean
-        id="monographCommunityProcessor"
-        class="cz.muni.ics.digilib.modules.monograph.CommunityProcessorImpl"
+        id="serialCommunityProcessor"
+        class="cz.muni.ics.digilaw.modules.serial.CommunityProcessorImpl"
     />
     <bean
-        id="monographItemProcessor"
-        class="cz.muni.ics.digilib.modules.monograph.ItemProcessorImpl"
+        id="serialItemProcessor"
+        class="cz.muni.ics.digilaw.modules.serial.ItemProcessorImpl"
     />
     
     <bean 
-        id="monographResolver"
-        class="cz.muni.ics.digilib.modules.monograph.MonographResolver"
+        id="serialResolver"
+        class="cz.muni.ics.digilaw.modules.serial.SerialResolver"
     />  
     
     <bean
-        id="monographModule"
-        class="cz.muni.ics.digilib.modules.monograph.MonographyModule"
+        id="serialModule"
+        class="cz.muni.ics.digilaw.modules.serial.SerialModule"
     >
         <lookup-method
             name="getObjectWrapperResolver"
-            bean="monographResolver"
+            bean="serialResolver"
         />
         <lookup-method
             name="getCollectionProcessor"
-            bean="monographCollectionProcessor"
+            bean="serialCollectionProcessor"
         />
         <lookup-method
             name="getCommunityProcessor"
-            bean="monographCommunityProcessor"
+            bean="serialCommunityProcessor"
         />
         <lookup-method
             name="getItemProcessor"
-            bean="monographItemProcessor"
+            bean="serialItemProcessor"
         />        
     </bean>
 </beans>
