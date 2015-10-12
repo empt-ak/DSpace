@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+          http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+">
+    <bean
+        id="serialCollectionProcessor"
+        class="cz.muni.ics.digilib.modules.serial.CollectionProcessorImpl"
+    />
+    <bean
+        id="serialCommunityProcessor"
+        class="cz.muni.ics.digilib.modules.serial.CommunityProcessorImpl"
+    />
+    <bean
+        id="serialItemProcessor"
+        class="cz.muni.ics.digilib.modules.serial.ItemProcessorImpl"
+    />
+    
+    <bean 
+        id="serialResolver"
+        class="cz.muni.ics.digilib.modules.serial.SerialResolver"
+    />  
+    
+    <bean
+        id="serialModule"
+        class="cz.muni.ics.digilib.modules.serial.SerialModule"
+    >
+        <lookup-method
+            name="getObjectWrapperResolver"
+            bean="serialResolver"
+        />
+        <lookup-method
+            name="getCollectionProcessor"
+            bean="serialCollectionProcessor"
+        />
+        <lookup-method
+            name="getCommunityProcessor"
+            bean="serialCommunityProcessor"
+        />
+        <lookup-method
+            name="getItemProcessor"
+            bean="serialItemProcessor"
+        />        
+    </bean>
+</beans>
