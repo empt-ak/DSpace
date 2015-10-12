@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 public class ConfigLocationBeanImpl implements ConfigLocationBean
 {
 
-    private static final Path configFileLocation = Paths.get("/opt/dmlcz5/config");
+    private static final Path configFileLocation = Paths.get("/opt/oktavo5/config");
     @Override
     public Path getLocation()
     {
