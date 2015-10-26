@@ -132,6 +132,7 @@ public class MovingWallFactoryBean
     
     public void parse(Monography monography)
     {
+			/*
         if (monography != null)
         {
             setPublDate(toDate(monography.getPublYear()));
@@ -147,10 +148,12 @@ public class MovingWallFactoryBean
                 openAcces = Boolean.parseBoolean(monography.getOpenAccess().value());
             }
         }
+				*/
     }
 
     public void parse(MonographicSeries monographicSeries)
     {
+			/*
         if (monographicSeries != null)
         {
             try
@@ -162,6 +165,7 @@ public class MovingWallFactoryBean
                 logger.error(nfe, nfe.getCause());
             }
         }
+				*/
     }
 
     public void parse(MonographyChapter monographyChapter)

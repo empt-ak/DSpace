@@ -11,7 +11,7 @@
     </configuration>
   
     <mapping>
-        <class-a>cz.muni.ics.digilib.domain.Periodical</class-a>
+        <class-a>cz.muni.ics.digilaw.domain.Periodical</class-a>
         <class-b>cz.muni.ics.dspace5.metadata.MetadataWrapper</class-b>
         <field custom-converter-id="simpleconverter" custom-converter-param="dc.title">
             <a>titleMain</a>
@@ -36,7 +36,7 @@
     </mapping> 
     
     <mapping>
-        <class-a>cz.muni.ics.digilib.domain.Volume</class-a>
+        <class-a>cz.muni.ics.digilaw.domain.Volume</class-a>
         <class-b>cz.muni.ics.dspace5.metadata.MetadataWrapper</class-b>
         <field custom-converter-id="simpleconverter" custom-converter-param="dc.title">
             <a>volumeName</a>
@@ -45,7 +45,7 @@
     </mapping> 
     
     <mapping>
-        <class-a>cz.muni.ics.digilib.domain.Issue</class-a>
+        <class-a>cz.muni.ics.digilaw.domain.Issue</class-a>
         <class-b>cz.muni.ics.dspace5.metadata.MetadataWrapper</class-b>
         <field custom-converter-id="simpleconverter" custom-converter-param="dc.title">
             <a>issueName</a>
@@ -58,7 +58,7 @@
     </mapping> 
     
     <mapping>
-        <class-a>cz.muni.ics.digilib.domain.Article</class-a>
+        <class-a>cz.muni.ics.digilaw.domain.Article</class-a>
         <class-b>cz.muni.ics.dspace5.metadata.MetadataWrapper</class-b>        
         <field custom-converter-id="composedconverter" custom-converter-param="dc.title">
             <a>title</a>
@@ -100,7 +100,7 @@
     
     
     <mapping>
-        <class-a>cz.muni.ics.digilib.domain.MonographicSeries</class-a>
+        <class-a>cz.muni.ics.digilaw.domain.MonographicSeries</class-a>
         <class-b>cz.muni.ics.dspace5.metadata.MetadataWrapper</class-b>
         <field custom-converter-id="composedconverter" custom-converter-param="dc.title">
             <a>title</a>
@@ -121,7 +121,7 @@
     </mapping>
     
     <mapping>
-        <class-a>cz.muni.ics.digilib.domain.Monography</class-a>
+        <class-a>cz.muni.ics.digilaw.domain.Monography</class-a>
         <class-b>cz.muni.ics.dspace5.metadata.MetadataWrapper</class-b>
         <field custom-converter-id="composedconverter" custom-converter-param="dc.title">
             <a>title</a>
@@ -142,7 +142,7 @@
     </mapping>
     
     <mapping>
-        <class-a>cz.muni.ics.digilib.domain.MonographyChapter</class-a>
+        <class-a>cz.muni.ics.digilaw.domain.MonographyChapter</class-a>
         <class-b>cz.muni.ics.dspace5.metadata.MetadataWrapper</class-b>
         <field custom-converter-id="composedconverter" custom-converter-param="dc.title">
             <a>title</a>
@@ -171,7 +171,7 @@
     </mapping>
     
     <mapping>
-        <class-a>cz.muni.ics.digilib.domain.ArticleMeta</class-a>
+        <class-a>cz.muni.ics.digilaw.domain.ArticleMeta</class-a>
         <class-b>cz.muni.ics.dspace5.metadata.MetadataWrapper</class-b>
         
         <field custom-converter-id="simpleconverter" custom-converter-param="muni.section">

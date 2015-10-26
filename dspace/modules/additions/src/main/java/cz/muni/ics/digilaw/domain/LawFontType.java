@@ -14,31 +14,31 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for ffOpenAccess.
+ * <p>Java class for lawFontType.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
  * <pre>
- * &lt;simpleType name="ffOpenAccess">
+ * &lt;simpleType name="lawFontType">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}NMTOKEN">
- *     &lt;enumeration value="true"/>
- *     &lt;enumeration value="false"/>
+ *     &lt;enumeration value="modern-latin"/>
+ *     &lt;enumeration value="historic-fraktur"/>
  *   &lt;/restriction>
  * &lt;/simpleType>
  * </pre>
  * 
  */
-@XmlType(name = "ffOpenAccess")
+@XmlType(name = "lawFontType")
 @XmlEnum
-public enum FfOpenAccess {
+public enum LawFontType {
 
-    @XmlEnumValue("true")
-    TRUE("true"),
-    @XmlEnumValue("false")
-    FALSE("false");
+    @XmlEnumValue("modern-latin")
+    MODERN_LATIN("modern-latin"),
+    @XmlEnumValue("historic-fraktur")
+    HISTORIC_FRAKTUR("historic-fraktur");
     private final String value;
 
-    FfOpenAccess(String v) {
+    LawFontType(String v) {
         value = v;
     }
 
@@ -46,8 +46,8 @@ public enum FfOpenAccess {
         return value;
     }
 
-    public static FfOpenAccess fromValue(String v) {
-        for (FfOpenAccess c: FfOpenAccess.values()) {
+    public static LawFontType fromValue(String v) {
+        for (LawFontType c: LawFontType.values()) {
             if (c.value.equals(v)) {
                 return c;
             }

@@ -171,6 +171,7 @@ public class CollectionProcessorImpl implements CollectionProcessor
 
     private void setupMonography(Collection collection, List<ObjectWrapper> parents)
     {
+			/*
         try
         {
             resolveVirtual(collection);
@@ -179,7 +180,7 @@ public class CollectionProcessorImpl implements CollectionProcessor
         {
             logger.error(ex);
         }
-
+*/
         for (String file : collectionFileNames)
         {
             Path extraContent = currentWrapper.getPath().resolve(file);
@@ -204,6 +205,7 @@ public class CollectionProcessorImpl implements CollectionProcessor
         }        
     }
 
+		/*
     private void resolveVirtual(Collection collection) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException
     {
 
@@ -251,7 +253,8 @@ public class CollectionProcessorImpl implements CollectionProcessor
             }
         }
     }
-    
+    */
+
     @Override
     public void movingWall(Collection collection) throws MovingWallException
     {

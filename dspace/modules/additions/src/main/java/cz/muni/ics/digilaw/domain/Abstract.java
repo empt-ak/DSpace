@@ -24,8 +24,8 @@ import javax.xml.bind.annotation.XmlValue;
  * <pre>
  * &lt;complexType>
  *   &lt;simpleContent>
- *     &lt;extension base="&lt;>AuthorityName">
- *       &lt;attribute name="id" type="{}AuthorityId" />
+ *     &lt;extension base="&lt;>DescriptionValue">
+ *       &lt;attribute name="lang" type="{}ffLang" />
  *     &lt;/extension>
  *   &lt;/simpleContent>
  * &lt;/complexType>
@@ -37,13 +37,13 @@ import javax.xml.bind.annotation.XmlValue;
 @XmlType(name = "", propOrder = {
     "value"
 })
-@XmlRootElement(name = "CreatorCorporateName")
-public class CreatorCorporateName {
+@XmlRootElement(name = "Abstract")
+public class Abstract {
 
     @XmlValue
     protected String value;
-    @XmlAttribute(name = "id")
-    protected String id;
+    @XmlAttribute(name = "lang")
+    protected String lang;
 
     /**
      * Gets the value of the value property.
@@ -70,27 +70,27 @@ public class CreatorCorporateName {
     }
 
     /**
-     * Gets the value of the id property.
+     * Gets the value of the lang property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getId() {
-        return id;
+    public String getLang() {
+        return lang;
     }
 
     /**
-     * Sets the value of the id property.
+     * Sets the value of the lang property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setId(String value) {
-        this.id = value;
+    public void setLang(String value) {
+        this.lang = value;
     }
 
 }

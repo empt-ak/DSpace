@@ -43,7 +43,7 @@ public class MonographResolver implements ObjectWrapperResolver
     public ObjectWrapper resolveObjectWrapper(ObjectWrapper objectWrapper, boolean mainCall) throws FileNotFoundException
     {
         int level = dspaceTools.getPathLevel(objectWrapper.getPath());
-        boolean updateMode = inputDataMap.getValue("mode").equals("update");
+        boolean updateMode = inputDataMap.getValue("method").equals("update");
         
         if(inputDataMap.containsKey("precheck"))
         {
