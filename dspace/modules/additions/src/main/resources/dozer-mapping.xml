@@ -25,7 +25,7 @@
             <a>issn</a>
             <b>metadata</b>
         </field>
-        <field custom-converter-id="simpleconverter" custom-converter-param="muni.categorytype">
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.type">
             <a>category</a>
             <b>metadata</b>
         </field>
@@ -72,7 +72,7 @@
             <a>language</a>
             <b>metadata</b>
         </field>
-        <field custom-converter-id="simpleconverter" custom-converter-param="muni.categorytype">
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.type">
             <a>articleType</a>
             <b>metadata</b>
         </field>
@@ -110,7 +110,7 @@
             <a>publisher</a>
             <b>metadata</b>
         </field>
-        <field custom-converter-id="simpleconverter" custom-converter-param="muni.categorytype">
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.type">
             <a>category</a>
             <b>metadata</b>
         </field>
@@ -132,13 +132,9 @@
             <b>metadata</b>
         </field>
         <field custom-converter-id="composedconverter" custom-converter-param="dc.description.abstract">
-            <a>description</a>
+            <a>_abstract</a>
             <b>metadata</b>
-        </field>
-        <field custom-converter-id="relateddocumentconverter" custom-converter-param="dc.relation">
-            <a>linkToRelatedDocument</a>
-            <b>metadata</b>
-        </field>        
+        </field>     
     </mapping>
     
     <mapping>
