@@ -84,5 +84,7 @@ public class ImportCommandLine extends AbstractCommandLine
         {
             inputDataMap.put("mwmethod", movingWall);
         }
+        
+        inputDataMap.put("failOnError",true);
     }
 }
