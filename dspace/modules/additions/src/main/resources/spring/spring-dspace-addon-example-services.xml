@@ -297,6 +297,8 @@
         <property name="mappingFiles">
             <list>
                 <value>dozer-mapping.xml</value>
+                <value>serial-mapping.xml</value>
+                <value>monograph-mapping.xml</value>
             </list>
         </property>
         <property name="customConvertersWithId">
@@ -306,6 +308,8 @@
                 <entry key="contributorconverter" value-ref="contributorConverter" />
                 <entry key="authorconverter" value-ref="authorConverter" />
                 <entry key="relateddocumentconverter" value-ref="relatedDocumentConverter" />
+                <entry key="seriesconverter" value-ref="seriesConverter" />
+                <entry key="prevnextconverter" value-ref="prevNextConverter" />
             </map>
         </property>
     </bean> 
@@ -333,6 +337,16 @@
     <bean
         id="authorConverter"
         class="cz.muni.ics.digilib.convertors.AuthorConverter"
+    />
+    
+    <bean
+        id="seriesConverter"
+        class="cz.muni.ics.digilib.convertors.SeriesConverter"
+    />
+    
+    <bean
+        id="prevNextConverter"
+        class="cz.muni.ics.digilib.convertors.PrevNextConverter"
     />
         
     <bean
