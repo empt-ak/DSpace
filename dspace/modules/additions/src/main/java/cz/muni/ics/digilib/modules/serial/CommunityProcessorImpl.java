@@ -112,7 +112,7 @@ public class CommunityProcessorImpl implements CommunityProcessor
             throw new IllegalStateException();
         }
 
-        metadataWrapper.getMetadata().add(metadatumFactory.createMetadatum("muni", "mepath", null, null, dSpaceTools.getOnlyMEPath(currentWrapper.getPath()).toString()));
+//        metadataWrapper.getMetadata().add(metadatumFactory.createMetadatum("muni", "mepath", null, null, dSpaceTools.getOnlyMEPath(currentWrapper.getPath()).toString()));
 
         return metadataWrapper.getMetadata();
     }
