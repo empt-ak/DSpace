@@ -28,7 +28,7 @@
     
     <bean
         id="monographModule"
-        class="cz.muni.ics.digilib.modules.monograph.MonographyModule"
+        class="cz.muni.ics.digilib.modules.monograph.MonographModule"
     >
         <lookup-method
             name="getObjectWrapperResolver"

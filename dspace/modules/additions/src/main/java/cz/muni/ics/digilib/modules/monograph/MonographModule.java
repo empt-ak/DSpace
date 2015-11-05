@@ -16,7 +16,7 @@ import java.io.FileNotFoundException;
  *
  * @author Dominik Szalai - emptulik at gmail.com
  */
-public abstract class MonographyModule implements ModuleService
+public abstract class MonographModule implements ModuleService
 {
     @Override
     public abstract ObjectWrapperResolver getObjectWrapperResolver() throws FileNotFoundException;
