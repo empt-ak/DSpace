@@ -14,11 +14,11 @@
         <class-a>cz.muni.ics.digilib.domain.ArticleMeta</class-a>
         <class-b>cz.muni.ics.dspace5.metadata.MetadataWrapper</class-b>
         
-        <field custom-converter-id="simpleconverter" custom-converter-param="muni.section">
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.description.section">
             <a>section</a>
             <b>metadata</b>
         </field>
-        <field custom-converter-id="simpleconverter" custom-converter-param="muni.positionnumber">
+        <field custom-converter-id="simpleconverter" custom-converter-param="digilib.articleposition">
             <a>number</a>
             <b>metadata</b>
         </field>

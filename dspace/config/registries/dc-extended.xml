@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+
+<!--
+- dublin-core-types.xml
+-
+- Version:  $Revision$
+-
+- Date:     $Date$
+-
+- 
+- <dc-type>
+-   <schema></schema>
+-   <element></element>
+-   <qualifier></qualifier>
+-   <scope_note></scope_note>
+- </dc-type>
+-->
+
+<!-- start of XML -->
+
+<dspace-dc-types>
+
+    <dspace-header>
+        <title>Digilib extended metadata</title>
+        <contributor.author>Dominik Szalai</contributor.author>
+    </dspace-header>
+
+    <dc-schema>
+        <name>digilib</name>
+        <namespace>http://digilib.phil.muni.cz/</namespace>
+    </dc-schema>
+
+    <dc-type>
+        <schema>digilib</schema>
+        <element>editorpath</element>
+        <!-- unqualified -->
+        <scope_note>Path to metadata editor</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>digilib</schema>
+        <element>articleposition</element>
+        <!-- unqualified -->
+        <scope_note>Position of article in issue used for sorting and ordering.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>description</element>
+        <qualifier>section</qualifier>
+        <scope_note>Section into which article belongs.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>contributor</element>
+        <qualifier>translator</qualifier>
+        <scope_note>Contributor that helped with translation.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>contributor</element>
+        <qualifier>translator-of-summary</qualifier>
+        <scope_note>Contributor that helped with translation of summary.</scope_note>
+    </dc-type>
+
+</dspace-dc-types>
