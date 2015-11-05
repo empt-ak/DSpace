@@ -1,0 +1,228 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jul 24, 2015, 8:39:25 AM
+    Author     : Dominik Szalai - emptulik at gmail.com
+*/
+
+html
+{
+    position: relative;
+    min-height: 100%;
+}
+
+@media (max-width: 47.9em) {
+    body
+    {
+        margin-bottom: 580px;
+    }
+    footer
+    {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 580px;
+        background-color: #f5f5f5;
+    }
+}
+@media (min-width: 48em) {
+    body
+    {
+        margin-bottom: 280px;
+    }
+    footer
+    {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 280px;
+        background-color: #f5f5f5;
+    }
+}
+
+footer div.footer-content
+{
+    margin: 20px;
+}
+
+footer p.footer-text
+{    
+    /*margin: 20px;*/
+    color: #777;
+}
+.media-body
+{
+    text-align: justify;
+}
+.section-list
+{
+    padding-left: 15px;
+}
+
+dd
+{
+    text-align: justify;
+}
+
+.journal-title,
+.volume-title,
+.issue-title,
+.volume-title,
+.article-title
+{
+    margin-top: 0;
+}
+
+.item-extent
+{
+    /*margin-top: 10px;*/
+}
+
+.serial-item-authors,
+.proceedings-item-authors,
+.celebrity-volume-abstract
+{
+    color: #999;
+}
+
+.issue-item-row
+{
+    border-bottom: 1px solid #eee;
+    /*    text-overflow: ellipsis;
+        height: 80px;
+        white-space: nowrap;*/
+}
+
+.digilib-content-body
+{
+    margin-top: 1.5em;
+    margin-bottom: 3em;
+}
+
+.issue-item-abstract
+{
+    text-align: justify;
+}
+
+.digilib-banner
+{
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+a.digilib-link,
+a.digilib-link:hover,
+a.digilib-link:visited,
+a.digilib-link:active
+{
+    color: inherit;
+}
+
+.pun
+{
+    background-color: #f5f5f5;
+    margin-bottom: 10px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.pun ul.pager
+{
+    margin: 0 !important;
+}
+
+.no-entry-alert
+{
+    margin-top: 35px;
+}
+
+.collection-item-authors,
+.celebrity-collection-entry
+{
+    margin-top: 5px;
+    padding-left: 15px;
+}
+
+.monograph-table td
+{
+    padding-left: 10px !important;
+}
+
+table.table-toc td
+{
+    border-top: none !important;
+}
+
+.table-cell-extent
+{    
+    text-align: right;
+}
+
+.item-description-title
+{
+    margin-bottom: 0;
+}
+
+.offset-top-20
+{
+    margin-top: 20px;
+}
+
+.offset-top-75
+{
+    margin-top: 75px;
+}
+
+.item-keyword
+{
+    margin-top: 35px;
+}
+
+
+.item-download h5
+{
+    margin-bottom: 2px;
+}
+
+.item-author h5,
+.item-msc h5,
+.item-zbl h5,
+.item-mr h5
+{
+    margin-bottom: 2px;
+    margin-top: 30px;
+}
+
+.similarity-item-header
+{
+    background-color: wheat;
+}
+
+.item-citation
+{
+    background-color: #f5f5f5;
+}
+
+.collection-item-list
+{
+    margin-top: 25px;
+}
+
+.disable-bottom-border
+{
+    border-bottom: 0;
+}
+
+.issue-item-title
+{
+    font-size: 1.5rem;
+}
+
+.hidden
+{
+    display: none;
+}

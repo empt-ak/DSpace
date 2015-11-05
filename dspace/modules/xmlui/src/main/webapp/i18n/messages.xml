@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<catalogue xml:lang="en" xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
+    <!--<message key="navigation.main.button.about">DSpace Home</message>-->
+    <message key="navigation.main.button.aboutus">About us</message>
+    <message key="navigation.main.button.news">News</message>
+    <message key="navigation.main.button.faq">FAQ</message>    
+    <message key="navigation.main.button.terms">Conditions of Use</message>
+    <message key="navigation.main.button.matharchives">Math archives</message>
+    <message key="navigation.main.button.contactus">Contact Us</message>
+    <message key="navigation.main.button.search">Search ...</message>
+    <message key="navigation.main.button.toggle">Toggle navigation</message>
+    <message key="navigation.breadcrumb.viewitem">View item</message>
+    <message key="navigation.pun.previous">Previous</message>
+    <message key="navigation.pun.up">Up</message>
+    <message key="navigation.pun.next">Next</message>
+    
+    <message key="page.head.title">Czech Digital Mathematics Library</message>
+    <message key="page.title">dml.cz</message>
+    
+    <message key="page.sidebar.left.browseby">Browse by</message>
+    <message key="page.sidebar.left.browseby.collection">Collections</message>
+    <message key="page.sidebar.left.browseby.title">Titles</message>
+    <message key="page.sidebar.left.browseby.author">Authors</message>
+    <message key="page.sidebar.left.browseby.msc">MSC</message>
+    <message key="page.sidebar.left.projects">Projects and partners</message>
+    <message key="page.sidebar.left.rss">RSS channels</message>
+    <message key="page.sidebar.left.count.author">Total authors:</message>
+    <message key="page.sidebar.left.count.article">Total articles:</message>
+    <message key="page.sidebar.right.discovery.keyword">Keywords</message>
+    <message key="page.sidebar.right.discovery.author">Authors</message>
+    <message key="page.sidebar.right.discovery.msc">MSC</message>
+    <message key="page.sidebar.right.discovery.more">View More</message>
+    
+    <message key="page.footer.partners.title">Partners</message>
+    <message key="page.footer.partners.ascr">ASCR</message>
+    <message key="page.footer.partners.eudml">eudml</message>
+    <message key="page.footer.partners.ics">ics@mu</message>
+    <message key="page.footer.partners.fimu">fi@mu</message>
+    <message key="page.footer.partners.ficuni">fi@cuni</message>
+    <message key="page.footer.partners.libprague">lib@prague</message>
+    <message key="page.footer.links.title">Links</message>
+    <message key="page.footer.links.sitemap">Sitemap</message>
+    <message key="page.footer.links.aboutus">About us</message>
+    <message key="page.footer.links.news">News</message>
+    <message key="page.footer.links.faq">FAQ</message>    
+    <message key="page.footer.links.terms">Conditions of Use</message>
+    <message key="page.footer.links.matharchives">Math archives</message>
+    <message key="page.footer.links.contactus">Contact Us</message>
+    <message key="page.footer.social.title">Social media</message>
+    <message key="page.footer.copyright.text">Institute of Mathematics ASCR</message>
+    <message key="page.footer.contact">Contact:</message>
+    <message key="page.footer.contact.javascript">Please enable javascript to see contact email</message>
+    
+    
+    <message key="page.landing.thumbnail">Thumbnail of this entry</message>
+    <message key="page.landing.category.serial">Journals</message>
+    <message key="page.landing.category.monograph">Monographs</message>
+    <message key="page.landing.category.proceedings">Proceedings</message>
+    <message key="page.landing.ellipsis">...</message>
+    <message key="page.landing.category.celebrity">Eminent Czech mathematicians</message>
+    <message key="page.landing.jubotron">Welcome to DML-CZ (Czech Digital Mathematics Library), the website offering an open access to the metadata and fulltext of mathematical journals, proceedings and books published throughout history in the Czech lands.</message>
+
+
+    <message key="page.community.published.untilnow">now</message>
+    <message key="page.community.unknown.head">Unrecognized</message>
+    <message key="page.community.noentry.head">There are no entries for this </message>
+    <message key="page.community.noentry.body">Unrecognized</message>
+
+    <message key="page.community.serial.thumbnail">Thumbnail of this serial</message>
+    <message key="page.community.serial.issn">ISSN:</message>
+    <message key="page.community.serial.publisher">Publisher:</message>
+    <message key="page.community.serial.publicationplace">Publication place:</message>
+    <message key="page.community.serial.website">Journal website:</message>
+    <message key="page.community.serial.description">Description:</message>
+    <message key="page.community.serial.published">Published:</message>
+    <message key="page.community.serial.label.volumes">Volumes (Years)</message>
+    <message key="page.community.serial.label.volume">Volume</message>
+    <message key="page.community.serial.volume.issues">Issues within this volume</message>
+    <message key="page.community.serial.volume.thumbnail">Thumbnail of this volume</message>
+    <message key="page.community.serial.volume.issue">Issue</message>
+    <message key="page.community.serial.volume.volume">Volume</message>
+    
+    <message key="page.community.monograph.archive">Archive</message>
+    <message key="page.community.proceedings.archive">Archive</message>
+    <message key="page.community.celebrity.collections">Collections</message>
+    <message key="page.community.celebrity.volume.archive">Archive</message>
+    
+    <message key="page.collection.proceedings.thumbnail">Thumbnail of this collection.</message>
+    <message key="page.collection.proceedings.editors">Editors:</message>
+    <message key="page.collection.proceedings.organized">Organized by:</message>
+    <message key="page.collection.proceedings.venue">Venue:</message>
+    <message key="page.collection.proceedings.publisher">Publisher:</message>
+    <message key="page.collection.proceedings.isbn">ISBN:</message>
+    <message key="page.collection.proceedings.msc">MSC:</message>
+    <message key="page.collection.proceedings.toc">Table of contents:</message>
+    <message key="page.collection.monograph.creator">Creator:</message>
+    <message key="page.collection.monograph.contributor">Contributor:</message>
+    <message key="page.collection.monograph.language">Language:</message>
+    <message key="page.collection.monograph.issued">Issued by:</message>
+    <message key="page.collection.monograph.publisher">Publisher:</message>
+    <message key="page.collection.monograph.place">Place:</message>
+    <message key="page.collection.monograph.printer">Printer:</message>
+    <message key="page.collection.monograph.description">Description:</message>
+    <message key="page.collection.monograph.note">Note:</message>
+    <message key="page.collection.monograph.msc">MSC:</message>
+    <message key="page.collection.monograph.toc">Table of contents</message>
+    <message key="page.collection."></message>
+    <message key="page.collection."></message>
+    
+    <message key="page.item.view">View/Open</message>
+    <message key="page.item.fulltext">Full-text</message>
+    <message key="page.item.authors">Authors</message>
+    <message key="page.item.msc">MSC</message>
+    <message key="page.item.zbmath">zbMATH</message>
+    <message key="page.item.idmr">Mathematical Reviews&#174;</message>
+    <message key="page.item.keywords">Keywords</message>
+    <message key="page.item.citation">Citation</message>
+    
+    <message key="file.extension.size.bytes">B</message>
+    <message key="file.extension.size.kbytes">kB</message>
+    <message key="file.extension.size.mbytes">MB</message>
+    <message key="file.extension.size.gbytes">GB</message>
+    <message key="file.image.nopreview">No Thumbnail</message>
+    
+</catalogue>
