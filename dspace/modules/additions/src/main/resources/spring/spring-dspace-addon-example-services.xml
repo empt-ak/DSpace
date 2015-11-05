@@ -84,6 +84,17 @@
     </bean>
     
     <bean
+        id="failOnErrorOption"
+        class="org.apache.commons.cli.Option"
+        c:opt="#{null}"
+        c:longOpt="fail"
+        c:hasArg="false"
+        c:description="OPTIONAL. test fail"
+    >
+        <property name="required" value="false" />
+    </bean> 
+    
+    <bean
         id="deleteCommandLine"
         class="cz.muni.ics.digilib.services.io.DeleteCommandLine"
         p:subClass="cz.muni.ics.dspace5.Delete"
