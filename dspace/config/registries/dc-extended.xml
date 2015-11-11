@@ -38,8 +38,20 @@
     </dc-type>
     <dc-type>
         <schema>digilib</schema>
-        <element>articleposition</element>
-        <!-- unqualified -->
+        <element>position</element>
+        <qualifier>volume</qualifier>
+        <scope_note>Position of article in issue used for sorting and ordering.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>digilib</schema>
+        <element>position</element>
+        <qualifier>issue</qualifier>
+        <scope_note>Position of article in issue used for sorting and ordering.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>digilib</schema>
+        <element>position</element>
+        <qualifier>article</qualifier>
         <scope_note>Position of article in issue used for sorting and ordering.</scope_note>
     </dc-type>
     <dc-type>
@@ -58,6 +70,12 @@
         <schema>dc</schema>
         <element>contributor</element>
         <qualifier>translator-of-summary</qualifier>
+        <scope_note>Contributor that helped with translation of summary.</scope_note>
+    </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>contributor</element>
+        <qualifier>author-of-bibliography</qualifier>
         <scope_note>Contributor that helped with translation of summary.</scope_note>
     </dc-type>
 

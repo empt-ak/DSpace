@@ -25,6 +25,7 @@ import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.dozer.Mapper;
 import org.dspace.authorize.AuthorizeException;
@@ -105,6 +106,13 @@ public class CommunityProcessorImpl implements CommunityProcessor
         else if (this.volume != null)
         {
             mapper.map(this.volume, metadataWrapper);
+            metadataWrapper.put(
+                    metadatumFactory
+                            .createMetadatum("digilib", 
+                                    "position", 
+                                    "volume", 
+                                    null, 
+                                    getVolumeNumber(currentWrapper.getPath())));
         }
         else
         {
@@ -209,5 +217,15 @@ public class CommunityProcessorImpl implements CommunityProcessor
         {
             movingWallFactoryBean.parse(volume);
         }
+    }
+    
+    /**
+     * Method returns number of given volume path
+     * @param volumePath
+     * @return 
+     */
+    private String getVolumeNumber(Path volumePath)
+    {
+        return StringUtils.substringBeforeLast(volumePath.getFileName().toString(), ".xml");
     }
 }

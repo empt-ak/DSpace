@@ -12,7 +12,9 @@ import cz.muni.ics.dspace5.api.ObjectMapper;
 import cz.muni.ics.dspace5.api.module.CollectionProcessor;
 import cz.muni.ics.dspace5.api.module.ObjectWrapper;
 import cz.muni.ics.dspace5.exceptions.MovingWallException;
+import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.metadata.MetadataWrapper;
+import cz.muni.ics.dspace5.metadata.MetadatumFactory;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -55,6 +57,10 @@ public class CollectionProcessorImpl implements CollectionProcessor
     private ConfigurationService configurationService;
     @Autowired
     private MovingWallFactoryBean movingWallFactoryBean;
+    @Autowired
+    private DSpaceTools dSpaceTools;
+    @Autowired
+    private MetadatumFactory metadatumFactory;
 
     private Issue issue;
     private ObjectWrapper currentWrapper;
@@ -97,6 +103,7 @@ public class CollectionProcessorImpl implements CollectionProcessor
         if (this.issue != null)
         {
             mapper.map(issue, metadataWrapper);
+            metadataWrapper.put(metadatumFactory.createMetadatum("digilib", "position", "issue", null, dSpaceTools.getIssueNumber(currentWrapper.getPath())));
         }
         else
         {

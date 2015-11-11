@@ -200,6 +200,7 @@
                                         <xsl:value-of
                                             select="document($volumeMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='date']"
                                         />
+                                        !rok
                                         <xsl:text> )</xsl:text>
                                     </td>
                                     <td>
@@ -222,7 +223,7 @@
                                                     />
                                                 </xsl:attribute>  
                                                 <xsl:value-of
-                                                    select="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title' and @qualifier='name']"
+                                                    select="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title' and not(@qualifier)]"
                                                 />
                                                 <xsl:text> </xsl:text>                                      
                                             </a>
@@ -264,6 +265,7 @@
                                         <xsl:value-of
                                             select="document($volumeMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='date']"
                                         />
+                                        !rok
                                         <xsl:text> )</xsl:text>
                                     </td>
                                     <td>
@@ -286,7 +288,7 @@
                                                     />
                                                 </xsl:attribute>  
                                                 <xsl:value-of
-                                                    select="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title' and @qualifier='name']"
+                                                    select="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title' and not(@qualifier)]"
                                                 />
                                                 <xsl:text> </xsl:text>                                      
                                             </a>

@@ -6,23 +6,23 @@
 package cz.muni.ics.digilib.aspects.comparators;
 
 import java.util.Comparator;
-import org.dspace.content.Collection;
+import org.dspace.content.Community;
 
 /**
  *
- * @author Dominik Szalai - emptulik at gmail.com
+ * @author emptak
  */
-public class CollectionCelebrityComparator implements Comparator<Collection>
+public class CommunityVolumeSerialComparator implements Comparator<Community>
 {
 
     @Override
-    public int compare(Collection o1, Collection o2)
+    public int compare(Community o1, Community o2)
     {
         return Integer.valueOf(
-                o1.getMetadataByMetadataString("digilib.position.issue")[0].value
+                o1.getMetadataByMetadataString("digilib.position.volume")[0].value
         ).compareTo(
                 Integer.valueOf(
-                        o2.getMetadataByMetadataString("digilib.position.issue")[0].value
+                        o2.getMetadataByMetadataString("digilib.position.volume")[0].value
                 )
         );
     }

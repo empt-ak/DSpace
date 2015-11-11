@@ -148,6 +148,7 @@
             It's accessible for admins in the XMLTest menu or via the /XMLTest/ URL.
         -->
         <!-- <aspect name="XML Tests" path="resource://aspects/XMLTest/"/> -->
+	<aspect name="Digilib" path="resource://aspects/digilib/" />
     </aspects>
 
     <!--

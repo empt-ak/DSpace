@@ -18,7 +18,7 @@
             <a>section</a>
             <b>metadata</b>
         </field>
-        <field custom-converter-id="simpleconverter" custom-converter-param="digilib.articleposition">
+        <field custom-converter-id="simpleconverter" custom-converter-param="digilib.position.article">
             <a>number</a>
             <b>metadata</b>
         </field>

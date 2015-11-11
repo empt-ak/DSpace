@@ -23,7 +23,7 @@ public class CollectionSerialComparator implements Comparator<Collection>
         
         try
         {
-            i1 = Integer.valueOf(o1.getMetadataByMetadataString("dc.identifier.position")[0].value);
+            i1 = Integer.valueOf(o1.getMetadataByMetadataString("digilib.position.issue")[0].value);
         }
         catch(ArrayIndexOutOfBoundsException ex)
         {
@@ -32,7 +32,7 @@ public class CollectionSerialComparator implements Comparator<Collection>
         
         try
         {
-            i2 = Integer.valueOf(o2.getMetadataByMetadataString("dc.identifier.position")[0].value);
+            i2 = Integer.valueOf(o2.getMetadataByMetadataString("digilib.position.issue")[0].value);
         }
         catch(ArrayIndexOutOfBoundsException ex)
         {

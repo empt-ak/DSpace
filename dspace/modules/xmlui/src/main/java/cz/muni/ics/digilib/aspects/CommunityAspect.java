@@ -57,7 +57,8 @@ public class CommunityAspect extends AbstractDSpaceTransformer
                 {
                     switch (comm.getMetadataByMetadataString("dc.type")[0].value)
                     {
-                        case "serial":
+                        case "JOURNAL":
+                        case "SPFFBU":
                         {
                             // WARN !!!!
                             // because of multiple title error see issues #25 and #26 on github

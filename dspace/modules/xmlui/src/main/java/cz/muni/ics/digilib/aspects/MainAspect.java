@@ -36,7 +36,7 @@ public class MainAspect extends AbstractDSpaceTransformer
         
         Community[] topcomms = Community.findAllTop(context);
         
-        SortedMap<String,List<Community>> map = new TreeMap<>(new LandingPageComparator());
+        SortedMap<String,List<Community>> map = new TreeMap<>();
         
         for(Community comm : topcomms)
         {
