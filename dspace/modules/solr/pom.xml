@@ -77,6 +77,11 @@
     </dependencyManagement>
    <dependencies>
        <dependency>
+            <groupId>cz.muni.fi.mias</groupId>
+            <artifactId>miasmath</artifactId>
+            <version>1.5.3-4.6-SNAPSHOT</version>
+        </dependency>
+       <dependency>
            <groupId>org.dspace</groupId>
            <artifactId>dspace-solr</artifactId>
            <classifier>skinny</classifier>

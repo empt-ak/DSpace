@@ -111,6 +111,7 @@
                 <ref bean="searchFilterSubject" />
                 <ref bean="searchFilterIssued" />
                 <ref bean="searchFilterMSC" />
+                <ref bean="searchFilterMath" />
             </list>
         </property>
         <!--The sort filters for the discovery search-->
@@ -217,6 +218,7 @@
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject" />
                 <ref bean="searchFilterMSC" />
+                <ref bean="searchFilterMath" />
                 <ref bean="searchFilterIssued" />
             </list>
         </property>
@@ -391,6 +393,17 @@
         <property name="metadataFields">
             <list>
                 <value>dc.subject.msc</value>
+            </list>
+        </property>
+        <property name="facetLimit" value="10"/>
+        <property name="sortOrder" value="COUNT"/>
+    </bean>
+    
+    <bean id="searchFilterMSC" class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
+        <property name="indexFieldName" value="dmlcz.math"/>
+        <property name="metadataFields">
+            <list>
+                <value>dmlcz.math</value>
             </list>
         </property>
         <property name="facetLimit" value="10"/>
