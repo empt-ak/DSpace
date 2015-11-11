@@ -232,6 +232,7 @@
                     <list>
                         <ref bean="sortTitle" />
                         <ref bean="sortDateIssued" />
+                        <ref bean="searchFilterMath" />
                     </list>
                 </property>
             </bean>
@@ -399,7 +400,7 @@
         <property name="sortOrder" value="COUNT"/>
     </bean>
     
-    <bean id="searchFilterMSC" class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
+    <bean id="searchFilterMath" class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
         <property name="indexFieldName" value="dmlcz.math"/>
         <property name="metadataFields">
             <list>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<dspace-dc-types>
+
+    <dspace-header>
+        <title>DSpace Dublin Core Types Registry - DMLCZ extension</title>    
+    </dspace-header>
+
+    <dc-schema>
+        <name>dmlcz</name>
+        <namespace>http://http://dml.cz//</namespace>
+    </dc-schema>
+
+    <dc-type>
+        <schema>dmlcz</schema>
+        <element>math</element>
+        <scope_note>Field used for math indexing.</scope_note>
+    </dc-type>
+</dspace-dc-types>
