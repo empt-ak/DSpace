@@ -218,8 +218,8 @@
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject" />
                 <ref bean="searchFilterMSC" />
-                <ref bean="searchFilterMath" />
                 <ref bean="searchFilterIssued" />
+                <ref bean="searchFilterMath" />
             </list>
         </property>
         <!--The sort filters for the discovery search (same as defaultConfiguration above)-->
@@ -232,7 +232,6 @@
                     <list>
                         <ref bean="sortTitle" />
                         <ref bean="sortDateIssued" />
-                        <ref bean="searchFilterMath" />
                     </list>
                 </property>
             </bean>
@@ -407,8 +406,6 @@
                 <value>dmlcz.math</value>
             </list>
         </property>
-        <property name="facetLimit" value="10"/>
-        <property name="sortOrder" value="COUNT"/>
     </bean>
 
     <bean id="searchFilterSubject" class="org.dspace.discovery.configuration.HierarchicalSidebarFacetConfiguration">
