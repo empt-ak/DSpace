@@ -109,7 +109,7 @@
              Approval Workflow Systems
              ========================= -->
         <!-- By default, DSpace uses a legacy 3-step approval workflow for new submissions -->
-        <aspect name="Original Workflow" path="resource://aspects/Workflow/" />
+<!--        <aspect name="Original Workflow" path="resource://aspects/Workflow/" />-->
 
         <!-- If you prefer, a Configurable XML-based Workflow is available. To enable it, you can
              uncomment the below aspect and comment out the "Original Workflow" aspect above.
@@ -187,6 +187,7 @@
         <!-- Mirage theme, @mire contributed theme, default since DSpace 3.0 -->
 <!--        <theme name="Atmire Mirage Theme" regex=".*" path="Mirage/" /> -->
 	<theme name="dmlcz5 Theme" regex=".*" path="dmlcz5/" />
+<!--    <theme name="Mirage 2" regex=".*" path="Mirage2/" />-->
 
         <!-- Reference theme, the default Manakin XMLUI layout up to DSpace 1.8 -->
         <!-- <theme name="Default Reference Theme" regex=".*" path="Reference/" /> -->
