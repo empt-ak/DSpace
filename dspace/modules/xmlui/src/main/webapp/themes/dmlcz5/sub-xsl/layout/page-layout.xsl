@@ -41,7 +41,7 @@
                         </div>
                     </div>
                     <footer class="row" id="footer">
-                        <xsl:call-template name="buildFooter" />
+                        <xsl:call-template name="buildFooter" /><!-- in commons-->
                     </footer>
                 </div>
                 <xsl:call-template name="buildBodyFooter" />

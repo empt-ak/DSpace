@@ -64,13 +64,28 @@
                         </a>
                     </li>
                 </ul>
-                <form class="form-inline navbar-form pull-right">
-                    <input 
+                <form class="form-inline navbar-form pull-right" method="post">
+                    <xsl:attribute
+                        name="action"
+                    >
+                        <xsl:value-of
+                            select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search' and @qualifier='advancedURL']"
+                        />
+                    </xsl:attribute>
+                    <input
                         type="text" 
                         class="form-control" 
                         placeholder="navigation.main.button.search"
                         i18n:attr="placeholder" 
-                    />
+                    >
+                        <xsl:attribute
+                            name="name"
+                        >
+                            <xsl:value-of
+                                select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search' and @qualifier='queryField']"
+                            />
+                        </xsl:attribute>
+                    </input>
                     <button class="btn btn-success-outline" type="submit">
                         <span class="fa fa-search"></span>
                     </button>
@@ -219,7 +234,9 @@
                             </h4>
                             <ul>
                                 <li>
-                                    <i18n:text>page.footer.links.sitemap</i18n:text>
+                                    <a href="/sitemap">
+                                        <i18n:text>page.footer.links.sitemap</i18n:text>
+                                    </a>
                                 </li>
                                 <li>
                                     <a>

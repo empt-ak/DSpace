@@ -5,10 +5,10 @@
  */
 
 $('#my-email').html(function(){
-	var e = "me";
+	var e = "help";
 	var a = "@";
-	var d = "mysite";
-	var c = ".com";
+	var d = "dml";
+	var c = ".cz";
 	var h = 'mailto:' + e + a + d + c;
 	$(this).parent('a').attr('href', h);
 	return e + a + d + c;
