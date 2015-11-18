@@ -220,11 +220,12 @@
     >
         <constructor-arg>
             <list>
-                <value>cz.muni.ics.digilaw.domain.Periodical</value>
+<!--                <value>cz.muni.ics.digilaw.domain.Periodical</value>
                 <value>cz.muni.ics.digilaw.domain.Volume</value>
                 <value>cz.muni.ics.digilaw.domain.Issue</value>
-                <value>cz.muni.ics.digilaw.domain.Article</value>
+                <value>cz.muni.ics.digilaw.domain.Article</value>-->
                 <value>cz.muni.ics.digilaw.domain.MonographicSeries</value>
+                <value>cz.muni.ics.digilaw.domain.Volume</value>
                 <value>cz.muni.ics.digilaw.domain.Monography</value>
                 <value>cz.muni.ics.digilaw.domain.MonographyChapter</value>
                 <value>cz.muni.ics.digilaw.service.io.references.References</value>
@@ -297,6 +298,7 @@
         <property name="mappingFiles">
             <list>
                 <value>dozer-mapping.xml</value>
+                <value>monograph-mapping.xml</value>
             </list>
         </property>
         <property name="customConvertersWithId">
@@ -306,6 +308,7 @@
                 <entry key="contributorconverter" value-ref="contributorConverter" />
                 <entry key="authorconverter" value-ref="authorConverter" />
                 <entry key="relateddocumentconverter" value-ref="relatedDocumentConverter" />
+                <entry key="lawsubjectconverter" value-ref="lawSubjectConverter" />
             </map>
         </property>
     </bean> 
@@ -323,6 +326,11 @@
     <bean
         id="relatedDocumentConverter"
         class="cz.muni.ics.digilaw.convertors.RelatedDocumentConverter"
+    />
+    
+    <bean
+        id="lawSubjectConverter"
+        class="cz.muni.ics.digilaw.convertors.LawSubjectConverter"
     />
     
     <bean 

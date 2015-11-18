@@ -11,54 +11,18 @@
     </dspace-header>
 
     <dc-schema>
-        <name>muni</name>
-        <namespace>http://ics.muni.cz/dspace/</namespace>
+        <name>digilaw</name>
+        <namespace>http://digilaw.ics.muni.cz</namespace>
     </dc-schema>
 
   
 
     <!-- Used by system: do not remove -->
     <dc-type>
-        <schema>muni</schema>
-        <element>section</element>
+        <schema>dc</schema>
+        <element>identifier</element>
+        <qualifier>sysno</qualifier>
         <scope_note>Section in which item belongs.</scope_note>
-    </dc-type>
-    <dc-type>
-        <schema>muni</schema>
-        <element>positionnumber</element>
-        <scope_note>Position in which article appears.</scope_note>
-    </dc-type>
-    <dc-type>
-        <schema>muni</schema>
-        <element>mepath</element>
-        <scope_note>Path in metadata editor.</scope_note>
-    </dc-type>
-    <dc-type>
-        <schema>muni</schema>
-        <element>categorytype</element>
-        <scope_note>Category of object.</scope_note>
-    </dc-type>
-    <dc-type>
-        <schema>muni</schema> 
-        <element>pun</element> 
-        <qualifier>previous</qualifier> 
-        <scope_note>Link to previous entry.</scope_note>
-    </dc-type>
-    <dc-type>
-        <schema>muni</schema>
-        <element>pun</element>
-        <qualifier>next</qualifier>
-        <scope_note>Link to next entry.</scope_note>
-    </dc-type>
-    <dc-type>
-        <schema>muni</schema>
-        <element>reference</element>
-        <scope_note>Reference entries.</scope_note>
-    </dc-type>
-    <dc-type>
-        <schema>muni</schema>
-        <element>externalcontent</element>
-        <scope_note>Name of external file for collections.</scope_note>
     </dc-type>
 </dspace-dc-types>
 
