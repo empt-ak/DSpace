@@ -102,7 +102,7 @@
                 </div>
                 <div class="col-md-8">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for..." />
+                        <input type="text" class="form-control" placeholder="Search for..." name="query"/>
                         <span class="input-group-btn">
                             <button class="btn btn-secondary" type="button">Go!</button>
                         </span>                            
@@ -159,10 +159,10 @@
     </xsl:template>
     
     
-    <xsl:template
+<!--    <xsl:template
         match="dri:field[@type='select']"
     >
-        <select class="form-control">
+        <select class="form-control" name="{@n}">
             <xsl:for-each
                 select="./dri:option"
             >
@@ -180,7 +180,39 @@
                 </option>
             </xsl:for-each>
         </select>              
-    </xsl:template>
+    </xsl:template>-->
+    
+<!--     <xsl:template match="dri:field" mode="normalField">
+        <xsl:variable name="confidenceIndicatorID" select="concat(translate(@id,'.','_'),'_confidence_indicator')"/>
+        <xsl:choose>
+             TODO: this has changed dramatically (see form3.xml) 
+            <xsl:when test="@type= 'select'">
+                    <select>
+                        <xsl:call-template name="fieldAttributes"/>
+                        <xsl:apply-templates/>
+                    </select>
+            </xsl:when>
+
+    
+    <xsl:template
+        match="dri:field[@type='select']/dri:option"
+    >
+        <option>
+            <xsl:attribute 
+                name="value"
+            >
+                <xsl:value-of 
+                    select="@returnValue"
+                />
+            </xsl:attribute>
+            <xsl:if 
+                test="../dri:value[@type='option'][@option = current()/@returnValue]"
+            >
+                <xsl:attribute name="selected">selected</xsl:attribute>
+            </xsl:if>
+            <xsl:apply-templates />
+        </option>
+    </xsl:template>-->
     
     
     <xsl:template match="dri:list[@id='aspect.discovery.SimpleSearch.list.search-results-repository']">
