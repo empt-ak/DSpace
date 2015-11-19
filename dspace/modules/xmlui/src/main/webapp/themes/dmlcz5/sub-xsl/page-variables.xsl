@@ -29,7 +29,7 @@
      
    <xsl:variable 
         name="contextPath" 
-        select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']" 
+        select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]" 
     />
     
     <xsl:variable

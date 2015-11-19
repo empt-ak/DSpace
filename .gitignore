@@ -22,6 +22,7 @@ nbdist/
 nbactions.xml
 nb-configuration.xml
 META-INF/
+dspace-xmlui-mirage2/src/main/webapp/private/
 
 ## Ignore all *.properties file in root folder, EXCEPT build.properties (the default)
 /*.properties
