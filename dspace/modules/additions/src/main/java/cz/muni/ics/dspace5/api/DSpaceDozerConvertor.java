@@ -74,4 +74,7 @@ public abstract class DSpaceDozerConvertor implements ConfigurableCustomConverte
         this.qualifier = null;
         this.schema = null;
     }
+
+    @Override
+    public abstract Object convert(Object destination, Object source, Class<?> destinationClass, Class<?> sourceClass);   
 }
