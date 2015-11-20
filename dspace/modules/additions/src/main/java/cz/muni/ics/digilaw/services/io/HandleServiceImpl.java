@@ -44,71 +44,12 @@ public class HandleServiceImpl implements HandleService
     @Autowired
     private ContextWrapper contextWrapper;
 
-    private static final Logger logger = Logger.getLogger(HandleServiceImpl.class);
+    private static final Logger LOGGER = Logger.getLogger(HandleServiceImpl.class);
 
     @Override
     public String getHandleForPath(Path path, boolean createIfMissing) throws IllegalArgumentException
     {
-        Path dspaceFile = path.resolve(handleFile);
-        logger.debug("Attempting to read dspaceID from " + dspaceFile);
-
-        String suffix = null;
-
-        if (Files.exists(dspaceFile))
-        {
-            try
-            {
-                suffix = new String(Files.readAllBytes(dspaceFile));
-                logger.debug("File found. Suffix is set as: " + suffix);
-            }
-            catch (IOException ex)
-            {
-                logger.error(ex);
-            }
-        }
-        else if (createIfMissing)
-        {
-            logger.debug("File was not found. Creating new suffix.");
-
-            String newSuffix = null;
-            try
-            {
-                newSuffix = getNewHandle();
-            }
-            catch (SQLException ex)
-            {
-                throw new RuntimeException(ex);
-            }
-
-//            if (newSuffix == null)
-//            {
-//                throw new RuntimeException("FATAL ERROR CREATING HANDLE. Nothing was obtained from database. @path "+dspaceFile);
-//            }
-//            else
-//            {
-            try
-            {
-                Files.write(dspaceFile, newSuffix.getBytes(), StandardOpenOption.CREATE_NEW);
-                logger.debug("File with suffix [" + newSuffix + " created.");
-            }
-            catch (IOException ex)
-            {
-                logger.error(ex);
-                throw new RuntimeException("FATAL ERROR CREATING HANDLE FILE. Suffix obtained from database @ " + newSuffix + " @path " + dspaceFile + " failed to write.");
-            }
-
-            suffix = newSuffix;
-//            }
-        }
-
-        if (suffix == null)
-        {
-            return null;
-        }
-        else
-        {
-            return handlePrefix + suffix;
-        }
+        return getHandleForPath(path, createIfMissing, handleFile);
     }
 
     @Override
@@ -127,19 +68,16 @@ public class HandleServiceImpl implements HandleService
             {
                 missing = true;
             }
-            else
+            else if (volumeSuffix == null)
             {
-                if (volumeSuffix == null)
+                try
                 {
-                    try
-                    {
-                        volumeSuffix = new String(Files.readAllBytes(dspaceVolumeID));
-                    }
-                    catch (IOException ex)
-                    {
-                        logger.error(ex, ex.getCause());
-                        throw new RuntimeException("ERROR WHILE READING FROM dspace_volume_id.txt at path [" + dspaceVolumeID + "]");
-                    }
+                    volumeSuffix = new String(Files.readAllBytes(dspaceVolumeID));
+                }
+                catch (IOException ex)
+                {
+                    LOGGER.error(ex, ex.getCause());
+                    throw new RuntimeException("ERROR WHILE READING FROM dspace_volume_id.txt at path [" + dspaceVolumeID + "]");
                 }
             }
         }
@@ -171,7 +109,7 @@ public class HandleServiceImpl implements HandleService
                     }
                     catch (IOException ex)
                     {
-                        logger.fatal(ex, ex.getCause());
+                        LOGGER.fatal(ex, ex.getCause());
                         throw new RuntimeException("ERROR WHILE WRITING TO dspace_volume_id.txt at path [" + dspaceVolumeID + "]");
                     }
                 }
@@ -206,19 +144,19 @@ public class HandleServiceImpl implements HandleService
         // the query above fetches new possible value for sequence
         if (globalHandleFile == null)
         {
-            logger.trace("Setting global handle file.");
+            LOGGER.trace("Setting global handle file.");
             globalHandleFile = configurationService.getProperty("meditor.handle.file.global");
         }
 
         if (handleFile == null)
         {
-            logger.trace("Setting handle file.");
+            LOGGER.trace("Setting handle file.");
             handleFile = configurationService.getProperty("meditor.handle.file");
         }
 
         if (handlePrefix == null)
         {
-            logger.trace("Setting handle prefix.");
+            LOGGER.trace("Setting handle prefix.");
             handlePrefix = configurationService.getProperty("handle.prefix") + "/";
         }
 
@@ -239,7 +177,7 @@ public class HandleServiceImpl implements HandleService
         }
         catch (SQLException ex)
         {
-            logger.error(ex, ex.getCause());
+            LOGGER.error(ex, ex.getCause());
         }
 
         return null;
@@ -253,5 +191,62 @@ public class HandleServiceImpl implements HandleService
             throw new IllegalArgumentException("Given handle is empty.");
         }
         return (T) getGenericObjectByHandle(handle);
+    }
+
+    @Override
+    public String getHandleForPath(Path path, boolean createIfMissing, String fileName) throws IllegalArgumentException
+    {
+        Path dspaceFile = path.resolve(fileName);
+        LOGGER.debug("Attempting to read dspaceID from " + dspaceFile);
+
+        String suffix = null;
+
+        if (Files.exists(dspaceFile))
+        {
+            try
+            {
+                suffix = new String(Files.readAllBytes(dspaceFile));
+                LOGGER.debug("File found. Suffix is set as: " + suffix);
+            }
+            catch (IOException ex)
+            {
+                LOGGER.error(ex);
+            }
+        }
+        else if (createIfMissing)
+        {
+            LOGGER.debug("File was not found. Creating new suffix.");
+
+            String newSuffix = null;
+            try
+            {
+                newSuffix = getNewHandle();
+            }
+            catch (SQLException ex)
+            {
+                throw new RuntimeException(ex);
+            }
+            try
+            {
+                Files.write(dspaceFile, newSuffix.getBytes(), StandardOpenOption.CREATE_NEW);
+                LOGGER.debug("File with suffix [" + newSuffix + " created.");
+            }
+            catch (IOException ex)
+            {
+                LOGGER.error(ex);
+                throw new RuntimeException("FATAL ERROR CREATING HANDLE FILE. Suffix obtained from database @ " + newSuffix + " @path " + dspaceFile + " failed to write.");
+            }
+
+            suffix = newSuffix;
+        }
+
+        if (suffix == null)
+        {
+            return null;
+        }
+        else
+        {
+            return handlePrefix + suffix;
+        }
     }
 }
