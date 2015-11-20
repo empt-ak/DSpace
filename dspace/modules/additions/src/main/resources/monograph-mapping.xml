@@ -73,7 +73,7 @@
             <a>abstract</a>
             <b>metadata</b>
         </field>    
-        <field custom-converter-id="simpleconverter" custom-converter-param="dc.subject">
+        <field custom-converter-id="composedconverter" custom-converter-param="dc.subject">
             <a>keyword</a>
             <b>metadata</b>
         </field> 
