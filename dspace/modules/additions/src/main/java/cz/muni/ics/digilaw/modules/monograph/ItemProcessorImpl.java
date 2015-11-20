@@ -6,7 +6,7 @@
 package cz.muni.ics.digilaw.modules.monograph;
 
 import cz.muni.ics.digilaw.domain.ArticleMeta;
-import cz.muni.ics.digilaw.domain.MonographyChapter;
+import cz.muni.ics.digilaw.domain.Monography;
 import cz.muni.ics.digilaw.movingwall.MovingWallFactoryBean;
 import cz.muni.ics.digilaw.service.io.references.ReferenceService;
 import cz.muni.ics.dspace5.api.ObjectMapper;
@@ -68,7 +68,7 @@ public class ItemProcessorImpl implements ItemProcessor
     private ReferenceService referenceService;
 
     private String[] itemFileNames;
-    private MonographyChapter monographyChapter;
+    private Monography monography;
     private ObjectWrapper currentWrapper;
     private ArticleMeta articleMeta;
 
@@ -86,7 +86,7 @@ public class ItemProcessorImpl implements ItemProcessor
         this.currentWrapper = objectWrapper;
         try
         {
-            this.monographyChapter = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
+            this.monography = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
             this.articleMeta = objectMapper.convertPathToObject(objectWrapper.getPath(), "meta.xml");
         }
         catch (FileNotFoundException nfe)
@@ -100,9 +100,9 @@ public class ItemProcessorImpl implements ItemProcessor
     {
         MetadataWrapper metadataWrapper = new MetadataWrapper();
 
-        if (monographyChapter != null)
+        if (monography != null)
         {
-            mapper.map(monographyChapter, metadataWrapper);
+            mapper.map(monography, metadataWrapper);
             
             if(articleMeta != null)
             {
@@ -208,13 +208,13 @@ public class ItemProcessorImpl implements ItemProcessor
     public void clear()
     {
         this.currentWrapper = null;
-        this.monographyChapter = null;
+        this.monography = null;
     }
 
     @Override
     public void movingWall(Item item) throws MovingWallException
     {
-        movingWallFactoryBean.parse(monographyChapter);
+        movingWallFactoryBean.parse(monography);
         
         if (inputDataMap.containsKey("movingwall") && !inputDataMap.getValue("movingwall").equals("ignore"))
         {

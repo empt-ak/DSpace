@@ -27,7 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class MonographResolver implements ObjectWrapperResolver
 {
 
-    private static final Logger logger = Logger.getLogger(MonographResolver.class);
+    private static final Logger LOGGER = Logger.getLogger(MonographResolver.class);
     @Autowired
     private DSpaceTools dspaceTools;
     @Autowired
@@ -65,7 +65,7 @@ public class MonographResolver implements ObjectWrapperResolver
             objectWrapper.setHandle(handleService.getHandleForPath(objectWrapper.getPath(), true));
             objectWrapper.setLevel(ObjectWrapper.LEVEL.COM);
 
-            logger.debug("@level " + level + " @path [" + objectWrapper.getPath() + "] resolved as " + ObjectWrapper.LEVEL.COM + " with handle @" + objectWrapper.getHandle());
+            LOGGER.debug("@level " + level + " @path [" + objectWrapper.getPath() + "] resolved as " + ObjectWrapper.LEVEL.COM + " with handle @" + objectWrapper.getHandle());
 
             if (updateMode)
             {
@@ -106,21 +106,27 @@ public class MonographResolver implements ObjectWrapperResolver
             }
             else
             {
-                logger.debug("@level " + level + " @path [" + objectWrapper.getPath() + "] resolved as " + ObjectWrapper.LEVEL.COL + " with handle @" + objectWrapper.getHandle());
+                LOGGER.debug("@level " + level + " @path [" + objectWrapper.getPath() + "] resolved as " + ObjectWrapper.LEVEL.COL + " with handle @" + objectWrapper.getHandle());
 
                 if (updateMode)
                 {
-                    List<Path> monoChapterPaths = folderProvider.getFoldersFromPath(objectWrapper.getPath());
-                    List<ObjectWrapper> monographyChapters = new ArrayList<>(monoChapterPaths.size());
-
-                    for (Path monoPath : monoChapterPaths)
-                    {
-                        ObjectWrapper monographyChapter = objectWrapperFactory.createObjectWrapper(monoPath, false, true, true);
-
-                        resolveObjectWrapper(monographyChapter, false);
-                        monographyChapters.add(monographyChapter);
-                    }
-                    objectWrapper.setChildren(monographyChapters);
+                    List<ObjectWrapper> monographyChapter = new ArrayList<>(1);
+                    ObjectWrapper fakeChapter = objectWrapperFactory.createRootObjectWrapper(objectWrapper.getPath());
+                    fakeChapter.setLevel(ObjectWrapper.LEVEL.ITEM);
+                    fakeChapter.setHandle(handleService.getHandleForPath(fakeChapter.getPath(), true, "fake_item_dspace_id"));
+                    monographyChapter.add(fakeChapter);
+                    objectWrapper.setChildren(monographyChapter);
+//                    List<Path> monoChapterPaths = folderProvider.getFoldersFromPath(objectWrapper.getPath());
+//                    List<ObjectWrapper> monographyChapters = new ArrayList<>(monoChapterPaths.size());
+//
+//                    for (Path monoPath : monoChapterPaths)
+//                    {
+//                        ObjectWrapper monographyChapter = objectWrapperFactory.createObjectWrapper(monoPath, false, true, true);
+//
+//                        resolveObjectWrapper(monographyChapter, false);
+//                        monographyChapters.add(monographyChapter);
+//                    }
+//                    objectWrapper.setChildren(monographyChapters);
                 }
             }
         }
@@ -148,7 +154,7 @@ public class MonographResolver implements ObjectWrapperResolver
                 topLevelResult = monoSeries;
             }
 
-            logger.debug("@level " + level + " @path [" + objectWrapper.getPath() + "] resolved as " + ObjectWrapper.LEVEL.ITEM + " with handle @" + objectWrapper.getHandle());
+            LOGGER.debug("@level " + level + " @path [" + objectWrapper.getPath() + "] resolved as " + ObjectWrapper.LEVEL.ITEM + " with handle @" + objectWrapper.getHandle());
         }
 
         return topLevelResult;
