@@ -234,4 +234,10 @@ public class HandleServiceImpl implements HandleService
         }
         return (T) getGenericObjectByHandle(handle);
     }
+
+    @Override
+    public String getHandleForPath(Path path, boolean createIfMissing, String fileName) throws IllegalArgumentException
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
