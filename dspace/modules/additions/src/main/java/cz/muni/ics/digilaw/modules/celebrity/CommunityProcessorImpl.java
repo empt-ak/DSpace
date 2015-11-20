@@ -3,18 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.ics.digilaw.modules.serial;
+package cz.muni.ics.digilaw.modules.celebrity;
 
-import cz.muni.ics.digilaw.domain.Periodical;
-import cz.muni.ics.digilaw.domain.Volume;
+import cz.muni.ics.digilaw.domain.MonographicSeries;
 import cz.muni.ics.digilaw.movingwall.MovingWallFactoryBean;
 import cz.muni.ics.dspace5.api.ObjectMapper;
 import cz.muni.ics.dspace5.api.module.CommunityProcessor;
 import cz.muni.ics.dspace5.api.module.ObjectWrapper;
-import cz.muni.ics.dspace5.comparators.ComparatorFactory;
 import cz.muni.ics.dspace5.exceptions.MovingWallException;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
-import cz.muni.ics.dspace5.impl.io.FolderProvider;
 import cz.muni.ics.dspace5.metadata.MetadataWrapper;
 import cz.muni.ics.dspace5.metadata.MetadatumFactory;
 import java.io.FileInputStream;
@@ -23,7 +20,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.SQLException;
-import java.util.Collections;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.dozer.Mapper;
@@ -48,49 +44,30 @@ public class CommunityProcessorImpl implements CommunityProcessor
     @Autowired
     private MetadatumFactory metadatumFactory;
     @Autowired
-    private FolderProvider folderProvider;
-    @Autowired
-    private ComparatorFactory comparatorFactory;
-    @Autowired
     private DSpaceTools dSpaceTools;
     @Autowired
     private MovingWallFactoryBean movingWallFactoryBean;
 
     private ObjectWrapper currentWrapper;
-    private Periodical periodical;
-    private Volume volume;
+    private MonographicSeries monographicSeries;
 
     @Override
     public void setup(ObjectWrapper objectWrapper) throws IllegalStateException, IllegalArgumentException
     {
+        if(objectWrapper == null)
+        {
+            throw new IllegalArgumentException("");
+        }
         //TODO exceptions
         this.currentWrapper = objectWrapper;
-        if (objectWrapper.getLevel().equals(ObjectWrapper.LEVEL.COM))
+        
+        try
         {
-            try
-            {
-                this.periodical = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
-            }
-            catch (FileNotFoundException ex)
-            {
-                logger.error(ex, ex.getCause());
-            }
+            this.monographicSeries = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
         }
-        else if (currentWrapper.getLevel().equals(ObjectWrapper.LEVEL.SUBCOM))
+        catch (FileNotFoundException ex)
         {
-            try
-            {
-                this.volume = objectMapper.convertPathToObject(objectWrapper.getPath(), "");
-            }
-            catch (FileNotFoundException nfe)
-            {
-                logger.error(nfe, nfe.getCause());
-            }
-        }
-        else
-        {
-            //TODO
-            throw new IllegalArgumentException();
+            logger.error(ex, ex.getCause());
         }
     }
 
@@ -98,20 +75,16 @@ public class CommunityProcessorImpl implements CommunityProcessor
     public List<Metadatum> processMetadata(List<ObjectWrapper> parents) throws IllegalArgumentException, IllegalStateException
     {
         MetadataWrapper metadataWrapper = new MetadataWrapper();
-        if (this.periodical != null)
+        if (this.monographicSeries != null)
         {
-            mapper.map(this.periodical, metadataWrapper);
-        }
-        else if (this.volume != null)
-        {
-            mapper.map(this.volume, metadataWrapper);
+            mapper.map(this.monographicSeries, metadataWrapper);
         }
         else
         {
             // TODO
             throw new IllegalStateException();
         }
-
+        
         metadataWrapper.getMetadata().add(metadatumFactory.createMetadatum("muni", "mepath", null, null, dSpaceTools.getOnlyMEPath(currentWrapper.getPath()).toString()));
 
         return metadataWrapper.getMetadata();
@@ -120,45 +93,13 @@ public class CommunityProcessorImpl implements CommunityProcessor
     @Override
     public void processCommunity(Community community, List<ObjectWrapper> parents) throws IllegalStateException, IllegalArgumentException
     {
-        Path coverPath = null;
-        if (currentWrapper.getLevel().equals(ObjectWrapper.LEVEL.COM))
+        try
         {
-            coverPath = currentWrapper.getPath();
+            setCover(currentWrapper.getPath().resolve(COVER_FILENAME), community);
         }
-        else if (currentWrapper.getLevel().equals(ObjectWrapper.LEVEL.SUBCOM))
+        catch (IllegalArgumentException iax)
         {
-            // this is the case of volume
-            List<Path> issues = folderProvider.getIssuesFromPath(currentWrapper.getPath());
-
-            if (!issues.isEmpty())
-            {
-                Collections.sort(issues, comparatorFactory.provideIssuePathComparator());
-
-                coverPath = issues.get(0);
-            }
-            else
-            {
-                // this should not occur since if volume exists, then at least one 
-                // issue exists
-                logger.warn("There are no issues for given volume.");
-            }
-        }
-        else
-        {
-            throw new IllegalArgumentException("Given objectWrapper does not have supported level [COM/SUBCOM], but was [" + currentWrapper.getLevel() + "]");
-        }
-
-        if (coverPath != null)
-        {
-            coverPath = coverPath.resolve(COVER_FILENAME);
-            try
-            {
-                setCover(coverPath, community);
-            }
-            catch (IllegalArgumentException iax)
-            {
-                logger.info("For handle@" + currentWrapper.getHandle() + iax.getMessage());
-            }
+            logger.info("For handle@" + currentWrapper.getHandle() + iax.getMessage());
         }
     }
 
@@ -166,8 +107,7 @@ public class CommunityProcessorImpl implements CommunityProcessor
     public void clear()
     {
         this.currentWrapper = null;
-        this.periodical = null;
-        this.volume = null;
+        this.monographicSeries = null;
     }
 
     /**
@@ -201,13 +141,6 @@ public class CommunityProcessorImpl implements CommunityProcessor
     @Override
     public void movingWall(Community community) throws MovingWallException
     {
-        if(periodical != null)
-        {
-            movingWallFactoryBean.parse(periodical);
-        }
-        else if(volume != null)
-        {
-            movingWallFactoryBean.parse(volume);
-        }
+        movingWallFactoryBean.parse(monographicSeries);
     }
 }

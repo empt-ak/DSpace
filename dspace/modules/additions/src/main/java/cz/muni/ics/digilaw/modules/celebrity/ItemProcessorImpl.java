@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.ics.digilaw.modules.serial;
+package cz.muni.ics.digilaw.modules.celebrity;
 
-import cz.muni.ics.digilaw.domain.Article;
 import cz.muni.ics.digilaw.domain.ArticleMeta;
+import cz.muni.ics.digilaw.domain.Monography;
 import cz.muni.ics.digilaw.movingwall.MovingWallFactoryBean;
 import cz.muni.ics.digilaw.service.io.references.ReferenceService;
 import cz.muni.ics.dspace5.api.ObjectMapper;
@@ -46,11 +46,12 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class ItemProcessorImpl implements ItemProcessor
 {
+
     private static final Logger logger = Logger.getLogger(ItemProcessorImpl.class);
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
-    private Mapper mapper;    
+    private Mapper mapper;
     @Autowired
     private DSpaceTools dSpaceTools;
     @Autowired
@@ -62,22 +63,22 @@ public class ItemProcessorImpl implements ItemProcessor
     @Autowired
     private ConfigurationService configurationService;
     @Autowired
-    private ReferenceService referenceService;
-    @Autowired
     private MovingWallFactoryBean movingWallFactoryBean;
-    
-    private String[] itemFileNames;    
-    private Article article;
-    private ArticleMeta articleMeta;
+    @Autowired
+    private ReferenceService referenceService;
+
+    private String[] itemFileNames;
+    private Monography monography;
     private ObjectWrapper currentWrapper;
-    
+    private ArticleMeta articleMeta;
+
     @PostConstruct
     private void init()
     {
         this.itemFileNames = configurationService.getProperty("dspace.item.pdf.allowednames").split(",");
-        logger.debug("Allowed names for Item files to be imported set to "+Arrays.toString(itemFileNames));
+        logger.debug("Allowed names for Item files to be imported set to " + Arrays.toString(itemFileNames));
     }
-    
+
     @Override
     public void setup(ObjectWrapper objectWrapper) throws IllegalStateException, IllegalArgumentException
     {
@@ -85,13 +86,12 @@ public class ItemProcessorImpl implements ItemProcessor
         this.currentWrapper = objectWrapper;
         try
         {
-            this.article = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
+            this.monography = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
             this.articleMeta = objectMapper.convertPathToObject(objectWrapper.getPath(), "meta.xml");
         }
-        catch(FileNotFoundException nfe)
+        catch (FileNotFoundException nfe)
         {
-            this.currentWrapper = null;
-            throw new IllegalStateException("detail.xml not found", nfe.getCause());
+            logger.error(nfe, nfe.getCause());
         }
     }
 
@@ -99,10 +99,11 @@ public class ItemProcessorImpl implements ItemProcessor
     public List<Metadatum> processMetadata(List<ObjectWrapper> parents) throws IllegalArgumentException, IllegalStateException
     {
         MetadataWrapper metadataWrapper = new MetadataWrapper();
-        
-        if(article != null)
+
+        if (monography != null)
         {
-            mapper.map(article, metadataWrapper);
+            mapper.map(monography, metadataWrapper);
+            
             if(articleMeta != null)
             {
                 mapper.map(articleMeta, metadataWrapper);
@@ -111,67 +112,67 @@ public class ItemProcessorImpl implements ItemProcessor
         else
         {
             // TODO
-            throw new IllegalStateException("Article is null did you called #setup() first ?.");
+            throw new IllegalStateException();
         }
         
         metadataWrapper.push(referenceService.getReferencesAsMetadata(currentWrapper));
-        
+
         return metadataWrapper.getMetadata();
     }
 
     @Override
     public void processItem(Item item, List<ObjectWrapper> parents) throws IllegalStateException, IllegalArgumentException
-    {      
+    { 
         Bundle[] oldBundles = null;
-        
+
         try
         {
             // there might be other files like license text
             // thus we remove only DEFAULT
             oldBundles = item.getBundles(Constants.DEFAULT_BUNDLE_NAME);
         }
-        catch(SQLException ex)
+        catch (SQLException ex)
         {
-            logger.debug(ex,ex.getCause());
+            logger.debug(ex, ex.getCause());
         }
-        
-        if(oldBundles != null && oldBundles.length > 0)
+
+        if (oldBundles != null && oldBundles.length > 0)
         {
             try
             {
-                for(Bundle oldBundle : oldBundles)
+                for (Bundle oldBundle : oldBundles)
                 {
                     item.removeBundle(oldBundle);
                 }
             }
-            catch(SQLException | AuthorizeException | IOException ex)
+            catch (SQLException | AuthorizeException | IOException ex)
             {
-                logger.debug(ex,ex.getCause());
-            }            
+                logger.debug(ex, ex.getCause());
+            }
         }
-        
+
         Bundle bundle = null;
         try
         {
             bundle = item.createBundle(Constants.DEFAULT_BUNDLE_NAME);
         }
-        catch(SQLException | AuthorizeException ex)
+        catch (SQLException | AuthorizeException ex)
         {
-            logger.error(ex,ex.getCause());
+            logger.error(ex, ex.getCause());
         }
-        
-        if(bundle != null)
+
+        if (bundle != null)
         {
             Bitstream pdfBitstream = null;
-            
+
             Path bitstreamPath = null;
-            
-            for(String pdfFileName : itemFileNames)
+
+            for (String pdfFileName : itemFileNames)
             {
                 Path possiblePath = currentWrapper.getPath().resolve(pdfFileName);
-                if(!Files.exists(possiblePath))
+                if (!Files.exists(possiblePath))
                 {
-                    logger.trace("No pdf file found at path "+possiblePath);
+                    logger.trace("No pdf file found at path " + possiblePath);
                 }
                 else
                 {
@@ -179,26 +180,26 @@ public class ItemProcessorImpl implements ItemProcessor
                     break;
                 }
             }
-            
-            if(bitstreamPath != null)
+
+            if (bitstreamPath != null)
             {
-                try(BufferedInputStream bis = new BufferedInputStream(Files.newInputStream(bitstreamPath, StandardOpenOption.READ)))
+                try (BufferedInputStream bis = new BufferedInputStream(Files.newInputStream(bitstreamPath, StandardOpenOption.READ)))
                 {
                     pdfBitstream = bundle.createBitstream(bis);
-                    
+
                     pdfBitstream.setName(dSpaceTools.getNameForPDF(currentWrapper.getPath()));
                     pdfBitstream.setDescription("Full-text");
                     pdfBitstream.setFormat(BitstreamFormat.findByMIMEType(contextWrapper.getContext(), "application/pdf"));
-                    pdfBitstream.update();      
+                    pdfBitstream.update();
                 }
-                catch(IOException | AuthorizeException | SQLException ex)
+                catch (IOException | AuthorizeException | SQLException ex)
                 {
-                    logger.error(ex,ex.getCause());
+                    logger.error(ex, ex.getCause());
                 }
             }
             else
             {
-                logger.warn("No importable files found for "+currentWrapper.getHandle()+" @"+currentWrapper.getPath());
+                logger.warn("No importable files found for " + currentWrapper.getHandle() + " @" + currentWrapper.getPath());
             }
         }
     }
@@ -207,13 +208,13 @@ public class ItemProcessorImpl implements ItemProcessor
     public void clear()
     {
         this.currentWrapper = null;
-        this.article = null;
+        this.monography = null;
     }
 
     @Override
     public void movingWall(Item item) throws MovingWallException
     {
-        movingWallFactoryBean.parse(article);
+        movingWallFactoryBean.parse(monography);
         
         if (inputDataMap.containsKey("movingwall") && !inputDataMap.getValue("movingwall").equals("ignore"))
         {
@@ -236,5 +237,5 @@ public class ItemProcessorImpl implements ItemProcessor
                 }
             }
         }
-    }    
+    }
 }

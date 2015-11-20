@@ -25,9 +25,9 @@ public class ModuleNameResolverImpl implements ModuleNameResolver
             throw new IllegalArgumentException("Path is null.");
         }
         
-        if(path.toString().contains("serial"))
+        if(path.toString().contains("celebrity"))
         {
-            return "serial";
+            return "celebrity";
         }
         else if(path.toString().contains("monograph"))
         {

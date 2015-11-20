@@ -3,34 +3,32 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.ics.digilaw.modules.serial;
+package cz.muni.ics.digilaw.modules.celebrity;
 
-import cz.muni.ics.digilaw.domain.Issue;
+import cz.muni.ics.digilaw.domain.Monography;
 import cz.muni.ics.digilaw.movingwall.MovingWallFactoryBean;
 import cz.muni.ics.dspace5.api.HandleService;
 import cz.muni.ics.dspace5.api.ObjectMapper;
 import cz.muni.ics.dspace5.api.module.CollectionProcessor;
 import cz.muni.ics.dspace5.api.module.ObjectWrapper;
 import cz.muni.ics.dspace5.exceptions.MovingWallException;
+import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.metadata.MetadataWrapper;
+import cz.muni.ics.dspace5.movingwall.MWLockerProvider;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.dozer.Mapper;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Collection;
-import org.dspace.content.Item;
-import org.dspace.content.ItemIterator;
 import org.dspace.content.Metadatum;
 import org.dspace.services.ConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,9 +52,13 @@ public class CollectionProcessorImpl implements CollectionProcessor
     @Autowired
     private ConfigurationService configurationService;
     @Autowired
+    private DSpaceTools dSpaceTools;
+    @Autowired
+    private MWLockerProvider mWLockerProvider;
+    @Autowired
     private MovingWallFactoryBean movingWallFactoryBean;
 
-    private Issue issue;
+    private Monography monography;
     private ObjectWrapper currentWrapper;
     private String[] collectionFileNames;
 
@@ -70,7 +72,7 @@ public class CollectionProcessorImpl implements CollectionProcessor
     @Override
     public void setup(ObjectWrapper objectWrapper) throws IllegalStateException, IllegalArgumentException
     {
-        if (this.currentWrapper != null || this.issue != null)
+        if (this.currentWrapper != null || this.monography != null)
         {
             throw new IllegalStateException("It seems that setup was already called before, or clear was not called properly.");
         }
@@ -79,14 +81,13 @@ public class CollectionProcessorImpl implements CollectionProcessor
 
         try
         {
-            this.issue = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
+            this.monography = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
         }
-        catch (FileNotFoundException ex)
+        catch (FileNotFoundException nfe)
         {
             this.currentWrapper = null;
-            throw new IllegalStateException("detail.xml not found", ex.getCause());
+            throw new IllegalStateException("detail.xml not found", nfe.getCause());
         }
-
     }
 
     @Override
@@ -94,13 +95,13 @@ public class CollectionProcessorImpl implements CollectionProcessor
     {
         MetadataWrapper metadataWrapper = new MetadataWrapper();
 
-        if (this.issue != null)
+        if (this.monography != null)
         {
-            mapper.map(issue, metadataWrapper);
+            mapper.map(monography, metadataWrapper);
         }
         else
         {
-            throw new IllegalStateException("Issue is null did you called #setup() first ?.");
+            throw new IllegalStateException("Monography is null did you called #setup() first ?.");
         }
 
         return metadataWrapper.getMetadata();
@@ -118,20 +119,13 @@ public class CollectionProcessorImpl implements CollectionProcessor
             logger.warn(iae.getMessage());
         }
 
-        if (this.issue != null)
+        if (this.monography != null)
         {
-            try
-            {
-                resolveVirtual(collection);
-            }
-            catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex)
-            {
-                logger.error(ex);
-            }
+            setupMonography(collection, parents);
         }
         else
         {
-            throw new IllegalStateException("Issue is null did you called #setup() first ?.");
+            throw new IllegalStateException("Issue and Monography, are null did you called #setup() first ?.");
         }
     }
 
@@ -139,7 +133,7 @@ public class CollectionProcessorImpl implements CollectionProcessor
     public void clear()
     {
         this.currentWrapper = null;
-        this.issue = null;
+        this.monography = null;
     }
 
     /**
@@ -170,10 +164,47 @@ public class CollectionProcessorImpl implements CollectionProcessor
         }
     }
 
+    private void setupMonography(Collection collection, List<ObjectWrapper> parents)
+    {
+			/*
+        try
+        {
+            resolveVirtual(collection);
+        }
+        catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex)
+        {
+            logger.error(ex);
+        }
+*/
+        for (String file : collectionFileNames)
+        {
+            Path extraContent = currentWrapper.getPath().resolve(file);
+            if (Files.exists(extraContent))
+            {
+                Path extraStorage = dSpaceTools.getExtraStoragePath(currentWrapper.getPath());
+
+                try
+                {
+                    Files.createDirectories(extraStorage);
+                    Files.copy(extraContent, extraStorage.resolve(file), StandardCopyOption.REPLACE_EXISTING);
+                    
+                    collection.clearMetadata("muni", "externalcontent", "*", "*");
+                    collection.addMetadata("muni", "externalcontent", null, null, file);
+                    movingWallFactoryBean.setExtraStoragePath(extraStorage);
+                }
+                catch (IOException ex)
+                {
+                    logger.error(ex, ex.getCause());
+                }
+            }
+        }        
+    }
+
+		/*
     private void resolveVirtual(Collection collection) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException
     {
 
-        String linkToReal = issue.getLinkToReal();// trim needed #see SpisyFF/209-1977-1
+        String linkToReal = monography.getLinkToReal();
         if (!StringUtils.isEmpty(linkToReal))
         {
             String realHandle = handleService.getHandleForPath(Paths
@@ -217,10 +248,20 @@ public class CollectionProcessorImpl implements CollectionProcessor
             }
         }
     }
+    */
 
     @Override
     public void movingWall(Collection collection) throws MovingWallException
     {
-        movingWallFactoryBean.parse(issue);
+        movingWallFactoryBean.parse(monography);
+
+        try
+        {
+            mWLockerProvider.getLocker(Collection.class).lockObject(collection, movingWallFactoryBean.build());
+        }
+        catch (IllegalArgumentException | MovingWallException ex)
+        {
+            logger.fatal(ex, ex.getCause());
+        }
     }
 }

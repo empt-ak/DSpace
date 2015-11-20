@@ -34,7 +34,7 @@
     <!--
         import configurations of modules
     -->
-    <import resource="serialModule.xml" />
+    <import resource="celebrityModule.xml" />
     <import resource="monographModule.xml" />
     
     
@@ -405,7 +405,7 @@
     >
         <property name="availableModules">
             <map>
-                <entry key="serial" value-ref="serialModule" />
+                <entry key="celebrity" value-ref="celebrityModule" />
                 <entry key="monograph" value-ref="monographModule" />
             </map>
         </property>

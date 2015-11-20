@@ -9,42 +9,42 @@
           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
 ">
     <bean
-        id="serialCollectionProcessor"
-        class="cz.muni.ics.digilaw.modules.serial.CollectionProcessorImpl"
+        id="celebrityCollectionProcessor"
+        class="cz.muni.ics.digilaw.modules.celebrity.CollectionProcessorImpl"
     />
     <bean
-        id="serialCommunityProcessor"
-        class="cz.muni.ics.digilaw.modules.serial.CommunityProcessorImpl"
+        id="celebrityCommunityProcessor"
+        class="cz.muni.ics.digilaw.modules.celebrity.CommunityProcessorImpl"
     />
     <bean
-        id="serialItemProcessor"
-        class="cz.muni.ics.digilaw.modules.serial.ItemProcessorImpl"
+        id="celebrityItemProcessor"
+        class="cz.muni.ics.digilaw.modules.celebrity.ItemProcessorImpl"
     />
     
     <bean 
-        id="serialResolver"
-        class="cz.muni.ics.digilaw.modules.serial.SerialResolver"
+        id="celebrityResolver"
+        class="cz.muni.ics.digilaw.modules.celebrity.CelebrityResolver"
     />  
     
     <bean
-        id="serialModule"
-        class="cz.muni.ics.digilaw.modules.serial.SerialModule"
+        id="celebrityModule"
+        class="cz.muni.ics.digilaw.modules.celebrity.CelebrityModule"
     >
         <lookup-method
             name="getObjectWrapperResolver"
-            bean="serialResolver"
+            bean="celebrityResolver"
         />
         <lookup-method
             name="getCollectionProcessor"
-            bean="serialCollectionProcessor"
+            bean="celebrityCollectionProcessor"
         />
         <lookup-method
             name="getCommunityProcessor"
-            bean="serialCommunityProcessor"
+            bean="celebrityCommunityProcessor"
         />
         <lookup-method
             name="getItemProcessor"
-            bean="serialItemProcessor"
+            bean="celebrityItemProcessor"
         />        
     </bean>
 </beans>
