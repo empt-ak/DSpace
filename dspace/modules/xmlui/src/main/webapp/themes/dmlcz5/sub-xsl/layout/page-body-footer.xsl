@@ -150,7 +150,15 @@
             $(window).load(function(){
                 $("#sticky").sticky({topSpacing: 0});
             });
-            $(document).ready(function(){          
+            $(document).ready(function(){ 
+            
+                var preview = Preview.Init({preview: "mathPreview", buffer: "mathBuffer", input: "mathInput"});
+                $("#mathInput").on('keyup',function(){
+<!--                    $.get('https://mir.fi.muni.cz/cgi-bin/latex-to-mathml-via-latexml.cgi',{'formula':$("#mathInput").val()},function(response){
+                        console.log(response);
+                    });-->
+                    preview.update();
+                });         
             
                 $("#extended-controls").append(function(){
                     var symbols = "!\"#$%&amp;'()*+,-./0123456789:;&lt;=&gt;?@";

@@ -79,7 +79,7 @@
             <!-- Fix some overly convoluted DRI constructs in
             DSpace code without having to change java code and
             interfere with other themes -->
-            <map:transform src="xsl/preprocess.xsl"/> 
+            <map:transform src="preprocess.xsl"/> 
 
 
             <!-- throws exception -->

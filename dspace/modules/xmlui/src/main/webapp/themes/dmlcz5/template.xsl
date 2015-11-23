@@ -32,6 +32,7 @@
     <xsl:import href="sub-xsl/page-variables.xsl" />
     <xsl:import href="sub-xsl/switch-off.xsl" />
     <xsl:import href="sub-xsl/functions.xsl" />
-    <xsl:import href="sub-xsl/forms.xsl" />
-    <xsl:import href="sub-xsl/utils.xsl" />
+    <xsl:import href="sub-xsl/core/forms.xsl" />
+    <xsl:import href="sub-xsl/core/utils.xsl" />
+    <xsl:import href="sub-xsl/core/attribute-handlers.xsl" />
 </xsl:stylesheet>

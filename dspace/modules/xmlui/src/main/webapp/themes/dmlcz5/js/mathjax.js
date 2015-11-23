@@ -14,6 +14,7 @@ var Preview = {
     timeout: null, // store setTimout id
     mjRunning: false, // true when MathJax is processing
     oldText: null, // used to check if an update is needed
+    mathmlElement: null,
     //
     //  Get the preview and buffer DIV's
     //
@@ -21,6 +22,7 @@ var Preview = {
         this.preview = document.getElementById(data.preview);
         this.buffer = document.getElementById(data.buffer);
         this.input = document.getElementById(data.input);
+        this.mathmlElement = document.getElementById(data.mathmlElement);
         //console.log(this);
         return this;
     },
