@@ -27,13 +27,25 @@
     <xsl:template
         match="dri:document/dri:body/dri:div[@id='aspect.discovery.SimpleSearch.div.search']"
     >
-        yop
+        <h1>
+            <xsl:value-of
+                select="./dri:head"
+            />
+        </h1>
         <xsl:apply-templates
             select="dri:div[@id='aspect.discovery.SimpleSearch.div.discovery-search-box']/dri:div[@id='aspect.discovery.SimpleSearch.div.general-query']"
         />
         <xsl:apply-templates
+            select="dri:div[@id='aspect.discovery.SimpleSearch.div.discovery-search-box']/dri:div[@id='aspect.discovery.SimpleSearch.div.search-filters']"
+        />
+        <xsl:apply-templates
             select="dri:div[@id='aspect.discovery.SimpleSearch.div.main-form']"
         />
+        
+        <hr />
+        <h2>
+            <b>!Search results</b>
+        </h2>
         <xsl:apply-templates
             select="dri:div[@id='aspect.discovery.SimpleSearch.div.search-results']"
         />
@@ -62,21 +74,7 @@
                             </span>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <h5>!Vstupny text matematiky</h5>
-                        <textarea id="mathInput" name="filter_1" class="form-control"></textarea>
-                        <input type="hidden" name="filtertype_1" value="dmlcz.math" />
-                        <input type="hidden" name="filter_relational_operator_1" value="contains" />
-                    </div>
-                    <div class="col-sm-6">
-                        <h5>!Preview</h5>
-                        <div id="mathPreview">&#160;</div>
-                        <div id="mathBuffer">&#160;</div>
-                        <div id="hiddenMathml"></div>
-                    </div>
-                </div>            
+                </div>                          
             </fieldset>
         </form>
     </xsl:template>
@@ -84,6 +82,10 @@
     <!-- hides text from input field-->
     <xsl:template
         match="dri:field[@id='aspect.discovery.SimpleSearch.field.query']/dri:value"
+    />
+    
+    <xsl:template
+        match="dri:field[@rend='discovery-filter-input']/dri:value"
     />
     
     <xsl:template
@@ -124,12 +126,21 @@
                     select="./dri:list"
                 >
                     <xsl:variable
-                        name="itemMetadata"
-                    >
-                        <xsl:text>cocoon://</xsl:text>
-                        <xsl:value-of select="./@url"/>
-                        <xsl:text>?sections=dmdSec,fileSec</xsl:text>
-                    </xsl:variable>
+                        name="h"
+                        select="substring-before(@n,':item')"
+                    />
+                    <xsl:variable name="extMetsURL">
+                        <xsl:text>cocoon://metadata/handle/</xsl:text>
+                        <xsl:value-of select="$h"/>
+                        <xsl:text>/mets.xml</xsl:text>
+                        <!-- Since this is a summary only grab the descriptive metadata, and the thumbnails -->
+                        <xsl:text>?sections=dmdSec,fileSec&amp;fileGrpTypes=THUMBNAIL</xsl:text>
+                        <!-- An example of requesting a specific metadata standard (MODS and QDC crosswalks only work for items)->
+                        <xsl:if test="@type='DSpace Item'">
+                            <xsl:text>&amp;dmdTypes=DC</xsl:text>
+                        </xsl:if>-->
+                    </xsl:variable> 
+                    <xsl:variable name="extMets" select="document($extMetsURL)" />
                     <!--<div class="card">-->
                     <!--                        <img alt="!Thumbnail" class="card-img-top">
                         <xsl:attribute name="data-src">
@@ -139,65 +150,249 @@
                     </img>-->
                     <!--</div>-->
                     <div class="card">
-                        <div class="card-block">
-                            <h4 class="card-title disable-math">
-                                <xsl:value-of
-                                    select="./dri:list[contains(@n,'dc.title')]/dri:item"
-                                />
-                            </h4>
-                            <h6 class="card-subtitle text-muted">
-                                <xsl:for-each
-                                    select="./dri:list[contains(@n,'dc.contributor.author')]/dri:item"
-                                >
-                                    <i class="fa fa-user"></i>
+                        <div class="card-block card-block-top-result">                                       
+                            <a href="{$extMets/mets:METS/@OBJID}">
+                                <h5 class="card-title disable-math">
+                                    <xsl:choose>
+                                        <xsl:when
+                                            test="dri:list[@n=(concat($h,':dc.title')) and descendant::text()]"
+                                        >
+                                            <xsl:apply-templates
+                                                select="./dri:list[@n=concat($h,':dc.title')]/dri:item[1]"
+                                            />
+                                        </xsl:when>
+                                        <xsl:otherwise>
+                                            !no title
+                                        </xsl:otherwise>
+                                    </xsl:choose>   
+                                </h5>
+                            </a>
+                            <h6 class="card-subtitle"> 
+                                <i class="fa fa-user"></i> 
+                                <span class="text-muted">                            
                                     <xsl:text> </xsl:text>
-                                    <xsl:value-of
-                                        select="."
-                                    />
-                                    <xsl:if 
-                                        test="position() != last()"
+                                    <xsl:for-each
+                                        select="./dri:list[@n=concat($h,':dc.contributor.author')]/dri:item"
                                     >
-                                        <xsl:text>; </xsl:text>
-                                    </xsl:if>
-                                </xsl:for-each>
+                                        <xsl:apply-templates
+                                            select="."
+                                        />
+                                        <xsl:if test="count(following-sibling::dri:item) != 0">
+                                            <xsl:text>; </xsl:text>
+                                        </xsl:if>
+                                    </xsl:for-each>
+                                    <xsl:for-each
+                                        select="./dri:list[@n=concat($h,':dc.creator')]/dri:item"
+                                    >
+                                        <xsl:apply-templates
+                                            select="."
+                                        />
+                                        <xsl:if test="count(following-sibling::dri:item) != 0">
+                                            <xsl:text>; </xsl:text>
+                                        </xsl:if>
+                                    </xsl:for-each>
+                                    <xsl:for-each
+                                        select="./dri:list[@n=concat($h,':dc.contributor')]/dri:item"
+                                    >
+                                        <xsl:apply-templates
+                                            select="."
+                                        />
+                                        <xsl:if test="count(following-sibling::dri:item) != 0">
+                                            <xsl:text>; </xsl:text>
+                                        </xsl:if>
+                                    </xsl:for-each>
+                                </span>
                             </h6>
                         </div>
                         <div class="card-block">
-                            <p class="card-text">
+                            <p class="card-text disable-math">
                                 <xsl:choose>
-                                    <xsl:when test="./dri:list[contains(@n,'dc.description.abstract')]/dri:item">
-                                        <div class="disable-math">
-                                            <xsl:value-of
-                                                select="./dri:list[contains(@n,'dc.description.abstract')]/dri:item"
-                                            />
-                                        </div>
+                                    <xsl:when test="./dri:list[@n=concat($h,':dc.description.abstract')]/dri:item">
+                                        <xsl:apply-templates
+                                            select="./dri:list[@n=concat($h,':dc.description.abstract')]/dri:item"
+                                        />
                                     </xsl:when>
                                     <xsl:otherwise>
                                         !no abstract
                                     </xsl:otherwise>
                                 </xsl:choose>
                             </p>
-                            <p class="card-text">
-                                <small class="text-muted">!added</small>
+                            <p class="card-text hidden-xs-down">
+                                <small class="text-muted">
+                                    <xsl:text>!Last updated: </xsl:text>
+                                    <xsl:value-of
+                                        select="substring-before(./dri:list[@n=concat($h,':dc.date.available')]/dri:item,'T')"
+                                    />
+                                </small>
                             </p>
                         </div>
-                    </div>  
-                    <!--                        <div class="row">
-                        <div class="col-sm-3 hidden-xs">
-                            nahlad
-                        </div>
-                        <div class="col-sm-9">
-                            <xsl:variable
-                                name="extMeta"
-                            >
-                                <xsl:text>dri</xsl:text>
-                            </xsl:variable>
-                            <xsl:value-of select="@n" />
-                        </div>
-                    </div>-->
+                    </div> 
                 </xsl:for-each>                
             </div>
         </div>
+    </xsl:template>
+    
+    <!-- highlights the matched word in result list -->
+    <xsl:template
+        match="dri:item/dri:hi[@rend='highlight']"
+    >
+        <strong>
+            <xsl:value-of
+                select="."
+            />
+        </strong>
+    </xsl:template>
+    
+    <xsl:template
+        match="dri:div[@id='aspect.discovery.SimpleSearch.div.search-filters']"
+    >
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="pull-right">
+                    <xsl:apply-templates
+                        select="./dri:div[@rend='clearfix']/dri:p[@rend='pull-right']/dri:xref"
+                    />
+                </div>
+            </div>
+        </div>
+        <form method="{@method}" action="{@action}" id="{translate(@id,'.','_')}" class="{./dri:div[@id='aspect.discovery.SimpleSearch.div.discovery-filters-wrapper']/@rend}">            
+            <fieldset>
+                <input type="hidden" name="query" value="{./dri:p/dri:field/dri:value}" />
+                <input type="hidden" name="scope" value="{./dri:p/dri:field/dri:value}" />
+                <xsl:apply-templates select="./dri:div[@id='aspect.discovery.SimpleSearch.div.discovery-filters-wrapper']" />                
+            </fieldset>
+        </form>
+    </xsl:template>    
+    
+    <xsl:template 
+        match="dri:div[@id='aspect.discovery.SimpleSearch.div.discovery-filters-wrapper']"
+    >   
+        <h4>
+            <xsl:value-of
+                select="./dri:head"
+            />
+        </h4>
+        <xsl:value-of
+            select="./dri:p[1]"
+        />
+                
+        <xsl:apply-templates
+            select="./dri:table[@id='aspect.discovery.SimpleSearch.table.discovery-filters']"
+        />        
+    </xsl:template> 
+    
+    <xsl:template
+        match="dri:div[@rend='clearfix']/dri:p[@rend='pull-right']/dri:xref"
+    >
+        <a target="{@target}">
+            <xsl:attribute
+                name="class"
+            >
+                <xsl:value-of
+                    select="@rend"
+                />
+            </xsl:attribute>
+            <xsl:value-of
+                select="."
+            />
+            <xsl:choose>
+                <xsl:when
+                    test="contains(@rend,'hidden')"
+                >
+                    <xsl:text> </xsl:text>
+                    <i class="fa fa-chevron-up"></i>                    
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:text> </xsl:text>
+                    <i class="fa fa-chevron-down"></i>
+                </xsl:otherwise>
+            </xsl:choose>
+        </a>
+    </xsl:template>
+    
+    <xsl:template
+        match="dri:table[@id='aspect.discovery.SimpleSearch.table.discovery-filters']"
+    >
+        <xsl:apply-templates />        
+    </xsl:template>
+    
+    <xsl:template
+        match="dri:row[@rend='search-filter used-filter']"
+    >
+        <div class="form-group row in-use">
+            <div class="col-xs-4 col-sm-2">
+                <xsl:apply-templates
+                    select="./dri:cell[1]/dri:field"
+                />
+            </div>
+            <div class="col-xs-4 col-sm-2">
+                <xsl:apply-templates
+                    select="./dri:cell[2]/dri:field"
+                />
+            </div>
+            <div class="col-xs-4 col-sm-6">
+                <xsl:apply-templates
+                    select="./dri:cell[3]/dri:field"
+                />
+            </div>
+            <div class="col-sm-2 hidden-xs-down">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-secondary filter-add">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                    <button type="button" class="btn btn-secondary filter-remove">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>             
+            </div>
+        </div>
+    </xsl:template>
+    
+    <xsl:template
+        match="dri:row[@id='aspect.discovery.SimpleSearch.row.filter-controls']"
+    >
+        <div class="form-group row button-row">
+            <div class="col-sm-offset-2 col-xs-offset-4 col-sm-10">                
+                <button type="submit" class="btn btn-secondary" value="apply">!apply filters</button>
+                <button type="reset" class="btn btn-secondary" value="reset">Reseat</button>
+            </div>
+        </div>
+    </xsl:template>
+    
+    <xsl:template
+        match="dri:row[@rend='search-filter' and contains(@n,'filter-new')]"
+    >
+        <xsl:if
+            test="count(parent::node()/dri:row[@rend='search-filter used-filter']) &lt; 1"
+        >
+            <div class="form-group row in-use">
+                <div class="col-xs-4 col-sm-2">
+                    <xsl:apply-templates
+                        select="./dri:cell[1]/dri:field"
+                    />
+                </div>
+                <div class="col-xs-4 col-sm-2">
+                    <xsl:apply-templates
+                        select="./dri:cell[2]/dri:field"
+                    />
+                </div>
+                <div class="col-xs-4 col-sm-6">
+                    <xsl:apply-templates
+                        select="./dri:cell[3]/dri:field"
+                    />
+                </div>
+                <div class="col-sm-2 hidden-xs-down">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-secondary filter-add">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                        <button type="button" class="btn btn-secondary filter-remove">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                    </div>             
+                </div>
+            </div>
+        </xsl:if>
     </xsl:template>
 
 </xsl:stylesheet>

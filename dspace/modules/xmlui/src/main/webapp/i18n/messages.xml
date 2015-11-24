@@ -129,4 +129,15 @@ and open the template in the editor.
     <message key="file.extension.size.gbytes">GB</message>
     <message key="file.image.nopreview">No Thumbnail</message>
     
+    <message key="xmlui.ArtifactBrowser.AbstractSearch.result_query">Your query "{0}" produced {1} result(s).</message>
+    <message key="xmlui.ArtifactBrowser.AbstractSearch.head2">Communities or Collections matching your query</message>
+    <message key="xmlui.ArtifactBrowser.AbstractSearch.head3">Items matching your query</message>
+    <message key="xmlui.ArtifactBrowser.AbstractSearch.no_results">Search produced no results.</message>
+    <message key="xmlui.ArtifactBrowser.AbstractSearch.all_of_dspace">All of DSpace</message>
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.head">Search</message>
+    <message key="xmlui.mirage2.discovery.showAdvancedFilters">Show Advanced Filters</message>
+    <message key="xmlui.mirage2.discovery.hideAdvancedFilters">Hide Advanced Filters</message>
+    <message key="xmlui.Discovery.SimpleSearch.filter_head">Filters</message>
+    <message key="xmlui.Discovery.SimpleSearch.filter_help">Use filters to refine the search results.</message>
+    
 </catalogue>

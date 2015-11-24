@@ -147,38 +147,10 @@
         </script>
         
         <script>
-            $(window).load(function(){
+            <!--            $(window).load(function(){
                 $("#sticky").sticky({topSpacing: 0});
-            });
-            $(document).ready(function(){ 
-            
-                var preview = Preview.Init({preview: "mathPreview", buffer: "mathBuffer", input: "mathInput"});
-                $("#mathInput").on('keyup',function(){
-<!--                    $.get('https://mir.fi.muni.cz/cgi-bin/latex-to-mathml-via-latexml.cgi',{'formula':$("#mathInput").val()},function(response){
-                        console.log(response);
-                    });-->
-                    preview.update();
-                });         
-            
-                $("#extended-controls").append(function(){
-                    var symbols = "!\"#$%&amp;'()*+,-./0123456789:;&lt;=&gt;?@";
-                    var $table = $("&lt;table&gt;");
-                    var ul = $("&lt;tr&gt;&lt;td&gt;&lt;ul&gt;");
-                    var breakAfter = 5;
-                    $.each(symbols.split(""),function(i,v){
-                        if(i % breakAfter === 0) {                            
-                            ul = $("&lt;tr&gt;&lt;td&gt;&lt;ul&gt;");
-                            console.log(ul);
-                            $table.append(ul);
-                        }                        
-                        var li = $("&lt;li&gt;").html(v);
-                        ul.append(li);                        
-                        console.log(i + ": "+v);  
-                    });            
-                    console.log($table);
-                    return $table;
-                });
-            
+            });-->
+            $(document).ready(function(){             
             <xsl:if
                 test="$communityType = 'serial' and count(/dri:document/dri:meta/dri:pageMeta/dri:trail) = 3"
             >

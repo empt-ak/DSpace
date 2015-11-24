@@ -226,3 +226,13 @@ table.table-toc td
 {
     display: none;
 }
+
+.card-block-top-result
+{
+    padding-bottom: 0 !important;
+}
+
+.jumbotron
+{
+    padding: 32px !important;
+}
