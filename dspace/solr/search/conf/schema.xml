@@ -557,7 +557,10 @@
 
     <!-- used by the DSpace Discovery Solr Indexer to track the last time a document was indexed -->
    <field name="SolrIndexer.lastIndexed" type="date" indexed="true" stored="true" default="NOW" multiValued="false" omitNorms="true" />
-   <field name="dmlcz.math" type="dmlcz.math" indexed="true" stored="true" multiValued="true" />
+   <field name="dmlcz.math" type="dmlcz.math" indexed="false" stored="false" multiValued="true" />  
+   <field name="math" type="dmlcz.math" indexed="true" stored="false" multiValued="true" />  
+   <field name="math_keyword" type="dmlcz.math" indexed="true" stored="false" multiValued="true" />  
+   <field name="math_ac" type="dmlcz.math" indexed="false" stored="false" multiValued="true" />  
 
    <!-- Custom Mapping to assure ds.creator is placed into dc.contributor.author by defualt -->
    <!--<copyField source="dc.creator" dest="dc.contributor.author"/>-->

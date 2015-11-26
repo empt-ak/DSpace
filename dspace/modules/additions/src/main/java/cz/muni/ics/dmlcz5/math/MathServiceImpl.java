@@ -8,11 +8,10 @@ package cz.muni.ics.dmlcz5.math;
 import cz.muni.ics.dspace5.api.module.ObjectWrapper;
 import cz.muni.ics.dspace5.metadata.MetadatumFactory;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +58,7 @@ public class MathServiceImpl implements MathService
     private Transformer transformer;
 //    private XPathFactory xFactory;
 //    private XPath xpath;
+    private PrintStream original = System.err;
 
     public MathServiceImpl() throws TransformerConfigurationException, ParserConfigurationException
     {
@@ -89,11 +89,8 @@ public class MathServiceImpl implements MathService
     private static final Logger logger = Logger.getLogger(MathServiceImpl.class);
 
     @Override
-    public List<Metadatum> loadMathFormulas(ObjectWrapper objectWrapper) throws IOException
-    {
-        List<Path> acceptablePaths = new ArrayList<>();
-        acceptablePaths.add(Paths.get("/media/emptak/bb31336e-5bd9-4985-b588-20819fdcbf44/dmlcz-data/serial/MathBohem/116-1991-1/#1"));
-        acceptablePaths.add(Paths.get("/media/emptak/bb31336e-5bd9-4985-b588-20819fdcbf44/dmlcz-data/serial/MathBohem/125-2000-4/#2"));
+    public List<Metadatum> loadMathFormulas(final ObjectWrapper objectWrapper) throws IOException
+    {  
         List<Metadatum> result = new ArrayList<>();
 //        if (acceptablePaths.contains(objectWrapper.getPath()))
 //        {
@@ -117,12 +114,30 @@ public class MathServiceImpl implements MathService
                         }
                     }
                 });
+                
+//                Console c = System.console();
+//                c.
+                
+//                Console c = System.console();
+//                c.
+//                System.out.println(objectWrapper.getPath());
+//                System.out.println(System.console());
 
+                System.setErr(new PrintStream(System.err){
+                    @Override
+                    public void println(String s){
+                        logger.fatal(s+" @"+objectWrapper.getPath());
+                        super.println(s);
+                    }                                        
+                });
                 Document doc = builder.parse(Files.newInputStream(objectWrapper.getPath().resolve("infty.xml"), StandardOpenOption.READ));
+//                System.out.println("#"+System.console());
                 XPathFactory xFactory = XPathFactory.newInstance();
                 XPath xpath = xFactory.newXPath();
+//                System.out.println("$"+System.console());
                 XPathExpression expression = xpath.compile("//formula/math");
-
+//                System.out.println("%"+System.console());
+                
                 NodeList nl = (NodeList) expression.evaluate(doc, XPathConstants.NODESET);
 
                 for (int i = 0; i < nl.getLength(); i++)
@@ -140,6 +155,7 @@ public class MathServiceImpl implements MathService
             {
                 java.util.logging.Logger.getLogger(MathServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
+            System.setErr(original);
 //        }
 
         return result;
