@@ -47,53 +47,55 @@
                     </a>
                 </li>
             </ul>
-            <xsl:if
-                test="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='feed']"
-            >  
-                <div class="card-header disable-bottom-border">
-                    <i18n:text>page.sidebar.left.rss</i18n:text>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <xsl:for-each
-                        select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='feed']"
-                    >
-                        <li class="list-group-item">
-                            <span class="fa fa-rss">&#160;</span>
-                            <a>
-                                <xsl:attribute
-                                    name="href"
-                                >
-                                    <xsl:value-of
-                                        select="." 
-                                    />
-                                </xsl:attribute>                                
-                                <xsl:choose>
-                                    <xsl:when 
-                                        test="contains(., 'rss_1.0')"
+            <div class="hidden-sm-down">
+                <xsl:if
+                    test="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='feed']"
+                >  
+                    <div class="card-header disable-bottom-border">
+                        <i18n:text>page.sidebar.left.rss</i18n:text>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <xsl:for-each
+                            select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='feed']"
+                        >
+                            <li class="list-group-item">
+                                <span class="fa fa-rss">&#160;</span>
+                                <a>
+                                    <xsl:attribute
+                                        name="href"
                                     >
-                                        <xsl:text>RSS 1.0</xsl:text>
-                                    </xsl:when>
-                                    <xsl:when 
-                                        test="contains(., 'rss_2.0')"
-                                    >
-                                        <xsl:text>RSS 2.0</xsl:text>
-                                    </xsl:when>
-                                    <xsl:when 
-                                        test="contains(., 'atom_1.0')"
-                                    >
-                                        <xsl:text>Atom</xsl:text>
-                                    </xsl:when>
-                                    <xsl:otherwise>
-                                        <xsl:value-of 
-                                            select="@qualifier"
+                                        <xsl:value-of
+                                            select="." 
                                         />
-                                    </xsl:otherwise>
-                                </xsl:choose>
-                            </a>
-                        </li>
-                    </xsl:for-each>
-                </ul>
-            </xsl:if>
+                                    </xsl:attribute>                                
+                                    <xsl:choose>
+                                        <xsl:when 
+                                            test="contains(., 'rss_1.0')"
+                                        >
+                                            <xsl:text>RSS 1.0</xsl:text>
+                                        </xsl:when>
+                                        <xsl:when 
+                                            test="contains(., 'rss_2.0')"
+                                        >
+                                            <xsl:text>RSS 2.0</xsl:text>
+                                        </xsl:when>
+                                        <xsl:when 
+                                            test="contains(., 'atom_1.0')"
+                                        >
+                                            <xsl:text>Atom</xsl:text>
+                                        </xsl:when>
+                                        <xsl:otherwise>
+                                            <xsl:value-of 
+                                                select="@qualifier"
+                                            />
+                                        </xsl:otherwise>
+                                    </xsl:choose>
+                                </a>
+                            </li>
+                        </xsl:for-each>
+                    </ul>
+                </xsl:if>
+            </div>
             <div class="hidden-sm-down">
                 <div class="card-header disable-bottom-border">
                     !Toolbox
@@ -111,7 +113,7 @@
                         <xsl:text> </xsl:text>
                         <xsl:value-of
                             select="document(concat($solrServer,'select?q=search.resourcetype%3A2&amp;rows=0&amp;wt=xml'))/response/result/@numFound"
-                            />
+                        />
                     </li>
                     <li class="list-group-item">!More statistics </li>
                     <li class="list-group-item">!Back to top</li>

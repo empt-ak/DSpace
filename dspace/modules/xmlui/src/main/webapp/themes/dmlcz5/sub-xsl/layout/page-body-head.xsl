@@ -45,7 +45,7 @@
             </div>
         </xsl:if>
         <div class="row">
-            <div class="col-md-2 hidden-sm hidden-xs">
+            <div class="col-sm-2 hidden-sm-down">
                 <a>
                     <xsl:attribute
                         name="href"
@@ -66,7 +66,7 @@
                     </img>
                 </a>            
             </div>
-            <div class="col-md-10">
+            <div class="col-sm-10">
                 <div class="page-header">
                     <a class="dml-link">
                         <xsl:attribute
