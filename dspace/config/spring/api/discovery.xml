@@ -101,10 +101,11 @@
         <!--Which sidebar facets are to be displayed-->
         <property name="sidebarFacets">
             <list>
-                <ref bean="searchFilterAdvisor" />
+                <!--<ref bean="searchFilterAdvisor" />-->
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject" />
                 <ref bean="searchFilterIssued" />
+                <ref bean="searchFilterMSC" />
             </list>
         </property>
         <!-- Set TagCloud configuration per discovery configuration -->
@@ -113,13 +114,14 @@
         <property name="searchFilters">
             <list>
                 <ref bean="searchFilterTitle" />
-                <ref bean="searchFilterAdvisor" />
+                <!--<ref bean="searchFilterAdvisor" />-->
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject" />
                 <ref bean="searchFilterIssued" />
-                <ref bean="searchFilterType" />
-                <ref bean="searchFilterProvenance" />
+                <!--<ref bean="searchFilterType" />-->
+                <!--<ref bean="searchFilterProvenance" />-->
                 <ref bean="searchFilterMath" />
+                <ref bean="searchFilterMSC" />
             </list>
         </property>
         <!--The sort filters for the discovery search-->
@@ -193,7 +195,7 @@
                     <list>
                         <value>dc.title</value>
                         <value>dc.contributor.author</value>
-                        <value>dc.contributor.advisor</value>
+                        <!--<value>dc.contributor.advisor</value>-->
                         <value>dc.creator</value>
                         <value>dc.subject</value>
                     </list>
@@ -216,10 +218,11 @@
         <!--Which sidebar facets are to be displayed (same as defaultConfiguration above)-->
         <property name="sidebarFacets">
             <list>
-                <ref bean="searchFilterAdvisor" />
+                <!--<ref bean="searchFilterAdvisor" />-->
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject" />
                 <ref bean="searchFilterIssued" />
+                <ref bean="searchFilterMSC" />
             </list>
         </property>
         <!-- Set TagCloud configuration per discovery configuration -->
@@ -228,13 +231,14 @@
         <property name="searchFilters">
             <list>
                 <ref bean="searchFilterTitle" />
-                <ref bean="searchFilterAdvisor" />
+                <!--<ref bean="searchFilterAdvisor" />-->
                 <ref bean="searchFilterAuthor" />
                 <ref bean="searchFilterSubject" />
                 <ref bean="searchFilterIssued" />
-                <ref bean="searchFilterType" />
-                <ref bean="searchFilterProvenance" />
+                <!--<ref bean="searchFilterType" />-->
+                <!--<ref bean="searchFilterProvenance" />-->
                 <ref bean="searchFilterMath" />
+                <ref bean="searchFilterMSC" />
             </list>
         </property>
         <!--The sort filters for the discovery search (same as defaultConfiguration above)-->
@@ -454,6 +458,17 @@
             </list>
         </property>
         <property name="type" value="dmlcz.math" />
+    </bean>
+    
+    <bean id="searchFilterMSC" class="org.dspace.discovery.configuration.DiscoverySearchFilterFacet">
+        <property name="indexFieldName" value="msc"/>
+        <property name="metadataFields">
+            <list>
+                <value>dc.subject.msc</value>
+            </list>
+        </property>
+        <property name="facetLimit" value="10"/>
+        <property name="sortOrder" value="COUNT"/>
     </bean>
 
     <bean id="searchFilterProvenance" class="org.dspace.discovery.configuration.DiscoverySearchFilter">

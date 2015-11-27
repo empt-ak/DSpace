@@ -236,3 +236,8 @@ table.table-toc td
 {
     padding: 32px !important;
 }
+
+.card-block-reduced
+{
+    padding-bottom:0;
+}

@@ -94,7 +94,7 @@
                     </xsl:for-each>
                 </ul>
             </xsl:if>
-            <div id="sticky">
+            <div class="hidden-sm-down">
                 <div class="card-header disable-bottom-border">
                     !Toolbox
                 </div>

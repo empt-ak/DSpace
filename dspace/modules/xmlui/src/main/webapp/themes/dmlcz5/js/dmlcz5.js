@@ -3,18 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-$('#my-email').html(function () {
-    var e = "help";
-    var a = "@";
-    var d = "dml";
-    var c = ".cz";
-    var h = 'mailto:' + e + a + d + c;
-    $(this).parent('a').attr('href', h);
-    return e + a + d + c;
-});
-
 $(document).ready(function () {
+    $('#my-email').email();
+
     $(".show-advanced-filters").click(function () {
         $("#aspect_discovery_SimpleSearch_div_search-filters").show();
         $(this).hide();
@@ -25,12 +16,7 @@ $(document).ready(function () {
         $(this).hide();
         $(".show-advanced-filters").show();
     });
-//    $("#aspect_discovery_SimpleSearch_div_search-filters").submit(function (e) {
-//        $("#dummyFilterRow").remove();
-//        //console.log($(this).serializeArray());
-//
-//        e.preventDefault();
-//    });
+
     $(this).on('click', '.filter-remove', function (e) {
         if ($('.row .in-use').length > 1) {
             $(this).closest('.row .in-use').remove();
@@ -47,13 +33,6 @@ $(document).ready(function () {
         });
         $row.insertBefore('.button-row');
     });
-//    var preview = Preview.Init({preview: "mathPreview", buffer: "mathBuffer", input: "mathInput"});
-////    $("#mathInput").on('keyup', function () {
-////        /**                 $.get('https://mir.fi.muni.cz/cgi-bin/latex-to-mathml-via-latexml.cgi', {'formula':$("#mathInput").val()}, function(response){
-////         console.log(response); */
-////    });
-//
-//    preview.update();
 
     $("#extended-controls").append(function () {
         var symbols = "!\"#$%&amp;'()*+,-./0123456789:;&lt;=&gt;?@";
@@ -73,4 +52,49 @@ $(document).ready(function () {
         console.log($table);
         return $table;
     });
+
+
+    $(this).on('change', 'form#aspect_discovery_SimpleSearch_div_search-filters select', function () {
+        var $parent = $(this).parents("div.row:first");
+        if ($(this).val() === "math") {
+            var attrs = {};
+
+            var $input = $parent.find("input:text");
+            if ($input.length) {
+                $.each($input[0].attributes, function (idx, attr) {
+                    if (attr.nodeName !== 'type' && attr.nodeName !== 'value') {
+                        attrs[attr.nodeName] = attr.nodeValue;
+                    }
+                });
+
+                $input.replaceWith($("<textarea />", attrs));
+            }
+        } else {
+            $textarea = $parent.find("textarea");
+            if ($textarea.length) {
+                attrs = {};
+                $.each($textarea[0].attributes, function (idx, attr) {
+                    attrs[attr.nodeName] = attr.nodeValue;
+                });
+
+                $.extend(attrs, {type: 'text'});
+
+                $textarea.replaceWith($("<input />", attrs));
+            }
+        }
+    });
 });
+
+
+(function ($) {
+    $.fn.email = function () {
+        var e = "help";
+        var a = "@";
+        var d = "dml";
+        var c = ".cz";
+        var h = 'mailto:' + e + a + d + c;
+        $(this).parent('a').attr('href', h);
+        $(this).html(e + a + d + c);
+        return this;
+    };
+}(jQuery));

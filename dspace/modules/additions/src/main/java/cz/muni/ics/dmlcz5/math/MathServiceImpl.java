@@ -15,7 +15,6 @@ import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -90,74 +89,67 @@ public class MathServiceImpl implements MathService
 
     @Override
     public List<Metadatum> loadMathFormulas(final ObjectWrapper objectWrapper) throws IOException
-    {  
+    {
         List<Metadatum> result = new ArrayList<>();
-//        if (acceptablePaths.contains(objectWrapper.getPath()))
-//        {
+        
+        DocumentBuilderFactory factory = null;
+        DocumentBuilder builder = null;
+        Document doc = null;
+        XPathFactory xFactory = null;
+        XPath xpath = null;
+        XPathExpression expression = null;
+        NodeList nl = null;
 
-            try
+        try
+        {
+            factory = DocumentBuilderFactory.newInstance();
+            builder = factory.newDocumentBuilder();
+            builder.setEntityResolver(new EntityResolver()
             {
-                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-                DocumentBuilder builder = factory.newDocumentBuilder();
-                builder.setEntityResolver(new EntityResolver()
+                @Override
+                public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException
                 {
-                    @Override
-                    public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException
+                    if (systemId.contains("unknown.dtd"))
                     {
-                        if (systemId.contains("unknown.dtd"))
-                        {
-                            return new InputSource(new StringReader(""));
-                        }
-                        else
-                        {
-                            return null;
-                        }
+                        return new InputSource(new StringReader(""));
                     }
-                });
-                
-//                Console c = System.console();
-//                c.
-                
-//                Console c = System.console();
-//                c.
-//                System.out.println(objectWrapper.getPath());
-//                System.out.println(System.console());
-
-                System.setErr(new PrintStream(System.err){
-                    @Override
-                    public void println(String s){
-                        logger.fatal(s+" @"+objectWrapper.getPath());
-                        super.println(s);
-                    }                                        
-                });
-                Document doc = builder.parse(Files.newInputStream(objectWrapper.getPath().resolve("infty.xml"), StandardOpenOption.READ));
-//                System.out.println("#"+System.console());
-                XPathFactory xFactory = XPathFactory.newInstance();
-                XPath xpath = xFactory.newXPath();
-//                System.out.println("$"+System.console());
-                XPathExpression expression = xpath.compile("//formula/math");
-//                System.out.println("%"+System.console());
-                
-                NodeList nl = (NodeList) expression.evaluate(doc, XPathConstants.NODESET);
-
-                for (int i = 0; i < nl.getLength(); i++)
-                {
-                    String math = nodeToString(nl.item(i));
-                    logger.debug(math);
-                    result.add(metadatumFactory.createMetadatum("dmlcz", "math", null, null, math));
+                    else
+                    {
+                        return null;
+                    }
                 }
-            }
-            catch (XPathExpressionException | TransformerException | SAXException ex)
-            {
-                logger.error(ex);
-            }
-            catch (ParserConfigurationException ex)
-            {
-                java.util.logging.Logger.getLogger(MathServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            System.setErr(original);
-//        }
+            });
+            doc = builder.parse(Files.newInputStream(objectWrapper.getPath().resolve("infty.xml"), StandardOpenOption.READ));
 
+            xFactory = XPathFactory.newInstance();
+            xpath = xFactory.newXPath();
+            expression = xpath.compile("//formula/math");
+
+            nl = (NodeList) expression.evaluate(doc, XPathConstants.NODESET);
+
+            for (int i = 0; i < nl.getLength(); i++)
+            {
+                String math = nodeToString(nl.item(i));
+                logger.debug(math);
+                result.add(metadatumFactory.createMetadatum("dmlcz", "math", null, null, math));
+            }
+        }
+        catch (XPathExpressionException | TransformerException | SAXException | ParserConfigurationException ex)
+        {
+            logger.fatal(objectWrapper.getPath());
+            logger.error(ex);
+        }
+        catch (NullPointerException npe)
+        {
+            logger.fatal(objectWrapper.getPath());
+            logger.error("DocumentBuilderFactory$ " +factory);
+            logger.error("DocumentBuilder$ "+builder );
+            logger.error("Document$ " +doc);
+            logger.error("XPathFactory$ "+xFactory);
+            logger.error("XPath$ "+xpath);
+            logger.error("XPathExpression$ "+expression);
+            logger.error("NodeList$ "+nl);
+        }
         return result;
     }
 

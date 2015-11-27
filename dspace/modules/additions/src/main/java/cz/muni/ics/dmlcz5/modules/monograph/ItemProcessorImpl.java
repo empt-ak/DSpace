@@ -6,6 +6,7 @@
 package cz.muni.ics.dmlcz5.modules.monograph;
 
 import cz.muni.ics.dmlcz5.domain.Article;
+import cz.muni.ics.dmlcz5.math.MathService;
 import cz.muni.ics.dmlcz5.movingwall.MovingWallFactoryBean;
 import cz.muni.ics.dmlcz5.service.io.references.ReferenceService;
 import cz.muni.ics.dspace5.api.ObjectMapper;
@@ -65,6 +66,8 @@ public class ItemProcessorImpl implements ItemProcessor
     private MovingWallFactoryBean movingWallFactoryBean;
     @Autowired
     private ReferenceService referenceService;
+    @Autowired
+    private MathService mathService;
 
     private String[] itemFileNames;
     private Article article;
@@ -99,7 +102,15 @@ public class ItemProcessorImpl implements ItemProcessor
 
         if (article != null)
         {
-            mapper.map(article, metadataWrapper);  
+            mapper.map(article, metadataWrapper); 
+            try
+            {
+                metadataWrapper.push(mathService.loadMathFormulas(currentWrapper));
+            }
+            catch (IOException ex)
+            {
+                logger.error(ex);
+            }
         }
         else
         {
