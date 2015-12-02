@@ -95,13 +95,13 @@
                                 <xsl:text>?sections=dmdSec</xsl:text>
                             </xsl:variable>
                             <li class="media">
-                                <div class="media-left">
+                                <div class="media-left hidden-sm-down">
                                     <a href="#">                                                                             
                                         <xsl:choose>
                                             <xsl:when 
                                                 test="document(concat('cocoon://',@url,'?sections=fileSec'))/mets:METS/mets:fileSec/mets:fileGrp/mets:file/mets:FLocat/@xlink:href"
                                             >
-                                                <img height="100" width="70" alt="page.landing.thumbnail" i18n:attr="alt">       
+                                                <img height="100" alt="page.landing.thumbnail" i18n:attr="alt" class="img-responsive"><!-- width="70" -->       
                                                     <xsl:attribute name="src">
                                                         <xsl:value-of 
                                                             select="document(concat('cocoon://',@url,'?sections=fileSec'))/mets:METS/mets:fileSec/mets:fileGrp/mets:file/mets:FLocat/@xlink:href" 
