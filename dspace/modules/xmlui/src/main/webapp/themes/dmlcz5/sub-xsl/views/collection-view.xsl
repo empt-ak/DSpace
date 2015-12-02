@@ -59,8 +59,9 @@
                     <xsl:with-param
                         name="issueMetadata"
                         select="$issueMetadata"
-                    />
+                    />                   
                 </xsl:call-template>
+                
             </xsl:when>
             <xsl:when
                 test="$communityType = 'serial'"
@@ -71,6 +72,14 @@
                     <xsl:with-param
                         name="issueMetadata"
                         select="$issueMetadata"
+                    />
+                    <xsl:with-param
+                        name="issueSiblings"
+                        select="./dri:referenceSet[@id='cz.muni.ics.dmlcz5.aspects.CollectionAspect.referenceSet.issue-siblings']"
+                    />
+                    <xsl:with-param
+                        name="currentIssueUrl"
+                        select="./dri:referenceSet[@n='current-collection']/dri:reference[@type='DSpace Collection']/@url"
                     />
                 </xsl:call-template>
             </xsl:when>
@@ -559,6 +568,47 @@
         <xsl:param
             name="issueMetadata"
         />
+        <xsl:param
+            name="issueSiblings"
+        />
+        <xsl:param
+            name="currentIssueUrl"
+        />
+        <div class="row">
+            <div class="col-xs-12">             
+                <ul class="nav nav-tabs">
+                    <xsl:for-each 
+                        select="$issueSiblings/dri:reference"
+                    >
+                        <xsl:variable
+                            name="siblingMetadata"
+                        >
+                            <xsl:text>cocoon://</xsl:text>
+                            <xsl:value-of select="./@url"/>
+                            <xsl:text>?sections=dmdSec</xsl:text>
+                        </xsl:variable>
+                        <li class="nav-item">                            
+                            <a href="{document($siblingMetadata)/mets:METS/@OBJID}" class="nav-link">
+                                <xsl:if
+                                    test="./@url = $currentIssueUrl"
+                                >
+                                    <xsl:attribute
+                                        name="class"
+                                    >
+                                        <xsl:text>nav-link active</xsl:text>
+                                    </xsl:attribute>
+                                </xsl:if>
+                                <i18n:text>page.community.serial.volume.issue</i18n:text>
+                                <xsl:text> </xsl:text>
+                                <xsl:value-of
+                                    select="document($siblingMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title' and @qualifier='name']"
+                                />
+                            </a>
+                        </li>
+                    </xsl:for-each>
+                </ul>
+            </div>            
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <h2 class="volume-title">

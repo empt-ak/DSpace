@@ -181,20 +181,22 @@
                                     </xsl:variable>
                                     <tr>
                                         <td>
-                                            <a>
-                                                <xsl:attribute 
-                                                    name="href"
-                                                >
-                                                    <xsl:value-of
-                                                        select="document($volumeMetadata)/mets:METS/@OBJID"
-                                                    />
-                                                </xsl:attribute>
-                                                <i18n:text>page.community.serial.label.volume</i18n:text>
-                                                <xsl:text> </xsl:text>
+                                            <!--                                            <a>
+                                            <xsl:attribute 
+                                                name="href"
+                                            >
+                                                <xsl:value-of
+                                                    select="document($volumeMetadata)/mets:METS/@OBJID"
+                                                />
+                                            </xsl:attribute>-->
+                                            <i18n:text>page.community.serial.label.volume</i18n:text>
+                                            <xsl:text> </xsl:text>
+                                            <strong>
                                                 <xsl:value-of
                                                     select="document($volumeMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title']"
                                                 />
-                                            </a> 
+                                            </strong>
+                                            <!--                                            </a> -->
                                             <xsl:text> (</xsl:text>
                                             <xsl:value-of
                                                 select="document($volumeMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='date']"
@@ -247,20 +249,22 @@
                                     </xsl:variable>
                                     <tr>
                                         <td>
-                                            <a>
-                                                <xsl:attribute 
-                                                    name="href"
-                                                >
-                                                    <xsl:value-of
-                                                        select="document($volumeMetadata)/mets:METS/@OBJID"
-                                                    />
-                                                </xsl:attribute>
-                                                <i18n:text>page.community.serial.label.volume</i18n:text>
-                                                <xsl:text> </xsl:text>
+                                            <!--                                            <a>
+                                            <xsl:attribute 
+                                                name="href"
+                                            >
+                                                <xsl:value-of
+                                                    select="document($volumeMetadata)/mets:METS/@OBJID"
+                                                />
+                                            </xsl:attribute>-->
+                                            <i18n:text>page.community.serial.label.volume</i18n:text>
+                                            <xsl:text> </xsl:text>
+                                            <strong>
                                                 <xsl:value-of
                                                     select="document($volumeMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title']"
                                                 />
-                                            </a> 
+                                            </strong>
+                                            <!--                                            </a> -->
                                             <xsl:text> (</xsl:text>
                                             <xsl:value-of
                                                 select="document($volumeMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='date']"

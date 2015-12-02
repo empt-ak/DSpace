@@ -57,9 +57,25 @@ public class CollectionAspect extends AbstractDSpaceTransformer
             }
 
             ReferenceSet items = null;
-            if (topComm != null && topComm.getMetadataByMetadataString("dc.type")[0].value.equals("celebrity"))
+            if (topComm != null)
             {
-                items = home.addReferenceSet("item-list", ReferenceSet.TYPE_SUMMARY_LIST);
+                if(topComm.getMetadataByMetadataString("dc.type")[0].value.equals("celebrity"))
+                {
+                    items = home.addReferenceSet("item-list", ReferenceSet.TYPE_SUMMARY_LIST);
+                }
+                else if(topComm.getMetadataByMetadataString("dc.type")[0].value.equals("serial"))
+                {
+                    ReferenceSet issueSiblings = home.addReferenceSet("issue-siblings", ReferenceSet.TYPE_SUMMARY_LIST);
+                    
+                    Community volume = (Community) col.getParentObject();
+                    
+                    for(Collection sibling : AspectUtils.getSortedIssuesForVolume(volume.getCollections()))
+                    {
+                        issueSiblings.addReference(sibling);
+                    }
+                    
+                    items = home.addReferenceSet("item-list", ReferenceSet.TYPE_SUMMARY_LIST);
+                }
             }
             else
             {
