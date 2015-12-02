@@ -46,15 +46,26 @@
             <xsl:text>?sections=dmdSec,fileSec</xsl:text>
         </xsl:variable>
         <div class="col-xs-12">
-            <ul class="nav nav-tabs pull-right" role="tablist">
+            <ul class="nav nav-tabs pull-sm-left pull-md-right" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#articleTab" role="tab" data-toggle="tab">!Article</a>
+                    <a class="nav-link active" href="#entryTab" role="tab" data-toggle="tab">
+                        <i18n:text>page.item.entry</i18n:text>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#referencesTab" role="tab" data-toggle="tab">!References</a>
+                    <a class="nav-link" href="#entryTab" role="tab" data-toggle="tab">
+                        <i18n:text>page.item.fullentry</i18n:text>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#similarTab" role="tab" data-toggle="tab">!Similar articles</a>
+                    <a class="nav-link" href="#referencesTab" role="tab" data-toggle="tab">
+                        <i18n:text>page.item.references</i18n:text>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#similarTab" role="tab" data-toggle="tab">
+                        <i18n:text>page.item.similar</i18n:text>
+                    </a>
                 </li>
             </ul>
         </div>        
@@ -62,7 +73,7 @@
             <div class="col-xs-12">
                 <div class="row">
                     <div class="col-md-12">
-                        <h3 class="page-header article-title">
+                        <h3>
                             <xsl:value-of
                                 select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title'][1]"
                             />
@@ -83,9 +94,9 @@
                     </div>
                 </div>
                 <div class="tab-content">            
-                    <div role="tabpanel" class="tab-pane active" id="articleTab">
+                    <div role="tabpanel" class="tab-pane active" id="entryTab">
                         <div class="row">
-                            <div class="col-sm-3">
+                            <div class="col-xs-12 col-md-6 col-xl-3">
                                 <div class="card">
                                     <xsl:choose>
                                         <xsl:when test="document($itemMetadata)/mets:fileSec/mets:fileGrp[@USE='THUMBNAIL']/
@@ -278,11 +289,14 @@
                                     </xsl:if>                                 
                                 </div>                                
                             </div>
-                            <div class="col-sm-9">
+                            <div class="col-xs-12 col-md-6 col-xl-9">
                                 <div class="card">
                                     <div class="card-block">
                                         <h5 class="card-title">
-                                            <i class="fa fa-file-text-o"></i> !abstract(y)</h5>                                    
+                                            <i class="fa fa-file-text-o"></i>
+                                            <xsl:text> </xsl:text>
+                                            <i18n:text>page.item.abstract</i18n:text>
+                                        </h5>                                    
                                         <p class="card-text text-justify">
                                             <xsl:for-each
                                                 select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']"

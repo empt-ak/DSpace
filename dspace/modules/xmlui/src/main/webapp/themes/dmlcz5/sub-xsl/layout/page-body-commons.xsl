@@ -21,10 +21,10 @@
                 exclude-result-prefixes="i18n dri mets xlink xsl dim xhtml mods dc">
     <xsl:template name="buildNavigation">
         <nav class="navbar navbar-light bg-faded">
-            <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2">
+            <button class="navbar-toggler hidden-md-up" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2">
     &#9776;
             </button>
-            <div class="collapse navbar-toggleable-xs" id="exCollapsingNavbar2">
+            <div class="collapse navbar-toggleable-sm" id="exCollapsingNavbar2">
                 <ul class="nav navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link">
@@ -64,7 +64,7 @@
                         </a>
                     </li>
                 </ul>
-                <form class="form-inline navbar-form pull-right" method="post">
+                <form class="form-inline navbar-form pull-xs-left pull-xl-right" method="post">
                     <xsl:attribute
                         name="action"
                     >

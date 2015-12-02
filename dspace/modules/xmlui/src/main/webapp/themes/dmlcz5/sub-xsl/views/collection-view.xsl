@@ -680,26 +680,24 @@
                                         </xsl:otherwise>
                                     </xsl:choose>
                                 </xsl:attribute>                                
-                                <div class="col-md-2 text-right item-extent">
-                                    <xsl:value-of
-                                        select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='format' and @qualifier='extent']"
-                                    />
+                                <div class="col-sm-2 col-xl-2 hidden-xs-down text-sm-right">
+                                    <h4>
+                                        <xsl:value-of
+                                            select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='format' and @qualifier='extent']"
+                                        />
+                                    </h4>
                                 </div>
-                                <div class="col-md-10">
-                                    <a>
-                                        <xsl:attribute 
-                                            name="href"
-                                        >
-                                            <xsl:value-of
-                                                select="document($itemMetadata)/mets:METS/@OBJID"
-                                            />
-                                        </xsl:attribute>
-                                        <div class="issue-item-title">
-                                            <xsl:value-of
-                                                select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title'][1]"
-                                            />
-                                        </div>
-                                    </a>
+                                <div class="col-sm-10 col-xl-10">
+                                    <div class="disable-math">
+                                        <h4>
+                                            <a href="{document($itemMetadata)/mets:METS/@OBJID}">                                               
+                                                <xsl:value-of
+                                                    select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title'][1]"
+                                                />
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    
                                     <xsl:if
                                         test="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='contributor' and @qualifier='author']"
                                     >                                    
