@@ -95,7 +95,7 @@
                                 <xsl:text>?sections=dmdSec</xsl:text>
                             </xsl:variable>
                             <li class="media">
-                                <div class="media-left hidden-sm-down">
+                                <div class="media-left hidden-md-down">
                                     <a href="#">                                                                             
                                         <xsl:choose>
                                             <xsl:when 

@@ -113,8 +113,6 @@
                                     select="document($externalMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='uri']"
                                 />
                             </a>
-                            <xsl:text> </xsl:text>
-                            <span class="glyphicon glyphicon-new-window">&#160;</span>
                         </dd>
                     </xsl:if>                     
                     <xsl:if
@@ -169,132 +167,136 @@
                 </h3>
                 <div class="row">
                     <div class="col-md-6">
-                        <table class="table table-hover">
-                            <xsl:for-each
-                                select="./dri:div[@id='cz.muni.ics.dmlcz5.aspects.CommunityAspect.div.sub-table' and @rend='left']/dri:referenceSet[@id='cz.muni.ics.dmlcz5.aspects.CommunityAspect.referenceSet.volume']"
-                            >
-                                <xsl:variable
-                                    name="volumeMetadata"
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <xsl:for-each
+                                    select="./dri:div[@id='cz.muni.ics.dmlcz5.aspects.CommunityAspect.div.sub-table' and @rend='left']/dri:referenceSet[@id='cz.muni.ics.dmlcz5.aspects.CommunityAspect.referenceSet.volume']"
                                 >
-                                    <xsl:text>cocoon://</xsl:text>
-                                    <xsl:value-of select="./dri:reference[@type='DSpace Community']/@url"/>
-                                    <xsl:text>?sections=dmdSec</xsl:text>
-                                </xsl:variable>
-                                <tr>
-                                    <td>
-                                        <a>
-                                            <xsl:attribute 
-                                                name="href"
-                                            >
-                                                <xsl:value-of
-                                                    select="document($volumeMetadata)/mets:METS/@OBJID"
-                                                />
-                                            </xsl:attribute>
-                                            <i18n:text>page.community.serial.label.volume</i18n:text>
-                                            <xsl:text> </xsl:text>
-                                            <xsl:value-of
-                                                select="document($volumeMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title']"
-                                            />
-                                        </a> 
-                                        <xsl:text> ( </xsl:text>
-                                        <xsl:value-of
-                                            select="document($volumeMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='date']"
-                                        />
-                                        <xsl:text> )</xsl:text>
-                                    </td>
-                                    <td>
-                                        <xsl:for-each
-                                            select="./dri:reference[@type='DSpace Collection']"
-                                        >
-                                            <xsl:variable
-                                                name="issueMetadata"
-                                            >
-                                                <xsl:text>cocoon://</xsl:text>
-                                                <xsl:value-of select="./@url"/>
-                                                <xsl:text>?sections=dmdSec</xsl:text>
-                                            </xsl:variable>
+                                    <xsl:variable
+                                        name="volumeMetadata"
+                                    >
+                                        <xsl:text>cocoon://</xsl:text>
+                                        <xsl:value-of select="./dri:reference[@type='DSpace Community']/@url"/>
+                                        <xsl:text>?sections=dmdSec</xsl:text>
+                                    </xsl:variable>
+                                    <tr>
+                                        <td>
                                             <a>
-                                                <xsl:attribute
+                                                <xsl:attribute 
                                                     name="href"
                                                 >
                                                     <xsl:value-of
-                                                        select="document($issueMetadata)/mets:METS/@OBJID"
+                                                        select="document($volumeMetadata)/mets:METS/@OBJID"
                                                     />
-                                                </xsl:attribute>  
+                                                </xsl:attribute>
+                                                <i18n:text>page.community.serial.label.volume</i18n:text>
+                                                <xsl:text> </xsl:text>
                                                 <xsl:value-of
-                                                    select="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title' and @qualifier='name']"
+                                                    select="document($volumeMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title']"
                                                 />
-                                                <xsl:text> </xsl:text>                                      
-                                            </a>
-                                        </xsl:for-each>
-                                    </td>
-                                </tr>
-                            </xsl:for-each>                    
-                        </table>
+                                            </a> 
+                                            <xsl:text> (</xsl:text>
+                                            <xsl:value-of
+                                                select="document($volumeMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='date']"
+                                            />
+                                            <xsl:text>)</xsl:text>
+                                        </td>
+                                        <td>
+                                            <xsl:for-each
+                                                select="./dri:reference[@type='DSpace Collection']"
+                                            >
+                                                <xsl:variable
+                                                    name="issueMetadata"
+                                                >
+                                                    <xsl:text>cocoon://</xsl:text>
+                                                    <xsl:value-of select="./@url"/>
+                                                    <xsl:text>?sections=dmdSec</xsl:text>
+                                                </xsl:variable>
+                                                <a>
+                                                    <xsl:attribute
+                                                        name="href"
+                                                    >
+                                                        <xsl:value-of
+                                                            select="document($issueMetadata)/mets:METS/@OBJID"
+                                                        />
+                                                    </xsl:attribute>  
+                                                    <xsl:value-of
+                                                        select="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title' and @qualifier='name']"
+                                                    />
+                                                    <xsl:text> </xsl:text>                                      
+                                                </a>
+                                            </xsl:for-each>
+                                        </td>
+                                    </tr>
+                                </xsl:for-each>                    
+                            </table>
+                        </div>
                     </div>
                     <div class="col-md-6">
-                        <table class="table table-hover table-condensed">
-                            <xsl:for-each
-                                select="./dri:div[@id='cz.muni.ics.dmlcz5.aspects.CommunityAspect.div.sub-table' and @rend='right']/dri:referenceSet[@id='cz.muni.ics.dmlcz5.aspects.CommunityAspect.referenceSet.volume']"
-                            >
-                                <xsl:variable
-                                    name="volumeMetadata"
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <xsl:for-each
+                                    select="./dri:div[@id='cz.muni.ics.dmlcz5.aspects.CommunityAspect.div.sub-table' and @rend='right']/dri:referenceSet[@id='cz.muni.ics.dmlcz5.aspects.CommunityAspect.referenceSet.volume']"
                                 >
-                                    <xsl:text>cocoon://</xsl:text>
-                                    <xsl:value-of select="./dri:reference[@type='DSpace Community']/@url"/>
-                                    <xsl:text>?sections=dmdSec</xsl:text>
-                                </xsl:variable>
-                                <tr>
-                                    <td>
-                                        <a>
-                                            <xsl:attribute 
-                                                name="href"
-                                            >
-                                                <xsl:value-of
-                                                    select="document($volumeMetadata)/mets:METS/@OBJID"
-                                                />
-                                            </xsl:attribute>
-                                            <i18n:text>page.community.serial.label.volume</i18n:text>
-                                            <xsl:text> </xsl:text>
-                                            <xsl:value-of
-                                                select="document($volumeMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title']"
-                                            />
-                                        </a> 
-                                        <xsl:text> ( </xsl:text>
-                                        <xsl:value-of
-                                            select="document($volumeMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='date']"
-                                        />
-                                        <xsl:text> )</xsl:text>
-                                    </td>
-                                    <td>
-                                        <xsl:for-each
-                                            select="./dri:reference[@type='DSpace Collection']"
-                                        >
-                                            <xsl:variable
-                                                name="issueMetadata"
-                                            >
-                                                <xsl:text>cocoon://</xsl:text>
-                                                <xsl:value-of select="./@url"/>
-                                                <xsl:text>?sections=dmdSec</xsl:text>
-                                            </xsl:variable>
+                                    <xsl:variable
+                                        name="volumeMetadata"
+                                    >
+                                        <xsl:text>cocoon://</xsl:text>
+                                        <xsl:value-of select="./dri:reference[@type='DSpace Community']/@url"/>
+                                        <xsl:text>?sections=dmdSec</xsl:text>
+                                    </xsl:variable>
+                                    <tr>
+                                        <td>
                                             <a>
-                                                <xsl:attribute
+                                                <xsl:attribute 
                                                     name="href"
                                                 >
                                                     <xsl:value-of
-                                                        select="document($issueMetadata)/mets:METS/@OBJID"
+                                                        select="document($volumeMetadata)/mets:METS/@OBJID"
                                                     />
-                                                </xsl:attribute>  
+                                                </xsl:attribute>
+                                                <i18n:text>page.community.serial.label.volume</i18n:text>
+                                                <xsl:text> </xsl:text>
                                                 <xsl:value-of
-                                                    select="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title' and @qualifier='name']"
+                                                    select="document($volumeMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title']"
                                                 />
-                                                <xsl:text> </xsl:text>                                      
-                                            </a>
-                                        </xsl:for-each>
-                                    </td>
-                                </tr>
-                            </xsl:for-each>                    
-                        </table>
+                                            </a> 
+                                            <xsl:text> (</xsl:text>
+                                            <xsl:value-of
+                                                select="document($volumeMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='date']"
+                                            />
+                                            <xsl:text>)</xsl:text>
+                                        </td>
+                                        <td>
+                                            <xsl:for-each
+                                                select="./dri:reference[@type='DSpace Collection']"
+                                            >
+                                                <xsl:variable
+                                                    name="issueMetadata"
+                                                >
+                                                    <xsl:text>cocoon://</xsl:text>
+                                                    <xsl:value-of select="./@url"/>
+                                                    <xsl:text>?sections=dmdSec</xsl:text>
+                                                </xsl:variable>
+                                                <a>
+                                                    <xsl:attribute
+                                                        name="href"
+                                                    >
+                                                        <xsl:value-of
+                                                            select="document($issueMetadata)/mets:METS/@OBJID"
+                                                        />
+                                                    </xsl:attribute>  
+                                                    <xsl:value-of
+                                                        select="document($issueMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title' and @qualifier='name']"
+                                                    />
+                                                    <xsl:text> </xsl:text>                                      
+                                                </a>
+                                            </xsl:for-each>
+                                        </td>
+                                    </tr>
+                                </xsl:for-each>                    
+                            </table>
+                        </div>                        
                     </div>
                 </div>
             </xsl:when><!-- serial list of volume end -->

@@ -129,9 +129,8 @@
             <xsl:call-template
                 name="buildPUN"
             />
-        </xsl:if>
-        <div class="card disable-bottom-border">
-            
+        </xsl:if>        
+        <div class="card disable-bottom-border">            
             <xsl:if
                 test="/dri:document/dri:options/dri:list[@id='aspect.discovery.Navigation.list.discovery']/dri:list[@id='aspect.discovery.SidebarFacetsTransformer.list.subject']/dri:item"
             >

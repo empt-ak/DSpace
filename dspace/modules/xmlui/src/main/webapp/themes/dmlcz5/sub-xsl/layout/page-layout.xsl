@@ -29,14 +29,14 @@
                     <!-- in page-body-navigation.xsl -->
                     <xsl:call-template name="buildNavigation" />
                     <div class="row dml-content-body">
-                        <div class="col-md-2 left-sidebar">
+                        <div class="col-md-3 col-xl-2 left-sidebar">
                             <xsl:call-template name="buildLeftSidebar" />
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-6 col-xl-8">
                             <xsl:call-template name="buildBreadcrumb" />
                             <xsl:apply-templates />
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3 col-xl-2">
                             <xsl:call-template name="buildRightSidebar" />
                         </div>
                     </div>

@@ -163,21 +163,20 @@
     <xsl:template 
         name="buildPUN"
     > 
-        <div class="pun">      
+        <div class="pun hidden-sm-down">      
             <ul class="pager">
                 <li class="pager-prev disabled">
                     <a href="#">
+<!--                        <span class="hidden-xl-down">
+                            &#8592;
+                        </span>-->
                         <i18n:text>navigation.pun.previous</i18n:text>
                     </a>
                 </li>
-                <!--            <li class="disabled">
-                    <a href="#">
-                        <i18n:text>navigation.pun.up</i18n:text>
-                    </a>
-                </li>-->
                 <li class="pager-next disabled">
-                    <a href="#">
+                    <a href="#">                        
                         <i18n:text>navigation.pun.next</i18n:text>
+                        <!--                        &#8594;-->
                     </a>
                 </li>
             </ul>
