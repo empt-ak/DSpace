@@ -109,7 +109,8 @@
                             <li>
                                 <xsl:if
                                     test="position() = 1">
-                                    <i class="glyphicon glyphicon-home" />&#160;
+                                    <i class="fa fa-home" />
+                                    <xsl:text> </xsl:text>
                                 </xsl:if>
                                 <xsl:if
                                     test="position() = last()"

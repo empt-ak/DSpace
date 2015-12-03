@@ -122,7 +122,8 @@
                                     </xsl:choose>
                                     <div class="card-block card-block-reduced">
                                         <!--<h5>-->
-                                        <i class="fa fa-file"></i>&#160;
+                                        <i class="fa fa-file" />
+                                        <xsl:text> </xsl:text>
                                         <b>
                                             <i18n:text>page.item.view</i18n:text>
                                         </b>
@@ -179,7 +180,8 @@
                                     >
                                         <div class="card-block card-block-reduced">
                                             <!--<h5>-->
-                                            <i class="fa fa-user"></i>&#160;
+                                            <i class="fa fa-user" />
+                                            <xsl:text> </xsl:text>
                                             <b>
                                                 <i18n:text>page.item.authors</i18n:text>
                                             </b>
@@ -207,7 +209,8 @@
                                             
                                             <!--<h5>-->
                                             <b>
-                                                <i class="fa fa-link"></i>&#160;
+                                                <i class="fa fa-link" />
+                                                <xsl:text> </xsl:text>
                                                 <i18n:text>page.item.msc</i18n:text>
                                             </b>
                                             <!--</h5>-->
@@ -232,7 +235,8 @@
                                     >
                                         <div class="card-block card-block-reduced">
                                             <!--<h5>-->  
-                                            <i class="fa fa-link"></i>&#160;                                              
+                                            <i class="fa fa-link" />
+                                            <xsl:text> </xsl:text>                                              
                                             <b>                                                    
                                                 <i18n:text>page.item.zbmath</i18n:text>
                                             </b>
@@ -243,8 +247,7 @@
                                                         <xsl:value-of
                                                             select="substring-after(document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='identifier' and @qualifier='idzbl'],'Zbl ')"
                                                         />
-                                                        <xsl:text> </xsl:text>
-                                                        <i class="glyphicon glyphicon-new-window" />                            
+                                                        <xsl:text> </xsl:text>                          
                                                     </a>                                
                                                 </li>
                                             </ul>
@@ -269,7 +272,6 @@
                                                             select="substring-after(document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='identifier' and @qualifier='idmr'],'MR')"
                                                         />
                                                         <xsl:text> </xsl:text>
-                                                        <i class="glyphicon glyphicon-new-window" />  
                                                     </a>
                                                 </li>
                                             </ul>

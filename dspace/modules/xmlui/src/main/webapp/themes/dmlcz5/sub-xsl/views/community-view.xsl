@@ -326,27 +326,22 @@
                                 </xsl:variable>
                                 <tr>
                                     <td class="col-md-1">
-                                &#160;
+                                        <xsl:text> </xsl:text>
                                     </td>
                                     <td class="col-md-11">
-                                        <a>
-                                            <xsl:attribute
-                                                name="href"
-                                            >
+                                        <h5>
+                                            <a href="{document($volumeMetadata)/mets:METS/@OBJID}">
                                                 <xsl:value-of
-                                                    select="document($volumeMetadata)/mets:METS/@OBJID"
+                                                    select="document($volumeMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title']"
                                                 />
-                                            </xsl:attribute>
-                                            <xsl:value-of
-                                                select="document($volumeMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title']"
-                                            />
-                                        </a>
+                                            </a>
+                                        </h5>
                                         <div class="celebrity-collection-entry">                                                
-                                            <span class="h5 celebrity-volume-abstract">
+                                            <h6 class="text-muted">
                                                 <xsl:value-of
                                                     select="document($volumeMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']"
                                                 />
-                                            </span>
+                                            </h6>
                                         </div>                                                              
                                     </td>
                                 </tr>
@@ -567,7 +562,7 @@
                         </div>
                     </div>
                     <div class="col-md-7">
-<!--                        <canvas id="myChart">&#160;</canvas>-->
+                        <!--                        <canvas id="myChart">&#160;</canvas>-->
                     </div>            
                 </div>
             </xsl:when>

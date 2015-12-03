@@ -59,7 +59,8 @@
                             select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='feed']"
                         >
                             <li class="list-group-item">
-                                <span class="fa fa-rss">&#160;</span>
+                                <i class="fa fa-rss" />
+                                <xsl:text> </xsl:text>
                                 <a>
                                     <xsl:attribute
                                         name="href"
