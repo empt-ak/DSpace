@@ -101,7 +101,7 @@
             test="count(/dri:document/dri:meta/dri:pageMeta/dri:trail) > 1"
         >
             <nav class="row">
-                <div class="col-md-12">
+                <div class="col-xs-12">
                     <ol class="breadcrumb">
                         <xsl:for-each
                             select="/dri:document/dri:meta/dri:pageMeta/dri:trail"

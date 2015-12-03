@@ -81,5 +81,17 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:variable>
+    
+    <xsl:variable
+        name="zblUrl"
+    >
+        <xsl:text>https://zbmath.org/?q=an:</xsl:text>
+    </xsl:variable>
+    
+    <xsl:variable
+        name="amsUrl"
+    >
+        <xsl:text>http://www.ams.org/mathscinet-getitem?mr=</xsl:text>
+    </xsl:variable>
         
 </xsl:stylesheet>

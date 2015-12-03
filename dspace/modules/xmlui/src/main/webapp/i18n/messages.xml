@@ -65,6 +65,7 @@ and open the template in the editor.
     <message key="page.landing.category.proceedings">Proceedings</message>
     <message key="page.landing.ellipsis">...</message>
     <message key="page.landing.category.celebrity">Eminent Czech mathematicians</message>
+    <message key="page.landing.more">Read more</message>
     <message key="page.landing.jubotron">Welcome to DML-CZ (Czech Digital Mathematics Library), the website offering an open access to the metadata and fulltext of mathematical journals, proceedings and books published throughout history in the Czech lands.</message>
 
 
@@ -127,6 +128,18 @@ and open the template in the editor.
     <message key="page.item.fullentry">Full-entry</message>
     <message key="page.item.references">References</message>
     <message key="page.item.similar">Similar articles</message>
+    <message key="page.item.fullentry.schema">Schema</message>
+    <message key="page.item.fullentry.element">Element</message>
+    <message key="page.item.fullentry.qualifier">Qualifier</message>
+    <message key="page.item.fullentry.language">Language</message>
+    <message key="page.item.fullentry.value">Value</message>
+    <message key="page.item.similar.lsi.title">Method LSI</message>
+    <message key="page.item.similar.lsi.description"><mark>Latent Semantic Indexing</mark> improves on TFIDF by taking into account the similarity between different words. This is accomplished by Singular Value Decomposion (a linear algebra method) of the term-document matrix.</message>
+    <message key="page.item.similar.rpi.title">Random Projection Method</message>
+    <message key="page.item.similar.rpi.description">The <mark>Random Projections</mark> method builds on the TFIDF method. It simplifies the computations by projecting vectors onto a subspace of lower dimensionality.</message>
+    <message key="page.item.similar.tfidf.title">TFIDF Method</message>
+    <message key="page.item.similar.tfidf.description"><mark>Term Frequency - Inverse Document Frequency</mark> is a method which quantifies the amount of vocabulary overlap between two articles. Texts of the articles are represented as vectors in a vector space and the similarity is measured by their cosine angle.</message>
+    
     
     <message key="file.extension.size.bytes">B</message>
     <message key="file.extension.size.kbytes">kB</message>

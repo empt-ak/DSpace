@@ -53,13 +53,16 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#entryTab" role="tab" data-toggle="tab">
+                    <a class="nav-link" href="#fullentryTab" role="tab" data-toggle="tab">
                         <i18n:text>page.item.fullentry</i18n:text>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#referencesTab" role="tab" data-toggle="tab">
                         <i18n:text>page.item.references</i18n:text>
+                        <xsl:text> (</xsl:text>
+                        <xsl:text>12</xsl:text>
+                        <xsl:text>)</xsl:text>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -236,15 +239,7 @@
                                             <!--</h5>-->      
                                             <ul class="list-unstyled">
                                                 <li>
-                                                    <a target="_blank">
-                                                        <xsl:attribute
-                                                            name="href"
-                                                        >
-                                                            <xsl:text>https://zbmath.org/?q=an:</xsl:text>
-                                                            <xsl:value-of
-                                                                select="substring-after(document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='identifier' and @qualifier='idzbl'],'Zbl ')"
-                                                            />
-                                                        </xsl:attribute>
+                                                    <a target="_blank" href="{concat($zblUrl,substring-after(document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='identifier' and @qualifier='idzbl'],'Zbl '))}">
                                                         <xsl:value-of
                                                             select="substring-after(document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='identifier' and @qualifier='idzbl'],'Zbl ')"
                                                         />
@@ -261,22 +256,15 @@
                                     > 
                                         <div class="card-block card-block-reduced">
                                             <!--<h5>-->
-                                            <i class="fa fa-link"></i>&#160;
+                                            <i class="fa fa-link"></i>
+                                            <xsl:text> </xsl:text>
                                             <b>
                                                 <i18n:text>page.item.idmr</i18n:text>
                                             </b>
                                             <!--</h5>-->      
                                             <ul class="list-unstyled">
                                                 <li>
-                                                    <a target="_blank">
-                                                        <xsl:attribute
-                                                            name="href"
-                                                        >
-                                                            <xsl:text>http://www.ams.org/mathscinet-getitem?mr=</xsl:text>
-                                                            <xsl:value-of
-                                                                select="substring-after(document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='identifier' and @qualifier='idmr'],'MR')"
-                                                            />
-                                                        </xsl:attribute>
+                                                    <a target="_blank" href="{concat($amsUrl,substring-after(document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='identifier' and @qualifier='idmr'],'MR'))">
                                                         <xsl:value-of
                                                             select="substring-after(document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='identifier' and @qualifier='idmr'],'MR')"
                                                         />
@@ -291,47 +279,55 @@
                             </div>
                             <div class="col-xs-12 col-md-6 col-xl-9">
                                 <div class="card">
-                                    <div class="card-block">
-                                        <h5 class="card-title">
-                                            <i class="fa fa-file-text-o"></i>
-                                            <xsl:text> </xsl:text>
-                                            <i18n:text>page.item.abstract</i18n:text>
-                                        </h5>                                    
-                                        <p class="card-text text-justify">
-                                            <xsl:for-each
-                                                select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']"
-                                            >
-                                                <xsl:value-of
-                                                    select="./text()"
-                                                />
-                                                <xsl:if 
-                                                    test="position() != last()"
+                                    <xsl:if
+                                        test="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']"
+                                    >
+                                        <div class="card-block">
+                                            <h5 class="card-title">
+                                                <i class="fa fa-file-text-o"></i>
+                                                <xsl:text> </xsl:text>
+                                                <i18n:text>page.item.abstract</i18n:text>
+                                            </h5>                                    
+                                            <p class="card-text text-justify">
+                                                <xsl:for-each
+                                                    select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']"
                                                 >
-                                                    <br />
-                                                </xsl:if>
-                                            </xsl:for-each>
-                                        </p>
-                                    </div>
-                                    <div class="card-block">
-                                        <h5 class="card-title">
-                                            <i class="fa fa-tags"></i>
-                                            <xsl:text> </xsl:text>
-                                            <i18n:text>page.item.keywords</i18n:text>
-                                        </h5>
-                                        <ul class="list-inline">
-                                            <xsl:for-each
-                                                select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='subject' and not(@qualifier)]"
-                                            >
-                                                <li>
-                                                    <a class="label label-primary">
-                                                        <xsl:value-of
-                                                            select="."
-                                                        />
-                                                    </a>
-                                                </li>
-                                            </xsl:for-each>          
-                                        </ul> 
-                                    </div>
+                                                    <xsl:value-of
+                                                        select="./text()"
+                                                    />
+                                                    <xsl:if 
+                                                        test="position() != last()"
+                                                    >
+                                                        <br />
+                                                    </xsl:if>
+                                                </xsl:for-each>
+                                            </p>
+                                        </div>
+                                    </xsl:if>
+                                    <xsl:if
+                                        test="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='subject' and not(@qualifier)]"
+                                    >
+                                        <div class="card-block">
+                                            <h5 class="card-title">
+                                                <i class="fa fa-tags"></i>
+                                                <xsl:text> </xsl:text>
+                                                <i18n:text>page.item.keywords</i18n:text>
+                                            </h5>
+                                            <ul class="list-inline">
+                                                <xsl:for-each
+                                                    select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='subject' and not(@qualifier)]"
+                                                >
+                                                    <li>
+                                                        <a class="label label-primary">
+                                                            <xsl:value-of
+                                                                select="."
+                                                            />
+                                                        </a>
+                                                    </li>
+                                                </xsl:for-each>          
+                                            </ul> 
+                                        </div>
+                                    </xsl:if>
                                     <div class="card-block">
                                         <h5 class="card-title">
                                             <i18n:text>page.item.citation</i18n:text>
@@ -340,6 +336,83 @@
                                     </div>
                                 </div>
                             </div>                                          
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="fullentryTab">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead class="thead-default">
+                                    <tr>
+                                        <th>
+                                            <i18n:text>page.item.fullentry.schema</i18n:text>
+                                        </th>
+                                        <th>
+                                            <i18n:text>page.item.fullentry.element</i18n:text>
+                                        </th>
+                                        <th>
+                                            <i18n:text>page.item.fullentry.qualifier</i18n:text>
+                                        </th>
+                                        <th>
+                                            <i18n:text>page.item.fullentry.language</i18n:text>
+                                        </th>
+                                        <th>
+                                            <i18n:text>page.item.fullentry.value</i18n:text>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tfoot class="thead-default">
+                                    <tr>
+                                        <th>
+                                            <i18n:text>page.item.fullentry.schema</i18n:text>
+                                        </th>
+                                        <th>
+                                            <i18n:text>page.item.fullentry.element</i18n:text>
+                                        </th>
+                                        <th>
+                                            <i18n:text>page.item.fullentry.qualifier</i18n:text>
+                                        </th>
+                                        <th>
+                                            <i18n:text>page.item.fullentry.language</i18n:text>
+                                        </th>
+                                        <th>
+                                            <i18n:text>page.item.fullentry.value</i18n:text>
+                                        </th>
+                                    </tr>
+                                </tfoot>
+                                <tbody>
+                                    <xsl:for-each
+                                        select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[not(contains(./@mdschema,'dmlcz'))]"
+                                    >
+                                        <tr>
+                                            <td>
+                                                <xsl:value-of
+                                                    select="./@mdschema"
+                                                />
+                                            </td>
+                                            <td>
+                                                <xsl:value-of
+                                                    select="./@element"
+                                                />
+                                            </td>
+                                            <td>
+                                                <xsl:value-of
+                                                    select="./@qualifier"
+                                                />
+                                            </td>
+                                            <td>
+                                                <xsl:value-of
+                                                    select="./@language"
+                                                />
+                                            </td>
+                                            <td>
+                                                <xsl:value-of
+                                                    select="."
+                                                />
+                                            </td>
+                                        </tr>
+                                    </xsl:for-each>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="referencesTab">
@@ -375,16 +448,18 @@
                             </xsl:for-each>-->
                         </small>
                     </div>
-                    <div role="tabpanel" class="tab-pane" id="similarTab">                        
-                        <div class="card-deck-wrapper">
-                            <div class="card-deck">
+                    <div role="tabpanel" class="tab-pane" id="similarTab">  
+                        <div class="row">
+                            <div class="col-md-4">
                                 <div class="card">
                                     <div class="card-block">
-                                        <h4 class="card-title">!Method LSI</h4>
+                                        <h4 class="card-title">
+                                            <i18n:text>page.item.similar.lsi.title</i18n:text>
+                                        </h4>
                                     </div>
                                     <div class="card-block">
                                         <p class="text-muted">
-                                            "Latent Semantic Indexing" improves on TFIDF by taking into account the similarity between different words. This is accomplished by Singular Value Decomposion (a linear algebra method) of the term-document matrix.
+                                            <i18n:text>page.item.similar.lsi.description</i18n:text>
                                         </p>
                                     </div>
                                     <ul class="list-group list-group-flush">
@@ -447,13 +522,17 @@
                                         </li>
                                     </ul>                                    
                                 </div>
+                            </div>
+                            <div class="col-md-4">
                                 <div class="card">
                                     <div class="card-block">
-                                        <h4 class="card-title">!Random projection method</h4>
+                                        <h4 class="card-title">
+                                            <i18n:text>page.item.similar.rpi.title</i18n:text>
+                                        </h4>
                                     </div>
                                     <div class="card-block">
                                         <p class="text-muted">
-                                            The &quot;Random Projections&quot; method builds on the TFIDF method. It simplifies the computations by projecting vectors onto a subspace of lower dimensionality.
+                                            <i18n:text>page.item.similar.rpi.description</i18n:text>
                                         </p>
                                     </div>
                                     <ul class="list-group list-group-flush">
@@ -486,13 +565,17 @@
                                         <li class="list-group-item">On the rhomboidal here <span class="badge">79%</span></li>
                                     </ul>                                    
                                 </div>
+                            </div>
+                            <div class="col-md-4">
                                 <div class="card">
                                     <div class="card-block">
-                                        <h4 class="card-title">!TFIDF method</h4>
+                                        <h4 class="card-title">
+                                            <i18n:text>page.item.similar.tfidf.title</i18n:text>
+                                        </h4>
                                     </div>
                                     <div class="card-block">
                                         <p class="text-muted">
-                                            &quot;Term Frequency - Inverse Document Frequency&quot; is a method which quantifies the amount of vocabulary overlap between two articles. Texts of the articles are represented as vectors in a vector space and the similarity is measured by their cosine angle.
+                                            <i18n:text>page.item.similar.tfidf.description</i18n:text>
                                         </p>
                                     </div>
                                     <ul class="list-group list-group-flush">
@@ -524,9 +607,9 @@
                                         <li class="list-group-item">Remarks on special ide <span class="label label-default label-pill pull-right">80%</span></li>
                                         <li class="list-group-item">On the rhomboidal here <span class="label label-default label-pill pull-right">80%</span></li>
                                     </ul>                                    
-                                </div>                                
+                                </div>
                             </div>
-                        </div>                       
+                        </div>
                     </div>
                 </div>
             </div>

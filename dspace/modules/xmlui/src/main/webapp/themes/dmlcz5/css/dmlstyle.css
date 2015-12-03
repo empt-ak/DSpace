@@ -155,6 +155,7 @@ a.dml-link:active
 table.table-toc td
 {
     border-top: none !important;
+    padding-bottom: 0;
 }
 
 .table-cell-extent
