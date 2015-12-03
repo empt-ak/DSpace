@@ -242,3 +242,8 @@ table.table-toc td
 {
     padding-bottom:0;
 }
+
+ul.list-group-flush li:first-child
+{
+    border-top:0;
+}

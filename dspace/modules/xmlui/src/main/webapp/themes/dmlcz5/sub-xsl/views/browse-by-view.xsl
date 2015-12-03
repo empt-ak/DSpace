@@ -25,31 +25,153 @@
                 exclude-result-prefixes="xalan encoder i18n dri mets dim xlink xsl util confman">
     <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
     
+    <xsl:template
+        match="/dri:document/dri:body/dri:div[contains(@n,'browse-by-') and @rend='primary']"
+    >
+        <div class="row">
+            <div class="col-xs-12">
+                !header
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4 hidden-md-up">
+                <xsl:apply-templates
+                    select="./dri:div/dri:div[@n='browse-navigation']/dri:div[@rend='row']/dri:div/dri:field"
+                />
+            </div>
+            <div class="col-xs-8 col-md-12">
+                <div class="hidden-sm-down">
+                    <xsl:apply-templates
+                        select="./dri:div/dri:div[@n='browse-navigation']/dri:div[@rend='row']/dri:div/dri:list"
+                    />
+                </div>
+                <div>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for..." />
+                        <span class="input-group-btn">
+                            <button class="btn btn-secondary" type="button">Go!</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-10">
+                !showing xyz of abc
+            </div>
+            <div class="col-xs-2">
+                **
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- tu chyba matchovania -->
+                <xsl:apply-templates                    
+                    select="./dri:div[starts-with(@id,'aspect.artifactbrowser.ConfigurableBrowse.div.browse-by-')]"
+                />
+            </div>            
+        </div>
+    </xsl:template>
+    
     
     <xsl:template
-        match="dri:body/dri:div[@n='browse-by-subject-results' or @n='browse-by-author-results']"
+        match="dri:list[@n='jump-list']"
     >
-        <xsl:text>!showing</xsl:text> 
-        <xsl:value-of
-            select="./@firstItemIndex"
-        />
-        <xsl:text> of </xsl:text>
-        <xsl:value-of
-            select="./@lastItemIndex"
-        />
-        <table class="table">
-            <xsl:for-each
-                select="./dri:table/dri:row"
-            >
-                <tr>
-                    <td class="disable-math">
-                        <xsl:value-of
-                            select="./dri:cell/dri:xref"
-                        />
-                    </td>
-                </tr>
-            </xsl:for-each>
-        </table>
+        <nav>
+            <ul class="pagination">
+                <xsl:for-each
+                    select="./dri:item/dri:xref"
+                >
+                    <li>
+                        <a href="{./@target}">
+                            <xsl:value-of
+                                select="."
+                            />
+                        </a>
+                    </li>
+                </xsl:for-each>
+            </ul>
+        </nav>
+    </xsl:template>
+    
+    <xsl:template
+        match="dri:div[starts-with(@id,'aspect.artifactbrowser.ConfigurableBrowse.div.browse-by-')]"
+    >
+        asf
+        <xsl:if
+            test="./dri:referenceSet[starts-with(@id,'aspect.artifactbrowser.ConfigurableBrowse.div.browse-by-')]/dri:reference"
+        >
+            <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                    <xsl:for-each
+                        select="./dri:referenceSet[starts-with(@id,'aspect.artifactbrowser.ConfigurableBrowse.div.browse-by-')]/dri:reference"
+                    >
+                        <tr>
+                            <td>
+                                <xsl:value-of
+                                    select="./@url"
+                                />
+                            </td>
+                        </tr>
+                    </xsl:for-each>
+                </table>
+            </div>
+        </xsl:if>
+        <xsl:if
+            test="./dri:table[starts-with(@id,'aspect.artifactbrowser.ConfigurableBrowse.table.browse-by-')]"
+        >
+            <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                    <thead class="thead-default">
+                        <tr>
+                            <th>
+                                <xsl:value-of
+                                    select="./dri:table[starts-with(@id,'aspect.artifactbrowser.ConfigurableBrowse.table.browse-by-')]/dri:row[@role='header']/dri:cell"
+                                />
+                            </th>
+                            <th>
+                                !pocet vyskytov
+                            </th>
+                        </tr>
+                    </thead>
+                    <tfoot class="thead-default">
+                        <tr>
+                            <th>
+                                <xsl:value-of
+                                    select="./dri:table[starts-with(@id,'aspect.artifactbrowser.ConfigurableBrowse.table.browse-by-')]/dri:row[@role='header']/dri:cell"
+                                />
+                            </th>
+                            <th>
+                                !pocet vyskytov
+                            </th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        <xsl:for-each
+                            select="./dri:table[@id='aspect.artifactbrowser.ConfigurableBrowse.table.browse-by-subject-results']/dri:row[not(@role)]/dri:cell"
+                        >
+                            <tr>
+                                <td class="disable-math">
+                                    <a href="{./dri:xref/@target}">
+                                        <xsl:value-of
+                                            select="./dri:xref"
+                                        />
+                                    </a>
+                                </td>
+                                <td>                            
+                                    <span class="label label-default label-pill pull-xs-left">
+                                        <xsl:value-of
+                                            select="./text()"
+                                        />
+                                    </span>
+                                </td>
+                            </tr>
+                        </xsl:for-each>
+                    </tbody>
+                </table>
+            </div>
+        </xsl:if>
+        
         <nav>
             <ul class="pager">
                 <li>
@@ -84,8 +206,11 @@
                                 </xsl:otherwise>
                             </xsl:choose>
                         </xsl:attribute>                        
-                        <span aria-hidden="true">&#171;</span>
-                        <xsl:text> !previous</xsl:text>
+                        <i class="fa fa-arrow-left"></i>
+                        <span class="hidden-sm-down">
+                            <xsl:text> </xsl:text>
+                            <i18n:text>navigation.previous</i18n:text>
+                        </span>
                     </a>
                 </li>
                 <li>
@@ -120,74 +245,15 @@
                                 </xsl:otherwise>
                             </xsl:choose>
                         </xsl:attribute>
-                        <xsl:text>!next </xsl:text>
-                        <span aria-hidden="true">&#187;</span>
+                        <span class="hidden-sm-down">
+                            <i18n:text>navigation.next</i18n:text>
+                            <xsl:text> </xsl:text>
+                        </span>                        
+                        <i class="fa fa-arrow-right"></i>
                     </a>
                 </li>
             </ul>
         </nav>
-    </xsl:template>
-    
-    <xsl:template
-        match="dri:list[@id='aspect.discovery.SearchFacetFilter.list.jump-list']"
-    >
-        <nav>
-            <ul class="pagination">
-                <!--                <li>
-                    <a href="#" aria-label="Previous">
-                        <span aria-hidden="true">&#171;</span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                </li>-->
-                <xsl:for-each
-                    select="./dri:item/dri:xref"
-                >
-                    <li>
-                        <a>
-                            <xsl:attribute
-                                name="href"
-                            >
-                                <xsl:value-of
-                                    select="./@target"
-                                />
-                            </xsl:attribute>
-                            <xsl:value-of
-                                select="."
-                            />
-                        </a>
-                    </li>
-                </xsl:for-each>
-                <!--                <li>
-                    <a href="#" aria-label="Next">
-                        <span aria-hidden="true">&#187;</span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </li>-->
-            </ul>
-        </nav>
-        
-        <div id="extended-controls">
-            test
-        </div>
-        
-        <xsl:apply-templates
-            select="./dri:p"
-        />
-    </xsl:template>
-    
-    <xsl:template
-        match="dri:p[dri:field[@id='aspect.discovery.SearchFacetFilter.field.starts_with']]"
-    >
-        <form class="form-inline">
-            <div class="form-group">
-                <label for="exampleInputName2">
-                    !starts with
-                </label>
-                <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe" />
-            </div>
-            <button type="submit" class="btn btn-primary">Send invitation</button>
-        </form>
-        xixi
     </xsl:template>
     
 </xsl:stylesheet>

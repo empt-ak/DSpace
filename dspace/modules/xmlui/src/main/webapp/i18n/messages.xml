@@ -20,6 +20,8 @@ and open the template in the editor.
     <message key="navigation.pun.previous">Previous</message>
     <message key="navigation.pun.up">Up</message>
     <message key="navigation.pun.next">Next</message>
+    <message key="navigation.next">Next</message>
+    <message key="navigation.previous">Next</message>
     
     <message key="page.head.title">Czech Digital Mathematics Library</message>
     <message key="page.title">dml.cz</message>
@@ -134,11 +136,13 @@ and open the template in the editor.
     <message key="page.item.fullentry.language">Language</message>
     <message key="page.item.fullentry.value">Value</message>
     <message key="page.item.similar.lsi.title">Method LSI</message>
-    <message key="page.item.similar.lsi.description"><mark>Latent Semantic Indexing</mark> improves on TFIDF by taking into account the similarity between different words. This is accomplished by Singular Value Decomposion (a linear algebra method) of the term-document matrix.</message>
+    <message key="page.item.similar.lsi.description">
+        <mark>Latent Semantic Indexing</mark> improves on TFIDF by taking into account the similarity between different words. This is accomplished by Singular Value Decomposion (a linear algebra method) of the term-document matrix.</message>
     <message key="page.item.similar.rpi.title">Random Projection Method</message>
     <message key="page.item.similar.rpi.description">The <mark>Random Projections</mark> method builds on the TFIDF method. It simplifies the computations by projecting vectors onto a subspace of lower dimensionality.</message>
     <message key="page.item.similar.tfidf.title">TFIDF Method</message>
-    <message key="page.item.similar.tfidf.description"><mark>Term Frequency - Inverse Document Frequency</mark> is a method which quantifies the amount of vocabulary overlap between two articles. Texts of the articles are represented as vectors in a vector space and the similarity is measured by their cosine angle.</message>
+    <message key="page.item.similar.tfidf.description">
+        <mark>Term Frequency - Inverse Document Frequency</mark> is a method which quantifies the amount of vocabulary overlap between two articles. Texts of the articles are represented as vectors in a vector space and the similarity is measured by their cosine angle.</message>
     
     
     <message key="file.extension.size.bytes">B</message>
@@ -157,5 +161,16 @@ and open the template in the editor.
     <message key="xmlui.mirage2.discovery.hideAdvancedFilters">Hide Advanced Filters</message>
     <message key="xmlui.Discovery.SimpleSearch.filter_head">Filters</message>
     <message key="xmlui.Discovery.SimpleSearch.filter_help">Use filters to refine the search results.</message>
+    <!-- org.dspace.app.xmlui.artifactbrowser.Navigation.java -->
+    <message key="xmlui.ArtifactBrowser.Navigation.head_browse">Browse</message>
+    <message key="xmlui.ArtifactBrowser.Navigation.head_all_of_dspace">All of DSpace</message>
+    <message key="xmlui.ArtifactBrowser.Navigation.communities_and_collections">Communities &amp; Collections</message>
+    <message key="xmlui.ArtifactBrowser.Navigation.browse_title">Titles</message>
+    <message key="xmlui.ArtifactBrowser.Navigation.browse_author">Authors</message>
+    <message key="xmlui.ArtifactBrowser.Navigation.browse_subject">Subjects</message>
+    <message key="xmlui.ArtifactBrowser.Navigation.browse_dateissued">By Issue Date</message>
+    <message key="xmlui.ArtifactBrowser.Navigation.browse_dateaccessioned">By Submit Date</message>
+    <message key="xmlui.ArtifactBrowser.Navigation.head_this_collection">This Collection</message>
+    <message key="xmlui.ArtifactBrowser.Navigation.head_this_community">This Community</message>
     
 </catalogue>

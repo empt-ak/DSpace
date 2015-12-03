@@ -21,37 +21,52 @@
                 exclude-result-prefixes="i18n dri mets xlink xsl dim xhtml mods dc">
     
     <xsl:template name="buildLeftSidebar">
-        <div class="card disable-bottom-border">
-            <div class="card-header disable-bottom-border">
-                <i18n:text>page.sidebar.left.browseby</i18n:text>
+        <div class="card">
+            <div class="card-header">
+                !browsebyglobal
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    <a href="#">
-                        <i18n:text>page.sidebar.left.browseby.collection</i18n:text>
-                    </a>
-                </li>
-                <li class="list-group-item">
-                    <a href="#">
-                        <i18n:text>page.sidebar.left.browseby.title</i18n:text>
-                    </a>
-                </li>
-                <li class="list-group-item">
-                    <a href="#">
-                        <i18n:text>page.sidebar.left.browseby.author</i18n:text>
-                    </a>
-                </li>
-                <li class="list-group-item">
-                    <a href="#">
-                        <i18n:text>page.sidebar.left.browseby.msc</i18n:text>
-                    </a>
-                </li>
-            </ul>
+                <xsl:for-each
+                    select="/dri:document/dri:options/dri:list[@id='aspect.viewArtifacts.Navigation.list.browse']/dri:list[@id='aspect.browseArtifacts.Navigation.list.global']/dri:item"
+                >
+                    <li class="list-group-item">
+                        <a href="{./dri:xref/@target}">
+                            <i18n:text>
+                                <xsl:value-of
+                                    select="./dri:xref"
+                                />
+                            </i18n:text>
+                        </a>
+                    </li>
+                </xsl:for-each>
+            </ul> 
+            <xsl:if
+                test="/dri:document/dri:options/dri:list[@id='aspect.viewArtifacts.Navigation.list.browse']/dri:list[@id='aspect.browseArtifacts.Navigation.list.context']/dri:item"
+            >
+                <div class="card-header">
+                    !browsebylocal
+                </div> 
+                <ul class="list-group list-group-flush">
+                    <xsl:for-each
+                        select="/dri:document/dri:options/dri:list[@id='aspect.viewArtifacts.Navigation.list.browse']/dri:list[@id='aspect.browseArtifacts.Navigation.list.context']/dri:item"
+                    >
+                        <li class="list-group-item">
+                            <a href="{./dri:xref/@target}">
+                                <i18n:text>
+                                    <xsl:value-of
+                                        select="./dri:xref"
+                                    />
+                                </i18n:text>
+                            </a>
+                        </li>
+                    </xsl:for-each>
+                </ul> 
+            </xsl:if>  
             <div class="hidden-sm-down">
                 <xsl:if
                     test="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='feed']"
                 >  
-                    <div class="card-header disable-bottom-border">
+                    <div class="card-header">
                         <i18n:text>page.sidebar.left.rss</i18n:text>
                     </div>
                     <ul class="list-group list-group-flush">
@@ -98,7 +113,7 @@
                 </xsl:if>
             </div>
             <div class="hidden-sm-down">
-                <div class="card-header disable-bottom-border">
+                <div class="card-header">
                     !Toolbox
                 </div>
                 <ul class="list-group list-group-flush">              
@@ -119,7 +134,7 @@
                     <li class="list-group-item">!More statistics </li>
                     <li class="list-group-item">!Back to top</li>
                 </ul>
-            </div>
+            </div>        
         </div>
     </xsl:template>
     

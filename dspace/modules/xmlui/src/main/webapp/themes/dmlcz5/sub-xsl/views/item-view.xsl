@@ -267,6 +267,7 @@
                                             <!--</h5>-->      
                                             <ul class="list-unstyled">
                                                 <li>
+                                                    <!-- href="{concat($amsUrl,substring-after(document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='identifier' and @qualifier='idmr'],'MR'))"-->
                                                     <a target="_blank" href="{concat($amsUrl,substring-after(document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='identifier' and @qualifier='idmr'],'MR'))">
                                                         <xsl:value-of
                                                             select="substring-after(document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='identifier' and @qualifier='idmr'],'MR')"
