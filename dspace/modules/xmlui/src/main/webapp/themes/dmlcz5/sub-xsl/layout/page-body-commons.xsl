@@ -189,9 +189,9 @@
     >
         <div class="footer-content">
             <div class="row">
-                <div class="col-md-8 col-md-offset-2">
+                <div class="col-md-6 col-md-offset-3 col-xl-8 col-xl-offset-2 col-xs-12">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-4 col-xs-12">
                             <h4>
                                 <i18n:text>page.footer.partners.title</i18n:text>
                             </h4>
@@ -228,7 +228,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 col-xs-12">
                             <h4>
                                 <i18n:text>page.footer.links.title</i18n:text>
                             </h4>
@@ -277,7 +277,7 @@
                                 </li>                                                  
                             </ul>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 col-xs-12">
                             <h4>
                                 <i18n:text>page.footer.social.title</i18n:text>
                             </h4>
@@ -296,10 +296,10 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-8 col-md-offset-2">
-            
+            <div class="col-md-6 col-md-offset-3 col-xl-8 col-xl-offset-2 col-xs-12">            
                 <p class="footer-text">
-                &#169; 2015 <a href="#">
+                    <xsl:text>&#169; 2016 </xsl:text>
+                    <a href="#">
                         <i18n:text>page.footer.copyright.text</i18n:text>
                     </a>
                     <xsl:text> </xsl:text>
