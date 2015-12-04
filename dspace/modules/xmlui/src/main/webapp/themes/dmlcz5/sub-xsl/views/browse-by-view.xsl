@@ -25,48 +25,35 @@
                 exclude-result-prefixes="xalan encoder i18n dri mets dim xlink xsl util confman">
     <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
     
+    <!-- priority here is really important !! -->
     <xsl:template
         match="/dri:document/dri:body/dri:div[contains(@n,'browse-by-') and @rend='primary']"
+        priority="10000"
     >
         <div class="row">
             <div class="col-xs-12">
                 !header
             </div>
         </div>
-        <div class="row">
-            <div class="col-xs-4 hidden-md-up">
-                <xsl:apply-templates
-                    select="./dri:div/dri:div[@n='browse-navigation']/dri:div[@rend='row']/dri:div/dri:field"
-                />
-            </div>
-            <div class="col-xs-8 col-md-12">
-                <div class="hidden-sm-down">
-                    <xsl:apply-templates
-                        select="./dri:div/dri:div[@n='browse-navigation']/dri:div[@rend='row']/dri:div/dri:list"
-                    />
-                </div>
-                <div>
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for..." />
-                        <span class="input-group-btn">
-                            <button class="btn btn-secondary" type="button">Go!</button>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <xsl:apply-templates
+            select="./dri:div[contains(@rend,'browse-navigation-wrapper')]/dri:div[@id='aspect.artifactbrowser.ConfigurableBrowse.div.browse-navigation']"
+        />
         <div class="row">
             <div class="col-xs-10">
-                !showing xyz of abc
+                <xsl:apply-templates
+                    mode="pagination"
+                    select="./dri:div[starts-with(@id,'aspect.artifactbrowser.ConfigurableBrowse.div.browse-by-')]"
+                />
             </div>
             <div class="col-xs-2">
-                **
+                <xsl:apply-templates
+                    select="./dri:div[@id='aspect.artifactbrowser.ConfigurableBrowse.div.browse-controls']" 
+                />               
             </div>
         </div>
         <div class="row">
             <div class="col-xs-12">
-                <!-- tu chyba matchovania -->
-                <xsl:apply-templates                    
+                <xsl:apply-templates
                     select="./dri:div[starts-with(@id,'aspect.artifactbrowser.ConfigurableBrowse.div.browse-by-')]"
                 />
             </div>            
@@ -97,14 +84,13 @@
     <xsl:template
         match="dri:div[starts-with(@id,'aspect.artifactbrowser.ConfigurableBrowse.div.browse-by-')]"
     >
-        asf
         <xsl:if
-            test="./dri:referenceSet[starts-with(@id,'aspect.artifactbrowser.ConfigurableBrowse.div.browse-by-')]/dri:reference"
+            test="./dri:referenceSet[starts-with(@id,'aspect.artifactbrowser.ConfigurableBrowse.referenceSet.browse-by-')]/dri:reference"
         >
             <div class="table-responsive">
                 <table class="table table-hover table-striped">
                     <xsl:for-each
-                        select="./dri:referenceSet[starts-with(@id,'aspect.artifactbrowser.ConfigurableBrowse.div.browse-by-')]/dri:reference"
+                        select="./dri:referenceSet[starts-with(@id,'aspect.artifactbrowser.ConfigurableBrowse.referenceSet.browse-by-')]/dri:reference"
                     >
                         <tr>
                             <td>
@@ -148,7 +134,7 @@
                     </tfoot>
                     <tbody>
                         <xsl:for-each
-                            select="./dri:table[@id='aspect.artifactbrowser.ConfigurableBrowse.table.browse-by-subject-results']/dri:row[not(@role)]/dri:cell"
+                            select="./dri:table[starts-with(@id,'aspect.artifactbrowser.ConfigurableBrowse.table.browse-by-')]/dri:row[not(@role)]/dri:cell"
                         >
                             <tr>
                                 <td class="disable-math">
@@ -256,4 +242,123 @@
         </nav>
     </xsl:template>
     
+    <xsl:template
+        match="dri:div[@id='aspect.artifactbrowser.ConfigurableBrowse.div.browse-navigation']"
+    >
+        <form method="{@method}" action="{@action}">
+            <div class="row">
+                <div class="col-xs-4 hidden-md-up">
+                    <xsl:apply-templates
+                        select="./dri:div[@rend='row']/dri:div/dri:field"
+                    />
+                </div>
+                <div class="col-xs-8 col-md-12">
+                    <div class="hidden-sm-down">
+                        <xsl:apply-templates
+                            select="./dri:div[@rend='row']/dri:div/dri:list"
+                        />
+                    </div>
+                    <div>
+                        <div class="input-group">
+                            <xsl:for-each
+                                select="./dri:div[@rend='row']/dri:div/dri:p[@rend='hidden']/dri:field"
+                            >
+                                <input type="hidden" name="{@n}" value="{./dri:value}" />
+                            </xsl:for-each>
+                            <input type="text" name="starts_with" class="form-control" placeholder="xmlui.ArtifactBrowser.ConfigurableBrowse.general.starts_with_help" i18n:attribute="placeholder" />
+                            <span class="input-group-btn">
+                                <button class="btn btn-secondary" type="submit">
+                                    <i18n:text>xmlui.general.go</i18n:text>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </xsl:template>
+    
+    <xsl:template 
+        match="dri:div[@id='aspect.artifactbrowser.ConfigurableBrowse.div.browse-controls']"
+    >
+        <form action="{@action}" method="{@method}" id="{translate(@id,'.','_')}">
+            <div class="hidden">
+                <xsl:for-each
+                    select="./dri:p[@n='hidden-fields']/dri:field[@type='hidden']"
+                >
+                    <input type="hidden" name="{@n}" value="{./dri:value}" />
+                </xsl:for-each>
+                <xsl:for-each
+                    select="./dri:p/dri:field"
+                >
+                    <xsl:apply-templates
+                        select="."
+                    />
+                </xsl:for-each>
+            </div>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-cog"></i>
+                </button>                
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                    <xsl:for-each
+                        select="./dri:p[not(@n='hidden-fields')]"                    
+                    >
+                        <xsl:choose>
+                            <xsl:when
+                                test="./dri:field"
+                            >
+                                <xsl:for-each
+                                    select="./dri:field/dri:option"
+                                >                                    
+                                    <a class="dropdown-item" data-name="{parent::*/@n}" data-value="{./@returnValue}" href="#">
+                                        <xsl:if
+                                            test="parent::*/dri:value[@option=current()/@returnValue]"
+                                        >
+                                            <i class="fa fa-check"></i>
+                                        </xsl:if>
+                                        <xsl:value-of
+                                            select="."
+                                        />
+                                    </a>
+                                </xsl:for-each>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <h6 class="dropdown-header">
+                                    <xsl:value-of
+                                        select="."
+                                    />
+                                </h6>
+                            </xsl:otherwise>
+                        </xsl:choose>                        
+                    </xsl:for-each>
+                </div>
+            </div>
+        </form>
+    </xsl:template>   
+    
+    <xsl:template
+        match="dri:div[@pagination='simple']"    
+        mode="pagination"
+    > 
+        <i18n:translate>
+            <xsl:choose>
+                <xsl:when test="@itemsTotal = -1">
+                    <i18n:text>xmlui.dri2xhtml.structural.pagination-info.nototal</i18n:text>
+                </xsl:when>
+                <xsl:otherwise>
+                    <i18n:text>xmlui.dri2xhtml.structural.pagination-info</i18n:text>
+                </xsl:otherwise>
+            </xsl:choose>
+            <i18n:param>
+                <xsl:value-of select="@firstItemIndex"/>
+            </i18n:param>
+            <i18n:param>
+                <xsl:value-of select="@lastItemIndex"/>
+            </i18n:param>
+            <i18n:param>
+                <xsl:value-of select="@itemsTotal"/>
+            </i18n:param>
+        </i18n:translate>
+    </xsl:template>
 </xsl:stylesheet>

@@ -83,6 +83,13 @@ $(document).ready(function () {
             }
         }
     });
+    
+    $("#aspect_artifactbrowser_ConfigurableBrowse_div_browse-controls a").on('click',function(){
+        var name = $(this).data('name');
+        var val = $(this).data('value');
+        $("#aspect_artifactbrowser_ConfigurableBrowse_div_browse-controls select[name='"+name+"']").val(val).change();
+        $("#aspect_artifactbrowser_ConfigurableBrowse_div_browse-controls").submit();
+    });
 });
 
 
