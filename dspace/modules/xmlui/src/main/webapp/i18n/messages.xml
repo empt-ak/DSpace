@@ -147,6 +147,7 @@ and open the template in the editor.
     
     <message key="page.search.table.occurences">Number of occurences</message>
     <message key="page.general.thumbnail">Thumbnail</message>
+    <message key="page.general.banner">DSpace banner</message>
     
     <message key="page.error.error">ERROR: </message>
     <message key="page.error.unknowntype">Unknown type</message>

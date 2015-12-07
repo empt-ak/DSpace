@@ -104,7 +104,7 @@
                                     <xsl:choose>
                                         <xsl:when test="document($itemMetadata)/mets:fileSec/mets:fileGrp[@USE='THUMBNAIL']/
                         mets:file[@GROUPID=current()/@GROUPID]">
-                                            <img alt="Thumbnail" class="card-img-top hidden-xs-down">
+                                            <img alt="page.general.thumbnail" i18n:attribute="alt" class="card-img-top hidden-xs-down">
                                                 <xsl:attribute name="src">
                                                     <xsl:value-of select="document($itemMetadata)/mets:fileSec/mets:fileGrp[@USE='THUMBNAIL']/
                                     mets:file[@GROUPID=current()/@GROUPID]/mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>

@@ -480,14 +480,14 @@
                     <div class="col-md-2">
                         <xsl:choose>
                             <xsl:when test="document($volumeMetadata)/mets:METS/mets:fileSec/mets:fileGrp/mets:file/mets:FLocat/@xlink:href">
-                                <img alt="Thumbnail">
+                                <img alt="page.general.thumbnail" i18n:attribute="alt">
                                     <xsl:attribute name="src">
                                         <xsl:value-of select="document($volumeMetadata)/mets:METS/mets:fileSec/mets:fileGrp/mets:file/mets:FLocat/@xlink:href"/>
                                     </xsl:attribute>
                                 </img>
                             </xsl:when>
                             <xsl:otherwise>
-                                <img alt="Thumbnail" class="img-responsive">
+                                <img class="img-responsive" alt="page.general.thumbnail" i18n:attribute="alt">
                                     <xsl:attribute name="data-src">
                                         <xsl:text>holder.js/100px200</xsl:text>
                                         <xsl:text>?text=No Thumbnail</xsl:text>
@@ -532,14 +532,14 @@
                     <div class="col-md-2">
                         <xsl:choose>
                             <xsl:when test="document($volumeMetadata)/mets:METS/mets:fileSec/mets:fileGrp/mets:file/mets:FLocat/@xlink:href">
-                                <img alt="Thumbnail">
+                                <img alt="page.general.thumbnail" i18n:attribute="alt">
                                     <xsl:attribute name="src">
                                         <xsl:value-of select="document($volumeMetadata)/mets:METS/mets:fileSec/mets:fileGrp/mets:file/mets:FLocat/@xlink:href"/>
                                     </xsl:attribute>
                                 </img>
                             </xsl:when>
                             <xsl:otherwise>
-                                <img alt="Thumbnail" class="img-responsive">
+                                <img alt="page.general.thumbnail" i18n:attribute="alt" class="img-responsive">
                                     <xsl:attribute name="data-src">
                                         <xsl:text>holder.js/100px200</xsl:text>
                                         <xsl:text>?text=No Thumbnail</xsl:text>

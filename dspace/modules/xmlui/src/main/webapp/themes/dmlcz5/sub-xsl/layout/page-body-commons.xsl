@@ -344,7 +344,7 @@
         <div class="row">
             <div class="col-sm-2 hidden-sm-down">
                 <a href="{/dri:document/dri:meta/dri:pageMeta/dri:trail[1]/@target}" >
-                    <img alt="DSpace banner" class="dspace-banner">
+                    <img alt="page.general.banner" i18n:attribute="alt" class="dspace-banner">
                         <xsl:attribute
                             name="src"
                         >
