@@ -109,7 +109,7 @@
         />
         <div class="row">
             <div class="col-xs-12">
-                <h2 class="volume-title">
+                <h2>
                     <xsl:value-of
                         select="document($collectionMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title']"
                     />
@@ -665,7 +665,7 @@
                 </div>
             </div>
         </xsl:if>       
-        <div class="row collection-item-list">
+        <div class="row offset-top-25">
             <div class="col-xs-12">
                 <ul class="list-unstyled">
                     <xsl:for-each

@@ -35,26 +35,19 @@
                 <xsl:variable name="solrQuery">
                     <xsl:text>select?q=*%3A*&amp;fq=location%3A</xsl:text>
                     <xsl:call-template
-                    name="getSolrLocation"
-                />
-                <xsl:text>&amp;rows=0&amp;wt=xml&amp;facet=true&amp;facet.field=msc_keyword</xsl:text>
+                        name="getSolrLocation"
+                    />
+                    <xsl:text>&amp;rows=0&amp;wt=xml&amp;facet=true&amp;facet.field=msc_keyword</xsl:text>
                 </xsl:variable>
                 <xsl:value-of
                     select="$solrQuery"
-                    />
+                />
             </div>
         </xsl:if>
         <div class="row">
             <div class="col-sm-2 hidden-sm-down">
-                <a>
-                    <xsl:attribute
-                        name="href"
-                    >
-                        <xsl:value-of
-                            select="/dri:document/dri:meta/dri:pageMeta/dri:trail[1]/@target"
-                        />
-                    </xsl:attribute>
-                    <img alt="dmlcz banner" class="dml-banner">
+                <a href="/dri:document/dri:meta/dri:pageMeta/dri:trail[1]/@target" >
+                    <img alt="DSpace banner" class="dspace-banner">
                         <xsl:attribute
                             name="src"
                         >
@@ -68,14 +61,7 @@
             </div>
             <div class="col-sm-10">
                 <div class="page-header">
-                    <a class="dml-link">
-                        <xsl:attribute
-                            name="href"
-                        >
-                            <xsl:value-of
-                                select="$contextPath"
-                            />
-                        </xsl:attribute>
+                    <a href="{$contextPath}">
                         <h1>
                             <i18n:text>page.head.title</i18n:text>
                         </h1>

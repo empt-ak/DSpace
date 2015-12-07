@@ -336,7 +336,7 @@
                                                 />
                                             </a>
                                         </h5>
-                                        <div class="celebrity-collection-entry">                                                
+                                        <div class="celebrity-collection-abstract">                                                
                                             <h6 class="text-muted">
                                                 <xsl:value-of
                                                     select="document($volumeMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']"
@@ -492,7 +492,7 @@
             >
                 <div class="row">
                     <div class="col-md-12">
-                        <h2 class="volume-title">
+                        <h2>
                             <i18n:text>page.community.serial.volume.volume</i18n:text>
                             <xsl:value-of
                                 select="document($volumeMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title']"
@@ -592,7 +592,7 @@
                     <div class="col-md-10">
                         <div class="row">
                             <div class="col-md-12">
-                                <h2 class="volume-title">
+                                <h2>
                                     <xsl:value-of
                                         select="document($parentVolumeMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title']"
                                     />
@@ -601,7 +601,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <h3 class="volume-title">
+                                <h3>
                                     <xsl:value-of
                                         select="document($volumeMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title']"
                                     />

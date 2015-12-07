@@ -67,27 +67,6 @@ dd
     text-align: justify;
 }
 
-.journal-title,
-.volume-title,
-.issue-title,
-.volume-title,
-.article-title
-{
-    margin-top: 0;
-}
-
-.item-extent
-{
-    /*margin-top: 10px;*/
-}
-
-.serial-item-authors,
-.proceedings-item-authors,
-.celebrity-volume-abstract
-{
-    color: #999;
-}
-
 .issue-item-row
 {
     border-bottom: 1px solid #eee;
@@ -96,7 +75,7 @@ dd
         white-space: nowrap;*/
 }
 
-.dml-content-body
+.content-body
 {
     margin-top: 1.5em;
     margin-bottom: 3em;
@@ -107,16 +86,16 @@ dd
     text-align: justify;
 }
 
-.dml-banner
+.dspace-banner
 {
     margin-top: 20px;
     margin-left: 20px;
 }
 
-a.dml-link,
-a.dml-link:hover,
-a.dml-link:visited,
-a.dml-link:active
+div.page-header > a,
+div.page-header > a:hover,
+div.page-header > a:visited,
+div.page-header > a.active
 {
     color: inherit;
 }
@@ -140,10 +119,8 @@ a.dml-link:active
     margin-top: 35px;
 }
 
-.collection-item-authors,
-.celebrity-collection-entry
+.celebrity-collection-abstract
 {
-    margin-top: 5px;
     padding-left: 15px;
 }
 
@@ -158,16 +135,6 @@ table.table-toc td
     padding-bottom: 0;
 }
 
-.table-cell-extent
-{    
-    text-align: right;
-}
-
-.item-description-title
-{
-    margin-bottom: 0;
-}
-
 .offset-top-20
 {
     margin-top: 20px;
@@ -178,37 +145,7 @@ table.table-toc td
     margin-top: 75px;
 }
 
-.item-keyword
-{
-    margin-top: 35px;
-}
-
-
-.item-download h5
-{
-    margin-bottom: 2px;
-}
-
-.item-author h5,
-.item-msc h5,
-.item-zbl h5,
-.item-mr h5
-{
-    margin-bottom: 2px;
-    margin-top: 30px;
-}
-
-.similarity-item-header
-{
-    background-color: wheat;
-}
-
-.item-citation
-{
-    background-color: #f5f5f5;
-}
-
-.collection-item-list
+.offset-top-25
 {
     margin-top: 25px;
 }
@@ -216,11 +153,6 @@ table.table-toc td
 .disable-bottom-border
 {
     border-bottom: 0;
-}
-
-.issue-item-title
-{
-    font-size: 1.5rem;
 }
 
 .hidden

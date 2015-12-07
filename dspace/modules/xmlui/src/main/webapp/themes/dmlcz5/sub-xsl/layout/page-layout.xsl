@@ -28,7 +28,7 @@
                     <xsl:call-template name="buildBodyHead" />
                     <!-- in page-body-navigation.xsl -->
                     <xsl:call-template name="buildNavigation" />
-                    <div class="row dml-content-body">
+                    <div class="row content-body">
                         <div class="col-md-3 col-xl-2 left-sidebar">
                             <xsl:call-template name="buildLeftSidebar" />
                         </div>
