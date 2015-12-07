@@ -208,4 +208,6 @@ and open the template in the editor.
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.metadata.author">Browsing by Author</message>
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.item.title">Browsing by Title</message>
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.metadata.subject">Browsing by Subject</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.subject.column_heading">Subjects</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.author.column_heading">Authors</message>
 </catalogue>
