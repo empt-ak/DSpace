@@ -20,14 +20,16 @@
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:confman="org.dspace.core.ConfigurationManager"
                 exclude-result-prefixes="i18n dri mets xlink xsl dim xhtml mods dc confman">
-
+    
+    <xsl:output method="xml" encoding="UTF-8" indent="no"/>
+    
     <xsl:variable 
         name="theme"
     >
         <xsl:text>dmlcz5</xsl:text>
     </xsl:variable>
      
-   <xsl:variable 
+    <xsl:variable 
         name="contextPath" 
         select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]" 
     />

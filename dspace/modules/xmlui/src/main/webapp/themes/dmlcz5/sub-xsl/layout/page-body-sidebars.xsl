@@ -19,11 +19,12 @@
                 xmlns:dc="http://purl.org/dc/elements/1.1/"
                 xmlns="http://www.w3.org/1999/xhtml"
                 exclude-result-prefixes="i18n dri mets xlink xsl dim xhtml mods dc">
+    <xsl:output method="xml" encoding="UTF-8" indent="no"/>
     
     <xsl:template name="buildLeftSidebar">
         <div class="card">
             <div class="card-header">
-                !browsebyglobal
+                <i18n:text>page.sidebar.left.browseby</i18n:text>
             </div>
             <ul class="list-group list-group-flush">
                 <xsl:for-each
@@ -44,7 +45,11 @@
                 test="/dri:document/dri:options/dri:list[@id='aspect.viewArtifacts.Navigation.list.browse']/dri:list[@id='aspect.browseArtifacts.Navigation.list.context']/dri:item"
             >
                 <div class="card-header">
-                    !browsebylocal
+                    <i18n:text>
+                        <xsl:value-of
+                            select="/dri:document/dri:options/dri:list[@id='aspect.viewArtifacts.Navigation.list.browse']/dri:list[@id='aspect.browseArtifacts.Navigation.list.context']/dri:head"
+                        />
+                    </i18n:text>
                 </div> 
                 <ul class="list-group list-group-flush">
                     <xsl:for-each
@@ -114,7 +119,7 @@
             </div>
             <div class="hidden-sm-down">
                 <div class="card-header">
-                    !Toolbox
+                    <i18n:text>page.sidebar.left.quickstats</i18n:text>
                 </div>
                 <ul class="list-group list-group-flush">              
                     <li class="list-group-item">
@@ -131,8 +136,9 @@
                             select="document(concat($solrServer,'select?q=search.resourcetype%3A2&amp;rows=0&amp;wt=xml'))/response/result/@numFound"
                         />
                     </li>
-                    <li class="list-group-item">!More statistics </li>
-                    <li class="list-group-item">!Back to top</li>
+                    <li class="list-group-item">
+                        <i18n:text>page.sidebar.left.quickstats.more</i18n:text>
+                    </li>
                 </ul>
             </div>        
         </div>
@@ -280,12 +286,11 @@
                     </xsl:for-each>
                 </ul>
             </xsl:if>
-            <!-- /dri:document/dri:body/dri:div[@id='aspect.discovery.RelatedItems.div.item-related-container']/div/referenceSet-->
             <xsl:if                
                 test="/dri:document/dri:body/dri:div[@id='aspect.discovery.RelatedItems.div.item-related-container']/dri:div[@id='aspect.discovery.RelatedItems.div.item-related']/dri:referenceSet[@id='aspect.discovery.RelatedItems.referenceSet.item-related-items']"
             >
                 <a class="list-group-item active">
-                    !related items
+                    <i18n:text>page.sidebar.right.related.items</i18n:text>
                 </a>
                 <xsl:for-each
                     select="/dri:document/dri:body/dri:div[@id='aspect.discovery.RelatedItems.div.item-related-container']/dri:div[@id='aspect.discovery.RelatedItems.div.item-related']/dri:referenceSet[@id='aspect.discovery.RelatedItems.referenceSet.item-related-items']/dri:reference"

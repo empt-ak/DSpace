@@ -23,7 +23,7 @@
                 xmlns:util="org.dspace.app.xmlui.utils.XSLUtils"
                 xmlns:confman="org.dspace.core.ConfigurationManager"
                 exclude-result-prefixes="xalan encoder i18n dri mets dim xlink xsl util confman">
-    <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
+    <xsl:output method="xml" encoding="UTF-8" indent="no"/>
     
     
     <xsl:template match="dri:body/dri:div[@id='cz.muni.ics.dmlcz5.aspects.CommunityAspect.div.community-view' and @rend='top-comm']">
@@ -45,7 +45,7 @@
         </div>        
         <div class="row">
             <div class="col-sm-2 hidden-xs-down">
-                <img height="200" alt="page.community.serial.thumbnail" i18n:attr="alt" class="img-responsive">
+                <img height="200" alt="page.community.serial.thumbnail" i18n:attribute="alt" class="img-responsive">
                     <xsl:attribute name="src">
                         <xsl:value-of select="document($externalMetadata)/mets:METS/mets:fileSec/mets:fileGrp/mets:file/mets:FLocat/@xlink:href" />
                     </xsl:attribute>
@@ -101,14 +101,7 @@
                             <i18n:text>page.community.serial.website</i18n:text>
                         </dt>
                         <dd class="col-xs-12 col-md-9">
-                            <a target="_blank">
-                                <xsl:attribute
-                                    name="href"
-                                >
-                                    <xsl:value-of
-                                        select="document($externalMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='uri']"
-                                    />
-                                </xsl:attribute>
+                            <a target="_blank" href="{document($externalMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='uri']}">
                                 <xsl:value-of
                                     select="document($externalMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='uri']"
                                 />
@@ -214,14 +207,7 @@
                                                     <xsl:value-of select="./@url"/>
                                                     <xsl:text>?sections=dmdSec</xsl:text>
                                                 </xsl:variable>
-                                                <a>
-                                                    <xsl:attribute
-                                                        name="href"
-                                                    >
-                                                        <xsl:value-of
-                                                            select="document($collectionMetadata)/mets:METS/@OBJID"
-                                                        />
-                                                    </xsl:attribute>  
+                                                <a href="{document($collectionMetadata)/mets:METS/@OBJID}">
                                                     <xsl:value-of
                                                         select="document($collectionMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title' and @qualifier='name']"
                                                     />
@@ -282,14 +268,7 @@
                                                     <xsl:value-of select="./@url"/>
                                                     <xsl:text>?sections=dmdSec</xsl:text>
                                                 </xsl:variable>
-                                                <a>
-                                                    <xsl:attribute
-                                                        name="href"
-                                                    >
-                                                        <xsl:value-of
-                                                            select="document($collectionMetadata)/mets:METS/@OBJID"
-                                                        />
-                                                    </xsl:attribute>  
+                                                <a href="{document($collectionMetadata)/mets:METS/@OBJID}"> 
                                                     <xsl:value-of
                                                         select="document($collectionMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title' and @qualifier='name']"
                                                     />
@@ -375,14 +354,7 @@
                                         </xsl:variable>
                                         <tr>
                                             <td>                                                
-                                                <a>
-                                                    <xsl:attribute
-                                                        name="href"
-                                                    >
-                                                        <xsl:value-of
-                                                            select="document($collectionMetadata)/mets:METS/@OBJID"
-                                                        />
-                                                    </xsl:attribute>
+                                                <a href="{document($collectionMetadata)/mets:METS/@OBJID}">
                                                     <xsl:value-of
                                                         select="document($collectionMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title' and @language]"
                                                     />
@@ -425,14 +397,7 @@
                                                 <xsl:text>:</xsl:text>
                                             </td>
                                             <td>
-                                                <a>
-                                                    <xsl:attribute
-                                                        name="href"
-                                                    >
-                                                        <xsl:value-of
-                                                            select="document($collectionMetadata)/mets:METS/@OBJID"
-                                                        />
-                                                    </xsl:attribute>
+                                                <a href="{document($collectionMetadata)/mets:METS/@OBJID}">
                                                     <xsl:value-of
                                                         select="document($collectionMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title' and @qualifier='formalized']"
                                                     />
@@ -460,11 +425,11 @@
             </xsl:when>
             <xsl:otherwise>
                 <div class="row">
-                    <div class="col-md-12 alert alert-info no-entry-alert">
+                    <div class="col-xs-12 alert alert-info no-entry-alert">
                         <h2>
                             <i18n:text>page.community.noentry.head</i18n:text>
                         </h2>
-                        this hue hue has noe hoe hoe
+                        <i18n:text>page.error.noentries</i18n:text>
                     </div>
                 </div>
             </xsl:otherwise>
@@ -546,13 +511,7 @@
                                     <xsl:value-of select="./@url"/>
                                     <xsl:text>?sections=dmdSec</xsl:text>
                                 </xsl:variable>
-                                <a class="list-group-item">
-                                    <xsl:attribute
-                                        name="href">
-                                        <xsl:value-of
-                                            select="document($collectionMetadata)/mets:METS/@OBJID"
-                                        />
-                                    </xsl:attribute>
+                                <a class="list-group-item" href="{document($collectionMetadata)/mets:METS/@OBJID}">
                                     <i18n:text>page.community.serial.volume.issue</i18n:text>
                                     <xsl:value-of
                                         select="document($collectionMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title' and @qualifier='name']"
@@ -649,13 +608,7 @@
                                         />
                                     </td>
                                     <td>
-                                        <a>
-                                            <xsl:attribute
-                                                name="href">
-                                                <xsl:value-of
-                                                    select="document($collectionMetadata)/mets:METS/@OBJID"
-                                                />
-                                            </xsl:attribute>
+                                        <a href="{document($collectionMetadata)/mets:METS/@OBJID}">
                                             <xsl:value-of
                                                 select="document($collectionMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title']"
                                             />
@@ -668,7 +621,13 @@
                 </div>
             </xsl:when>
             <xsl:otherwise>
-                wrong type
+                <div class="alert alert-danger" role="alert">
+                    <strong>
+                        <i18n:text>page.error.error</i18n:text>
+                    </strong>
+                    <xsl:text> </xsl:text>
+                    <i18n:text>page.error.unknowntype</i18n:text>
+                </div>
             </xsl:otherwise>
         </xsl:choose>        
     </xsl:template>

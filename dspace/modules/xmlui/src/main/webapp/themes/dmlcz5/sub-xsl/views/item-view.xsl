@@ -26,7 +26,7 @@
                 xmlns:util="org.dspace.app.xmlui.utils.XSLUtils"
                 xmlns:confman="org.dspace.core.ConfigurationManager"
                 exclude-result-prefixes="xalan encoder i18n dri mets dim xlink xsl util confman">
-    <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
+    <xsl:output method="xml" encoding="UTF-8" indent="no"/>
     
     <xsl:template
         match="dri:body/dri:div[@id='cz.muni.ics.dmlcz5.aspects.ItemAspect.div.item-view' and @n='item-view']"
@@ -112,7 +112,7 @@
                                             </img>
                                         </xsl:when>
                                         <xsl:otherwise>
-                                            <img alt="!Thumbnail" class="card-img-top hidden-xs-down">
+                                            <img alt="page.general.thumbnail" i18n:attribute="alt" class="card-img-top hidden-xs-down">
                                                 <xsl:attribute name="data-src">
                                                     <xsl:text>holder.js/100px200</xsl:text>
                                                     <xsl:text>?text=No Thumbnail</xsl:text>
@@ -617,6 +617,5 @@
                 </div>
             </div>
         </div>       
-    </xsl:template>
-            
+    </xsl:template>            
 </xsl:stylesheet>

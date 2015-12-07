@@ -23,7 +23,7 @@
                 xmlns:util="org.dspace.app.xmlui.utils.XSLUtils"
                 xmlns:confman="org.dspace.core.ConfigurationManager"
                 exclude-result-prefixes="xalan encoder i18n dri mets dim xlink xsl util confman">
-    <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
+    <xsl:output method="xml" encoding="UTF-8" indent="no"/>
     
     <!-- priority here is really important !! -->
     <xsl:template
@@ -32,7 +32,13 @@
     >
         <div class="row">
             <div class="col-xs-12">
-                !header
+                <h1>
+                    <i18n:text>
+                        <xsl:value-of
+                            select="./dri:head"
+                        />
+                    </i18n:text>
+                </h1>
             </div>
         </div>
         <xsl:apply-templates
@@ -116,7 +122,7 @@
                                 />
                             </th>
                             <th>
-                                !pocet vyskytov
+                                <i18n:text>page.search.table.occurences</i18n:text>
                             </th>
                         </tr>
                     </thead>
@@ -128,7 +134,7 @@
                                 />
                             </th>
                             <th>
-                                !pocet vyskytov
+                                <i18n:text>page.search.table.occurences</i18n:text>
                             </th>
                         </tr>
                     </tfoot>
@@ -265,7 +271,13 @@
                             >
                                 <input type="hidden" name="{@n}" value="{./dri:value}" />
                             </xsl:for-each>
-                            <input type="text" name="starts_with" class="form-control" placeholder="xmlui.ArtifactBrowser.ConfigurableBrowse.general.starts_with_help" i18n:attribute="placeholder" />
+                            <!--<input type="text" name="starts_with" class="form-control" placeholder="xmlui.ArtifactBrowser.ConfigurableBrowse.general.starts_with_help" i18n:attribute="placeholder" />-->
+                            <input type="text" name="starts_with" class="form-control">
+                                <xsl:attribute name="placeholder">
+                                    <xsl:text>xmlui.ArtifactBrowser.ConfigurableBrowse.general.starts_with_help</xsl:text>
+                                </xsl:attribute>
+                                <xsl:attribute name="i18n:attr">placeholder</xsl:attribute>
+                            </input>
                             <span class="input-group-btn">
                                 <button class="btn btn-secondary" type="submit">
                                     <i18n:text>xmlui.general.go</i18n:text>

@@ -13,7 +13,7 @@
                 xmlns="http://www.w3.org/1999/xhtml"
                 exclude-result-prefixes="dri xsl">
 
-    <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
+    <xsl:output method="xml" encoding="UTF-8" indent="no"/>
    
     <xsl:template match="dri:document">
         <xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html&gt;</xsl:text>

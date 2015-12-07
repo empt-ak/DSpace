@@ -19,6 +19,9 @@
                 xmlns:dc="http://purl.org/dc/elements/1.1/"
                 xmlns="http://www.w3.org/1999/xhtml"
                 exclude-result-prefixes="i18n dri mets xlink xsl dim xhtml mods dc">
+    
+    <xsl:output method="xml" encoding="UTF-8" indent="no"/>
+    
     <xsl:template name="buildNavigation">
         <nav class="navbar navbar-light bg-faded">
             <button class="navbar-toggler hidden-md-up" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2">
@@ -168,7 +171,7 @@
             <ul class="pager">
                 <li class="pager-prev disabled">
                     <a href="#">
-<!--                        <span class="hidden-xl-down">
+                        <!--                        <span class="hidden-xl-down">
                             &#8592;
                         </span>-->
                         <i18n:text>navigation.pun.previous</i18n:text>
@@ -310,6 +313,57 @@
                         </span>
                     </a>
                 </p>                    
+            </div>
+        </div>
+    </xsl:template>
+    
+    <xsl:template 
+        name="buildBodyHead"
+    >
+        <xsl:if
+            test="contains($debug,'true')"
+        >
+            <div class="alert alert-danger">
+                <xsl:value-of select="$solrServer" />
+                <br />
+                
+                <xsl:value-of select="$communityType" />
+                <br/>
+                <xsl:variable name="solrQuery">
+                    <xsl:text>select?q=*%3A*&amp;fq=location%3A</xsl:text>
+                    <xsl:call-template
+                        name="getSolrLocation"
+                    />
+                    <xsl:text>&amp;rows=0&amp;wt=xml&amp;facet=true&amp;facet.field=msc_keyword</xsl:text>
+                </xsl:variable>
+                <xsl:value-of
+                    select="$solrQuery"
+                />
+            </div>
+        </xsl:if>
+        <div class="row">
+            <div class="col-sm-2 hidden-sm-down">
+                <a href="{/dri:document/dri:meta/dri:pageMeta/dri:trail[1]/@target}" >
+                    <img alt="DSpace banner" class="dspace-banner">
+                        <xsl:attribute
+                            name="src"
+                        >
+                            <xsl:value-of
+                                select="$resourcePath"
+                            />
+                            <xsl:text>/img/dml-logo.gif</xsl:text>
+                        </xsl:attribute>
+                    </img>
+                </a>            
+            </div>
+            <div class="col-sm-10">
+                <div class="page-header">
+                    <a href="{$contextPath}">
+                        <h1>
+                            <i18n:text>page.head.title</i18n:text>
+                        </h1>
+                    </a>                 
+                </div>
             </div>
         </div>
     </xsl:template>

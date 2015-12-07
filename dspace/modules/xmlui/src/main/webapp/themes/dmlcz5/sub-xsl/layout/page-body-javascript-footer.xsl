@@ -19,6 +19,7 @@
                 xmlns:dc="http://purl.org/dc/elements/1.1/"
                 xmlns="http://www.w3.org/1999/xhtml"
                 exclude-result-prefixes="i18n dri mets xlink xsl dim xhtml mods dc">
+    <xsl:output method="xml" encoding="UTF-8" indent="no"/>
     
     <xsl:template 
         name="buildBodyFooter"

@@ -23,7 +23,7 @@
                 xmlns:util="org.dspace.app.xmlui.utils.XSLUtils"
                 xmlns:confman="org.dspace.core.ConfigurationManager"
                 exclude-result-prefixes="xalan encoder i18n dri mets dim xlink xsl util confman">
-    <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
+    <xsl:output method="xml" encoding="UTF-8" indent="no"/>
     
     <xsl:template 
         match="dri:body/dri:div[@id='cz.muni.ics.dmlcz5.aspects.CollectionAspect.div.collection-view' and @n='collection-view']"
@@ -96,7 +96,13 @@
                 </xsl:call-template>
             </xsl:when>
             <xsl:otherwise>
-                unknowsadsad
+                <div class="alert alert-danger" role="alert">
+                    <strong>
+                        <i18n:text>page.error.error</i18n:text>
+                    </strong>
+                    <xsl:text> </xsl:text>
+                    <i18n:text>page.error.unknowntype</i18n:text>
+                </div>
             </xsl:otherwise>
         </xsl:choose>        
     </xsl:template>
@@ -118,7 +124,7 @@
         </div>
         <div class="row">
             <div class="col-sm-2 hidden-xs-down">
-                <img height="200" width="140" alt="page.collection.proceedings.thumbnail" i18n:attr="alt">
+                <img height="200" width="140" alt="page.collection.proceedings.thumbnail" i18n:attribute="alt">
                     <xsl:attribute name="src">
                         <xsl:value-of select="document(concat($collectionMetadata,',fileSec'))/mets:METS/mets:fileSec/mets:fileGrp/mets:file/mets:FLocat/@xlink:href" />
                     </xsl:attribute>
@@ -266,15 +272,10 @@
                             <xsl:for-each
                                 select="document($collectionMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='subject' and @qualifier='msc']"
                             >
-                                <a class="label label-info">
-                                    <xsl:attribute
-                                        name="href"
-                                    >
-                                        <!--
+                                <!-- href
                                         http://localhost:8080/dmlcz5/discover?filtertype=msc&filter_relational_operator=equals&filter=26A39
                                         -->
-                                        <xsl:text>#</xsl:text>
-                                    </xsl:attribute>
+                                <a class="label label-info" href="#">
                                     <xsl:value-of
                                         select="."
                                     />
@@ -309,14 +310,7 @@
                                 />
                             </td>
                             <td>
-                                <a>
-                                    <xsl:attribute
-                                        name="href"
-                                    >
-                                        <xsl:value-of
-                                            select="document($itemMetadata)/mets:METS/@OBJID"
-                                        />
-                                    </xsl:attribute>
+                                <a href="{document($itemMetadata)/mets:METS/@OBJID}">
                                     <xsl:value-of
                                         select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title']"
                                     />
@@ -355,7 +349,7 @@
         </div>
         <div class="row">
             <div class="col-sm-2 hidden-xs-down">
-                <img height="200" alt="page.collection.proceedings.thumbnail" i18n:attr="alt" class="img-responsive">
+                <img height="200" alt="page.collection.proceedings.thumbnail" i18n:attribute="alt" class="img-responsive">
                     <xsl:attribute name="src">
                         <xsl:value-of select="document(concat($collectionMetadata,',fileSec'))/mets:METS/mets:fileSec/mets:fileGrp/mets:file/mets:FLocat/@xlink:href" />
                     </xsl:attribute>
@@ -527,14 +521,7 @@
                             </td>
                             <td>
                                 <h5>
-                                    <a>
-                                        <xsl:attribute
-                                            name="href"
-                                        >
-                                            <xsl:value-of
-                                                select="document($itemMetadata)/mets:METS/@OBJID"
-                                            />
-                                        </xsl:attribute>
+                                    <a href="{document($itemMetadata)/mets:METS/@OBJID}">
                                         <xsl:value-of
                                             select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title']"
                                         />

@@ -23,7 +23,7 @@
                 xmlns:util="org.dspace.app.xmlui.utils.XSLUtils"
                 xmlns:confman="org.dspace.core.ConfigurationManager"
                 exclude-result-prefixes="xalan encoder i18n dri mets dim xlink xsl util confman">
-    <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
+    <xsl:output method="xml" encoding="UTF-8" indent="no"/>
     
     
     <xsl:template match="dri:body/dri:div[@id='cz.muni.ics.dmlcz5.aspects.MainAspect.div.landing-page']">
@@ -106,7 +106,7 @@
                                         </xsl:when>
                                         <xsl:otherwise>
                                             <!-- TODO -->
-                                            <img alt="!Thumbnail" class="img-responsive">
+                                            <img alt="page.general.thumbnail" class="img-responsive" i18n:attribute="alt">
                                                 <xsl:attribute name="data-src">
                                                     <xsl:text>holder.js/100x100</xsl:text>
                                                     <xsl:text>?text=No Thumbnail</xsl:text>
@@ -139,7 +139,7 @@
                                     </xsl:choose>                                    
                                 </div>
                                 <div class="media-right hidden-md-down">
-                                    <img alt="!Thumbnail" class="img-responsive media-object">
+                                    <img alt="page.general.thumbnail media-object" class="img-responsive" i18n:attribute="alt">
                                         <xsl:attribute name="data-src">
                                             <xsl:text>holder.js/100x100</xsl:text>
                                             <xsl:text>?text=Publisher logo</xsl:text>

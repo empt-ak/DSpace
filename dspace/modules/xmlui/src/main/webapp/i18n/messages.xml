@@ -26,11 +26,9 @@ and open the template in the editor.
     <message key="page.head.title">Czech Digital Mathematics Library</message>
     <message key="page.title">dml.cz</message>
     
-    <message key="page.sidebar.left.browseby">Browse by</message>
-    <message key="page.sidebar.left.browseby.collection">Collections</message>
-    <message key="page.sidebar.left.browseby.title">Titles</message>
-    <message key="page.sidebar.left.browseby.author">Authors</message>
-    <message key="page.sidebar.left.browseby.msc">MSC</message>
+    <message key="page.sidebar.left.quickstats">Quick statistics</message>
+    <message key="page.sidebar.left.quickstats.more">More statistics</message>
+    <message key="page.sidebar.left.browseby">Browse in DSpace</message>
     <message key="page.sidebar.left.projects">Projects and partners</message>
     <message key="page.sidebar.left.rss">RSS channels</message>
     <message key="page.sidebar.left.count.author">Total authors:</message>
@@ -39,6 +37,7 @@ and open the template in the editor.
     <message key="page.sidebar.right.discovery.author">Authors</message>
     <message key="page.sidebar.right.discovery.msc">MSC</message>
     <message key="page.sidebar.right.discovery.more">View More</message>
+    <message key="page.sidebar.right.related.items">Related items</message>
     
     <message key="page.footer.partners.title">Partners</message>
     <message key="page.footer.partners.ascr">ASCR</message>
@@ -114,8 +113,6 @@ and open the template in the editor.
     <message key="page.collection.monograph.note">Note:</message>
     <message key="page.collection.monograph.msc">MSC:</message>
     <message key="page.collection.monograph.toc">Table of contents</message>
-    <message key="page.collection."></message>
-    <message key="page.collection."></message>
     
     <message key="page.item.view">View/Open</message>
     <message key="page.item.fulltext">Full-text</message>
@@ -148,6 +145,12 @@ and open the template in the editor.
     <message key="page.item.similar.tfidf.description">
         <mark>Term Frequency - Inverse Document Frequency</mark> is a method which quantifies the amount of vocabulary overlap between two articles. Texts of the articles are represented as vectors in a vector space and the similarity is measured by their cosine angle.</message>
     
+    <message key="page.search.table.occurences">Number of occurences</message>
+    <message key="page.general.thumbnail">Thumbnail</message>
+    
+    <message key="page.error.error">ERROR: </message>
+    <message key="page.error.unknowntype">Unknown type</message>
+    <message key="page.error.noentries">Subcommunites and subcollections has to be imported first in order to display them</message>
     
     <message key="file.extension.size.bytes">B</message>
     <message key="file.extension.size.kbytes">kB</message>
@@ -198,4 +201,10 @@ and open the template in the editor.
     <message key="xmlui.Discovery.AbstractSearch.sort_by.dc.date.issued_dt_asc">Issue Date Asc</message>
     <message key="xmlui.Discovery.AbstractSearch.sort_by.dc.date.issued_dt_desc">Issue Date Desc</message>
     <message key="xmlui.Discovery.AbstractSearch.rpp">Results/page</message>
+    <message key="xmlui.ArtifactBrowser.Navigation.head_this_community">Browse this Community</message>
+    <message key="xmlui.ArtifactBrowser.Navigation.head_this_collection">Browse this Collection</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.item.dateissued">Browsing by Issue Date</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.metadata.author">Browsing by Author</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.item.title">Browsing by Title</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.metadata.subject">Browsing by Subject</message>
 </catalogue>

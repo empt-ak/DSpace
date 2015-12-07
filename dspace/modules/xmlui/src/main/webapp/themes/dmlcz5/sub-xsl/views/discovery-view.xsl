@@ -189,7 +189,7 @@
             
             <div class="media">
                 <div class="media-left hidden-sm-down">
-                    <img alt="!Thumbnail" class="img-responsive">
+                    <img alt="page.general.thumbnail" class="img-responsive" i18n:attribute="alt">
                         <xsl:attribute name="data-src">
                             <xsl:text>holder.js/100x100</xsl:text>
                             <xsl:text>?text=No Thumbnail</xsl:text>
@@ -234,8 +234,7 @@
                         </xsl:choose>
                     </div>
                 </div>
-            </div>
-            
+            </div>            
         </xsl:for-each>
     </xsl:template>
     
@@ -273,7 +272,7 @@
                     <xsl:variable name="extMets" select="document($extMetsURL)" />
                     <div class="media">
                         <div class="media-left hidden-sm-down">
-                            <img alt="!Thumbnail" class="img-responsive">
+                            <img alt="page.general.thumbnail" class="img-responsive" i18n:attribute="alt">
                                 <xsl:attribute name="data-src">
                                     <xsl:text>holder.js/100x100</xsl:text>
                                     <xsl:text>?text=No Thumbnail</xsl:text>
