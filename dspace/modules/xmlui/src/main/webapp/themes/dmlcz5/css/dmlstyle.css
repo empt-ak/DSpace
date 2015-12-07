@@ -179,3 +179,8 @@ ul.list-group-flush li:first-child
 {
     border-top:0;
 }
+
+.cursor-pointer
+{
+    cursor: pointer;
+}

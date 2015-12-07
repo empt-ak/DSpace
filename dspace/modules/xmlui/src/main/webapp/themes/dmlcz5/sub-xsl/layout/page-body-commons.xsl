@@ -305,7 +305,7 @@
                     <xsl:text> </xsl:text>
                     <i18n:text>page.footer.contact</i18n:text>                    
                     <a href="#">
-                        <span id="my-email">
+                        <span id="contact-email">
                             <i18n:text>page.footer.contact.javascript</i18n:text>
                         </span>
                     </a>

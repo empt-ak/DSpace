@@ -135,6 +135,10 @@ and open the template in the editor.
     <message key="page.item.fullentry.qualifier">Qualifier</message>
     <message key="page.item.fullentry.language">Language</message>
     <message key="page.item.fullentry.value">Value</message>
+    <message key="page.item.missing.abstract">This item has no abstract</message>
+    <message key="page.item.missing.author">This item has no authors</message>
+    <message key="page.item.missing.title">This item has no title</message>
+    <message key="page.item.date.lastupdate">Last updated:</message>
     <message key="page.item.similar.lsi.title">Method LSI</message>
     <message key="page.item.similar.lsi.description">
         <mark>Latent Semantic Indexing</mark> improves on TFIDF by taking into account the similarity between different words. This is accomplished by Singular Value Decomposion (a linear algebra method) of the term-document matrix.</message>
@@ -150,6 +154,13 @@ and open the template in the editor.
     <message key="file.extension.size.mbytes">MB</message>
     <message key="file.extension.size.gbytes">GB</message>
     <message key="file.image.nopreview">No Thumbnail</message>
+    
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.math">Math</message>
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.msc">MSC</message>
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.button.apply">Apply filters</message>
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.button.add">Add filter</message>
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.button.reset">Reset filters</message>
+    <message key="xmlui.general.go">Go</message>
     
     <message key="xmlui.ArtifactBrowser.AbstractSearch.result_query">Your query "{0}" produced {1} result(s).</message>
     <message key="xmlui.ArtifactBrowser.AbstractSearch.head2">Communities or Collections matching your query</message>
@@ -177,4 +188,14 @@ and open the template in the editor.
     <message key="xmlui.dri2xhtml.structural.pagination-info.nototal">Now showing items {0}-{1}</message>
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.author.column_heading">Authors Name</message>
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.subject.column_heading">Subject</message>
+    <message key="xmlui.Discovery.AbstractSearch.head2">Communities or Collections matching your query</message>
+    <message key="xmlui.Discovery.AbstractSearch.head3">Items matching your query</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.general.starts_with_help">Browse for items that begin with these letters</message>
+    <message key="xmlui.Discovery.AbstractSearch.sort_by.head">Sort Options:</message>
+    <message key="xmlui.Discovery.AbstractSearch.sort_by.relevance">Relevance</message>
+    <message key="xmlui.Discovery.AbstractSearch.sort_by.dc.title_sort_asc">Title Asc</message>
+    <message key="xmlui.Discovery.AbstractSearch.sort_by.dc.title_sort_desc">Title Desc</message>
+    <message key="xmlui.Discovery.AbstractSearch.sort_by.dc.date.issued_dt_asc">Issue Date Asc</message>
+    <message key="xmlui.Discovery.AbstractSearch.sort_by.dc.date.issued_dt_desc">Issue Date Desc</message>
+    <message key="xmlui.Discovery.AbstractSearch.rpp">Results/page</message>
 </catalogue>

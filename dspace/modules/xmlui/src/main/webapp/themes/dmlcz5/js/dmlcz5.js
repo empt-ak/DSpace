@@ -4,13 +4,14 @@
  * and open the template in the editor.
  */
 $(document).ready(function () {
-    $('#my-email').email();
+    $('#contact-email').email();
 
     $(".show-advanced-filters").click(function () {
         $("#aspect_discovery_SimpleSearch_div_search-filters").show();
         $(this).hide();
         $(".hide-advanced-filters").show();
     });
+    
     $(".hide-advanced-filters").click(function () {
         $("#aspect_discovery_SimpleSearch_div_search-filters").hide();
         $(this).hide();
@@ -22,6 +23,7 @@ $(document).ready(function () {
             $(this).closest('.row .in-use').remove();
         }
     });
+    
     $(this).on('click', '.filter-add', function () {
         var $row = $("div.in-use:last").clone();
         $.each($row.find(':input[name]'), function () {
@@ -30,29 +32,12 @@ $(document).ready(function () {
             $(this).attr('id', $(this).attr('id').replace(/(\d+)(?!.*\d)/g, no));
             $(this).find('option:selected').removeAttr("selected");
             $(this).val("");
+            if ($(this).is('select[name*="filter_relational_operator_"]')) {
+                $(this).attr('readonly', true);
+            }
         });
         $row.insertBefore('.button-row');
     });
-
-    $("#extended-controls").append(function () {
-        var symbols = "!\"#$%&amp;'()*+,-./0123456789:;&lt;=&gt;?@";
-        var $table = $("&lt;table&gt;");
-        var ul = $("&lt;tr&gt;&lt;td&gt;&lt;ul&gt;");
-        var breakAfter = 5;
-        $.each(symbols.split(""), function (i, v) {
-            if (i % breakAfter === 0) {
-                ul = $("&lt;tr&gt;&lt;td&gt;&lt;ul&gt;");
-                console.log(ul);
-                $table.append(ul);
-            }
-            var li = $("&lt;li&gt;").html(v);
-            ul.append(li);
-            console.log(i + ": " + v);
-        });
-        console.log($table);
-        return $table;
-    });
-
 
     $(this).on('change', 'form#aspect_discovery_SimpleSearch_div_search-filters select', function () {
         var $parent = $(this).parents("div.row:first");
@@ -83,11 +68,27 @@ $(document).ready(function () {
             }
         }
     });
-    
-    $("#aspect_artifactbrowser_ConfigurableBrowse_div_browse-controls a").on('click',function(){
+
+    $("#aspect_discovery_SimpleSearch_div_search-controls-gear a.gear-option").on('click', function (e) {
+        e.stopPropagation();
+        if ($(this).not(".gear-option-selected").length)
+        {
+            var params = $(this).attr('href').split('&');
+            var form = $("#aspect_discovery_SimpleSearch_div_main-form");
+            $.each(params, function (i, val) {
+                var param = val.split('=')[0];
+                var value = val.split('=')[1];
+                form.find('input[name="' + param + '"]').val(value);
+            });           
+            form.submit();
+        }
+        e.preventDefault();
+    });
+
+    $("#aspect_artifactbrowser_ConfigurableBrowse_div_browse-controls a").on('click', function () {
         var name = $(this).data('name');
         var val = $(this).data('value');
-        $("#aspect_artifactbrowser_ConfigurableBrowse_div_browse-controls select[name='"+name+"']").val(val).change();
+        $("#aspect_artifactbrowser_ConfigurableBrowse_div_browse-controls select[name='" + name + "']").val(val).change();
         $("#aspect_artifactbrowser_ConfigurableBrowse_div_browse-controls").submit();
     });
 });
