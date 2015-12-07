@@ -310,13 +310,20 @@
                             >
                                 <xsl:for-each
                                     select="./dri:field/dri:option"
-                                >                                    
-                                    <a class="dropdown-item" data-name="{parent::*/@n}" data-value="{./@returnValue}" href="#">
-                                        <xsl:if
-                                            test="parent::*/dri:value[@option=current()/@returnValue]"
-                                        >
+                                >                           
+                                    <a class="dropdown-item" data-name="{parent::*/@n}" data-value="{./@returnValue}" href="#">   
+                                        <span class="btn-xs invisible">
+                                            <xsl:if
+                                                test="parent::*/dri:value[@option=current()/@returnValue]"
+                                            >
+                                                <xsl:attribute
+                                                    name="class"
+                                                >
+                                                    <xsl:text>btn-xs</xsl:text>
+                                                </xsl:attribute>
+                                            </xsl:if>
                                             <i class="fa fa-check"></i>
-                                        </xsl:if>
+                                        </span>                                       
                                         <xsl:value-of
                                             select="."
                                         />
