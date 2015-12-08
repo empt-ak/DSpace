@@ -11,6 +11,14 @@ import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.CSVWriter;
 import com.maxmind.geoip.Location;
 import com.maxmind.geoip.LookupService;
+import java.io.*;
+import java.net.URLEncoder;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -20,7 +28,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.log4j.Logger;
 import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.apache.solr.client.solrj.request.AbstractUpdateRequest;
@@ -34,7 +41,6 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.params.*;
-import org.apache.solr.common.util.JavaBinCodec;
 import org.dspace.content.*;
 import org.dspace.content.Collection;
 import org.dspace.core.ConfigurationManager;
@@ -46,15 +52,6 @@ import org.dspace.statistics.util.DnsLookup;
 import org.dspace.statistics.util.LocationUtils;
 import org.dspace.statistics.util.SpiderDetector;
 import org.dspace.usage.UsageWorkflowEvent;
-
-import javax.servlet.http.HttpServletRequest;
-import java.io.*;
-import java.net.URLEncoder;
-import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 /**
  * Static holder for a HttpSolrClient connection pool to issue
@@ -311,6 +308,11 @@ public class SolrLogger
             }
 
             doc1.addField("ip", ip);
+            
+            if(request.getSession() != null && !StringUtils.isEmpty(request.getSession().getId()))
+            {
+                doc1.addField("sessionId", request.getSession().getId());
+            }  
 
             //Also store the referrer
             if(request.getHeader("referer") != null){
@@ -470,7 +472,8 @@ public class SolrLogger
         {
             SolrInputDocument solrDoc = getCommonSolrDoc(resultObject, request, currentUser);
             if (solrDoc == null) return;
-
+            
+            
             for (String query : queries) {
                 solrDoc.addField("query", query);
             }
