@@ -11,7 +11,6 @@ import java.net.InetAddress;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.cocoon.acting.AbstractAction;
 import org.apache.cocoon.environment.ObjectModelHelper;
@@ -60,9 +59,9 @@ public class SendFeedbackAction extends AbstractAction
         if((allowedReferrersString != null) && (allowedReferrersString.length() > 0))
         {
             allowedReferrersSplit = allowedReferrersString.trim().split("\\s*,\\s*");
-            for(int i = 0; i < allowedReferrersSplit.length; i++)
+            for (String allowedReferrersSplit1 : allowedReferrersSplit)
             {
-                if(fromPage.indexOf(allowedReferrersSplit[i]) != -1)
+                if (fromPage != null && fromPage.contains(allowedReferrersSplit1))
                 {
                     validReferral = true;
                     break;
