@@ -214,4 +214,8 @@ and open the template in the editor.
     <message key="xmlui.ArtifactBrowser.Contact.feedback_label">On-line form:</message>
     <message key="xmlui.ArtifactBrowser.Contact.email">Email: </message>
     <message key="xmlui.ArtifactBrowser.Contact.feedback_link">Feedback</message>
+    <message key="xmlui.ArtifactBrowser.FeedbackForm.email">Your Email:</message>
+    <message key="xmlui.ArtifactBrowser.FeedbackForm.email_help">This address will be used to follow up on your feedback.</message>
+    <message key="xmlui.ArtifactBrowser.FeedbackForm.comments">Comments: </message>
+    <message key="xmlui.ArtifactBrowser.FeedbackForm.submit">Send Feedback</message>
 </catalogue>

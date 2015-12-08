@@ -26,40 +26,60 @@
     <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
     
     <xsl:template 
-        match="dri:body/dri:div[@id='cz.muni.ics.dmlcz5.aspects.statik.ConditionsAspect.div.conditions-section']"
+        match="dri:body/dri:div[@id='aspect.artifactbrowser.FeedbackForm.div.feedback-form']"
     >
         <div class="row">
             <div class="col-xs-12">
-                <h1>Conditions of Use</h1>
+                <h1>Feedback</h1>
             </div>
         </div>
-        <div class="row">
-            <div class="col-xs-12">
-                <p>The <a href="http://www.math.cas.cz/">Institute of Mathematics CAS</a> (IM in the following) provides access to digitized documents strictly for personal use. Using the library's online system to access or download a digitized document you accept these Conditions of Use.</p>
-
-                <p>The database itself is the property of the IM and contains elements covered by copyright. Access to the database containing the bibliographical references of all journal and conference proceedings articles and of monograph chapters is provided for free via the "search" and "browse" functions.</p>
-
-                <p>The digitized journal articles are displayed with the agreement of the corresponding publisher or his successor and remain his property.</p>
-
-                <p>The digitized monograph chapters are displayed with the agreement of the author and remain his/her property. In the case of elapsed author's rights the digital data of monographs are owned by the IM.</p>
-
-                <p>Any copy or reconstruction of a significant part of the database (for instance data about a whole journal issue or volume, a whole proceedings or book volume) using data from the DML-CZ site is a counterfeit breaking the law.</p>
-
-                <p>It is forbidden to modify the displayed documents. In particular, the copyright and Terms of use stated at the front page of every document must not be detached from any print or electronic copy.</p>
-
-                <p>Commercial exploitation of the contents of the DML-CZ without explicit authorization of the IM is forbidden.</p>
-
-                <h4>Copyright and author's rights for journal and proceedings papers</h4>
-
-                <p>The DML-CZ respects author's rights. Generally, the authors of old journal and proceedings articles ceded the right of publication to the publisher. They could not waive inexistent rights such as providing electronic copies and displaying them on the Internet. The digitized articles in the DML-CZ remain property of the publisher or his successor who have got authors' authorization to digitize their articles and display them on the Internet.</p>
-
-                <p>All texts have been published in the DML-CZ with the aim to promote publication of science and to maintain coherence of the collections. We invite the authors and copyright holders to send us their suggestions or possible objections.</p>
-
-                <p>
-                    <a href="">Complete text of Act No. 121/2000 on Copyright and Rights Related to Copyright and on Amendment to Certain Acts (the Copyright Act), as amended by Act No. 81/2005, Act No. 61/2006 and Act No. 216/2006</a>
-                </p>
+        <form action="{@action}" method="{@method}">
+            <xsl:variable
+                name="fieldEmail"
+                select="./dri:list[@id='aspect.artifactbrowser.FeedbackForm.list.form']/dri:item/dri:field[@id='aspect.artifactbrowser.FeedbackForm.field.email']"
+            />
+            <div class="form-group row">
+                <label for="inputEmail" class="col-sm-2 form-control-label">                    
+                    <xsl:value-of
+                        select="$fieldEmail/dri:label"
+                    />
+                </label>
+                <div class="col-sm-10">
+                    <input class="form-control" id="inputEmail" placeholder="{$fieldEmail/dri:help}" name="{$fieldEmail/@n}" type="email" value="{$fieldEmail/dri:value}"/>
+                </div>
             </div>
-        </div>
-    </xsl:template>
             
+            <xsl:variable
+                name="fieldComment"
+                select="./dri:list[@id='aspect.artifactbrowser.FeedbackForm.list.form']/dri:item/dri:field[@id='aspect.artifactbrowser.FeedbackForm.field.comments']"
+            />
+            <div class="form-group row">
+                <label for="inputEmail" class="col-sm-2 form-control-label">                    
+                    <xsl:value-of
+                        select="$fieldComment/dri:label"
+                    />
+                </label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" id="inputEmail" placeholder="{$fieldComment/dri:help}" name="{$fieldComment/@n}" type="email" value="{$fieldEmail/dri:value}"/>
+                </div>
+            </div>
+            
+            <div class="form-group row">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-secondary">
+                        <i18n:text>
+                            <xsl:value-of
+                                select="./dri:list[@id='aspect.artifactbrowser.FeedbackForm.list.form']/dri:item/dri:field['aspect.artifactbrowser.FeedbackForm.field.submit']"
+                            />
+                        </i18n:text>
+                    </button>
+                </div>
+            </div>
+            <xsl:for-each
+                select="./dri:p/dri:field"
+            >
+                <input type="hidden" name="{@n}" value="{./dri:value}" />
+            </xsl:for-each>
+        </form>
+    </xsl:template>
 </xsl:stylesheet>
