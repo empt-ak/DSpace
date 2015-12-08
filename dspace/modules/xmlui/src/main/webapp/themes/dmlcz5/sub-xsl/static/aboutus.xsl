@@ -26,38 +26,57 @@
     <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
     
     <xsl:template 
-        match="dri:body/dri:div[@id='cz.muni.ics.dmlcz5.aspects.statik.AboutUsAspect.div.news-section']"
+        match="dri:body/dri:div[@id='cz.muni.ics.dmlcz5.aspects.statik.AboutUsAspect.div.aboutus-section']"
     >
-        <div class="page-header">
-            <h1>About DML-CZ</h1>
+        <div class="row">
+            <div class="col-xs-12">
+                <h1>About DML-CZ</h1>
+            </div>
         </div>
-        
-        The Czech Digital Mathematics Library (DML-CZ) has been developed in order to preserve in a digital form the content of major part of mathematical literature that has ever been published in the Czech lands, and to provide a free access to the digital content and bibliographical data.
+        <div class="row">
+            <div class="col-xs-12">
+                <h4>DML-CZ</h4>
 
-        DML-CZ resulted from the project no. 1ET200190513 supported by the Academy of Sciences of the Czech Republic in the R&amp;D programme Information Society.
+                <p>The Czech Digital Mathematics Library (DML-CZ) has been developed in order to preserve in a digital form the content of major part of mathematical literature that has ever been published in the Czech lands, and to provide a free access to the digital content and bibliographical data.</p>
 
-        DML-CZ is operated by the Institute of Mathematics AS CR.
+                <p>DML-CZ resulted from the project no. <a href="http://project.dml.cz/">1ET200190513</a> supported by the <a href="http://www.cas.cz/en/">Czech Academy of Sciences</a> (CAS) in the R&amp;D programme Information Society.</p>
 
-        <h3>Project partners</h3>
+                <p>DML-CZ is operated by the <a href="http://www.math.cas.cz/">Institute of Mathematics CAS.</a></p>
 
-        Institute of Mathematics AS CR, Praha
-        Institute of Computer Science, Masaryk University, Brno
-        Faculty of Informatics, Masaryk University, Brno
-        Faculty of Mathematics and Physics, Charles University, Praha
-        Library AS CR, Praha
-        Details about the project teams can be found here.
+                <h4>Project partners</h4>
 
-        <h3>Ownership of the data</h3>
+                <ul>
+                    <li>
+                        <a href="http://www.math.cas.cz/">Institute of Mathematics CAS, Praha</a>
+                    </li>
+                    <li>
+                        <a href="http://www.ics.muni.cz/index_en.html">Institute of Computer Science, Masaryk University, Brno</a>
+                    </li>
+                    <li>
+                        <a href="http://www.fi.muni.cz/index.xhtml.en">Faculty of Informatics, Masaryk University, Brno</a>
+                    </li>
+                    <li>
+                        <a href="http://www.karlin.mff.cuni.cz/sekce/en_index.php">Faculty of Mathematics and Physics, Charles University, Praha</a>
+                    </li>
+                    <li>
+                        <a href="http://www.lib.cas.cz/en">Library CAS, Praha</a>
+                    </li>
+                </ul>
+                <p>Details about the project teams can be found <a href="http://project.dml.cz/partners.html">here</a>.</p>
 
-        The digitized journal and proceedings papers are displayed with the agreement of the publisher who owns the digital data. The digitized monographs are displayed with the agreement of the author and/or the publisher while the digital data are property of the Institute of Mathematics AS CR. The database itself, in particular the bibliographic data, are property of the Institute of Mathematics AS CR.
+                <h4>Ownership of the data</h4>
 
-        <h3>Principles</h3>
+                <p>The digitized journal and proceedings papers are displayed with the agreement of the publisher who owns the digital data. The digitized monographs are displayed with the agreement of the author and/or the publisher while the digital data are property of the Institute of Mathematics CAS. The database itself, in particular the bibliographic data, are property of the Institute of Mathematics CAS.</p>
 
-        DML-CZ presents full texts articles and book chapters in PDF format, equipped with enhanced metadata including bibliographical references linked to Zentrablatt MATH and MathSciNet.
+                <h4>Principles</h4>
 
-        Each retrodigitised page is scanned in a high quality (mostly 600 DPI bitonal) and adjusted with image processing software. The digital born documents are being obtained form the original sources provided by publishers. The presented page content and format corresponds to the original one.
+                <p>DML-CZ presents full texts articles and book chapters in PDF format, equipped with enhanced metadata including bibliographical references linked to <a href="https://zbmath.org/">Zentrablatt MATH</a> and <a href="http://www.ams.org/mathscinet/search.html">MathSciNet</a>.</p>
 
-        Journals are presented and accessed according to the terms of a contract with the publisher. The digital documents displayed in the DML-CZ are authorized with electronic stamps.
+                <p>Each retrodigitised page is scanned in a high quality (mostly 600 DPI bitonal) and adjusted with image processing software. The digital born documents are being obtained from the original sources provided by publishers. The presented page content and format corresponds to the original one.</p>
+
+                <p>Journals are presented and accessed according to the terms of a contract with the publisher. The digital documents displayed in the DML-CZ are authorized with electronic stamps.</p>
+            </div>
+        </div>
     </xsl:template>
             
 </xsl:stylesheet>

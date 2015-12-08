@@ -42,22 +42,22 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{concat($contextPath,'/news')}">
                             <i18n:text>navigation.main.button.news</i18n:text>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{concat($contextPath,'/faq')}">
                             <i18n:text>navigation.main.button.faq</i18n:text>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{concat($contextPath,'/conditions')}">
                             <i18n:text>navigation.main.button.terms</i18n:text>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{concat($contextPath,'/archives')}">
                             <i18n:text>navigation.main.button.matharchives</i18n:text>
                         </a>
                     </li>
@@ -237,39 +237,32 @@
                             </h4>
                             <ul>
                                 <li>
-                                    <a href="/sitemap">
+                                    <a href="concat($contextPath,'/sitemap')">
                                         <i18n:text>page.footer.links.sitemap</i18n:text>
                                     </a>
                                 </li>
                                 <li>
-                                    <a>
-                                        <xsl:attribute
-                                            name="href"
-                                        >
-                                            <xsl:value-of
-                                                select="concat($contextPath,'/aboutus')"
-                                            />
-                                        </xsl:attribute>
+                                    <a href="{concat($contextPath,'/aboutus')}">
                                         <i18n:text>page.footer.links.aboutus</i18n:text>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="{concat($contextPath,'/news')}">
                                         <i18n:text>page.footer.links.news</i18n:text>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="{concat($contextPath,'/faq')}">
                                         <i18n:text>page.footer.links.faq</i18n:text>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="{concat($contextPath,'/conditions')}">
                                         <i18n:text>page.footer.links.terms</i18n:text>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="{concat($contextPath,'/archives')}">
                                         <i18n:text>page.footer.links.matharchives</i18n:text>
                                     </a>
                                 </li>

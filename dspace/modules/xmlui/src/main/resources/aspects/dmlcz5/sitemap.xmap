@@ -23,6 +23,10 @@ in various configurations.
             <map:transformer name="CollectionAspect" src="cz.muni.ics.dmlcz5.aspects.CollectionAspect" />
             <map:transformer name="ItemAspect" src="cz.muni.ics.dmlcz5.aspects.ItemAspect" />
             <map:transformer name="AboutUsAspect" src="cz.muni.ics.dmlcz5.aspects.statik.AboutUsAspect" />
+            <map:transformer name="ArchiveAspect" src="cz.muni.ics.dmlcz5.aspects.statik.ArchiveAspect" />
+            <map:transformer name="ConditionsAspect" src="cz.muni.ics.dmlcz5.aspects.statik.ConditionsAspect" />
+            <map:transformer name="FAQAspect" src="cz.muni.ics.dmlcz5.aspects.statik.FAQAspect" />
+            <map:transformer name="NewsAspect" src="cz.muni.ics.dmlcz5.aspects.statik.NewsAspect" />
         </map:transformers>
   
     </map:components>
@@ -37,6 +41,19 @@ in various configurations.
             
             <map:match pattern="aboutus">
                 <map:transform type="AboutUsAspect" />
+            </map:match>
+            
+            <map:match pattern="faq">
+                <map:transform type="FAQAspect" />
+            </map:match>
+            <map:match pattern="news">
+                <map:transform type="NewsAspect" />
+            </map:match>
+            <map:match pattern="conditions">
+                <map:transform type="ConditionsAspect" />
+            </map:match>
+            <map:match pattern="archives">
+                <map:transform type="ArchiveAspect" />
             </map:match>
             
             <map:match pattern="handle/*/*">

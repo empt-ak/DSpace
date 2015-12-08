@@ -26,7 +26,7 @@ public class AboutUsAspect extends AbstractDSpaceTransformer
     @Override
     public void addBody(Body body) throws SAXException, WingException, UIException, SQLException, IOException, AuthorizeException, ProcessingException
     {
-        body.addDivision("news-section");
+        body.addDivision("aboutus-section");
     }
 
     @Override
