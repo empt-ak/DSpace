@@ -117,9 +117,11 @@
                     <thead class="thead-default">
                         <tr>
                             <th>
-                                <xsl:value-of
-                                    select="./dri:table[starts-with(@id,'aspect.artifactbrowser.ConfigurableBrowse.table.browse-by-')]/dri:row[@role='header']/dri:cell"
-                                />
+                                <i18n:text>
+                                    <xsl:value-of
+                                        select="./dri:table[starts-with(@id,'aspect.artifactbrowser.ConfigurableBrowse.table.browse-by-')]/dri:row[@role='header']/dri:cell"
+                                    />
+                                </i18n:text>
                             </th>
                             <th>
                                 <i18n:text>page.search.table.occurences</i18n:text>
@@ -129,9 +131,11 @@
                     <tfoot class="thead-default">
                         <tr>
                             <th>
-                                <xsl:value-of
-                                    select="./dri:table[starts-with(@id,'aspect.artifactbrowser.ConfigurableBrowse.table.browse-by-')]/dri:row[@role='header']/dri:cell"
-                                />
+                                <i18n:text>
+                                    <xsl:value-of
+                                        select="./dri:table[starts-with(@id,'aspect.artifactbrowser.ConfigurableBrowse.table.browse-by-')]/dri:row[@role='header']/dri:cell"
+                                    />
+                                </i18n:text>
                             </th>
                             <th>
                                 <i18n:text>page.search.table.occurences</i18n:text>
