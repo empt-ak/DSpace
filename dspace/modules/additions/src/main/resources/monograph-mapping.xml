@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+		 simpleconverter = pouze zkopiruje string hodnotu
+		 composedconverter = na elementy, ktere maji jazyk a value
+		 authorconverter = zpracuje autora
+		 contributorconverter = zpracuje contributora
+		 lawsubjectconverter = zpracovani predmetovych hesel
+-->
+
+
 <mappings xmlns="http://dozer.sourceforge.net"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://dozer.sourceforge.net
@@ -15,14 +25,16 @@
             <a>description</a>
             <b>metadata</b>
         </field>        
-<!--        <field custom-converter-id="composedconverter" custom-converter-param="dc.description">
+        <field custom-converter-id="composedconverter" custom-converter-param="dc.description.note">
             <a>note</a>
             <b>metadata</b>
-        </field>-->
-<!--        <field custom-converter-id="simpleconverter" custom-converter-param="dc.type">
+        </field>
+				<!--
+				<field custom-converter-id="simpleconverter" custom-converter-param="dc.type">
             <a>category</a>
             <b>metadata</b>
-        </field>-->
+				</field>
+				-->
     </mapping>
     
     <mapping>
@@ -55,10 +67,17 @@
         <field custom-converter-id="simpleconverter" custom-converter-param="dc.language">
             <a>language</a>
             <b>metadata</b>
+						</field>        
+				<field custom-converter-id="simpleconverter" custom-converter-param="dc.description.edition">
+            <a>edition</a>
+            <b>metadata</b>
         </field>
-        <!-- edition -->
         <field custom-converter-id="simpleconverter" custom-converter-param="dc.publisher">
             <a>publisher</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dcterms.spatial">
+            <a>publPlace</a>
             <b>metadata</b>
         </field>
         <field custom-converter-id="simpleconverter" custom-converter-param="dc.date.issued">
@@ -77,12 +96,36 @@
             <a>keyword</a>
             <b>metadata</b>
         </field> 
-        <field custom-converter-id="lawsubjectconverter" custom-converter-param="dc.subject.other">
+        <field custom-converter-id="lawsubjectconverter" custom-converter-param="dc.type">
             <a>subject</a>
             <b>metadata</b>
         </field> 
+        <field custom-converter-id="simpleconverter" custom-converter-param="dcterms.isVersionOf">
+            <a>describedURL</a>
+            <b>metadata</b>
+        </field>
         <field custom-converter-id="simpleconverter" custom-converter-param="dc.identifier">
             <a>alephSysno</a>
+            <b>metadata</b>
+					</field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.rights.openaccess">
+            <a>formatExtent</a>
+            <b>metadata</b>
+        </field>
+				<field custom-converter-id="composedconverter" custom-converter-param="dc.description.note">
+            <a>note</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.format.pagesize">
+            <a>pageSize</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.format.source">
+            <a>PDFOrigin</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.format.fonttype">
+            <a>fontType</a>
             <b>metadata</b>
         </field>
     </mapping>

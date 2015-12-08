@@ -24,5 +24,81 @@
         <qualifier>sysno</qualifier>
         <scope_note>Section in which item belongs.</scope_note>
     </dc-type>
+
+    <dc-type>
+        <schema>dc</schema>
+        <element>contributor</element>
+				<qualifier>translator</qualifier>
+        <scope_note>Translator of the document.</scope_note>
+    </dc-type>
+
+    <dc-type>
+        <schema>dc</schema>
+        <element>contributor</element>
+				<qualifier>author-of-introduction</qualifier>
+        <scope_note>Translator of the document.</scope_note>
+    </dc-type>
+		
+		<dc-type>
+        <schema>dc</schema>
+        <element>contributor</element>
+				<qualifier>author-of-afterword</qualifier>
+        <scope_note>Translator of the document.</scope_note>
+    </dc-type>
+
+		<dc-type>
+        <schema>dc</schema>
+        <element>description</element>
+				<qualifier>note</qualifier>
+        <scope_note>A note associated to the object.</scope_note>
+    </dc-type>
+
+		<dc-type>
+        <schema>dc</schema>
+        <element>description</element>
+				<qualifier>edition</qualifier>
+        <scope_note>An edition of the monography.</scope_note>
+    </dc-type>
+
+		<dc-type>
+        <schema>dc</schema>
+        <element>rights</element>
+				<qualifier>openaccess</qualifier>
+        <scope_note>An open access flag.</scope_note>
+    </dc-type>
+
+		<dc-type>
+        <schema>dc</schema>
+        <element>format</element>
+				<qualifier>pagesize</qualifier>
+        <scope_note>Size of the document page.</scope_note>
+    </dc-type>
+		
+		<dc-type>
+        <schema>dc</schema>
+        <element>format</element>
+				<qualifier>source</qualifier>
+				<scope_note>The origin format of the source document.</scope_note>
+		</dc-type>
+
+		<dc-type>
+        <schema>dc</schema>
+        <element>format</element>
+				<qualifier>fonttype</qualifier>
+				<scope_note>The font used in the source document.</scope_note>
+		</dc-type>
+		
+		<dc-type>
+        <schema>dc</schema>
+        <element>identifier</element>
+				<qualifier>projectno</qualifier>
+				<scope_note>Identification of the project related to the document.</scope_note>
+		</dc-type>
+
+
+
+
+
+
 </dspace-dc-types>
 
