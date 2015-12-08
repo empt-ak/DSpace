@@ -39,13 +39,15 @@
                 select="./dri:list[@id='aspect.artifactbrowser.FeedbackForm.list.form']/dri:item/dri:field[@id='aspect.artifactbrowser.FeedbackForm.field.email']"
             />
             <div class="form-group row">
-                <label for="inputEmail" class="col-sm-2 form-control-label">                    
-                    <xsl:value-of
-                        select="$fieldEmail/dri:label"
-                    />
+                <label for="inputEmail" class="col-sm-2 form-control-label">
+                    <i18n:text>
+                        <xsl:value-of
+                            select="$fieldEmail/dri:label"
+                        />
+                    </i18n:text>
                 </label>
                 <div class="col-sm-10">
-                    <input class="form-control" id="inputEmail" placeholder="{$fieldEmail/dri:help}" name="{$fieldEmail/@n}" type="email" value="{$fieldEmail/dri:value}"/>
+                    <input class="form-control" id="inputEmail" i18n:attr="placeholder" placeholder="{$fieldEmail/dri:help}" name="{$fieldEmail/@n}" type="email" value="{$fieldEmail/dri:value}"/>
                 </div>
             </div>
             
@@ -54,10 +56,12 @@
                 select="./dri:list[@id='aspect.artifactbrowser.FeedbackForm.list.form']/dri:item/dri:field[@id='aspect.artifactbrowser.FeedbackForm.field.comments']"
             />
             <div class="form-group row">
-                <label for="inputEmail" class="col-sm-2 form-control-label">                    
-                    <xsl:value-of
-                        select="$fieldComment/dri:label"
-                    />
+                <label for="inputEmail" class="col-sm-2 form-control-label">
+                    <i18n:text>
+                        <xsl:value-of
+                            select="$fieldComment/dri:label"
+                        />
+                    </i18n:text>
                 </label>
                 <div class="col-sm-10">
                     <textarea class="form-control" id="inputEmail" placeholder="{$fieldComment/dri:help}" name="{$fieldComment/@n}" type="email" value="{$fieldEmail/dri:value}"/>
@@ -69,7 +73,7 @@
                     <button type="submit" class="btn btn-secondary">
                         <i18n:text>
                             <xsl:value-of
-                                select="./dri:list[@id='aspect.artifactbrowser.FeedbackForm.list.form']/dri:item/dri:field['aspect.artifactbrowser.FeedbackForm.field.submit']"
+                                select="./dri:list[@id='aspect.artifactbrowser.FeedbackForm.list.form']/dri:item/dri:field['aspect.artifactbrowser.FeedbackForm.field.submit']/dri:label"
                             />
                         </i18n:text>
                     </button>
