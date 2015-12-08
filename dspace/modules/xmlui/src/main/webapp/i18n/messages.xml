@@ -149,6 +149,8 @@ and open the template in the editor.
     <message key="page.general.thumbnail">Thumbnail</message>
     <message key="page.general.banner">DSpace banner</message>
     
+    <message key="page.contact.help">Choose one of the following forms of contact.</message>
+    
     <message key="page.error.error">ERROR: </message>
     <message key="page.error.unknowntype">Unknown type</message>
     <message key="page.error.noentries">Subcommunites and subcollections has to be imported first in order to display them</message>
@@ -210,4 +212,8 @@ and open the template in the editor.
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.metadata.subject">Browsing by Subject</message>
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.subject.column_heading">Subjects</message>
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.author.column_heading">Authors</message>
+    <message key="xmlui.ArtifactBrowser.Contact.head">Contact us</message>
+    <message key="xmlui.ArtifactBrowser.Contact.feedback_label">On-line form:</message>
+    <message key="xmlui.ArtifactBrowser.Contact.email">Email: </message>
+    <message key="xmlui.ArtifactBrowser.Contact.feedback_link">Feedback</message>
 </catalogue>

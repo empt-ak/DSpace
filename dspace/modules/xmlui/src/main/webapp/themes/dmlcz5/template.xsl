@@ -31,6 +31,7 @@
     <xsl:import href="sub-xsl/static/news.xsl" />
     <xsl:import href="sub-xsl/static/conditions.xsl" />
     <xsl:import href="sub-xsl/static/archives.xsl" />
+    <xsl:import href="sub-xsl/static/contactus.xsl" />
     
     <xsl:import href="sub-xsl/page-variables.xsl" />
     <xsl:import href="sub-xsl/switch-off.xsl" />

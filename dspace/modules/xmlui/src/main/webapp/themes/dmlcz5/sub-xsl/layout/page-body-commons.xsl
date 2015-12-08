@@ -237,7 +237,7 @@
                             </h4>
                             <ul>
                                 <li>
-                                    <a href="concat($contextPath,'/sitemap')">
+                                    <a href="{concat($contextPath,'/sitemap')}">
                                         <i18n:text>page.footer.links.sitemap</i18n:text>
                                     </a>
                                 </li>
@@ -267,7 +267,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page' and @qualifier='contactURL']}">
                                         <i18n:text>page.footer.links.contactus</i18n:text>
                                     </a>
                                 </li>                                                  
@@ -301,7 +301,7 @@
                     <xsl:text> </xsl:text>
                     <i18n:text>page.footer.contact</i18n:text>                    
                     <a href="#">
-                        <span id="contact-email">
+                        <span class="contact-email">
                             <i18n:text>page.footer.contact.javascript</i18n:text>
                         </span>
                     </a>

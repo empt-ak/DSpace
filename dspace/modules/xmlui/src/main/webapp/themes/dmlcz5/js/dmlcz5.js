@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 $(document).ready(function () {
-    $('#contact-email').email();
+    $('.contact-email').email();
 
     $(".show-advanced-filters").click(function () {
         $("#aspect_discovery_SimpleSearch_div_search-filters").show();
@@ -95,14 +95,18 @@ $(document).ready(function () {
 
 
 (function ($) {
-    $.fn.email = function () {
-        var e = "help";
-        var a = "@";
-        var d = "dml";
-        var c = ".cz";
-        var h = 'mailto:' + e + a + d + c;
-        $(this).parent('a').attr('href', h);
-        $(this).html(e + a + d + c);
+    $.fn.email = function (options) {
+        var defaults = {user : 'webmaster', a : '@', domain : 'dml', suffix : ".cz" };
+        
+        var output = $.extend({},defaults,options);
+        var href = 'mailto:';
+        var label = '';
+        $.each(output,function(k,v){
+            label+=v;
+        });
+        href+=label;
+        $(this).parent('a').attr('href', href);
+        $(this).html(label);
         return this;
     };
 }(jQuery));
