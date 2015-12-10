@@ -373,11 +373,13 @@
     <xsl:template
         match="dri:item/dri:hi[@rend='highlight']"
     >
-        <strong>
-            <xsl:value-of
-                select="."
-            />
-        </strong>
+        <mark>
+            <strong>
+                <xsl:value-of
+                    select="."
+                />
+            </strong>
+        </mark>
     </xsl:template>
     
     <xsl:template
