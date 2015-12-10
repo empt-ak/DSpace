@@ -57,7 +57,7 @@
                             />
                         </i18n:text>
                     </a>
-                </li>                           
+                </li>
             </xsl:for-each>
         </ul>
         <div class="tab-content">
@@ -91,7 +91,7 @@
                                 <xsl:text>?sections=dmdSec</xsl:text>
                             </xsl:variable>
                             <li class="media">
-                                <div class="media-left hidden-sm-down">                                                     
+                                <div class="media-left hidden-sm-down">
                                     <xsl:choose>
                                         <xsl:when 
                                             test="document(concat('cocoon://',@url,'?sections=fileSec'))/mets:METS/mets:fileSec/mets:fileGrp/mets:file/mets:FLocat/@xlink:href"
@@ -100,7 +100,7 @@
                                                 <xsl:attribute name="src">
                                                     <xsl:value-of 
                                                         select="document(concat('cocoon://',@url,'?sections=fileSec'))/mets:METS/mets:fileSec/mets:fileGrp/mets:file/mets:FLocat/@xlink:href" 
-                                                    />                                                          
+                                                    />
                                                 </xsl:attribute>
                                             </img>
                                         </xsl:when>
@@ -123,20 +123,21 @@
                                     </h4>
                                     <xsl:choose>
                                         <xsl:when
-                                            test="string-length(document($externalMetadataURL)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']) &gt; 630"
+                                            test="string-length(document($externalMetadataURL)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']) &gt; 410"
                                         >
-                                            <xsl:value-of select="substring(document($externalMetadataURL)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract'],0,630)" />
+                                            <xsl:value-of select="substring(document($externalMetadataURL)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract'],0,410)" />
                                             <i18n:text>page.landing.ellipsis</i18n:text>
                                             <xsl:text> </xsl:text>
                                             <a href="{document($externalMetadataURL)/mets:METS/@OBJID}">
-                                                <i18n:text>page.landing.more</i18n:text> 
+                                                <i18n:text>page.landing.more</i18n:text>
+                                                <xsl:text> </xsl:text>
                                                 <i class="fa fa-arrow-circle-right"></i>
                                             </a>
                                         </xsl:when>
                                         <xsl:otherwise>
                                             <xsl:value-of select="document($externalMetadataURL)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']" />
                                         </xsl:otherwise>
-                                    </xsl:choose>                                    
+                                    </xsl:choose>
                                 </div>
                                 <div class="media-right hidden-md-down">
                                     <img alt="page.general.thumbnail media-object" class="img-responsive" i18n:attribute="alt">
@@ -147,7 +148,7 @@
                                     </img>
                                 </div>
                             </li>
-                        </xsl:for-each>                                             
+                        </xsl:for-each>
                     </ul>
                 </div>
             </xsl:for-each>

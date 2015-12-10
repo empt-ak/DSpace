@@ -44,20 +44,22 @@
         <xsl:apply-templates
             select="./dri:div[contains(@rend,'browse-navigation-wrapper')]/dri:div[@id='aspect.artifactbrowser.ConfigurableBrowse.div.browse-navigation']"
         />
-        <div class="row">
+        <div class="form-group row">
             <div class="col-xs-10">
-                <xsl:apply-templates
-                    mode="pagination"
-                    select="./dri:div[starts-with(@id,'aspect.artifactbrowser.ConfigurableBrowse.div.browse-by-')]"
-                />
+                <p class="form-control-static">
+                    <xsl:apply-templates
+                        mode="pagination"
+                        select="./dri:div[starts-with(@id,'aspect.artifactbrowser.ConfigurableBrowse.div.browse-by-')]"
+                    />
+                </p>
             </div>
             <div class="col-xs-2">
                 <xsl:apply-templates
                     select="./dri:div[@id='aspect.artifactbrowser.ConfigurableBrowse.div.browse-controls']" 
-                />               
+                />
             </div>
         </div>
-        <div class="row">
+        <div class="row offset-top-25">
             <div class="col-xs-12">
                 <xsl:apply-templates
                     select="./dri:div[starts-with(@id,'aspect.artifactbrowser.ConfigurableBrowse.div.browse-by-')]"
@@ -93,21 +95,98 @@
         <xsl:if
             test="./dri:referenceSet[starts-with(@id,'aspect.artifactbrowser.ConfigurableBrowse.referenceSet.browse-by-')]/dri:reference"
         >
-            <div class="table-responsive">
-                <table class="table table-hover table-striped">
-                    <xsl:for-each
-                        select="./dri:referenceSet[starts-with(@id,'aspect.artifactbrowser.ConfigurableBrowse.referenceSet.browse-by-')]/dri:reference"
-                    >
-                        <tr>
-                            <td>
-                                <xsl:value-of
-                                    select="./@url"
-                                />
-                            </td>
-                        </tr>
-                    </xsl:for-each>
-                </table>
-            </div>
+            <xsl:for-each
+                select="./dri:referenceSet[starts-with(@id,'aspect.artifactbrowser.ConfigurableBrowse.referenceSet.browse-by-')]/dri:reference"
+            >
+                <xsl:variable
+                    name="extMets"
+                >
+                    <xsl:text>cocoon://</xsl:text>
+                    <xsl:value-of select="./@url"/>
+                    <xsl:text>?sections=dmdSec,fileSec</xsl:text>
+                </xsl:variable>
+                <div class="media disable-math">
+                    <div class="media-left hidden-sm-down">
+                        <img alt="page.general.thumbnail" class="img-responsive" i18n:attribute="alt">
+                            <xsl:attribute name="data-src">
+                                <xsl:text>holder.js/100x100</xsl:text>
+                                <xsl:text>?text=No Thumbnail</xsl:text>
+                            </xsl:attribute>
+                        </img>
+                    </div>
+                    <div class="media-body">
+                        <h5 class="media-heading">
+                            <a href="{document($extMets)/mets:METS/@OBJID}">
+                                <xsl:choose>
+                                    <xsl:when
+                                        test="document($extMets)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title']"
+                                    >
+                                        <xsl:value-of
+                                            select="document($extMets)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title']"
+                                        />
+                                    </xsl:when>
+                                    <xsl:otherwise>
+                                        <i18n:text>page.item.missing.title</i18n:text>
+                                    </xsl:otherwise>
+                                </xsl:choose>
+                            </a>
+                        </h5>
+                        <div>
+                            <i class="fa fa-user"></i>
+                            <span class="text-muted">
+                                <xsl:text> </xsl:text>
+                                <xsl:choose>
+                                    <xsl:when
+                                        test="document($extMets)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='contributor']"
+                                    >
+                                        <xsl:for-each
+                                            select="document($extMets)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='contributor']"
+                                        >
+                                            <xsl:value-of
+                                                select="."
+                                            />
+                                            <xsl:if 
+                                                test="position() != last()"
+                                            >
+                                                <xsl:text>; </xsl:text>
+                                            </xsl:if>
+                                        </xsl:for-each>
+                                    </xsl:when>
+                                    <xsl:otherwise>
+                                        <i18n:text>page.item.missing.author</i18n:text>
+                                    </xsl:otherwise>
+                                </xsl:choose>
+                            </span>
+                        </div>
+                        <div>                            
+                            <xsl:choose>
+                                <xsl:when test="document($extMets)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']">
+                                    <xsl:choose>
+                                        <xsl:when
+                                            test="string-length(document($extMets)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']) &gt; 410"
+                                        >
+                                            <xsl:value-of select="substring(document($extMets)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract'],0,410)" />
+                                            <i18n:text>page.landing.ellipsis</i18n:text>
+                                            <xsl:text> </xsl:text>
+                                            <a href="{document($extMets)/mets:METS/@OBJID}">
+                                                <i18n:text>page.landing.more</i18n:text>
+                                                <xsl:text> </xsl:text>
+                                                <i class="fa fa-arrow-circle-right"></i>
+                                            </a>
+                                        </xsl:when>
+                                        <xsl:otherwise>
+                                            <xsl:value-of select="document($extMets)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']" />
+                                        </xsl:otherwise>
+                                    </xsl:choose>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <i18n:text>page.item.missing.abstract</i18n:text>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </div>
+                    </div>
+                </div> 
+            </xsl:for-each>
         </xsl:if>
         <xsl:if
             test="./dri:table[starts-with(@id,'aspect.artifactbrowser.ConfigurableBrowse.table.browse-by-')]"
@@ -154,7 +233,7 @@
                                         />
                                     </a>
                                 </td>
-                                <td>                            
+                                <td>
                                     <span class="label label-default label-pill pull-xs-left">
                                         <xsl:value-of
                                             select="./text()"
@@ -201,7 +280,7 @@
                                     <xsl:text>#</xsl:text>
                                 </xsl:otherwise>
                             </xsl:choose>
-                        </xsl:attribute>                        
+                        </xsl:attribute>
                         <i class="fa fa-arrow-left"></i>
                         <span class="hidden-sm-down">
                             <xsl:text> </xsl:text>
@@ -244,7 +323,7 @@
                         <span class="hidden-sm-down">
                             <i18n:text>navigation.next</i18n:text>
                             <xsl:text> </xsl:text>
-                        </span>                        
+                        </span>
                         <i class="fa fa-arrow-right"></i>
                     </a>
                 </li>
@@ -256,7 +335,7 @@
         match="dri:div[@id='aspect.artifactbrowser.ConfigurableBrowse.div.browse-navigation']"
     >
         <form method="{@method}" action="{@action}">
-            <div class="row">
+            <div class="form-group row">
                 <div class="col-xs-4 hidden-md-up">
                     <xsl:apply-templates
                         select="./dri:div[@rend='row']/dri:div/dri:field"
@@ -275,7 +354,6 @@
                             >
                                 <input type="hidden" name="{@n}" value="{./dri:value}" />
                             </xsl:for-each>
-                            <!--<input type="text" name="starts_with" class="form-control" placeholder="xmlui.ArtifactBrowser.ConfigurableBrowse.general.starts_with_help" i18n:attribute="placeholder" />-->
                             <input type="text" name="starts_with" class="form-control">
                                 <xsl:attribute name="placeholder">
                                     <xsl:text>xmlui.ArtifactBrowser.ConfigurableBrowse.general.starts_with_help</xsl:text>
@@ -297,7 +375,7 @@
     <xsl:template 
         match="dri:div[@id='aspect.artifactbrowser.ConfigurableBrowse.div.browse-controls']"
     >
-        <form action="{@action}" method="{@method}" id="{translate(@id,'.','_')}">
+        <form action="{@action}" method="{@method}" id="{translate(@id,'.','_')}" class="pull-xs-right">
             <div class="hidden">
                 <xsl:for-each
                     select="./dri:p[@n='hidden-fields']/dri:field[@type='hidden']"
@@ -315,10 +393,10 @@
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-cog"></i>
-                </button>                
+                </button>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
                     <xsl:for-each
-                        select="./dri:p[not(@n='hidden-fields')]"                    
+                        select="./dri:p[not(@n='hidden-fields')]"
                     >
                         <xsl:choose>
                             <xsl:when
@@ -326,8 +404,8 @@
                             >
                                 <xsl:for-each
                                     select="./dri:field/dri:option"
-                                >                           
-                                    <a class="dropdown-item" data-name="{parent::*/@n}" data-value="{./@returnValue}" href="#">   
+                                >
+                                    <a class="dropdown-item" data-name="{parent::*/@n}" data-value="{./@returnValue}" href="#">
                                         <span class="btn-xs invisible">
                                             <xsl:if
                                                 test="parent::*/dri:value[@option=current()/@returnValue]"
@@ -339,21 +417,25 @@
                                                 </xsl:attribute>
                                             </xsl:if>
                                             <i class="fa fa-check"></i>
-                                        </span>                                       
-                                        <xsl:value-of
-                                            select="."
-                                        />
+                                        </span>
+                                        <i18n:text>
+                                            <xsl:value-of
+                                                select="."
+                                            />
+                                        </i18n:text>
                                     </a>
                                 </xsl:for-each>
                             </xsl:when>
                             <xsl:otherwise>
                                 <h6 class="dropdown-header">
-                                    <xsl:value-of
-                                        select="."
-                                    />
+                                    <i18n:text>
+                                        <xsl:value-of
+                                            select="."
+                                        />
+                                    </i18n:text>
                                 </h6>
                             </xsl:otherwise>
-                        </xsl:choose>                        
+                        </xsl:choose>
                     </xsl:for-each>
                 </div>
             </div>
@@ -361,7 +443,7 @@
     </xsl:template>   
     
     <xsl:template
-        match="dri:div[@pagination='simple']"    
+        match="dri:div[@pagination='simple']"
         mode="pagination"
     > 
         <i18n:translate>

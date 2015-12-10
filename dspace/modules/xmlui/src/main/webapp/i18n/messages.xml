@@ -217,5 +217,13 @@ and open the template in the editor.
     <message key="xmlui.ArtifactBrowser.FeedbackForm.email">Your Email:</message>
     <message key="xmlui.ArtifactBrowser.FeedbackForm.email_help">This address will be used to follow up on your feedback.</message>
     <message key="xmlui.ArtifactBrowser.FeedbackForm.comments">Comments: </message>
-    <message key="xmlui.ArtifactBrowser.FeedbackForm.submit">Send Feedback</message>
+    <message key="xmlui.ArtifactBrowser.FeedbackForm.submit">Send Feedback</message>    
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.general.sort_by">Sort by</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.sort_by.title">Title</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.sort_by.dateissued">Issue date</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.sort_by.dateaccessioned">Submit date</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.general.order">In order</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.order.asc">Ascending</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.order.desc">Descending</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.general.rpp">Results/page</message>
 </catalogue>
