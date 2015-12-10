@@ -52,9 +52,9 @@
     <xsl:template
         match="dri:div[@id='aspect.discovery.SimpleSearch.div.discovery-search-box']/dri:div[@id='aspect.discovery.SimpleSearch.div.general-query']"
     >
-        <form method="{@method}" action="{@action}">
+        <form method="{@method}" action="{@action}" id="{translate(@id,'.','_')}">
             <fieldset>
-                <div class="row">
+                <div class="row form-group">
                     <div class="col-sm-3">
                         <xsl:apply-templates
                             select="dri:list/dri:item/dri:field[@id='aspect.discovery.SimpleSearch.field.scope']"
@@ -72,7 +72,56 @@
                             </span>
                         </div>
                     </div>
-                </div>                          
+                </div>
+                <div class="row used-filters">
+                    <div class="col-sm-12">
+                        <p>
+                            <i18n:text>page.discovery.filters-in-use</i18n:text>
+                            <xsl:text> </xsl:text>
+                            <xsl:for-each
+                                select="./dri:p/dri:field"
+                            >
+                                <xsl:variable
+                                    name="dataID"
+                                >
+                                    <xsl:call-template
+                                        name="substring-after-last"
+                                    >
+                                        <xsl:with-param
+                                            name="string"
+                                            select="@n"
+                                        />
+                                        <xsl:with-param
+                                            name="delimiter"
+                                            select="'_'"
+                                        />
+                                    </xsl:call-template>
+                                </xsl:variable>
+                                <input
+                                    type="hidden"
+                                    name="{@n}"
+                                    value="{./dri:value}"
+                                    data-remove="{$dataID}"
+                                />
+                                <xsl:if
+                                    test="starts-with(@n,'filter_') and not(contains(@n,'relational'))"
+                                >
+                                    <span class="label label-default" data-remove-input="{$dataID}">
+                                        <xsl:value-of select="./dri:value" />
+                                    
+                                        <xsl:text> </xsl:text>
+                                        <i class="fa fa-times"></i>
+                                    </span>
+                                    <xsl:if
+                                        test="position() != last()"
+                                    >
+                                        <xsl:text> </xsl:text>
+                                    </xsl:if>
+                                </xsl:if>                            
+                            </xsl:for-each>
+                        </p>
+                    </div>
+                </div>
             </fieldset>
         </form>
     </xsl:template>
@@ -95,7 +144,7 @@
                     select="./dri:p/dri:field"
                 >
                     <input type="hidden" name="{@n}" value="{./dri:value}" />
-                </xsl:for-each>                    
+                </xsl:for-each>
             </form>
         </div>
     </xsl:template>
@@ -103,9 +152,9 @@
     <xsl:template
         match="dri:div[@id='aspect.discovery.SimpleSearch.div.search-results']"
     >   
-        <div class="row">
+        <div class="row form-group">
             <div class="col-xs-9">
-                <p style="padding-top: 6px;">
+                <p class="form-control-static">
                     <i18n:translate>
                         <xsl:choose>
                             <xsl:when test="@itemsTotal = -1">
@@ -134,8 +183,7 @@
                 />  
             </div>
         </div>
-           
-        <hr />        
+        <hr />
         <xsl:for-each
             select="./dri:list[@id='aspect.discovery.SimpleSearch.list.search-results-repository']"
         >
@@ -145,11 +193,10 @@
         <xsl:apply-templates
             select="./@pagination"
         />
-    </xsl:template>  
-    
+    </xsl:template>
     <xsl:template
         match="dri:list[@n='comm-coll-result-list']"
-    >  
+    >
         <h4>
             <i18n:text>
                 <xsl:value-of
@@ -184,7 +231,7 @@
                 <xsl:if test="@type='DSpace Item'">
                     <xsl:text>&amp;dmdTypes=DC</xsl:text>
                 </xsl:if>-->
-            </xsl:variable> 
+            </xsl:variable>
             <xsl:variable name="extMets" select="document($extMetsURL)" />
             
             <div class="media">
@@ -253,7 +300,7 @@
                 
                 <xsl:for-each
                     select="./dri:list"
-                >                   
+                >
                     <xsl:variable
                         name="h"
                         select="substring-before(@n,':item')"
@@ -298,7 +345,7 @@
                             </h5>
                             <div>
                                 <i class="fa fa-user"></i> 
-                                <span class="text-muted">                            
+                                <span class="text-muted">
                                     <xsl:text> </xsl:text>
                                     <xsl:choose>
                                         <xsl:when
@@ -338,7 +385,7 @@
                                         <xsl:otherwise>
                                             <i18n:text>page.item.missing.author</i18n:text>
                                         </xsl:otherwise>
-                                    </xsl:choose>                                    
+                                    </xsl:choose>
                                 </span>
                             </div>
                             <div>
@@ -364,7 +411,7 @@
                             </div>
                         </div>
                     </div>
-                </xsl:for-each>                
+                </xsl:for-each>
             </div>
         </div>
     </xsl:template>
@@ -388,17 +435,19 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="pull-right">
-                    <xsl:apply-templates
-                        select="./dri:div[@rend='clearfix']/dri:p[@rend='pull-right']/dri:xref"
-                    />
+                    <p class="form-control-static">
+                        <xsl:apply-templates
+                            select="./dri:div[@rend='clearfix']/dri:p[@rend='pull-right']/dri:xref"
+                        />
+                    </p>
                 </div>
             </div>
         </div>
-        <form method="{@method}" action="{@action}" id="{translate(@id,'.','_')}" class="{./dri:div[@id='aspect.discovery.SimpleSearch.div.discovery-filters-wrapper']/@rend}">            
+        <form method="{@method}" action="{@action}" id="{translate(@id,'.','_')}" class="{./dri:div[@id='aspect.discovery.SimpleSearch.div.discovery-filters-wrapper']/@rend}">
             <fieldset>
                 <input type="hidden" name="query" value="{./dri:p/dri:field/dri:value}" />
                 <input type="hidden" name="scope" value="{./dri:p/dri:field/dri:value}" />
-                <xsl:apply-templates select="./dri:div[@id='aspect.discovery.SimpleSearch.div.discovery-filters-wrapper']" />                
+                <xsl:apply-templates select="./dri:div[@id='aspect.discovery.SimpleSearch.div.discovery-filters-wrapper']" />
             </fieldset>
         </form>
     </xsl:template>    
@@ -427,7 +476,7 @@
     <xsl:template
         match="dri:div[@rend='clearfix']/dri:p[@rend='pull-right']/dri:xref"
     >
-        <a target="{@target}" class="{concat('cursor-pointer ',@rend)}">          
+        <a target="{@target}" class="{concat('cursor-pointer ',@rend)}">
             <i18n:text>
                 <xsl:value-of
                     select="."
@@ -438,7 +487,7 @@
                     test="contains(@rend,'hidden')"
                 >
                     <xsl:text> </xsl:text>
-                    <i class="fa fa-chevron-up"></i>                    
+                    <i class="fa fa-chevron-up"></i>
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:text> </xsl:text>
@@ -451,7 +500,7 @@
     <xsl:template
         match="dri:table[@id='aspect.discovery.SimpleSearch.table.discovery-filters']"
     >
-        <xsl:apply-templates />        
+        <xsl:apply-templates />
     </xsl:template>
     
     <xsl:template
@@ -481,7 +530,7 @@
                     <button type="button" class="btn btn-secondary filter-remove">
                         <i class="fa fa-minus"></i>
                     </button>
-                </div>             
+                </div>
             </div>
         </div>
     </xsl:template>
@@ -493,7 +542,7 @@
             <div class="col-xs-offset-4 col-xs-12"> 
                 <button type="button" class="btn btn-secondary filter-add hidden-sm-up">
                     <i18n:text>xmlui.ArtifactBrowser.SimpleSearch.filter.button.add</i18n:text>
-                </button>               
+                </button>
                 <button type="submit" class="btn btn-secondary">
                     <i18n:text>xmlui.ArtifactBrowser.SimpleSearch.filter.button.apply</i18n:text>
                 </button>
@@ -534,7 +583,7 @@
                         <button type="button" class="btn btn-secondary filter-remove">
                             <i class="fa fa-minus"></i>
                         </button>
-                    </div>             
+                    </div>
                 </div>
             </div>
         </xsl:if>
@@ -543,14 +592,14 @@
     <xsl:template
         match="dri:div[@id='aspect.discovery.SimpleSearch.div.search-controls-gear']"
         mode="gear-button"
-    >           
+    >
         <div class="dropdown pull-xs-right" id="{translate(@id,'.','_')}">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fa fa-cog"></i>
-            </button>                
+            </button>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
                 <xsl:for-each
-                    select="./dri:list/dri:item"                    
+                    select="./dri:list/dri:item"
                 >
                     <xsl:choose>
                         <xsl:when

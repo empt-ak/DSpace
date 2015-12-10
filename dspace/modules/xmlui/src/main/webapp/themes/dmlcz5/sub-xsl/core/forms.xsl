@@ -312,7 +312,7 @@
         <xsl:if test="@disabled='yes' or ../@rend = 'disabled'">
             <xsl:attribute name="disabled">disabled</xsl:attribute>
         </xsl:if>
-        <xsl:if test="@type != 'checkbox' and @type != 'radio' ">
+        <xsl:if test="@type != 'checkbox' and @type != 'radio' and @n != 'submit'">
             <xsl:attribute name="name">
                 <xsl:value-of select="@n"/>
             </xsl:attribute>

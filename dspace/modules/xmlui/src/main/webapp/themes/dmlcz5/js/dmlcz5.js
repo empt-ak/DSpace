@@ -6,19 +6,19 @@
 $(document).ready(function () {
     $('.contact-email').email();
 
-    $(".show-advanced-filters").click(function () {
+    $(".show-advanced-filters").click(function (event) {
         $("#aspect_discovery_SimpleSearch_div_search-filters").show();
         $(this).hide();
         $(".hide-advanced-filters").show();
     });
     
-    $(".hide-advanced-filters").click(function () {
+    $(".hide-advanced-filters").click(function (event) {
         $("#aspect_discovery_SimpleSearch_div_search-filters").hide();
         $(this).hide();
         $(".show-advanced-filters").show();
     });
 
-    $(this).on('click', '.filter-remove', function (e) {
+    $(this).on('click', '.filter-remove', function (event) {
         if ($('.row .in-use').length > 1) {
             $(this).closest('.row .in-use').remove();
         }
@@ -90,6 +90,18 @@ $(document).ready(function () {
         var val = $(this).data('value');
         $("#aspect_artifactbrowser_ConfigurableBrowse_div_browse-controls select[name='" + name + "']").val(val).change();
         $("#aspect_artifactbrowser_ConfigurableBrowse_div_browse-controls").submit();
+    });
+    
+    $(".used-filters span.label").on('click',function(){
+        var removeID = $(this).data('remove-input');
+        
+        $(".used-filters input").each(function(){
+            if($(this).data('remove')==removeID){
+                $(this).remove();
+            }
+        });
+        
+        $("#aspect_discovery_SimpleSearch_div_general-query").submit();
     });
 });
 

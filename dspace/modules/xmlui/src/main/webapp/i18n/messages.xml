@@ -149,6 +149,8 @@ and open the template in the editor.
     <message key="page.general.thumbnail">Thumbnail</message>
     <message key="page.general.banner">DSpace banner</message>
     
+    <message key="page.discovery.filters-in-use">Current filters in use:</message>
+    
     <message key="page.contact.help">Choose one of the following forms of contact.</message>
     
     <message key="page.error.error">ERROR: </message>

@@ -158,7 +158,7 @@
                                 </xsl:choose>
                             </span>
                         </div>
-                        <div>                            
+                        <div>
                             <xsl:choose>
                                 <xsl:when test="document($extMets)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']">
                                     <xsl:choose>
@@ -185,7 +185,7 @@
                             </xsl:choose>
                         </div>
                     </div>
-                </div> 
+                </div>
             </xsl:for-each>
         </xsl:if>
         <xsl:if
