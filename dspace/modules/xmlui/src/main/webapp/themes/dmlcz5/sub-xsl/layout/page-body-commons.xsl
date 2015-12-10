@@ -350,13 +350,13 @@
                 </a>            
             </div>
             <div class="col-sm-10">
-                <div class="page-header">
-                    <a href="{$contextPath}">
+                <p>
+                    <a href="{$contextPath}" class="page-header">
                         <h1>
                             <i18n:text>page.head.title</i18n:text>
                         </h1>
-                    </a>                 
-                </div>
+                    </a>
+                </p> 
             </div>
         </div>
     </xsl:template>

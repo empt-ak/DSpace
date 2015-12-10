@@ -92,10 +92,18 @@ dd
     margin-left: 20px;
 }
 
-div.page-header > a,
-div.page-header > a:hover,
-div.page-header > a:visited,
-div.page-header > a.active
+/*div.page-header > p > a,
+div.page-header > p > a:hover,
+div.page-header > p > a:visited,
+div.page-header > p > a.active
+{
+    color: inherit;
+}*/
+
+a.page-header,
+a.page-header:hover,
+a.page-header:visited,
+a.page-header:active
 {
     color: inherit;
 }
