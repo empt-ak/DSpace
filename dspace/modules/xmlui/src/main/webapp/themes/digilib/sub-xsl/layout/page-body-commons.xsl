@@ -262,11 +262,6 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{concat($contextPath,'/archives')}">
-                                        <i18n:text>page.footer.links.matharchives</i18n:text>
-                                    </a>
-                                </li>
-                                <li>
                                     <a href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page' and @qualifier='contactURL']}">
                                         <i18n:text>page.footer.links.contactus</i18n:text>
                                     </a>
@@ -344,7 +339,7 @@
                             <xsl:value-of
                                 select="$resourcePath"
                             />
-                            <xsl:text>/img/dml-logo.gif</xsl:text>
+                            <xsl:text>/img/ffdigi-logo.png</xsl:text>
                         </xsl:attribute>
                     </img>
                 </a>            
