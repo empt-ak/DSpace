@@ -13,7 +13,7 @@
                 xmlns="http://www.w3.org/1999/xhtml"
                 exclude-result-prefixes="dri xsl">
 
-    <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
+    <xsl:output method="xml" encoding="UTF-8" indent="no"/>
    
     <xsl:template match="dri:document">
         <xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html&gt;</xsl:text>
@@ -28,20 +28,20 @@
                     <xsl:call-template name="buildBodyHead" />
                     <!-- in page-body-navigation.xsl -->
                     <xsl:call-template name="buildNavigation" />
-                    <div class="row digilib-content-body">
-                        <div class="col-md-2 left-sidebar">
+                    <div class="row content-body">
+                        <div class="col-md-3 col-xl-2 left-sidebar">
                             <xsl:call-template name="buildLeftSidebar" />
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-6 col-xl-8">
                             <xsl:call-template name="buildBreadcrumb" />
                             <xsl:apply-templates />
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3 col-xl-2">
                             <xsl:call-template name="buildRightSidebar" />
                         </div>
                     </div>
                     <footer class="row" id="footer">
-                        <xsl:call-template name="buildFooter" />
+                        <xsl:call-template name="buildFooter" /><!-- in commons-->
                     </footer>
                 </div>
                 <xsl:call-template name="buildBodyFooter" />

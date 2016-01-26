@@ -20,16 +20,18 @@
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:confman="org.dspace.core.ConfigurationManager"
                 exclude-result-prefixes="i18n dri mets xlink xsl dim xhtml mods dc confman">
-
+    
+    <xsl:output method="xml" encoding="UTF-8" indent="no"/>
+    
     <xsl:variable 
         name="theme"
     >
         <xsl:text>digilib</xsl:text>
     </xsl:variable>
      
-   <xsl:variable 
+    <xsl:variable 
         name="contextPath" 
-        select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']" 
+        select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]" 
     />
     
     <xsl:variable
@@ -80,6 +82,18 @@
                 />
             </xsl:otherwise>
         </xsl:choose>
+    </xsl:variable>
+    
+    <xsl:variable
+        name="zblUrl"
+    >
+        <xsl:text>https://zbmath.org/?q=an:</xsl:text>
+    </xsl:variable>
+    
+    <xsl:variable
+        name="amsUrl"
+    >
+        <xsl:text>http://www.ams.org/mathscinet-getitem?mr=</xsl:text>
     </xsl:variable>
         
 </xsl:stylesheet>

@@ -15,8 +15,7 @@
     <xsl:import href="sub-xsl/layout/page-layout.xsl" />
     <xsl:import href="sub-xsl/layout/page-html-head.xsl" />
     <xsl:import href="sub-xsl/layout/page-body-sidebars.xsl" />
-    <xsl:import href="sub-xsl/layout/page-body-head.xsl" />
-    <xsl:import href="sub-xsl/layout/page-body-footer.xsl" />
+    <xsl:import href="sub-xsl/layout/page-body-javascript-footer.xsl" />
     <xsl:import href="sub-xsl/layout/page-body-commons.xsl" />
     
     <xsl:import href="sub-xsl/views/landing-page.xsl" />
@@ -28,8 +27,17 @@
     <xsl:import href="sub-xsl/views/exception-view.xsl" />
     
     <xsl:import href="sub-xsl/static/aboutus.xsl" />
+    <xsl:import href="sub-xsl/static/faq.xsl" />
+    <xsl:import href="sub-xsl/static/news.xsl" />
+    <xsl:import href="sub-xsl/static/conditions.xsl" />
+    <xsl:import href="sub-xsl/static/archives.xsl" />
+    <xsl:import href="sub-xsl/static/contactus.xsl" />
+    <xsl:import href="sub-xsl/static/feedback.xsl" />
     
     <xsl:import href="sub-xsl/page-variables.xsl" />
     <xsl:import href="sub-xsl/switch-off.xsl" />
     <xsl:import href="sub-xsl/functions.xsl" />
+    <xsl:import href="sub-xsl/core/forms.xsl" />
+    <xsl:import href="sub-xsl/core/utils.xsl" />
+    <xsl:import href="sub-xsl/core/attribute-handlers.xsl" />
 </xsl:stylesheet>

@@ -23,7 +23,7 @@
                 xmlns:util="org.dspace.app.xmlui.utils.XSLUtils"
                 xmlns:confman="org.dspace.core.ConfigurationManager"
                 exclude-result-prefixes="xalan encoder i18n dri mets dim xlink xsl util confman">
-    <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
+    <xsl:output method="xml" encoding="UTF-8" indent="no"/>
     
     
     <xsl:template match="dri:body/dri:div[@id='cz.muni.ics.digilib.aspects.MainAspect.div.landing-page']">
@@ -36,7 +36,7 @@
         <ul class="nav nav-tabs" role="tablist">
             <xsl:for-each select="./dri:div[@id='cz.muni.ics.digilib.aspects.MainAspect.div.topcoms']">
                 <li class="nav-item">
-                    <a data-toggle="tab" role="tab">
+                    <a data-toggle="tab" role="tab" href="#{./@rend}">
                         <xsl:attribute
                             name="class"
                         >
@@ -51,17 +51,13 @@
                                 </xsl:otherwise>
                             </xsl:choose>
                         </xsl:attribute>
-                        <xsl:attribute name="href">
-                            <xsl:text>#</xsl:text>
-                            <xsl:value-of select="./@rend" />
-                        </xsl:attribute>
                         <i18n:text>
                             <xsl:value-of
                                 select="concat('page.landing.category.',./@rend)"
                             />
                         </i18n:text>
                     </a>
-                </li>                           
+                </li>
             </xsl:for-each>
         </ul>
         <div class="tab-content">
@@ -95,64 +91,64 @@
                                 <xsl:text>?sections=dmdSec</xsl:text>
                             </xsl:variable>
                             <li class="media">
-                                <div class="media-left">
-                                    <a href="#">                                                                             
-                                        <xsl:choose>
-                                            <xsl:when 
-                                                test="document(concat('cocoon://',@url,'?sections=fileSec'))/mets:METS/mets:fileSec/mets:fileGrp/mets:file/mets:FLocat/@xlink:href"
-                                            >
-                                                <img height="100" width="70" alt="page.landing.thumbnail" i18n:attr="alt">       
-                                                    <xsl:attribute name="src">
-                                                        <xsl:value-of 
-                                                            select="document(concat('cocoon://',@url,'?sections=fileSec'))/mets:METS/mets:fileSec/mets:fileGrp/mets:file/mets:FLocat/@xlink:href" 
-                                                        />                                                          
-                                                    </xsl:attribute>
-                                                </img>
-                                            </xsl:when>
-                                            <xsl:otherwise>
-                                                <!-- TODO -->
-                                                <img alt="!Thumbnail" class="img-responsive">
-                                                    <xsl:attribute name="data-src">
-                                                        <xsl:text>holder.js/100x70</xsl:text>
-                                                        <xsl:text>?text=No Thumbnail</xsl:text>
-                                                    </xsl:attribute>
-                                                </img>
-                                            </xsl:otherwise>
-                                        </xsl:choose>                                         
-                                    </a>
+                                <div class="media-left hidden-sm-down">
+                                    <xsl:choose>
+                                        <xsl:when 
+                                            test="document(concat('cocoon://',@url,'?sections=fileSec'))/mets:METS/mets:fileSec/mets:fileGrp/mets:file/mets:FLocat/@xlink:href"
+                                        >
+                                            <img height="100" alt="page.landing.thumbnail" i18n:attr="alt" class="img-responsive"><!-- width="70" -->       
+                                                <xsl:attribute name="src">
+                                                    <xsl:value-of 
+                                                        select="document(concat('cocoon://',@url,'?sections=fileSec'))/mets:METS/mets:fileSec/mets:fileGrp/mets:file/mets:FLocat/@xlink:href" 
+                                                    />
+                                                </xsl:attribute>
+                                            </img>
+                                        </xsl:when>
+                                        <xsl:otherwise>
+                                            <!-- TODO -->
+                                            <img alt="page.general.thumbnail" class="img-responsive" i18n:attribute="alt">
+                                                <xsl:attribute name="data-src">
+                                                    <xsl:text>holder.js/100x100</xsl:text>
+                                                    <xsl:text>?text=No Thumbnail</xsl:text>
+                                                </xsl:attribute>
+                                            </img>
+                                        </xsl:otherwise>
+                                    </xsl:choose> 
                                 </div>
                                 <div class="media-body">
                                     <h4 class="media-heading">
-                                        <a>
-                                            <xsl:attribute name="href">
-                                                <xsl:value-of select="document($externalMetadataURL)/mets:METS/@OBJID" />
-                                            </xsl:attribute>
+                                        <a href="{document($externalMetadataURL)/mets:METS/@OBJID}">
                                             <xsl:value-of select="document($externalMetadataURL)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title']" />
                                         </a>
                                     </h4>
                                     <xsl:choose>
                                         <xsl:when
-                                            test="string-length(document($externalMetadataURL)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']) &gt; 630"
+                                            test="string-length(document($externalMetadataURL)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']) &gt; 410"
                                         >
-                                            <xsl:value-of select="substring(document($externalMetadataURL)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract'],0,630)" />
+                                            <xsl:value-of select="substring(document($externalMetadataURL)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract'],0,410)" />
                                             <i18n:text>page.landing.ellipsis</i18n:text>
                                             <xsl:text> </xsl:text>
-                                            <a>
-                                                <xsl:attribute
-                                                    name="href"
-                                                >
-                                                    asd
-                                                </xsl:attribute>
-                                                !read more <i class="glyphicon glyphicon-play-circle" />
+                                            <a href="{document($externalMetadataURL)/mets:METS/@OBJID}">
+                                                <i18n:text>page.landing.more</i18n:text>
+                                                <xsl:text> </xsl:text>
+                                                <i class="fa fa-arrow-circle-right"></i>
                                             </a>
                                         </xsl:when>
                                         <xsl:otherwise>
                                             <xsl:value-of select="document($externalMetadataURL)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']" />
                                         </xsl:otherwise>
-                                    </xsl:choose>                                    
+                                    </xsl:choose>
+                                </div>
+                                <div class="media-right hidden-md-down">
+                                    <img alt="page.general.thumbnail media-object" class="img-responsive" i18n:attribute="alt">
+                                        <xsl:attribute name="data-src">
+                                            <xsl:text>holder.js/100x100</xsl:text>
+                                            <xsl:text>?text=Publisher logo</xsl:text>
+                                        </xsl:attribute>
+                                    </img>
                                 </div>
                             </li>
-                        </xsl:for-each>                                             
+                        </xsl:for-each>
                     </ul>
                 </div>
             </xsl:for-each>

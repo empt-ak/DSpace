@@ -26,38 +26,60 @@
     <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
     
     <xsl:template 
-        match="dri:body/dri:div[@id='cz.muni.ics.digilib.aspects.statik.AboutUsAspect.div.news-section']"
+        match="dri:body/dri:div[@id='cz.muni.ics.digilibcz5.aspects.statik.AboutUsAspect.div.aboutus-section']"
     >
-        <div class="page-header">
-            <h1>About DML-CZ</h1>
+        <div class="row">
+            <div class="col-xs-12">
+                <h1>O digitální knihovně FF MU</h1>
+            </div>
         </div>
-        
-        The Czech Digital Mathematics Library (DML-CZ) has been developed in order to preserve in a digital form the content of major part of mathematical literature that has ever been published in the Czech lands, and to provide a free access to the digital content and bibliographical data.
+        <div class="row">
+            <div class="col-xs-12">
+                <p>Digitální knihovna Filozofické fakulty Masarykovy univerzity je interní projekt FF MU, jehož cílem je zpřístupnit odborné i širší veřejnosti veškerou odbornou produkci fakulty od jejího vzniku v roce 1919 až do současnosti. Digitální knihovna je vytvářena Centrem informačních technologií FF MU a Knihovnicko-informačním centrem MU při Ústavu výpočetní techniky MU. Kromě digitalizovaných starších tištěných dokumentů jsou do knihovny průběžně zařazovány i nově vycházející publikace. Většina dokumentů je zpřístupněna veřejnosti volně v režimu otevřeného přístupu (open access).</p>
+                
+                <p>V současné době digitální knihovna zpřístupňuje hlavní časopisy a periodika FF od jejich prvních ročníků vydávání a monografickou edici Spisy Filozofické fakulty MU. Ke zpřístupnění se připravují další periodické tituly, sborníky z konferencí a další knižní edice.</p>
+                
+                <p>Beta verze digitální knihovny byla širší veřejnosti otevřena 1. května 2013. K tomuto datu obsahovala přes 23 000 dokumentů od téměř 4 500 autorů. Zpřístupněny jsou plné texty článků z odborných časopisů a kapitoly knih (ev. celé knihy) v PDF formátu společně s metadatovými záznamy.</p>
+                <p>Průběžně pracujeme na dalším rozšiřování a zdokonalování digitální knihovny. Omlouváme se za chyby a nedostatky, které digitální knihovna obsahuje – budeme vděčni, když nás na ně upozorníte (<a href="#">
+                        <span class="contact-email">
+                            <i18n:text>page.footer.contact.javascript</i18n:text>
+                        </span>
+                    </a>).</p>
 
-        DML-CZ resulted from the project no. 1ET200190513 supported by the Academy of Sciences of the Czech Republic in the R&amp;D programme Information Society.
+                <h4>Project partners</h4>
 
-        DML-CZ is operated by the Institute of Mathematics AS CR.
+                <ul>
+                    <li>
+                        <a href="http://www.math.cas.cz/">Institute of Mathematics CAS, Praha</a>
+                    </li>
+                    <li>
+                        <a href="http://www.ics.muni.cz/index_en.html">Institute of Computer Science, Masaryk University, Brno</a>
+                    </li>
+                    <li>
+                        <a href="http://www.fi.muni.cz/index.xhtml.en">Faculty of Informatics, Masaryk University, Brno</a>
+                    </li>
+                    <li>
+                        <a href="http://www.karlin.mff.cuni.cz/sekce/en_index.php">Faculty of Mathematics and Physics, Charles University, Praha</a>
+                    </li>
+                    <li>
+                        <a href="http://www.lib.cas.cz/en">Library CAS, Praha</a>
+                    </li>
+                </ul>
+                <p>Details about the project teams can be found <a href="http://project.dml.cz/partners.html">here</a>.</p>
 
-        <h3>Project partners</h3>
+                <h4>Ownership of the data</h4>
 
-        Institute of Mathematics AS CR, Praha
-        Institute of Computer Science, Masaryk University, Brno
-        Faculty of Informatics, Masaryk University, Brno
-        Faculty of Mathematics and Physics, Charles University, Praha
-        Library AS CR, Praha
-        Details about the project teams can be found here.
+                <p>The digitized journal and proceedings papers are displayed with the agreement of the publisher who owns the digital data. The digitized monographs are displayed with the agreement of the author and/or the publisher while the digital data are property of the Institute of Mathematics CAS. The database itself, in particular the bibliographic data, are property of the Institute of Mathematics CAS.</p>
 
-        <h3>Ownership of the data</h3>
+                <h4>Principles</h4>
 
-        The digitized journal and proceedings papers are displayed with the agreement of the publisher who owns the digital data. The digitized monographs are displayed with the agreement of the author and/or the publisher while the digital data are property of the Institute of Mathematics AS CR. The database itself, in particular the bibliographic data, are property of the Institute of Mathematics AS CR.
+                <p>DML-CZ presents full texts articles and book chapters in PDF format, equipped with enhanced metadata including bibliographical references linked to <a href="https://zbmath.org/">Zentrablatt MATH</a> and <a href="http://www.ams.org/mathscinet/search.html">MathSciNet</a>.</p>
 
-        <h3>Principles</h3>
+                <p>Each retrodigitised page is scanned in a high quality (mostly 600 DPI bitonal) and adjusted with image processing software. The digital born documents are being obtained from the original sources provided by publishers. The presented page content and format corresponds to the original one.</p>
 
-        DML-CZ presents full texts articles and book chapters in PDF format, equipped with enhanced metadata including bibliographical references linked to Zentrablatt MATH and MathSciNet.
-
-        Each retrodigitised page is scanned in a high quality (mostly 600 DPI bitonal) and adjusted with image processing software. The digital born documents are being obtained form the original sources provided by publishers. The presented page content and format corresponds to the original one.
-
-        Journals are presented and accessed according to the terms of a contract with the publisher. The digital documents displayed in the DML-CZ are authorized with electronic stamps.
+                <p>Journals are presented and accessed according to the terms of a contract with the publisher. The digital documents displayed in the DML-CZ are authorized with electronic stamps.</p>
+            </div>
+        </div>
     </xsl:template>
             
 </xsl:stylesheet>

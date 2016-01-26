@@ -19,84 +19,107 @@
                 xmlns:dc="http://purl.org/dc/elements/1.1/"
                 xmlns="http://www.w3.org/1999/xhtml"
                 exclude-result-prefixes="i18n dri mets xlink xsl dim xhtml mods dc">
+    <xsl:output method="xml" encoding="UTF-8" indent="no"/>
     
     <xsl:template name="buildLeftSidebar">
-        <div class="card disable-bottom-border">
-            <div class="card-header disable-bottom-border">
+        <div class="card">
+            <div class="card-header">
                 <i18n:text>page.sidebar.left.browseby</i18n:text>
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    <a href="#">
-                        <i18n:text>page.sidebar.left.browseby.collection</i18n:text>
-                    </a>
-                </li>
-                <li class="list-group-item">
-                    <a href="#">
-                        <i18n:text>page.sidebar.left.browseby.title</i18n:text>
-                    </a>
-                </li>
-                <li class="list-group-item">
-                    <a href="#">
-                        <i18n:text>page.sidebar.left.browseby.author</i18n:text>
-                    </a>
-                </li>
-                <li class="list-group-item">
-                    <a href="#">
-                        <i18n:text>page.sidebar.left.browseby.msc</i18n:text>
-                    </a>
-                </li>
-            </ul>
+                <xsl:for-each
+                    select="/dri:document/dri:options/dri:list[@id='aspect.viewArtifacts.Navigation.list.browse']/dri:list[@id='aspect.browseArtifacts.Navigation.list.global']/dri:item"
+                >
+                    <li class="list-group-item">
+                        <a href="{./dri:xref/@target}">
+                            <i18n:text>
+                                <xsl:value-of
+                                    select="./dri:xref"
+                                />
+                            </i18n:text>
+                        </a>
+                    </li>
+                </xsl:for-each>
+            </ul> 
             <xsl:if
-                test="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='feed']"
-            >  
-                <div class="card-header disable-bottom-border">
-                    <i18n:text>page.sidebar.left.rss</i18n:text>
-                </div>
+                test="/dri:document/dri:options/dri:list[@id='aspect.viewArtifacts.Navigation.list.browse']/dri:list[@id='aspect.browseArtifacts.Navigation.list.context']/dri:item"
+            >
+                <div class="card-header">
+                    <i18n:text>
+                        <xsl:value-of
+                            select="/dri:document/dri:options/dri:list[@id='aspect.viewArtifacts.Navigation.list.browse']/dri:list[@id='aspect.browseArtifacts.Navigation.list.context']/dri:head"
+                        />
+                    </i18n:text>
+                </div> 
                 <ul class="list-group list-group-flush">
                     <xsl:for-each
-                        select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='feed']"
+                        select="/dri:document/dri:options/dri:list[@id='aspect.viewArtifacts.Navigation.list.browse']/dri:list[@id='aspect.browseArtifacts.Navigation.list.context']/dri:item"
                     >
                         <li class="list-group-item">
-                            <span class="fa fa-rss">&#160;</span>
-                            <a>
-                                <xsl:attribute
-                                    name="href"
-                                >
+                            <a href="{./dri:xref/@target}">
+                                <i18n:text>
                                     <xsl:value-of
-                                        select="." 
+                                        select="./dri:xref"
                                     />
-                                </xsl:attribute>                                
-                                <xsl:choose>
-                                    <xsl:when 
-                                        test="contains(., 'rss_1.0')"
-                                    >
-                                        <xsl:text>RSS 1.0</xsl:text>
-                                    </xsl:when>
-                                    <xsl:when 
-                                        test="contains(., 'rss_2.0')"
-                                    >
-                                        <xsl:text>RSS 2.0</xsl:text>
-                                    </xsl:when>
-                                    <xsl:when 
-                                        test="contains(., 'atom_1.0')"
-                                    >
-                                        <xsl:text>Atom</xsl:text>
-                                    </xsl:when>
-                                    <xsl:otherwise>
-                                        <xsl:value-of 
-                                            select="@qualifier"
-                                        />
-                                    </xsl:otherwise>
-                                </xsl:choose>
+                                </i18n:text>
                             </a>
                         </li>
                     </xsl:for-each>
-                </ul>
-            </xsl:if>
-            <div id="sticky">
-                <div class="card-header disable-bottom-border">
-                    !Toolbox
+                </ul> 
+            </xsl:if>  
+            <div class="hidden-sm-down">
+                <xsl:if
+                    test="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='feed']"
+                >  
+                    <div class="card-header">
+                        <i18n:text>page.sidebar.left.rss</i18n:text>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <xsl:for-each
+                            select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='feed']"
+                        >
+                            <li class="list-group-item">
+                                <i class="fa fa-rss" />
+                                <xsl:text> </xsl:text>
+                                <a>
+                                    <xsl:attribute
+                                        name="href"
+                                    >
+                                        <xsl:value-of
+                                            select="." 
+                                        />
+                                    </xsl:attribute>                                
+                                    <xsl:choose>
+                                        <xsl:when 
+                                            test="contains(., 'rss_1.0')"
+                                        >
+                                            <xsl:text>RSS 1.0</xsl:text>
+                                        </xsl:when>
+                                        <xsl:when 
+                                            test="contains(., 'rss_2.0')"
+                                        >
+                                            <xsl:text>RSS 2.0</xsl:text>
+                                        </xsl:when>
+                                        <xsl:when 
+                                            test="contains(., 'atom_1.0')"
+                                        >
+                                            <xsl:text>Atom</xsl:text>
+                                        </xsl:when>
+                                        <xsl:otherwise>
+                                            <xsl:value-of 
+                                                select="@qualifier"
+                                            />
+                                        </xsl:otherwise>
+                                    </xsl:choose>
+                                </a>
+                            </li>
+                        </xsl:for-each>
+                    </ul>
+                </xsl:if>
+            </div>
+            <div class="hidden-sm-down">
+                <div class="card-header">
+                    <i18n:text>page.sidebar.left.quickstats</i18n:text>
                 </div>
                 <ul class="list-group list-group-flush">              
                     <li class="list-group-item">
@@ -111,12 +134,13 @@
                         <xsl:text> </xsl:text>
                         <xsl:value-of
                             select="document(concat($solrServer,'select?q=search.resourcetype%3A2&amp;rows=0&amp;wt=xml'))/response/result/@numFound"
-                            />
+                        />
                     </li>
-                    <li class="list-group-item">!More statistics </li>
-                    <li class="list-group-item">!Back to top</li>
+                    <li class="list-group-item">
+                        <i18n:text>page.sidebar.left.quickstats.more</i18n:text>
+                    </li>
                 </ul>
-            </div>
+            </div>        
         </div>
     </xsl:template>
     
@@ -127,9 +151,8 @@
             <xsl:call-template
                 name="buildPUN"
             />
-        </xsl:if>
-        <div class="card disable-bottom-border">
-            
+        </xsl:if>        
+        <div class="card disable-bottom-border">            
             <xsl:if
                 test="/dri:document/dri:options/dri:list[@id='aspect.discovery.Navigation.list.discovery']/dri:list[@id='aspect.discovery.SidebarFacetsTransformer.list.subject']/dri:item"
             >
@@ -263,12 +286,11 @@
                     </xsl:for-each>
                 </ul>
             </xsl:if>
-            <!-- /dri:document/dri:body/dri:div[@id='aspect.discovery.RelatedItems.div.item-related-container']/div/referenceSet-->
             <xsl:if                
                 test="/dri:document/dri:body/dri:div[@id='aspect.discovery.RelatedItems.div.item-related-container']/dri:div[@id='aspect.discovery.RelatedItems.div.item-related']/dri:referenceSet[@id='aspect.discovery.RelatedItems.referenceSet.item-related-items']"
             >
                 <a class="list-group-item active">
-                    !related items
+                    <i18n:text>page.sidebar.right.related.items</i18n:text>
                 </a>
                 <xsl:for-each
                     select="/dri:document/dri:body/dri:div[@id='aspect.discovery.RelatedItems.div.item-related-container']/dri:div[@id='aspect.discovery.RelatedItems.div.item-related']/dri:referenceSet[@id='aspect.discovery.RelatedItems.referenceSet.item-related-items']/dri:reference"

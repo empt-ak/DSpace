@@ -19,12 +19,27 @@
                 xmlns:dc="http://purl.org/dc/elements/1.1/"
                 xmlns="http://www.w3.org/1999/xhtml"
                 exclude-result-prefixes="i18n dri mets xlink xsl dim xhtml mods dc">
+    <xsl:output method="xml" encoding="UTF-8" indent="no"/>
     
     <xsl:template 
         name="buildBodyFooter"
     >
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">&#160;</script>
+        <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">&#160;</script>
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({
+            tex2jax: {
+            inlineMath: [['$','$'], ['\\(','\\)']],
+            ignoreClass: "detail-field-data|exception|disable-math"
+            },
+            TeX: {
+            Macros: {
+            AA: '{\\mathring A}'
+            }
+            }
+            });
+        </script> 
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script>
             <xsl:attribute 
@@ -52,7 +67,7 @@
                 <xsl:value-of 
                     select="$theme" 
                 />
-                <xsl:text>/js/digilib.min.js</xsl:text>
+                <xsl:text>/js/digilib5.min.js</xsl:text>
             </xsl:attribute>
                     &#160;
         </script>
@@ -101,33 +116,42 @@
             </xsl:attribute>
                     &#160;
         </script>
+        <script>
+            <xsl:attribute 
+                name="src"
+            >
+                <xsl:value-of 
+                    select="$contextPath" 
+                />
+                <xsl:text>/themes/</xsl:text>
+                <xsl:value-of 
+                    select="$theme" 
+                />
+                <xsl:text>/js/mathjax.min.js</xsl:text>
+            </xsl:attribute>
+                    &#160;
+        </script>
+        <script>
+            <xsl:attribute 
+                name="src"
+            >
+                <xsl:value-of 
+                    select="$contextPath" 
+                />
+                <xsl:text>/themes/</xsl:text>
+                <xsl:value-of 
+                    select="$theme" 
+                />
+                <xsl:text>/js/jquery.dmlmathjax.min.js</xsl:text>
+            </xsl:attribute>
+                    &#160;
+        </script>
         
         <script>
-            $(window).load(function(){
+            <!--            $(window).load(function(){
                 $("#sticky").sticky({topSpacing: 0});
-            });
-            $(document).ready(function(){
-            
-            
-                $("#extended-controls").append(function(){
-                    var symbols = "!\"#$%&amp;'()*+,-./0123456789:;&lt;=&gt;?@";
-                    var $table = $("&lt;table&gt;");
-                    var ul = $("&lt;tr&gt;&lt;td&gt;&lt;ul&gt;");
-                    var breakAfter = 5;
-                    $.each(symbols.split(""),function(i,v){
-                        if(i % breakAfter === 0) {                            
-                            ul = $("&lt;tr&gt;&lt;td&gt;&lt;ul&gt;");
-                            console.log(ul);
-                            $table.append(ul);
-                        }                        
-                        var li = $("&lt;li&gt;").html(v);
-                        ul.append(li);                        
-                        console.log(i + ": "+v);  
-                    });            
-                    console.log($table);
-                    return $table;
-                });
-            
+            });-->
+            $(document).ready(function(){             
             <xsl:if
                 test="$communityType = 'serial' and count(/dri:document/dri:meta/dri:pageMeta/dri:trail) = 3"
             >
@@ -170,22 +194,7 @@
             
             });
             
-        </script>
-        
-        <script type="text/x-mathjax-config">
-            MathJax.Hub.Config({
-            tex2jax: {
-            inlineMath: [['$','$'], ['\\(','\\)']],
-            ignoreClass: "detail-field-data|detailtable|exception|issue-item-abstract|issue-item-title|disable-math"
-            },
-            TeX: {
-            Macros: {
-            AA: '{\\mathring A}'
-            }
-            }
-            });
-        </script>
-        <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">&#160;</script>
+        </script>              
     </xsl:template>
 
 </xsl:stylesheet>

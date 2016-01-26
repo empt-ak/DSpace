@@ -14,6 +14,7 @@
                 xmlns:confman="org.dspace.core.ConfigurationManager"
                 exclude-result-prefixes="xalan encoder i18n dri mets dim xlink xsl util confman">
 
+    <xsl:output method="xml" encoding="UTF-8" indent="no"/>
     <xsl:template name="substring-after-last">
         <xsl:param name="string" />
         <xsl:param name="delimiter" />
