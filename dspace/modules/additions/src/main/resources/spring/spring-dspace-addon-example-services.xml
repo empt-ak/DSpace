@@ -12,6 +12,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:c="http://www.springframework.org/schema/c"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -19,13 +20,15 @@
            http://www.springframework.org/schema/util
             http://www.springframework.org/schema/util/spring-util-2.5.xsd
            http://www.springframework.org/schema/context
-           http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
     <!-- 
         allows us to use spring annotations in beans 
     -->
     <context:annotation-config/> 
     
+    <aop:aspectj-autoproxy proxy-target-class="true" />
     <!--
         where to look
     -->
@@ -433,5 +436,117 @@
                 <entry key="movingwall" value-ref="importAndMovingWallObjectService" />
             </map>
         </property>
+    </bean>
+    
+    <bean
+        id="citationProvider"
+        class="cz.muni.ics.dspace5.citation.CitationProviderImpl"
+        
+    />
+    <bean
+        class="de.undercouch.citeproc.CSL"
+        p:outputFormat="text"
+    >
+        <constructor-arg
+            index="0"
+            ref="citationProvider"
+        />
+        <constructor-arg
+            index="1"
+            value="ieee"
+        />
+        <constructor-arg
+            index="2"
+            value="cs-CZ"
+        />
+    </bean>
+    
+    <!--    <bean
+        id="ieeeProcessor"
+        class="cz.muni.ics.dspace5.citation.CitationProcessorImpl"
+        p:dcField="dc.citation.ieee"
+        p:citationProvider-ref="citationProvider"
+    >
+        <property name="cslProcessor">
+            <bean
+                class="de.undercouch.citeproc.CSL"
+                p:outputFormat="text"
+            >
+                <constructor-arg
+                    index="0"
+                    ref="citationProvider"
+                />
+                <constructor-arg
+                    index="1"
+                    value="ieee"
+                />
+                <constructor-arg
+                    index="2"
+                    value="cs-CZ"
+                />
+            </bean>
+        </property>
+    </bean>
+    -->
+    
+    <!--    <bean
+        id="iso690Processor"
+        class="cz.muni.ics.dspace5.citation.CitationProcessorImpl"
+        p:dcField="dc.identifier.citation"
+        p:citationProvider-ref="citationProvider"
+    >
+        <property name="cslProcessor">
+            <bean
+                class="de.undercouch.citeproc.CSL"
+                p:outputFormat="text"
+            >
+                <constructor-arg
+                    index="0"
+                    ref="citationProvider"
+                />
+                <constructor-arg
+                    index="1"
+                    value="iso690-numeric-cs"
+                />
+                <constructor-arg
+                    index="2"
+                    value="cs-CZ"
+                />
+            </bean>
+        </property>
+    </bean>-->
+    
+    <bean
+        class="de.undercouch.citeproc.CSL"
+        p:outputFormat="text"
+    >
+        <constructor-arg
+            index="0"
+            ref="citationProvider"
+        />
+        <constructor-arg
+            index="1"
+            value="iso690-numeric-cs"
+        />
+        <constructor-arg
+            index="2"
+            value="cs-CZ"
+        />
+    </bean>
+    
+    <bean
+        id="citationProviderFactory"
+        class="cz.muni.ics.dspace5.citation.CitationProviderFactory"
+    >
+<!--        <property name="processors">
+            <list>
+                <ref
+                    bean="ieeeProcessor"
+                />
+                <ref
+                    bean="iso690Processor"
+                />
+            </list>
+        </property>-->
     </bean>
 </beans>

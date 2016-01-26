@@ -5,6 +5,7 @@
  */
 package cz.muni.ics.dmlcz5.modules.serial;
 
+import cz.muni.ics.dmlcz5.citation.CitationBuilder;
 import cz.muni.ics.dmlcz5.domain.Article;
 import cz.muni.ics.dmlcz5.math.MathService;
 import cz.muni.ics.dmlcz5.movingwall.MovingWallFactoryBean;
@@ -12,6 +13,7 @@ import cz.muni.ics.dmlcz5.service.io.references.ReferenceService;
 import cz.muni.ics.dspace5.api.ObjectMapper;
 import cz.muni.ics.dspace5.api.module.ItemProcessor;
 import cz.muni.ics.dspace5.api.module.ObjectWrapper;
+import cz.muni.ics.dspace5.citation.CitationProviderFactory;
 import cz.muni.ics.dspace5.exceptions.MovingWallException;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
@@ -68,6 +70,11 @@ public class ItemProcessorImpl implements ItemProcessor
     private ReferenceService referenceService;
     @Autowired
     private MathService mathService;
+    @Autowired
+    private CitationBuilder citationBuilder;
+    private List<Metadatum> citations;
+    @Autowired
+    private CitationProviderFactory citationProviderFactory;
 
     private String[] itemFileNames;
     private Article article;
@@ -110,6 +117,12 @@ public class ItemProcessorImpl implements ItemProcessor
             catch (IOException ex)
             {
                 logger.error(ex);
+            }
+            
+            citationBuilder.process(article, currentWrapper);
+            for(Metadatum m : citationProviderFactory.getCitationsAsMetadatum(citationBuilder.build()))
+            {
+                logger.fatal(m.value);
             }
         }
         else
