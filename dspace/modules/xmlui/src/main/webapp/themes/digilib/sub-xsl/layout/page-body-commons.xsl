@@ -23,11 +23,14 @@
     <xsl:output method="xml" encoding="UTF-8" indent="no"/>
     
     <xsl:template name="buildNavigation">
-        <nav class="navbar navbar-light bg-faded">
+        <nav class="navbar navbar-dark navbar-fixed-top panel-color">
             <button class="navbar-toggler hidden-md-up" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2">
     &#9776;
             </button>
             <div class="collapse navbar-toggleable-sm" id="exCollapsingNavbar2">
+                <a class="navbar-brand" href="{$contextPath}">
+                    <i18n:text>page.head.title</i18n:text>
+                </a>
                 <ul class="nav navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link">
@@ -66,6 +69,15 @@
                             <i18n:text>navigation.main.button.contactus</i18n:text>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <div class="dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Other</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="${context}/configuration/">Configurations</a>
+                                <a class="dropdown-item" href="${context}/annotation/">AnnotationTags</a>
+                            </div>
+                        </div>
+                    </li>
                 </ul>
                 <form class="form-inline navbar-form pull-xs-left pull-xl-right" method="post">
                     <xsl:attribute
@@ -89,7 +101,7 @@
                             />
                         </xsl:attribute>
                     </input>
-                    <button class="btn btn-success-outline" type="submit">
+                    <button class="btn btn-info-outline" type="submit">
                         <span class="fa fa-search"></span>
                     </button>
                 </form>
@@ -165,29 +177,6 @@
     </xsl:template>
     
     <xsl:template 
-        name="buildPUN"
-    > 
-        <div class="pun hidden-sm-down">      
-            <ul class="pager">
-                <li class="pager-prev disabled">
-                    <a href="#">
-                        <!--                        <span class="hidden-xl-down">
-                            &#8592;
-                        </span>-->
-                        <i18n:text>navigation.pun.previous</i18n:text>
-                    </a>
-                </li>
-                <li class="pager-next disabled">
-                    <a href="#">                        
-                        <i18n:text>navigation.pun.next</i18n:text>
-                        <!--                        &#8594;-->
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </xsl:template>
-    
-    <xsl:template 
         name="buildFooter"
     >
         <div class="footer-content">
@@ -196,46 +185,12 @@
                     <div class="row">
                         <div class="col-md-4 col-xs-12">
                             <h4>
-                                <i18n:text>page.footer.partners.title</i18n:text>
-                            </h4>
-                            <ul>
-                                <li>
-                                    <a href="#">
-                                        <i18n:text>page.footer.partners.ascr</i18n:text>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i18n:text>page.footer.partners.eudml</i18n:text>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i18n:text>page.footer.partners.ics</i18n:text>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i18n:text>page.footer.partners.fimu</i18n:text>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i18n:text>page.footer.partners.ficuni</i18n:text>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i18n:text>page.footer.partners.libprague</i18n:text>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-md-4 col-xs-12">
-                            <h4>
                                 <i18n:text>page.footer.links.title</i18n:text>
                             </h4>
                             <ul>
+                                <li>
+                                    <a href="#" class="scroll-top">!scroll to top</a>
+                                </li>
                                 <li>
                                     <a href="{concat($contextPath,'/sitemap')}">
                                         <i18n:text>page.footer.links.sitemap</i18n:text>
@@ -268,6 +223,18 @@
                                 </li>                                                  
                             </ul>
                         </div>
+                        <!--                        <div class="col-md-4 col-xs-12">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="banner-uvt"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="banner-dspace"></div>
+                                </div>
+                            </div>
+                        </div>-->
                         <div class="col-md-4 col-xs-12">
                             <h4>
                                 <i18n:text>page.footer.social.title</i18n:text>
@@ -283,6 +250,12 @@
                                     <i class="fa fa-twitter fa-3x" />
                                 </li>
                             </ul>                           
+                        </div>
+                        <div class="col-md-4 col-xs-12">
+                            <h4>
+                                <xsl:text>!Sluzbu zabezpecuje</xsl:text>
+                            </h4>
+                            <div id="banner-uvt" class="banner-uvt"></div>                          
                         </div>
                     </div>
                 </div>
@@ -300,58 +273,44 @@
                             <i18n:text>page.footer.contact.javascript</i18n:text>
                         </span>
                     </a>
+                    <xsl:text> !powered by </xsl:text>
+                    <a href="#">DSpace</a>
                 </p>                    
+            </div>
+        </div>
+    </xsl:template>
+    
+    <xsl:template
+        name="buildSearchPanel"
+    >        
+        <div class="row search-panel">
+            <div class="col-md-offset-3 col-xl-offset-2 col-md-6 col-xl-8">
+                <div class="row">
+                    <div class="col-xs-12 col-md-offset-3 col-md-6">
+                        <h3 class="text-xs-center">!search</h3>
+                        <div class="input-group">
+                            <input class="form-control form-control-lg" type="text" placeholder="Search term..." />
+                            <span class="input-group-btn">
+                                <button class="btn btn-secondary btn-lg" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                        <h3>&#160;</h3>
+                    </div>
+                </div>                
             </div>
         </div>
     </xsl:template>
     
     <xsl:template 
         name="buildBodyHead"
-    >
-        <xsl:if
-            test="contains($debug,'true')"
-        >
-            <div class="alert alert-danger">
-                <xsl:value-of select="$solrServer" />
-                <br />
-                
-                <xsl:value-of select="$communityType" />
-                <br/>
-                <xsl:variable name="solrQuery">
-                    <xsl:text>select?q=*%3A*&amp;fq=location%3A</xsl:text>
-                    <xsl:call-template
-                        name="getSolrLocation"
-                    />
-                    <xsl:text>&amp;rows=0&amp;wt=xml&amp;facet=true&amp;facet.field=msc_keyword</xsl:text>
-                </xsl:variable>
-                <xsl:value-of
-                    select="$solrQuery"
-                />
-            </div>
-        </xsl:if>
-        <div class="row">
-            <div class="col-sm-2 hidden-sm-down">
-                <a href="{/dri:document/dri:meta/dri:pageMeta/dri:trail[1]/@target}" >
-                    <img alt="page.general.banner" i18n:attribute="alt" class="dspace-banner">
-                        <xsl:attribute
-                            name="src"
-                        >
-                            <xsl:value-of
-                                select="$resourcePath"
-                            />
-                            <xsl:text>/img/ffdigi-logo.png</xsl:text>
-                        </xsl:attribute>
-                    </img>
-                </a>            
-            </div>
-            <div class="col-sm-10">
-                <p>
-                    <a href="{$contextPath}" class="page-header">
-                        <h1>
-                            <i18n:text>page.head.title</i18n:text>
-                        </h1>
-                    </a>
-                </p> 
+    >       
+        <div class="row jumbotron">
+            <div class="col-md-offset-3 col-xl-offset-2 col-md-6 col-xl-8">                
+                <p class="lead">
+                    <i18n:text>page.landing.jubotron</i18n:text>
+                </p>      
             </div>
         </div>
     </xsl:template>

@@ -23,22 +23,22 @@
                 <xsl:call-template name="buildHTMLHead" />
             </head>
             <body>
-                <div class="container-fluid">
-                    <!-- in page-body-head.xsl -->
-                    <xsl:call-template name="buildBodyHead" />
-                    <!-- in page-body-navigation.xsl -->
-                    <xsl:call-template name="buildNavigation" />
+                <xsl:call-template name="buildNavigation" />
+                <div class="container-fluid body-content">  
+                    <xsl:if
+                        test="count(/dri:document/dri:meta/dri:pageMeta/dri:trail) = 1"
+                    >                   
+                        <xsl:call-template name="buildBodyHead" />
+                        <xsl:call-template name="buildSearchPanel" />
+                    </xsl:if>
                     <div class="row content-body">
-                        <div class="col-md-3 col-xl-2 left-sidebar">
-                            <xsl:call-template name="buildLeftSidebar" />
-                        </div>
-                        <div class="col-md-6 col-xl-8">
+                        <div class="col-md-offset-3 col-xl-offset-2 col-md-6 col-xl-8">
                             <xsl:call-template name="buildBreadcrumb" />
                             <xsl:apply-templates />
                         </div>
-                        <div class="col-md-3 col-xl-2">
+<!--                        <div class="col-md-3 col-xl-2">
                             <xsl:call-template name="buildRightSidebar" />
-                        </div>
+                        </div>-->
                     </div>
                     <footer class="row" id="footer">
                         <xsl:call-template name="buildFooter" /><!-- in commons-->

@@ -8,6 +8,12 @@ package cz.muni.ics.digilib.aspects;
 import cz.muni.ics.digilib.aspects.comparators.ItemComparator;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import org.apache.cocoon.ProcessingException;
@@ -32,6 +38,14 @@ import org.xml.sax.SAXException;
  */
 public class CollectionAspect extends AbstractDSpaceTransformer
 {
+    private final Set<String> fcbItems = new HashSet<>(3);
+
+    public CollectionAspect()
+    {
+        fcbItems.add("Front-matter");
+        fcbItems.add("Back-matter");
+        fcbItems.add("Table-of-Contents");
+    }
 
     @Override
     public void addBody(Body body) throws SAXException, WingException, UIException, SQLException, IOException, AuthorizeException, ProcessingException
@@ -56,16 +70,25 @@ public class CollectionAspect extends AbstractDSpaceTransformer
 
             }
 
-            ReferenceSet items = null;
-            if (topComm != null && topComm.getMetadataByMetadataString("dc.type")[0].value.equals("celebrity"))
+            if (topComm != null)
             {
-                items = home.addReferenceSet("item-list", ReferenceSet.TYPE_SUMMARY_LIST);
-            }
-            else
-            {
-                items = home.addReferenceSet("item-list", ReferenceSet.TYPE_SUMMARY_LIST);
-            }
+                if (topComm.getMetadataByMetadataString("dc.type")[0].value.equals("JOURNAL"))
+                {
+                    ReferenceSet issueSiblings = home.addReferenceSet("issue-siblings", ReferenceSet.TYPE_SUMMARY_LIST);
 
+                    Community volume = (Community) col.getParentObject();
+
+                    for (Collection sibling : AspectUtils.getSortedIssuesForVolume(volume.getCollections()))
+                    {
+                        issueSiblings.addReference(sibling);
+                    }
+                }
+            }
+            
+            Map<ItemSection,TreeSet<Item>> articles = new LinkedHashMap<>();
+            List<ItemSection> sections = new ArrayList<>();
+            Division fcb = home.addDivision("fcb");
+            
             SortedSet<Item> sortedSet = new TreeSet<>(new ItemComparator());
             ItemIterator ii = col.getItems();
             while (ii.hasNext())
@@ -73,9 +96,31 @@ public class CollectionAspect extends AbstractDSpaceTransformer
                 sortedSet.add(ii.next());
             }
 
+            int noSectionCount = 0;
             for (Item i : sortedSet)
-            {
-                items.addReference(i);
+            {                
+                String type = i.getMetadata("dc.type");
+                
+                if(fcbItems.contains(type))
+                {
+                    fcb.addReferenceSet(type, ReferenceSet.TYPE_SUMMARY_LIST).addReference(i);
+                }                
+                else
+                {
+                    String position = i.getMetadata("");
+                    String name = i.getMetadata("");
+                    ItemSection section = new ItemSection();
+                    section.setPosition(Integer.parseInt(position));
+//                    if()
+//                    if(!sections.isEmpty())
+//                    {
+//                        if()
+//                    }
+//                    else
+//                    {
+//                        Section
+//                    }
+                }
             }
         }
     }

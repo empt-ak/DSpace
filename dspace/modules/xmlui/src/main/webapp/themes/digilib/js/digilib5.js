@@ -4,6 +4,17 @@
  * and open the template in the editor.
  */
 $(document).ready(function () {
+
+    (function () {
+        if (typeof Cookies.get('digilibVisited') === 'undefined') {
+            console.log('cookie not set');
+            Cookies.set('digilib.phil.muni.cz', '1', {expires: 14});
+        } else
+        {
+            console.log(Cookies.get('digilib.phil.muni.cz'));
+        }
+    })();
+
     $('.contact-email').email();
 
     $(".show-advanced-filters").click(function (event) {
@@ -11,7 +22,7 @@ $(document).ready(function () {
         $(this).hide();
         $(".hide-advanced-filters").show();
     });
-    
+
     $(".hide-advanced-filters").click(function (event) {
         $("#aspect_discovery_SimpleSearch_div_search-filters").hide();
         $(this).hide();
@@ -23,7 +34,7 @@ $(document).ready(function () {
             $(this).closest('.row .in-use').remove();
         }
     });
-    
+
     $(this).on('click', '.filter-add', function () {
         var $row = $("div.in-use:last").clone();
         $.each($row.find(':input[name]'), function () {
@@ -79,7 +90,7 @@ $(document).ready(function () {
                 var param = val.split('=')[0];
                 var value = val.split('=')[1];
                 form.find('input[name="' + param + '"]').val(value);
-            });           
+            });
             form.submit();
         }
         e.preventDefault();
@@ -91,32 +102,60 @@ $(document).ready(function () {
         $("#aspect_artifactbrowser_ConfigurableBrowse_div_browse-controls select[name='" + name + "']").val(val).change();
         $("#aspect_artifactbrowser_ConfigurableBrowse_div_browse-controls").submit();
     });
-    
-    $(".used-filters span.label").on('click',function(){
+
+    $(".used-filters span.label").on('click', function () {
         var removeID = $(this).data('remove-input');
-        
-        $(".used-filters input").each(function(){
-            if($(this).data('remove')==removeID){
+
+        $(".used-filters input").each(function () {
+            if ($(this).data('remove') == removeID) {
                 $(this).remove();
             }
         });
-        
+
         $("#aspect_discovery_SimpleSearch_div_general-query").submit();
     });
+
+
+    $('.landing-view-switch').on('click', function () {
+        console.log($(this).data('view'));
+        if ($(this).data('view') === 'list')
+        {
+            $('.list-view').show();
+            $('.tab-view').hide();
+            console.log('list');
+        } else {
+            $('.tab-view').show();
+            $('.list-view').hide();
+            console.log('tab');
+        }
+    });
+
+    $(".fa-info-circle").tooltip();
+    $(".scroll-top").scrollTop(0);
+
+    $(".banner-uvt")
+            .on('mouseover', function () {
+                $(this).toggleClass('banner-uvt-colored');
+            })
+            .on('mouseout', function () {
+                $(this).toggleClass('banner-uvt-colored');
+    });
+    
+    $(".slider").bxSlider();
 });
 
 
 (function ($) {
     $.fn.email = function (options) {
-        var defaults = {user : 'digi', a : '@', domain : 'phil.muni', suffix : ".cz" };
-        
-        var output = $.extend({},defaults,options);
+        var defaults = {user: 'digi', a: '@', domain: 'phil.muni', suffix: ".cz"};
+
+        var output = $.extend({}, defaults, options);
         var href = 'mailto:';
         var label = '';
-        $.each(output,function(k,v){
-            label+=v;
+        $.each(output, function (k, v) {
+            label += v;
         });
-        href+=label;
+        href += label;
         $(this).parent('a').attr('href', href);
         $(this).html(label);
         return this;

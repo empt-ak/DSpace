@@ -18,8 +18,8 @@ public class ItemComparator implements Comparator<Item>
     @Override
     public int compare(Item o1, Item o2)
     {
-        int position1 = Integer.valueOf(o1.getMetadata("dc.identifier.position"));
-        int position2 = Integer.valueOf(o2.getMetadata("dc.identifier.position"));
+        int position1 = Integer.valueOf(o1.getMetadata("digilib.position.article"));
+        int position2 = Integer.valueOf(o2.getMetadata("digilib.position.article"));
         
         return position1 - position2;
     }

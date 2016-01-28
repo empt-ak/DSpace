@@ -25,22 +25,38 @@
         name="buildBodyFooter"
     >
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">&#160;</script>
-        <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">&#160;</script>
-        <script type="text/x-mathjax-config">
-            MathJax.Hub.Config({
-            tex2jax: {
-            inlineMath: [['$','$'], ['\\(','\\)']],
-            ignoreClass: "detail-field-data|exception|disable-math"
-            },
-            TeX: {
-            Macros: {
-            AA: '{\\mathring A}'
-            }
-            }
-            });
-        </script> 
-        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js">&#160;</script>
+<!--       
+        <script>
+            <xsl:attribute 
+                name="src"
+            >
+                <xsl:value-of 
+                    select="$contextPath" 
+                />
+                <xsl:text>/themes/</xsl:text>
+                <xsl:value-of 
+                    select="$theme" 
+                />
+                <xsl:text>/js/jquery.bxslider.min.js</xsl:text>
+            </xsl:attribute>
+                    &#160;
+        </script>       -->
+        <script>
+            <xsl:attribute 
+                name="src"
+            >
+                <xsl:value-of 
+                    select="$contextPath" 
+                />
+                <xsl:text>/themes/</xsl:text>
+                <xsl:value-of 
+                    select="$theme" 
+                />
+                <xsl:text>/js/tether.min.js</xsl:text>
+            </xsl:attribute>
+                    &#160;
+        </script>
         <script>
             <xsl:attribute 
                 name="src"
@@ -112,37 +128,7 @@
                 <xsl:value-of 
                     select="$theme" 
                 />
-                <xsl:text>/js/jquery.sticky.min.js</xsl:text>
-            </xsl:attribute>
-                    &#160;
-        </script>
-        <script>
-            <xsl:attribute 
-                name="src"
-            >
-                <xsl:value-of 
-                    select="$contextPath" 
-                />
-                <xsl:text>/themes/</xsl:text>
-                <xsl:value-of 
-                    select="$theme" 
-                />
-                <xsl:text>/js/mathjax.min.js</xsl:text>
-            </xsl:attribute>
-                    &#160;
-        </script>
-        <script>
-            <xsl:attribute 
-                name="src"
-            >
-                <xsl:value-of 
-                    select="$contextPath" 
-                />
-                <xsl:text>/themes/</xsl:text>
-                <xsl:value-of 
-                    select="$theme" 
-                />
-                <xsl:text>/js/jquery.dmlmathjax.min.js</xsl:text>
+                <xsl:text>/js/js.cookie.min.js</xsl:text>
             </xsl:attribute>
                     &#160;
         </script>

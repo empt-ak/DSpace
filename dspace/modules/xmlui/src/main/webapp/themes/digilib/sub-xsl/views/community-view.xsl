@@ -209,7 +209,7 @@
                                                 </xsl:variable>
                                                 <a href="{document($collectionMetadata)/mets:METS/@OBJID}">
                                                     <xsl:value-of
-                                                        select="document($collectionMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title' and @qualifier='name']"
+                                                        select="document($collectionMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title']"
                                                     />
                                                     <xsl:text> </xsl:text>                                      
                                                 </a>
@@ -270,7 +270,7 @@
                                                 </xsl:variable>
                                                 <a href="{document($collectionMetadata)/mets:METS/@OBJID}"> 
                                                     <xsl:value-of
-                                                        select="document($collectionMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title' and @qualifier='name']"
+                                                        select="document($collectionMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title']"
                                                     />
                                                     <xsl:text> </xsl:text>                                      
                                                 </a>

@@ -23,7 +23,7 @@
     
     <xsl:template name="buildLeftSidebar">
         <div class="card">
-            <div class="card-header">
+            <div class="card-header panel-color">
                 <i18n:text>page.sidebar.left.browseby</i18n:text>
             </div>
             <ul class="list-group list-group-flush">
@@ -44,7 +44,7 @@
             <xsl:if
                 test="/dri:document/dri:options/dri:list[@id='aspect.viewArtifacts.Navigation.list.browse']/dri:list[@id='aspect.browseArtifacts.Navigation.list.context']/dri:item"
             >
-                <div class="card-header">
+                <div class="card-header panel-color">
                     <i18n:text>
                         <xsl:value-of
                             select="/dri:document/dri:options/dri:list[@id='aspect.viewArtifacts.Navigation.list.browse']/dri:list[@id='aspect.browseArtifacts.Navigation.list.context']/dri:head"
@@ -71,7 +71,7 @@
                 <xsl:if
                     test="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='feed']"
                 >  
-                    <div class="card-header">
+                    <div class="card-header panel-color">
                         <i18n:text>page.sidebar.left.rss</i18n:text>
                     </div>
                     <ul class="list-group list-group-flush">
@@ -118,7 +118,7 @@
                 </xsl:if>
             </div>
             <div class="hidden-sm-down">
-                <div class="card-header">
+                <div class="card-header panel-color">
                     <i18n:text>page.sidebar.left.quickstats</i18n:text>
                 </div>
                 <ul class="list-group list-group-flush">              
@@ -144,19 +144,12 @@
         </div>
     </xsl:template>
     
-    <xsl:template name="buildRightSidebar">
-        <xsl:if
-            test="not(/dri:document/dri:body/dri:div[@id='cz.muni.ics.digilib.aspects.MainAspect.div.landing-page'])"
-        >
-            <xsl:call-template
-                name="buildPUN"
-            />
-        </xsl:if>        
+    <xsl:template name="buildRightSidebar">      
         <div class="card disable-bottom-border">            
             <xsl:if
                 test="/dri:document/dri:options/dri:list[@id='aspect.discovery.Navigation.list.discovery']/dri:list[@id='aspect.discovery.SidebarFacetsTransformer.list.subject']/dri:item"
             >
-                <div class="card-header disable-bottom-border">
+                <div class="card-header panel-color disable-bottom-border">
                     <i18n:text>page.sidebar.right.discovery.keyword</i18n:text>
                 </div>
                 <ul class="list-group list-group-flush">
@@ -207,7 +200,7 @@
             <xsl:if
                 test="/dri:document/dri:options/dri:list[@id='aspect.discovery.Navigation.list.discovery']/dri:list[@id='aspect.discovery.SidebarFacetsTransformer.list.author']/dri:item"
             >
-                <div class="card-header disable-bottom-border">
+                <div class="card-header panel-color disable-bottom-border">
                     <i18n:text>page.sidebar.right.discovery.author</i18n:text>
                 </div>
                 <ul class="list-group list-group-flush">                   
@@ -248,7 +241,7 @@
             <xsl:if
                 test="/dri:document/dri:options/dri:list[@id='aspect.discovery.Navigation.list.discovery']/dri:list[@id='aspect.discovery.SidebarFacetsTransformer.list.msc']/dri:item"
             >
-                <div class="card-header disable-bottom-border">
+                <div class="card-header panel-color disable-bottom-border">
                     <i18n:text>page.sidebar.right.discovery.msc</i18n:text>
                 </div>
                 <ul class="list-group list-group-flush">

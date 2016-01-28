@@ -61,6 +61,14 @@
                 <xsl:text>/css/digilibstyle.min.css</xsl:text>
             </xsl:attribute>
         </link>
+<!--        <link rel="stylesheet">
+            <xsl:attribute name="href">
+                <xsl:value-of
+                    select="$resourcePath"
+                />
+                <xsl:text>/css/jquery.bxslider.min.css</xsl:text>
+            </xsl:attribute>
+        </link>-->
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

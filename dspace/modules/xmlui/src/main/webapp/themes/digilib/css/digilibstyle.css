@@ -72,15 +72,13 @@ dd
 .issue-item-row
 {
     border-bottom: 1px solid #eee;
-    /*    text-overflow: ellipsis;
-        height: 80px;
-        white-space: nowrap;*/
 }
 
 .content-body
 {
-    margin-top: 1.5em;
+    padding-top: 1em;
     margin-bottom: 3em;
+    border-top: 1px #000 solid;
 }
 
 .issue-item-abstract
@@ -93,15 +91,6 @@ dd
     margin-top: 20px;
     margin-left: 20px;
 }
-
-/*div.page-header > p > a,
-div.page-header > p > a:hover,
-div.page-header > p > a:visited,
-div.page-header > p > a.active
-{
-    color: inherit;
-}*/
-
 a.page-header,
 a.page-header:hover,
 a.page-header:visited,
@@ -209,4 +198,84 @@ div.card div.card-block:nth-of-type(n+2)
 .panel-color-light
 {
     background-color: rgba(0, 161, 222, 0.4); 
+}
+
+.panel-color a:link
+{
+    color: white !important;
+}
+
+.banner-uvt
+{
+    background-image: url("../img/banner-uvt-gray.png");
+    height: 60px;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+.banner-uvt-colored
+{
+    background-image: url("../img/banner-uvt-color.png");
+}
+
+.list-view
+{
+    display: none;
+}
+
+.vertical-wrapper
+{
+    display: table;
+    overflow: hidden;
+    height: 150px;
+}
+
+.vertical-align
+{
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.body-content
+{
+    margin-top: 54px;
+}
+
+.header-panel
+{
+    background-color: #eceeef;
+}
+
+.search-panel
+{
+    background-color: rgba(0, 161, 222, 0.4);
+    padding: 10px 0px 10px 0px;
+    border-top: 1px rgb(255, 255, 255) solid;
+}
+
+
+.jumbotron
+{
+    margin-bottom: 0 !important;
+    border-radius: 0 !important;
+    border-bottom: 1px rgb(146, 145, 145) solid;
+
+}
+.disable-bottom-margin
+{
+    margin-bottom: 0;
+}
+
+.carousel-item
+{
+    height: 100px;
+}
+
+.slide
+{
+    padding: 0 100px 0 100px;
+}
+
+.discovery-panel
+{
+    margin-top: 150px;
 }
