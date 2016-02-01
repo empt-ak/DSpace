@@ -13,7 +13,7 @@ public class ItemSection implements Comparable<ItemSection>
 {
     private String sectionName;
     private int position;
-    private boolean noSection;
+    private boolean regularSection = true;
 
     public String getSectionName()
     {
@@ -41,19 +41,14 @@ public class ItemSection implements Comparable<ItemSection>
         return getPosition()-o.getPosition();
     }
 
-    public boolean isNoSection()
+    public boolean isRegularSection()
     {
-        return noSection;
+        return regularSection;
     }
 
-    public void setNoSection(boolean noSection)
+    public void setRegularSection(boolean regularSection)
     {
-        this.noSection = noSection;
+        this.regularSection = regularSection;
     }
-
-    @Override
-    public String toString()
-    {
-        return "ItemSection{" + "sectionName=" + sectionName + ", position=" + position + ", noSection=" + noSection + '}';
-    }
+    
 }

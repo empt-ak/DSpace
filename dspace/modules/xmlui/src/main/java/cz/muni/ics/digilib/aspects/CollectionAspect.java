@@ -42,8 +42,8 @@ public class CollectionAspect extends AbstractDSpaceTransformer
 
     public CollectionAspect()
     {
-        fcbItems.add("Front-matter");
-        fcbItems.add("Back-matter");
+        fcbItems.add("Front-Matter");
+        fcbItems.add("Back-Matter");
         fcbItems.add("Table-of-Contents");
     }
 
@@ -84,11 +84,11 @@ public class CollectionAspect extends AbstractDSpaceTransformer
                     }
                 }
             }
-            
-            Map<ItemSection,TreeSet<Item>> articles = new LinkedHashMap<>();
+
+            Map<ItemSection, SortedSet<Item>> articles = new LinkedHashMap<>();
             List<ItemSection> sections = new ArrayList<>();
             Division fcb = home.addDivision("fcb");
-            
+
             SortedSet<Item> sortedSet = new TreeSet<>(new ItemComparator());
             ItemIterator ii = col.getItems();
             while (ii.hasNext())
@@ -98,30 +98,104 @@ public class CollectionAspect extends AbstractDSpaceTransformer
 
             int noSectionCount = 0;
             for (Item i : sortedSet)
-            {                
+            {
                 String type = i.getMetadata("dc.type");
-                
-                if(fcbItems.contains(type))
+
+                if (fcbItems.contains(type))
                 {
                     fcb.addReferenceSet(type, ReferenceSet.TYPE_SUMMARY_LIST).addReference(i);
-                }                
+                }
                 else
                 {
-                    String position = i.getMetadata("");
-                    String name = i.getMetadata("");
-                    ItemSection section = new ItemSection();
-                    section.setPosition(Integer.parseInt(position));
-//                    if()
-//                    if(!sections.isEmpty())
-//                    {
-//                        if()
-//                    }
-//                    else
-//                    {
-//                        Section
-//                    }
+                    String position = i.getMetadata("digilib.position.article");
+                    String name = i.getMetadata("dc.description.section");
+                    ItemSection currentSection = new ItemSection();
+                    currentSection.setPosition(Integer.parseInt(position));
+                    if (name == null || name.isEmpty())
+                    {
+                        currentSection.setSectionName(noSectionCount + "");
+                        currentSection.setRegularSection(false);
+                        noSectionCount++;
+                    }
+                    else
+                    {
+                        currentSection.setSectionName(name);
+                    }
+                    
+                    putToArticleMap(currentSection, i, sections, articles);
+                }  
+            }
+            
+            Division articlesDiv = home.addDivision("articles");
+            
+            for(Map.Entry<ItemSection,SortedSet<Item>> entry : articles.entrySet())
+            {
+                ReferenceSet sectionReferenceSet;
+                if(entry.getKey().isRegularSection())
+                {
+                    sectionReferenceSet = articlesDiv.addReferenceSet(entry.getKey().getSectionName(), ReferenceSet.TYPE_SUMMARY_LIST);
+                }
+                else
+                {
+                    sectionReferenceSet = articlesDiv.addReferenceSet("nosection"+entry.getKey().getSectionName(), ReferenceSet.TYPE_SUMMARY_LIST);
+                }
+                
+                for(Item item : entry.getValue())
+                {
+                    sectionReferenceSet.addReference(item);
                 }
             }
         }
+    }
+
+    private void putToArticleMap(ItemSection currentSection, Item currentItem, List<ItemSection> sectionList, Map<ItemSection, SortedSet<Item>> articles)
+    {
+        if (getLast(sectionList) == null)
+        {
+            // its first item ever
+            sectionList.add(currentSection);
+            SortedSet<Item> sectionItems = new TreeSet<>(new ItemComparator());
+            sectionItems.add(currentItem);
+            articles.put(currentSection, sectionItems);
+        }
+        else
+        {
+            ItemSection previous = getLast(sectionList);
+            if (!(currentSection.isRegularSection() ^ previous.isRegularSection()))
+            {
+                // items are either both regular or irregular
+                if (currentSection.getSectionName().equals(previous.getSectionName()))
+                {
+                    //item belong to the same section
+                    SortedSet<Item> sectionItems = articles.get(previous);
+                    sectionItems.add(currentItem);
+                    articles.put(previous, sectionItems);
+                }
+                else
+                {
+                    // items belong to different section
+                    SortedSet<Item> sectionItems = new TreeSet<>(new ItemComparator());
+                    sectionItems.add(currentItem);
+                    articles.put(currentSection, sectionItems);
+                    sectionList.add(currentSection);
+                }
+            }
+            else
+            {
+                SortedSet<Item> sectionItems = new TreeSet<>(new ItemComparator());
+                sectionItems.add(currentItem);
+                articles.put(currentSection, sectionItems);
+                sectionList.add(currentSection);
+            }
+        }
+    }
+
+    private ItemSection getLast(List<ItemSection> sectionList)
+    {
+        if (sectionList.isEmpty())
+        {
+            return null;
+        }
+        return sectionList.get(sectionList.size() - 1);
     }
 }

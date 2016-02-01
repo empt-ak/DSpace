@@ -69,15 +69,27 @@
                             <i18n:text>navigation.main.button.contactus</i18n:text>
                         </a>
                     </li>
-                    <li class="nav-item">
+<!--                    <li class="nav-item">
                         <div class="dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Other</a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="${context}/configuration/">Configurations</a>
-                                <a class="dropdown-item" href="${context}/annotation/">AnnotationTags</a>
+                                <xsl:for-each
+                                    select="dri:document/dri:options/dri:list[@id='aspect.viewArtifacts.Navigation.list.browse']/dri:list[@id='aspect.browseArtifacts.Navigation.list.context']/dri:item"
+                                >
+                                    <a href="{./dri:xref/@target}" class="dropdown-item">
+                                        <i18n:text>
+                                            <xsl:value-of
+                                                select="./dri:xref"
+                                            />
+                                        </i18n:text>
+                                        <xsl:value-of
+                                                select="./dri:xref"
+                                            />
+                                    </a>
+                                </xsl:for-each>
                             </div>
                         </div>
-                    </li>
+                    </li>-->
                 </ul>
                 <form class="form-inline navbar-form pull-xs-left pull-xl-right" method="post">
                     <xsl:attribute
@@ -125,7 +137,7 @@
                         <xsl:for-each
                             select="/dri:document/dri:meta/dri:pageMeta/dri:trail"
                         >
-                            <li>
+                            <li class="breadcrumb-item">
                                 <xsl:if
                                     test="position() = 1">
                                     <i class="fa fa-home" />
@@ -137,7 +149,7 @@
                                     <xsl:attribute
                                         name="class"
                                     >
-                                        <xsl:text>active</xsl:text>
+                                        <xsl:text>breadcrumb-item active</xsl:text>
                                     </xsl:attribute>
                                 </xsl:if>
                                 <xsl:choose>
@@ -246,13 +258,19 @@
                             </h4>
                             <ul class="list-inline follow-us">
                                 <li class="list-inline-item">
-                                    <i class="fa fa-facebook-square fa-3x" />
+                                    <a href="#">
+                                        <i class="fa fa-facebook-square fa-3x" />
+                                    </a>
                                 </li>
                                 <li class="list-inline-item">
-                                    <i class="fa fa-google-plus fa-3x" />
+                                    <a href="#">
+                                        <i class="fa fa-google-plus fa-3x" />
+                                    </a>
                                 </li>
                                 <li class="list-inline-item"> 
-                                    <i class="fa fa-twitter fa-3x" />
+                                    <a href="#">
+                                        <i class="fa fa-twitter fa-3x" />
+                                    </a>
                                 </li>
                                 <li class="list-inline-item">
                                     <a href="#" data-toggle="modal" data-target="#rssmodal">

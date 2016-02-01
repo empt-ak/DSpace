@@ -4,7 +4,12 @@
  * and open the template in the editor.
  */
 $(document).ready(function () {
-
+    $.cookieBar({
+        fixed: true,
+        declineBUtton: true,
+        bottom: true
+    });
+    
     (function () {
         if (typeof Cookies.get('digilibVisited') === 'undefined') {
             console.log('cookie not set');
@@ -140,6 +145,11 @@ $(document).ready(function () {
                     $(this).toggleClass('banner-uvt-colored');
                 }
             });
+
+    $(".toggle-abstracts").click(function(){
+        $(".issue-item-abstract").toggle();
+        $(this).blur();
+    });
 
 //    $(".slider").bxSlider();
 });

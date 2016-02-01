@@ -49,6 +49,7 @@ dd
 .issue-item-abstract
 {
     text-align: justify;
+    display:none;
 }
 
 .dspace-banner

@@ -53,6 +53,21 @@
                 <xsl:value-of 
                     select="$theme" 
                 />
+                <xsl:text>/js/jquery.cookiebar.min.js</xsl:text>
+            </xsl:attribute>
+                    &#160;
+        </script>
+        <script>
+            <xsl:attribute 
+                name="src"
+            >
+                <xsl:value-of 
+                    select="$contextPath" 
+                />
+                <xsl:text>/themes/</xsl:text>
+                <xsl:value-of 
+                    select="$theme" 
+                />
                 <xsl:text>/js/tether.min.js</xsl:text>
             </xsl:attribute>
                     &#160;

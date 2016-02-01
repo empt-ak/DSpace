@@ -61,13 +61,19 @@
                 <xsl:text>/css/digilibstyle.min.css</xsl:text>
             </xsl:attribute>
         </link>
+        <link rel="stylesheet">
+            <xsl:attribute name="href">
+                <xsl:value-of
+                    select="$resourcePath"
+                />
+                <xsl:text>/css/jquery.cookiebar.min.css</xsl:text>
+            </xsl:attribute>
+        </link>
         
         <xsl:for-each
             select="./dri:meta/dri:pageMeta/dri:metadata[@element='feed']"
         >
-            <link href="{.}" rel="aternate" type="application/rss+xml">
-                
-            </link>
+            <link href="{.}" rel="aternate" type="application/rss+xml" />
         </xsl:for-each>
 <!--        <link rel="stylesheet">
             <xsl:attribute name="href">

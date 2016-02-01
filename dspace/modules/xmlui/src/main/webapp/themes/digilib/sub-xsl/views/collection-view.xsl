@@ -241,28 +241,6 @@
                             />
                         </dd>
                     </xsl:if>
-                    <xsl:if
-                        test="document($collectionMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='subject' and @qualifier='msc']"
-                    >
-                        <dt class="col-sm-3">
-                            <i18n:text>page.collection.monograph.msc</i18n:text>
-                        </dt>
-                        <dd class="col-md-9">
-                            <xsl:for-each
-                                select="document($collectionMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='subject' and @qualifier='msc']"
-                            >
-                                <!-- href
-                                http://localhost:8080/digilib/discover?filtertype=msc&filter_relational_operator=equals&filter=26A39
-                                -->
-                                <a class="label label-info" href="#">
-                                    <xsl:value-of
-                                        select="."
-                                    />
-                                </a>
-                                <xsl:text> </xsl:text>                              
-                            </xsl:for-each>
-                        </dd>
-                    </xsl:if>
                 </dl>
             </div>
         </div>
@@ -270,7 +248,15 @@
             <i18n:text>page.collection.monograph.toc</i18n:text>
         </h3>
         <div class="row">
-            <div class="col-xs-11 table-responsive">
+            <div class="col-xs-12">
+                <xsl:value-of select="." />
+                <xsl:for-each
+                    select="./dri:div[@id='cz.muni.ics.digilib.aspects.CollectionAspect.div.articles']/dri:referenceSet"
+                >
+                    <xsl:value-of select="@type" />
+                </xsl:for-each>
+            </div>
+            <!--            <div class="col-xs-11 table-responsive">
                 <table class="table table-condensed table-toc">
                     <xsl:for-each
                         select="./dri:referenceSet[@n='item-list']/dri:reference"
@@ -298,7 +284,7 @@
                         </tr>
                     </xsl:for-each>
                 </table>
-            </div>
+            </div>-->
         </div>
     </xsl:template>   
     
@@ -392,104 +378,111 @@
         <div class="row offset-top-25">
             <div class="col-xs-12">
                 <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-secondary"><i class="fa fa-file-pdf-o"></i> Front matter</button>
-                    <button type="button" class="btn btn-secondary"><i class="fa fa-file-pdf-o"></i> Content</button>
-                    <button type="button" class="btn btn-secondary"><i class="fa fa-file-pdf-o"></i> Back matter</button>
+                    <a href="#" class="btn btn-secondary">
+                        <i class="fa fa-file-pdf-o"></i> Front matter</a>
+                    <a href="#" class="btn btn-secondary">
+                        <i class="fa fa-file-pdf-o"></i> Content</a>
+                    <a href="#" class="btn btn-secondary">
+                        <i class="fa fa-file-pdf-o"></i> Back matter</a>
+                    <a href="#" class="btn btn-secondary toggle-abstracts">
+                        <i class="fa fa-cog"></i> Abstracts</a>
                 </div>
             </div>
         </div>
-        <div class="row offset-top-25">
-            <div class="col-xs-12">                
-                <ul class="list-unstyled">
-                    <xsl:for-each
-                        select="./dri:referenceSet[@n='item-list']/dri:reference"
-                    >
-                        <xsl:variable
-                            name="itemMetadata"
+        <div class="row">
+            <div class="col-xs-12">
+                <xsl:for-each
+                    select="./dri:div[@id='cz.muni.ics.digilib.aspects.CollectionAspect.div.articles']/dri:referenceSet"
+                >
+                    <h4>
+                        <xsl:value-of
+                            select="./@n"
+                        />
+                    </h4>
+                    <ul class="list-unstyled">
+                        <xsl:for-each
+                            select="./dri:reference"
                         >
-                            <xsl:text>cocoon://</xsl:text>
-                            <xsl:value-of select="./@url"/>
-                            <xsl:text>?sections=dmdSec</xsl:text>
-                        </xsl:variable>
-                        <xsl:if
-                            test="position() != 0 and position() mod 5 = 0">
-                            <xsl:value-of select="position()" />
-                            <h4 class="text-muted">
-                                <xsl:text>!sekcia clanku</xsl:text>
-                            </h4>
-                        </xsl:if>
-                        <li>
-                            <div>
-                                <xsl:attribute
-                                    name="class"
-                                >
-                                    <xsl:choose>
-                                        <xsl:when
-                                            test="position() != last()"
-                                        >
-                                            <xsl:text>row issue-item-row</xsl:text>
-                                        </xsl:when>
-                                        <xsl:otherwise>
-                                            <xsl:text>row</xsl:text>
-                                        </xsl:otherwise>
-                                    </xsl:choose>
-                                </xsl:attribute>                                
-                                <div class="col-sm-1 hidden-xs-down text-sm-right">
-                                    <h5>
-                                        <xsl:value-of
-                                            select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='format' and @qualifier='extent']"
-                                        />
-                                    </h5>
-                                </div>
-                                <div class="col-sm-11">
-                                    <div class="disable-math">
+                            <xsl:variable
+                                name="itemMetadata"
+                            >
+                                <xsl:text>cocoon://</xsl:text>
+                                <xsl:value-of select="./@url"/>
+                                <xsl:text>?sections=dmdSec</xsl:text>
+                            </xsl:variable>
+                            <li>
+                                <div>
+                                    <xsl:attribute
+                                        name="class"
+                                    >
+                                        <xsl:choose>
+                                            <xsl:when
+                                                test="position() != last()"
+                                            >
+                                                <xsl:text>row issue-item-row</xsl:text>
+                                            </xsl:when>
+                                            <xsl:otherwise>
+                                                <xsl:text>row</xsl:text>
+                                            </xsl:otherwise>
+                                        </xsl:choose>
+                                    </xsl:attribute>                                
+                                    <div class="col-sm-1 hidden-xs-down text-sm-right">
                                         <h5>
-                                            <a href="{document($itemMetadata)/mets:METS/@OBJID}">                                               
-                                                <xsl:value-of
-                                                    select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title'][1]"
-                                                />
-                                            </a>
+                                            <xsl:value-of
+                                                select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='format' and @qualifier='extent']"
+                                            />
                                         </h5>
                                     </div>
-                                    
-                                    <xsl:if
-                                        test="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='contributor' and @qualifier='author']"
-                                    >                                    
-                                        <div class="author-row">                                            
-                                            <h6>
-                                                <i class="fa fa-user" />
-                                                <xsl:text> </xsl:text>
-                                                <span class="text-muted">
-                                                    <xsl:for-each
-                                                        select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='contributor' and @qualifier='author']"
-                                                    >
-                                                        <xsl:value-of
-                                                            select="."
-                                                        />
-                                                        <xsl:if
-                                                            test="position() != last()"
-                                                        >
-                                                            <xsl:text>; </xsl:text>
-                                                        </xsl:if>
-                                                    </xsl:for-each>
-                                                </span>
-                                            </h6>
+                                    <div class="col-sm-11">
+                                        <div class="disable-math">
+                                            <h5>
+                                                <a href="{document($itemMetadata)/mets:METS/@OBJID}">                                               
+                                                    <xsl:value-of
+                                                        select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title'][1]"
+                                                    />
+                                                </a>
+                                            </h5>
                                         </div>
-                                    </xsl:if>
-                                    <xsl:if
-                                        test="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']"
-                                    >
-                                        <p class="issue-item-abstract">
-                                            <xsl:value-of
-                                                select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']"
-                                            />
-                                        </p>
-                                    </xsl:if>
-                                </div>                                
-                            </div>
-                        </li>                    
-                    </xsl:for-each>
-                </ul>
+                                    
+                                        <xsl:if
+                                            test="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='contributor' and @qualifier='author']"
+                                        >                                    
+                                            <div class="author-row">                                            
+                                                <h6>
+                                                    <i class="fa fa-user" />
+                                                    <xsl:text> </xsl:text>
+                                                    <span class="text-muted">
+                                                        <xsl:for-each
+                                                            select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='contributor' and @qualifier='author']"
+                                                        >
+                                                            <xsl:value-of
+                                                                select="."
+                                                            />
+                                                            <xsl:if
+                                                                test="position() != last()"
+                                                            >
+                                                                <xsl:text>; </xsl:text>
+                                                            </xsl:if>
+                                                        </xsl:for-each>
+                                                    </span>
+                                                </h6>
+                                            </div>
+                                        </xsl:if>
+                                        <xsl:if
+                                            test="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']"
+                                        >
+                                            <p class="issue-item-abstract">
+                                                <xsl:value-of
+                                                    select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']"
+                                                />
+                                            </p>
+                                        </xsl:if>
+                                    </div>                                
+                                </div>
+                            </li>                    
+                        </xsl:for-each>
+                    </ul>
+                </xsl:for-each>
             </div>
         </div>
     </xsl:template>        

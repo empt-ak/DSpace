@@ -27,7 +27,7 @@
             <div class="col-md-offset-3 col-xl-offset-2 col-md-6 col-xl-8">        
                 <div class="row">
                     <div class="col-xs-12">
-                        <h1 class="text-xs-center">!FFdigi nej</h1>
+                        <h1 class="text-xs-center">!Prochazeni</h1>
                     </div>
                 </div>
                 <div class="row">
@@ -37,7 +37,7 @@
                                 <i class="fa fa-users fa-5x"></i>
                             </div>
                             <div class="card-block">
-                                <h4 class="card-title text-xs-center">!Autori a clanky</h4>                                
+                                <h4 class="card-title text-xs-center">!Autori</h4>                                
                             </div>
                             <ul class="list-group list-group-flush">                   
                                 <xsl:for-each
@@ -81,7 +81,7 @@
                                 <i class="fa fa-tags fa-5x"></i>
                             </div>
                             <div class="card-block">
-                                <h4 class="card-title text-xs-center">!Nejpouzivanejsi klicova slova</h4>                                
+                                <h4 class="card-title text-xs-center">!Klicova slova</h4>                                
                             </div>
                             <ul class="list-group list-group-flush">
                                 <xsl:for-each
