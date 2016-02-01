@@ -14,9 +14,9 @@
 	
     <xsl:import href="sub-xsl/layout/page-layout.xsl" />
     <xsl:import href="sub-xsl/layout/page-html-head.xsl" />
-    <xsl:import href="sub-xsl/layout/page-body-sidebars.xsl" />
     <xsl:import href="sub-xsl/layout/page-body-javascript-footer.xsl" />
     <xsl:import href="sub-xsl/layout/page-body-commons.xsl" />
+    <xsl:import href="sub-xsl/layout/page-discovery-panel.xsl" />
     
     <xsl:import href="sub-xsl/views/landing-page.xsl" />
     <xsl:import href="sub-xsl/views/community-view.xsl" />

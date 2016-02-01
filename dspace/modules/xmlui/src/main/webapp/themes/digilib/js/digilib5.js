@@ -122,26 +122,26 @@ $(document).ready(function () {
         {
             $('.list-view').show();
             $('.tab-view').hide();
-            console.log('list');
         } else {
             $('.tab-view').show();
             $('.list-view').hide();
-            console.log('tab');
         }
     });
 
     $(".fa-info-circle").tooltip();
     $(".scroll-top").scrollTop(0);
 
-    $(".banner-uvt")
-            .on('mouseover', function () {
-                $(this).toggleClass('banner-uvt-colored');
-            })
-            .on('mouseout', function () {
-                $(this).toggleClass('banner-uvt-colored');
-    });
-    
-    $(".slider").bxSlider();
+    $(".banner-uvt").on(
+            {
+                mouseover: function () {
+                    $(this).toggleClass('banner-uvt-colored');
+                },
+                mouseout: function () {
+                    $(this).toggleClass('banner-uvt-colored');
+                }
+            });
+
+//    $(".slider").bxSlider();
 });
 
 

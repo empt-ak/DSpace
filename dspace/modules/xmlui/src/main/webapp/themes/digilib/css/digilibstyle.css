@@ -14,47 +14,12 @@ html
     min-height: 100%;
 }
 
-@media (max-width: 47.9em) {
-    body
-    {
-        margin-bottom: 580px;
-    }
-    footer
-    {
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        height: 580px;
-        background-color: rgba(0, 161, 222, 0.4);
-        border-top: thin solid #000;
-    }
-}
-@media (min-width: 48em) {
-    body
-    {
-        margin-bottom: 280px;
-    }
-    footer
-    {
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        height: 280px;
-        background-color: rgba(0, 161, 222, 0.4);
-        border-top: thin solid #000;
-    }
-}
-
-footer div.footer-content
+footer
 {
-    margin: 20px;
+    background-color: rgba(0, 161, 222, 0.4);
+    border-top: 1px solid #fff;
 }
 
-footer p.footer-text
-{    
-    /*margin: 20px;*/
-    color: #777;
-}
 .media-body
 {
     text-align: justify;
@@ -200,21 +165,9 @@ div.card div.card-block:nth-of-type(n+2)
     background-color: rgba(0, 161, 222, 0.4); 
 }
 
-.panel-color a:link
+.panel-color a:not(.dropdown-item):link
 {
-    color: white !important;
-}
-
-.banner-uvt
-{
-    background-image: url("../img/banner-uvt-gray.png");
-    height: 60px;
-    background-repeat: no-repeat;
-    background-size: contain;
-}
-.banner-uvt-colored
-{
-    background-image: url("../img/banner-uvt-color.png");
+    color: #fff !important;
 }
 
 .list-view
@@ -248,8 +201,8 @@ div.card div.card-block:nth-of-type(n+2)
 .search-panel
 {
     background-color: rgba(0, 161, 222, 0.4);
-    padding: 10px 0px 10px 0px;
-    border-top: 1px rgb(255, 255, 255) solid;
+    padding: 10px 0 10px 0;
+    border-top: 1px #fff solid;
 }
 
 
@@ -257,7 +210,7 @@ div.card div.card-block:nth-of-type(n+2)
 {
     margin-bottom: 0 !important;
     border-radius: 0 !important;
-    border-bottom: 1px rgb(146, 145, 145) solid;
+    border-bottom: 1px #929191 solid;
 
 }
 .disable-bottom-margin
@@ -272,10 +225,51 @@ div.card div.card-block:nth-of-type(n+2)
 
 .slide
 {
-    padding: 0 100px 0 100px;
+    padding: 0 100px;
 }
 
 .discovery-panel
 {
     margin-top: 150px;
+    padding: 25px 0 50px;
+    background-color: #ECEEEF;
+    border-bottom: 1px solid #000;
+    border-top: 1px solid #BDBDBD;
+}
+
+.follow-us a:link,
+.follow-us a:visited
+{
+    color: #777;
+}
+
+.follow-us a:hover
+{    
+    color: #000;
+}
+
+.banner-uvt
+{
+    background-image: url("../img/banner-uvt-gray.png");   
+    height: 60px;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.banner-uvt-colored
+{
+    background-image: url("../img/banner-uvt-color.png");
+}
+
+.banner-digilib
+{
+    background-image: url("../img/banner-digilib.png");
+    height: 150px;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.footer-first-row
+{
+    padding-top: 25px;
 }

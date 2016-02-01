@@ -133,10 +133,10 @@
                     &#160;
         </script>
         
-        <script>
-            <!--            $(window).load(function(){
+<!--        <script>
+                        $(window).load(function(){
                 $("#sticky").sticky({topSpacing: 0});
-            });-->
+            });
             $(document).ready(function(){             
             <xsl:if
                 test="$communityType = 'serial' and count(/dri:document/dri:meta/dri:pageMeta/dri:trail) = 3"
@@ -153,7 +153,7 @@
                     <xsl:text>&amp;rows=0&amp;wt=xml&amp;facet=true&amp;facet.field=msc_keyword</xsl:text>
                 </xsl:variable>
                 
-                <!--<xsl:value-of select="concat($solrServer,$solrQuery)" />-->
+                <xsl:value-of select="concat($solrServer,$solrQuery)" />
                 <xsl:for-each select="document(concat($solrServer,$solrQuery))/response/lst[@name='facet_counts']/lst[@name='facet_fields']/lst[@name='msc_keyword']/int[. > 0]">
                     { value: <xsl:value-of select="current()" />, label: "<xsl:value-of select="current()/@name" />",color: getRandomColor(),highlight: getRandomColor()}
                     <xsl:if 
@@ -180,7 +180,7 @@
             
             });
             
-        </script>              
+        </script>              -->
     </xsl:template>
 
 </xsl:stylesheet>

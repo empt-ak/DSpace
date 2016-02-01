@@ -27,17 +27,6 @@
     
     
     <xsl:template match="dri:body/dri:div[@id='cz.muni.ics.digilib.aspects.MainAspect.div.landing-page']">
-        <!--        <div class="jumbotron">
-            <p>
-                <button type="button" class="close" aria-label="Close">
-                    <span aria-hidden="true">&#215;</span>
-                </button>
-            </p>
-            <p class="lead">
-                <i18n:text>page.landing.jubotron</i18n:text>
-            </p>
-        </div>-->
-        
         <div class="row">
             <div class="col-xs-12">
                 <h1 class="text-xs-center">!Dostupne publikace</h1>
@@ -195,126 +184,11 @@
                             <a href="{document($externalMetadataURL)/mets:METS/@OBJID}">
                                 <xsl:value-of select="document($externalMetadataURL)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title']" />
                             </a>
-                                        
+                            <span class="text-muted">(XXXX&#8212;YYYY)</span>         
                         </li>
                     </xsl:for-each>
                 </ul>
             </xsl:for-each>
-        </div>
-        <div class="discovery-panel">
-            <div class="row">
-                <div class="col-xs-12">
-                    <h1 class="text-xs-center">!FFdigi nej</h1>
-                </div>
-            </div>
-            <div class="card-deck-wrapper">
-                <div class="card-deck">                
-                    <div class="card">
-                        <div class="card-block text-xs-center">
-                            <i class="fa fa-users fa-5x"></i>
-                        </div>
-                        <div class="card-block">
-                            <h4 class="card-title">!Autori s nejvetsim poctem publikaci</h4>
-                            <ul class="list-group list-group-flush">                   
-                                <xsl:for-each
-                                    select="/dri:document/dri:options/dri:list[@id='aspect.discovery.Navigation.list.discovery']/dri:list[@id='aspect.discovery.SidebarFacetsTransformer.list.author']/dri:item/dri:xref"
-                                >
-                                    <li class="list-group-item">
-                                        <a>
-                                            <xsl:attribute
-                                                name="href"
-                                            >
-                                                <xsl:value-of
-                                                    select="./@target"
-                                                />
-                                            </xsl:attribute>
-                                            <xsl:choose>
-                                                <xsl:when 
-                                                    test="substring(./@target,string-length(./@target)- 25) = 'search-filter?field=author'"
-                                                >
-                                                    <i18n:text>page.sidebar.right.discovery.more</i18n:text>
-                                                </xsl:when>
-                                                <xsl:otherwise>
-                                                    <span class="label label-default label-pill pull-right">
-                                                        <xsl:value-of
-                                                            select="substring-before(substring-after(./text(),'('),')')"
-                                                        />
-                                                    </span>
-                                                    <xsl:value-of
-                                                        select="substring-before(./text(),' (')"
-                                                    />
-                                                </xsl:otherwise>
-                                            </xsl:choose>
-                                        </a>
-                                    </li>                        
-                                </xsl:for-each> 
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-block text-xs-center">
-                            <i class="fa fa-tags fa-5x"></i>
-                        </div>
-                        <div class="card-block">
-                            <h4 class="card-title">!Nejpouzivanejsi klicova slova</h4>
-                            <ul class="list-group list-group-flush">
-                                <xsl:for-each
-                                    select="/dri:document/dri:options/dri:list[@id='aspect.discovery.Navigation.list.discovery']/dri:list[@id='aspect.discovery.SidebarFacetsTransformer.list.subject']/dri:item/dri:xref"
-                                >
-                                    <li class="list-group-item">
-                                        <a class="disable-math">
-                                            <xsl:attribute
-                                                name="href"
-                                            >
-                                                <xsl:value-of
-                                                    select="./@target"
-                                                />
-                                            </xsl:attribute>
-                                            <xsl:choose>
-                                                <xsl:when 
-                                                    test="substring(./@target,string-length(./@target)- 26) = 'search-filter?field=subject'"
-                                                >
-                                                    <i18n:text>page.sidebar.right.discovery.more</i18n:text>
-                                                </xsl:when>
-                                                <xsl:otherwise>
-                                                    <span class="label label-default label-pill pull-right">
-                                                        <xsl:variable
-                                                            name="badge"
-                                                        >
-                                                            <xsl:call-template name="substring-after-last">
-                                                                <xsl:with-param name="string" select="./text()" />
-                                                                <xsl:with-param name="delimiter" select="'('" />
-                                                            </xsl:call-template>
-                                                        </xsl:variable>
-
-                                                        <xsl:value-of 
-                                                            select="substring-before($badge,')')" 
-                                                        />                                
-                                                    </span>
-                                                    <xsl:value-of
-                                                        select="substring-before(./text(),' (')"
-                                                    />
-                                                </xsl:otherwise>
-                                            </xsl:choose>
-                                        </a>
-                                    </li>                        
-                                </xsl:for-each>
-                            </ul>
-                        </div>
-                    </div>
-                
-                    <div class="card">
-                        <img class="card-img-top" data-src="..." alt="Card image cap" />
-                        <div class="card-block">
-                            <h4 class="card-title">Card title</h4>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-                            <p class="card-text">
-                                <small class="text-muted">Last updated 3 mins ago</small>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </xsl:template>
 </xsl:stylesheet>

@@ -22,10 +22,10 @@
     
     <xsl:output method="xml" encoding="UTF-8" indent="no"/>
     
-    <xsl:template name="buildNavigation">
+    <xsl:template name="navigation">
         <nav class="navbar navbar-dark navbar-fixed-top panel-color">
             <button class="navbar-toggler hidden-md-up" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2">
-    &#9776;
+                <i class="fa fa-bars"></i>
             </button>
             <div class="collapse navbar-toggleable-sm" id="exCollapsingNavbar2">
                 <a class="navbar-brand" href="{$contextPath}">
@@ -87,30 +87,34 @@
                             select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search' and @qualifier='advancedURL']"
                         />
                     </xsl:attribute>
-                    <input
-                        type="text" 
-                        class="form-control" 
-                        placeholder="navigation.main.button.search"
-                        i18n:attr="placeholder" 
-                    >
-                        <xsl:attribute
-                            name="name"
+                    <div class="input-group">
+                        <input
+                            type="text" 
+                            class="form-control" 
+                            placeholder="navigation.main.button.search"
+                            i18n:attr="placeholder" 
                         >
-                            <xsl:value-of
-                                select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search' and @qualifier='queryField']"
-                            />
-                        </xsl:attribute>
-                    </input>
-                    <button class="btn btn-info-outline" type="submit">
-                        <span class="fa fa-search"></span>
-                    </button>
+                            <xsl:attribute
+                                name="name"
+                            >
+                                <xsl:value-of
+                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search' and @qualifier='queryField']"
+                                />
+                            </xsl:attribute>
+                        </input>
+                        <span class="input-group-btn">
+                            <button class="btn btn-secondary" type="submit">
+                                <span class="fa fa-search"></span>
+                            </button>
+                        </span>
+                    </div>
                 </form>
             </div>
         </nav>       
     </xsl:template>
     
     <xsl:template 
-        name="buildBreadcrumb"
+        name="breadcrumb"
     >
         <xsl:if 
             test="count(/dri:document/dri:meta/dri:pageMeta/dri:trail) > 1"
@@ -177,20 +181,33 @@
     </xsl:template>
     
     <xsl:template 
-        name="buildFooter"
+        name="footer"
     >
-        <div class="footer-content">
-            <div class="row">
+        <div class="col-xs-12">
+            <div class="row footer-first-row">
                 <div class="col-md-6 col-md-offset-3 col-xl-8 col-xl-offset-2 col-xs-12">
                     <div class="row">
-                        <div class="col-md-4 col-xs-12">
+                        <div class="col-xs-4">
+                            <div class="banner-digilib"></div>
+                            <address>
+                                <strong>Digilib?</strong>
+                                <br />
+                                Arna Nováka 1 <br />
+                                602 00 Brno <br />
+                                Česká republika <br />
+                                <abbr title="Email">E:</abbr> 
+                                <a href="#">
+                                    <span class="contact-email">
+                                        <i18n:text>page.footer.contact.javascript</i18n:text>
+                                    </span>
+                                </a>
+                            </address>
+                        </div>
+                        <div class="col-xs-4">
                             <h4>
                                 <i18n:text>page.footer.links.title</i18n:text>
                             </h4>
-                            <ul>
-                                <li>
-                                    <a href="#" class="scroll-top">!scroll to top</a>
-                                </li>
+                            <ul class="list-unstyled">
                                 <li>
                                     <a href="{concat($contextPath,'/sitemap')}">
                                         <i18n:text>page.footer.links.sitemap</i18n:text>
@@ -221,67 +238,107 @@
                                         <i18n:text>page.footer.links.contactus</i18n:text>
                                     </a>
                                 </li>                                                  
-                            </ul>
+                            </ul> 
                         </div>
-                        <!--                        <div class="col-md-4 col-xs-12">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <div class="banner-uvt"></div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <div class="banner-dspace"></div>
-                                </div>
-                            </div>
-                        </div>-->
-                        <div class="col-md-4 col-xs-12">
+                        <div class="col-xs-4">
                             <h4>
-                                <i18n:text>page.footer.social.title</i18n:text>
+                                !follow us
                             </h4>
-                            <ul class="list-inline">
-                                <li>
+                            <ul class="list-inline follow-us">
+                                <li class="list-inline-item">
                                     <i class="fa fa-facebook-square fa-3x" />
                                 </li>
-                                <li>
+                                <li class="list-inline-item">
                                     <i class="fa fa-google-plus fa-3x" />
                                 </li>
-                                <li> 
+                                <li class="list-inline-item"> 
                                     <i class="fa fa-twitter fa-3x" />
                                 </li>
-                            </ul>                           
+                                <li class="list-inline-item">
+                                    <a href="#" data-toggle="modal" data-target="#rssmodal">
+                                        <i class="fa fa-rss fa-3x" />
+                                    </a>
+                                </li>
+                            </ul> 
+                            <div class="modal fade" id="rssmodal" tabindex="-1">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&#215;</span>
+                                            </button>
+                                            <h4 class="modal-title">Modal title</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <ul class="list-group list-group-flush">
+                                                <xsl:for-each
+                                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='feed']"
+                                                >
+                                                    <li class="list-group-item">
+                                                        <i class="fa fa-rss" />
+                                                        <xsl:text> </xsl:text>
+                                                        <a>
+                                                            <xsl:attribute
+                                                                name="href"
+                                                            >
+                                                                <xsl:value-of
+                                                                    select="." 
+                                                                />
+                                                            </xsl:attribute>                                
+                                                            <xsl:choose>
+                                                                <xsl:when 
+                                                                    test="contains(., 'rss_1.0')"
+                                                                >
+                                                                    <xsl:text>RSS 1.0</xsl:text>
+                                                                </xsl:when>
+                                                                <xsl:when 
+                                                                    test="contains(., 'rss_2.0')"
+                                                                >
+                                                                    <xsl:text>RSS 2.0</xsl:text>
+                                                                </xsl:when>
+                                                                <xsl:when 
+                                                                    test="contains(., 'atom_1.0')"
+                                                                >
+                                                                    <xsl:text>Atom</xsl:text>
+                                                                </xsl:when>
+                                                                <xsl:otherwise>
+                                                                    <xsl:value-of 
+                                                                        select="@qualifier"
+                                                                    />
+                                                                </xsl:otherwise>
+                                                            </xsl:choose>
+                                                        </a>
+                                                    </li>
+                                                </xsl:for-each>
+                                            </ul>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal-dialog -->
+                            </div><!-- /.modal -->    
                         </div>
-                        <div class="col-md-4 col-xs-12">
-                            <h4>
-                                <xsl:text>!Sluzbu zabezpecuje</xsl:text>
-                            </h4>
-                            <div id="banner-uvt" class="banner-uvt"></div>                          
-                        </div>
-                    </div>
+                    </div>                    
                 </div>
             </div>
-            <div class="col-md-6 col-md-offset-3 col-xl-8 col-xl-offset-2 col-xs-12">            
-                <p class="footer-text">
-                    <xsl:text>&#169; 2016 </xsl:text>
-                    <a href="#">
-                        <i18n:text>page.footer.copyright.text</i18n:text>
-                    </a>
-                    <xsl:text> </xsl:text>
-                    <i18n:text>page.footer.contact</i18n:text>                    
-                    <a href="#">
-                        <span class="contact-email">
-                            <i18n:text>page.footer.contact.javascript</i18n:text>
-                        </span>
-                    </a>
-                    <xsl:text> !powered by </xsl:text>
-                    <a href="#">DSpace</a>
-                </p>                    
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 col-xl-8 col-xl-offset-2 col-xs-12">            
+                    <p class="footer-text">
+                        <xsl:text>&#169; 2016 </xsl:text>
+                        <a href="#">
+                            <i18n:text>page.footer.copyright.text</i18n:text>
+                        </a>
+                        <xsl:text> !powered by </xsl:text>
+                        <a href="#">DSpace</a>
+                    </p>                    
+                </div>
             </div>
         </div>
     </xsl:template>
     
     <xsl:template
-        name="buildSearchPanel"
+        name="search-panel"
     >        
         <div class="row search-panel">
             <div class="col-md-offset-3 col-xl-offset-2 col-md-6 col-xl-8">
@@ -304,7 +361,7 @@
     </xsl:template>
     
     <xsl:template 
-        name="buildBodyHead"
+        name="body-head"
     >       
         <div class="row jumbotron">
             <div class="col-md-offset-3 col-xl-offset-2 col-md-6 col-xl-8">                

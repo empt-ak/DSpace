@@ -21,7 +21,7 @@
                 exclude-result-prefixes="i18n dri mets xlink xsl dim xhtml mods dc">
     <xsl:output method="xml" encoding="UTF-8" indent="no"/>
     
-    <xsl:template name="buildHTMLHead">
+    <xsl:template name="html-head">
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -61,6 +61,14 @@
                 <xsl:text>/css/digilibstyle.min.css</xsl:text>
             </xsl:attribute>
         </link>
+        
+        <xsl:for-each
+            select="./dri:meta/dri:pageMeta/dri:metadata[@element='feed']"
+        >
+            <link href="{.}" rel="aternate" type="application/rss+xml">
+                
+            </link>
+        </xsl:for-each>
 <!--        <link rel="stylesheet">
             <xsl:attribute name="href">
                 <xsl:value-of
