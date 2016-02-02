@@ -19,40 +19,46 @@
 -->
 
 <xsl:stylesheet xmlns:i18n="http://apache.org/cocoon/i18n/2.1"
-	xmlns:dri="http://di.tamu.edu/DRI/1.0/"
-	xmlns:mets="http://www.loc.gov/METS/"
-	xmlns:xlink="http://www.w3.org/TR/xlink/"
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"
-	xmlns:dim="http://www.dspace.org/xmlns/dspace/dim"
-	xmlns:xhtml="http://www.w3.org/1999/xhtml"
-	xmlns:mods="http://www.loc.gov/mods/v3"
-	xmlns:dc="http://purl.org/dc/elements/1.1/"
-	xmlns="http://www.w3.org/1999/xhtml"
-	exclude-result-prefixes="i18n dri mets xlink xsl dim xhtml mods dc">
+                xmlns:dri="http://di.tamu.edu/DRI/1.0/"
+                xmlns:mets="http://www.loc.gov/METS/"
+                xmlns:xlink="http://www.w3.org/TR/xlink/"
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"
+                xmlns:dim="http://www.dspace.org/xmlns/dspace/dim"
+                xmlns:xhtml="http://www.w3.org/1999/xhtml"
+                xmlns:mods="http://www.loc.gov/mods/v3"
+                xmlns:dc="http://purl.org/dc/elements/1.1/"
+                xmlns="http://www.w3.org/1999/xhtml"
+                exclude-result-prefixes="i18n dri mets xlink xsl dim xhtml mods dc">
 
     <xsl:output indent="yes"/>
 
     <!-- The last thing in the structural elements section are the templates to cover the attribute calls.
-        Although, by default, XSL only parses elements and text, an explicit call to apply the attributes
-        of children tags can still be made. This, in turn, requires templates that handle specific attributes,
-        like the kind you see below. The chief amongst them is the pagination attribute contained by divs,
-        which creates a new div element to display pagination information. -->
+    Although, by default, XSL only parses elements and text, an explicit call to apply the attributes
+    of children tags can still be made. This, in turn, requires templates that handle specific attributes,
+    like the kind you see below. The chief amongst them is the pagination attribute contained by divs,
+    which creates a new div element to display pagination information. -->
 
 
     <!-- A quick helper function used by the @pagination template for repetitive tasks -->
     <!-- checkbox and radio fields type uses this attribute -->
     <xsl:template match="@returnValue">
-        <xsl:attribute name="value"><xsl:value-of select="."/></xsl:attribute>
+        <xsl:attribute name="value">
+            <xsl:value-of select="."/>
+        </xsl:attribute>
     </xsl:template>
 
     <!-- used for image buttons -->
     <xsl:template match="@source">
-        <xsl:attribute name="src"><xsl:value-of select="."/></xsl:attribute>
+        <xsl:attribute name="src">
+            <xsl:value-of select="."/>
+        </xsl:attribute>
     </xsl:template>
 
     <!-- size and maxlength used by text, password, and textarea inputs -->
     <xsl:template match="@size">
-        <xsl:attribute name="size"><xsl:value-of select="."/></xsl:attribute>
+        <xsl:attribute name="size">
+            <xsl:value-of select="."/>
+        </xsl:attribute>
     </xsl:template>
 
     <!-- used by select element -->
@@ -64,7 +70,9 @@
     </xsl:template>
 
     <xsl:template match="@maxlength">
-        <xsl:attribute name="maxlength"><xsl:value-of select="."/></xsl:attribute>
+        <xsl:attribute name="maxlength">
+            <xsl:value-of select="."/>
+        </xsl:attribute>
     </xsl:template>
 
     <!-- "multiple" attribute is used by the <select> input method -->
@@ -74,16 +82,22 @@
 
     <!-- rows and cols attributes are used by textarea input -->
     <xsl:template match="@rows">
-        <xsl:attribute name="rows"><xsl:value-of select="."/></xsl:attribute>
+        <xsl:attribute name="rows">
+            <xsl:value-of select="."/>
+        </xsl:attribute>
     </xsl:template>
 
     <xsl:template match="@cols">
-        <xsl:attribute name="cols"><xsl:value-of select="."/></xsl:attribute>
+        <xsl:attribute name="cols">
+            <xsl:value-of select="."/>
+        </xsl:attribute>
     </xsl:template>
 
     <!-- Add the HTML5 autofocus attribute to the input field -->
     <xsl:template match="@autofocus">
-        <xsl:attribute name="autofocus"><xsl:value-of select="."/></xsl:attribute>
+        <xsl:attribute name="autofocus">
+            <xsl:value-of select="."/>
+        </xsl:attribute>
     </xsl:template>
 
     <!-- The general "catch-all" template for attributes matched, but not handled above -->
@@ -97,7 +111,9 @@
         <xsl:param name="position"/>
         <div>
             <xsl:call-template name="standardAttributes">
-                <xsl:with-param name="class"><xsl:value-of select="$position"/></xsl:with-param>
+                <xsl:with-param name="class">
+                    <xsl:value-of select="$position"/>
+                </xsl:with-param>
             </xsl:call-template>
 
             <xsl:apply-templates/>
@@ -174,15 +190,15 @@
                     <xsl:variable name="next-page" select="parent::node()/@nextPage"/>
                     <xsl:if test="not($position = 'top') and ($prev-page or $next-page)">
                         <ul class="pagination">
-                            <li>
+                            <li class="page-item">
                                 <xsl:attribute name="class">
                                     <xsl:text>previous</xsl:text>
                                     <xsl:if test="not($prev-page)">
-                                        <xsl:text> disabled</xsl:text>
+                                        <xsl:text> page-item disabled</xsl:text>
                                     </xsl:if>
                                 </xsl:attribute>
 
-                                <a class="previous-page-link">
+                                <a class="page-link">
                                     <xsl:attribute name="href">
                                         <xsl:value-of select="$prev-page"/>
                                     </xsl:attribute>
@@ -191,13 +207,13 @@
                             </li>
                             <li>
                                 <xsl:attribute name="class">
-                                    <xsl:text>next pull-right</xsl:text>
+                                    <xsl:text>page-item pull-right</xsl:text>
                                     <xsl:if test="not($next-page)">
-                                        <xsl:text> disabled</xsl:text>
+                                        <xsl:text> page-item disabled</xsl:text>
                                     </xsl:if>
                                 </xsl:attribute>
 
-                                <a class="next-page-link">
+                                <a class="page-link">
                                     <xsl:attribute name="href">
                                         <xsl:value-of select="$next-page"/>
                                     </xsl:attribute>
@@ -277,38 +293,38 @@
                     <xsl:if test="not($position = 'top') and (not($is-first-page) or $has-next-page)">
                         <div class="centered-pagination">
                             <ul class="pagination">
-                                <li>
+                                <li class="page-item">
                                     <xsl:if test="$is-first-page">
-                                        <xsl:attribute name="class">disabled</xsl:attribute>
+                                        <xsl:attribute name="class">page-item disabled</xsl:attribute>
                                     </xsl:if>
-                                    <a class="previous-page-link">
+                                    <a class="page-link">
                                         <xsl:attribute name="href">
                                             <xsl:value-of
-                                                    select="substring-before(parent::node()/@pageURLMask,'{pageNum}')"/>
+                                                select="substring-before(parent::node()/@pageURLMask,'{pageNum}')"/>
                                             <xsl:value-of select="parent::node()/@currentPage - 1"/>
                                             <xsl:value-of
-                                                    select="substring-after(parent::node()/@pageURLMask,'{pageNum}')"/>
+                                                select="substring-after(parent::node()/@pageURLMask,'{pageNum}')"/>
                                         </xsl:attribute>
                                         <xsl:text>&#171;</xsl:text>
                                     </a>
                                 </li>
                                 <xsl:if test="(parent::node()/@currentPage - 4) &gt; 0">
-                                    <li class="first-page-link">
-                                        <a>
+                                    <li class="page-item">
+                                        <a class="page-link">
                                             <xsl:attribute name="href">
                                                 <xsl:value-of
-                                                        select="substring-before(parent::node()/@pageURLMask,'{pageNum}')"/>
+                                                    select="substring-before(parent::node()/@pageURLMask,'{pageNum}')"/>
                                                 <xsl:text>1</xsl:text>
                                                 <xsl:value-of
-                                                        select="substring-after(parent::node()/@pageURLMask,'{pageNum}')"/>
+                                                    select="substring-after(parent::node()/@pageURLMask,'{pageNum}')"/>
                                             </xsl:attribute>
                                             <xsl:text>1</xsl:text>
                                         </a>
                                     </li>
-                                    <li>
-                                        <span>
+                                    <li class="page-item disabled">
+                                        <a href="#" class="page-link">                                        
                                             <xsl:text>&#8230;</xsl:text>
-                                        </span>
+                                        </a>
                                     </li>
                                 </xsl:if>
                                 <xsl:call-template name="offset-link">
@@ -332,35 +348,34 @@
                                 <xsl:call-template name="offset-link">
                                     <xsl:with-param name="pageOffset">3</xsl:with-param>
                                 </xsl:call-template>
-                                <xsl:if test="(parent::node()/@currentPage + 4) &lt;= (parent::node()/@pagesTotal)">
-                                    <li>
-                                        <span>
+                                <xsl:if test="(parent::node()/@currentPage + 4) &lt;= (parent::node()/@pagesTotal)">                                    
+                                    <li class="page-item disabled">
+                                        <a href="#" class="page-link">                                        
                                             <xsl:text>&#8230;</xsl:text>
-                                        </span>
-
+                                        </a>
                                     </li>
-                                    <li class="last-page-link">
-                                        <a>
+                                    <li class="page-item">
+                                        <a class="page-link">
                                             <xsl:attribute name="href">
                                                 <xsl:value-of
-                                                        select="substring-before(parent::node()/@pageURLMask,'{pageNum}')"/>
+                                                    select="substring-before(parent::node()/@pageURLMask,'{pageNum}')"/>
                                                 <xsl:value-of select="parent::node()/@pagesTotal"/>
                                                 <xsl:value-of
-                                                        select="substring-after(parent::node()/@pageURLMask,'{pageNum}')"/>
+                                                    select="substring-after(parent::node()/@pageURLMask,'{pageNum}')"/>
                                             </xsl:attribute>
                                             <xsl:value-of select="parent::node()/@pagesTotal"/>
                                         </a>
                                     </li>
                                 </xsl:if>
                                 <xsl:if test="$has-next-page">
-                                    <li>
-                                        <a class="next-page-link">
+                                    <li class="page-item">
+                                        <a class="page-link">
                                             <xsl:attribute name="href">
                                                 <xsl:value-of
-                                                        select="substring-before(parent::node()/@pageURLMask,'{pageNum}')"/>
+                                                    select="substring-before(parent::node()/@pageURLMask,'{pageNum}')"/>
                                                 <xsl:value-of select="parent::node()/@currentPage + 1"/>
                                                 <xsl:value-of
-                                                        select="substring-after(parent::node()/@pageURLMask,'{pageNum}')"/>
+                                                    select="substring-after(parent::node()/@pageURLMask,'{pageNum}')"/>
                                             </xsl:attribute>
                                             <xsl:text>&#187;</xsl:text>
                                         </a>
@@ -374,7 +389,7 @@
 
                     <xsl:if test="parent::node()/dri:div[@n = 'masked-page-control']">
                         <xsl:apply-templates
-                                select="parent::node()/dri:div[@n='masked-page-control']/dri:div[not(@rend='controls-gear-wrapper' and @n='search-controls-gear')]">
+                            select="parent::node()/dri:div[@n='masked-page-control']/dri:div[not(@rend='controls-gear-wrapper' and @n='search-controls-gear')]">
                             <xsl:with-param name="position" select="$position"/>
                         </xsl:apply-templates>
                     </xsl:if>
@@ -388,11 +403,11 @@
         <xsl:variable name="distance" select="$pageOffset*($pageOffset >=0) - $pageOffset*($pageOffset &lt; 0)"/>
         <xsl:if test="((parent::node()/@currentPage + $pageOffset) &gt; 0) and
             ((parent::node()/@currentPage + $pageOffset) &lt;= (parent::node()/@pagesTotal))">
-            <li class="page-link page-link-offset-{$distance}">
+            <li class="page-item page-link-offset-{$distance}">
                 <xsl:if test="$pageOffset = 0">
-                    <xsl:attribute name="class">active</xsl:attribute>
+                    <xsl:attribute name="class">page-item active</xsl:attribute>
                 </xsl:if>
-                <a>
+                <a class="page-link">
                     <xsl:attribute name="href">
                         <xsl:value-of select="substring-before(parent::node()/@pageURLMask,'{pageNum}')"/>
                         <xsl:value-of select="parent::node()/@currentPage + $pageOffset"/>
@@ -409,7 +424,7 @@
             <xsl:call-template name="renderGearButton"/>
             <ul class="dropdown-menu pull-right" role="menu">
                 <xsl:for-each
-                        select="//dri:div[@id='aspect.artifactbrowser.ConfigurableBrowse.div.browse-controls'
+                    select="//dri:div[@id='aspect.artifactbrowser.ConfigurableBrowse.div.browse-controls'
                         or @id='aspect.administrative.WithdrawnItems.div.browse-controls'
                         or @id='aspect.administrative.PrivateItems.div.browse-controls']//dri:field[@type='select']">
                     <xsl:if test="position() > 1">

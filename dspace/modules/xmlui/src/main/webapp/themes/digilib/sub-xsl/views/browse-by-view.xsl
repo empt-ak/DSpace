@@ -77,8 +77,8 @@
                 <xsl:for-each
                     select="./dri:item/dri:xref"
                 >
-                    <li>
-                        <a href="{./@target}">
+                    <li class="page-item">
+                        <a href="{./@target}" class="page-link">
                             <xsl:value-of
                                 select="."
                             />
@@ -247,9 +247,9 @@
             </div>
         </xsl:if>
         
-        <nav>
-            <ul class="pager">
-                <li>
+        <nav class="row">
+            <div class="col-xs-1">
+                <a class="btn btn-primary">
                     <xsl:attribute
                         name="class"
                     >
@@ -257,38 +257,38 @@
                             <xsl:when
                                 test="./@previousPage"
                             >
-                                <xsl:text>pager-prev</xsl:text>
+                                <xsl:text>btn btn-primary</xsl:text>
                             </xsl:when>
                             <xsl:otherwise>
-                                <xsl:text>pager-prev disabled</xsl:text>
+                                <xsl:text>btn btn-primary disabled</xsl:text>
                             </xsl:otherwise>
                         </xsl:choose>
                     </xsl:attribute>
-                    <a>
-                        <xsl:attribute
-                            name="href"
-                        >
-                            <xsl:choose>
-                                <xsl:when
-                                    test="./@previousPage"
-                                >
-                                    <xsl:value-of
-                                        select="./@previousPage"
-                                    />
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <xsl:text>#</xsl:text>
-                                </xsl:otherwise>
-                            </xsl:choose>
-                        </xsl:attribute>
-                        <i class="fa fa-arrow-left"></i>
-                        <span class="hidden-sm-down">
-                            <xsl:text> </xsl:text>
-                            <i18n:text>navigation.previous</i18n:text>
-                        </span>
-                    </a>
-                </li>
-                <li>
+                    <xsl:attribute
+                        name="href"
+                    >
+                        <xsl:choose>
+                            <xsl:when
+                                test="./@previousPage"
+                            >
+                                <xsl:value-of
+                                    select="./@previousPage"
+                                />
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:text>#</xsl:text>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:attribute>
+                    <i class="fa fa-arrow-left"></i>
+                    <span class="hidden-sm-down">
+                        <xsl:text> </xsl:text>
+                        <i18n:text>navigation.previous</i18n:text>
+                    </span>
+                </a>
+            </div>
+            <div class="col-xs-offset-10 col-xs-1">
+                <a>
                     <xsl:attribute
                         name="class"
                     >
@@ -296,38 +296,36 @@
                             <xsl:when
                                 test="./@nextPage"
                             >
-                                <xsl:text>pager-next</xsl:text>
+                                <xsl:text>btn btn-primary</xsl:text>
                             </xsl:when>
                             <xsl:otherwise>
-                                <xsl:text>pager-next disabled</xsl:text>
+                                <xsl:text>btn btn-primary disabled</xsl:text>
                             </xsl:otherwise>
                         </xsl:choose>
                     </xsl:attribute>
-                    <a>
-                        <xsl:attribute
-                            name="href"
-                        >
-                            <xsl:choose>
-                                <xsl:when
-                                    test="./@nextPage"
-                                >
-                                    <xsl:value-of
-                                        select="./@nextPage"
-                                    />
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <xsl:text>#</xsl:text>
-                                </xsl:otherwise>
-                            </xsl:choose>
-                        </xsl:attribute>
-                        <span class="hidden-sm-down">
-                            <i18n:text>navigation.next</i18n:text>
-                            <xsl:text> </xsl:text>
-                        </span>
-                        <i class="fa fa-arrow-right"></i>
-                    </a>
-                </li>
-            </ul>
+                    <xsl:attribute
+                        name="href"
+                    >
+                        <xsl:choose>
+                            <xsl:when
+                                test="./@nextPage"
+                            >
+                                <xsl:value-of
+                                    select="./@nextPage"
+                                />
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:text>#</xsl:text>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:attribute>
+                    <span class="hidden-sm-down">
+                        <i18n:text>navigation.next</i18n:text>
+                        <xsl:text> </xsl:text>
+                    </span>
+                    <i class="fa fa-arrow-right"></i>
+                </a>
+            </div>
         </nav>
     </xsl:template>
     
