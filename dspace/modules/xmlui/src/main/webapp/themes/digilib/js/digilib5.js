@@ -42,48 +42,17 @@ $(document).ready(function () {
 
     $(this).on('click', '.filter-add', function () {
         var $row = $("div.in-use:last").clone();
+        console.log($row);
         $.each($row.find(':input[name]'), function () {
             var no = parseInt($(this).attr('name').match(/\d+/)) + 1;
             $(this).attr('name', $(this).attr('name').replace(/(\d+)(?!.*\d)/g, no));
             $(this).attr('id', $(this).attr('id').replace(/(\d+)(?!.*\d)/g, no));
             $(this).find('option:selected').removeAttr("selected");
             $(this).val("");
-            if ($(this).is('select[name*="filter_relational_operator_"]')) {
-                $(this).attr('readonly', true);
-            }
         });
         $row.insertBefore('.button-row');
     });
 
-    $(this).on('change', 'form#aspect_discovery_SimpleSearch_div_search-filters select', function () {
-        var $parent = $(this).parents("div.row:first");
-        if ($(this).val() === "math") {
-            var attrs = {};
-
-            var $input = $parent.find("input:text");
-            if ($input.length) {
-                $.each($input[0].attributes, function (idx, attr) {
-                    if (attr.nodeName !== 'type' && attr.nodeName !== 'value') {
-                        attrs[attr.nodeName] = attr.nodeValue;
-                    }
-                });
-
-                $input.replaceWith($("<textarea />", attrs));
-            }
-        } else {
-            $textarea = $parent.find("textarea");
-            if ($textarea.length) {
-                attrs = {};
-                $.each($textarea[0].attributes, function (idx, attr) {
-                    attrs[attr.nodeName] = attr.nodeValue;
-                });
-
-                $.extend(attrs, {type: 'text'});
-
-                $textarea.replaceWith($("<input />", attrs));
-            }
-        }
-    });
 
     $("#aspect_discovery_SimpleSearch_div_search-controls-gear a.gear-option").on('click', function (e) {
         e.stopPropagation();
