@@ -67,6 +67,10 @@
             <a>volumeName</a>
             <b>metadata</b>
         </field>
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.date">
+            <a>years</a>
+            <b>metadata</b>
+        </field>
     </mapping> 
     
     <mapping>
