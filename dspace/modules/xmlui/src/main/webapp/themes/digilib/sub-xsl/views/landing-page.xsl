@@ -100,6 +100,11 @@
                                     <xsl:value-of select="@url"/>
                                     <xsl:text>?sections=dmdSec</xsl:text>
                                 </xsl:variable>
+                                <xsl:variable name="abstract-length">
+                                    <xsl:value-of
+                                        select="string-length(document($externalMetadataURL)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract'])"
+                                    />
+                                </xsl:variable>
                                 <li class="media">
                                     <div class="media-left hidden-sm-down">
                                         <xsl:choose>
@@ -134,18 +139,16 @@
                                                 (XXXX&#8212;YYYY)
                                             </span>
                                         </h4>
+                                        <!-- here we are double checking same value
+                                        in future simplify it
+                                        -->
+                                        <xsl:value-of select="$abstract-length" />
                                         <xsl:choose>
                                             <xsl:when
-                                                test="string-length(document($externalMetadataURL)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']) &gt; 410"
+                                                test="$abstract-length &gt; 410"
                                             >
                                                 <xsl:value-of select="substring(document($externalMetadataURL)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract'],0,410)" />
-                                                <i18n:text>page.landing.ellipsis</i18n:text>
-                                                <xsl:text> </xsl:text>
-                                                <a href="{document($externalMetadataURL)/mets:METS/@OBJID}">
-                                                    <i18n:text>page.landing.more</i18n:text>
-                                                    <xsl:text> </xsl:text>
-                                                    <i class="fa fa-arrow-circle-right"></i>
-                                                </a>
+                                                <i18n:text>page.landing.ellipsis</i18n:text>                                                
                                             </xsl:when>
                                             <xsl:otherwise>
                                                 <xsl:value-of select="document($externalMetadataURL)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']" />
@@ -160,6 +163,20 @@
                                             </xsl:attribute>
                                         </img>
                                     </div>
+                                    <xsl:if
+                                        test="$abstract-length &gt; 410"
+                                    >
+                                        <div class="row read-more-row">
+                                            <div class="col-xs-offset-10 col-xs-2 text-xs-right">
+                                                <xsl:text> </xsl:text>
+                                                <a href="{document($externalMetadataURL)/mets:METS/@OBJID}">
+                                                    <i18n:text>page.landing.more</i18n:text>
+                                                    <xsl:text> </xsl:text>
+                                                    <i class="fa fa-arrow-circle-o-right"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </xsl:if>
                                 </li>
                             </xsl:for-each>
                         </ul>
