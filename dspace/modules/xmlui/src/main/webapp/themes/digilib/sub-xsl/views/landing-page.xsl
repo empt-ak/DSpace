@@ -142,7 +142,6 @@
                                         <!-- here we are double checking same value
                                         in future simplify it
                                         -->
-                                        <xsl:value-of select="$abstract-length" />
                                         <xsl:choose>
                                             <xsl:when
                                                 test="$abstract-length &gt; 410"
