@@ -23,8 +23,7 @@
                 xmlns:util="org.dspace.app.xmlui.utils.XSLUtils"
                 xmlns:confman="org.dspace.core.ConfigurationManager"
                 exclude-result-prefixes="xalan encoder i18n dri mets dim xlink xsl util confman">
-    <xsl:output method="xml" encoding="UTF-8" indent="no"/>
-    
+    <xsl:output method="xml" encoding="UTF-8" indent="no"/>    
     
     <xsl:template match="dri:body/dri:div[@id='cz.muni.ics.digilib.aspects.MainAspect.div.landing-page']">
         <div class="row">
@@ -191,4 +190,8 @@
             </xsl:for-each>
         </div>
     </xsl:template>
+    
+    
+    
+        
 </xsl:stylesheet>

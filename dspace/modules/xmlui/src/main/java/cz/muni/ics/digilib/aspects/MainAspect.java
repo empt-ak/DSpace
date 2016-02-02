@@ -5,11 +5,13 @@
  */
 package cz.muni.ics.digilib.aspects;
 
-import cz.muni.ics.digilib.aspects.comparators.LandingPageComparator;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import org.apache.cocoon.ProcessingException;
@@ -29,6 +31,14 @@ import org.xml.sax.SAXException;
  */
 public class MainAspect extends AbstractDSpaceTransformer
 {
+    private static final Set<String> JOURNAL_CATEGORIES = new HashSet<>(4);
+    private static final String JOURNAL = "JOURNAL";
+    
+    public MainAspect()
+    {
+        JOURNAL_CATEGORIES.addAll(Arrays.asList("JOURNAL","BSE","BBGN","ERB"));
+    }
+    
     @Override
     public void addBody(Body body) throws SAXException, WingException, UIException, SQLException, IOException, AuthorizeException, ProcessingException
     {
@@ -41,6 +51,11 @@ public class MainAspect extends AbstractDSpaceTransformer
         for(Community comm : topcomms)
         {
             String category = comm.getMetadataByMetadataString("dc.type")[0].value;
+            
+            if(JOURNAL_CATEGORIES.contains(category))
+            {
+                category = JOURNAL;
+            }
             if(map.containsKey(category))
             {
                 List<Community> temp = map.get(category);
