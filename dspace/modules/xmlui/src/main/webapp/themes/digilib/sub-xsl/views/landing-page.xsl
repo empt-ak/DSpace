@@ -38,6 +38,9 @@
                         <button type="button" class="btn btn-secondary landing-view-switch" data-view="list">
                             <i class="fa fa-th-list"></i>
                         </button>
+                        <button type="button" class="btn btn-secondary minify-list" data-view="list">
+                            <i class="fa fa-cog"></i>
+                        </button>
                     </div>
                 </div>
             </div>            
@@ -142,17 +145,19 @@
                                         <!-- here we are double checking same value
                                         in future simplify it
                                         -->
-                                        <xsl:choose>
-                                            <xsl:when
-                                                test="$abstract-length &gt; 410"
-                                            >
-                                                <xsl:value-of select="substring(document($externalMetadataURL)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract'],0,410)" />
-                                                <i18n:text>page.landing.ellipsis</i18n:text>                                                
-                                            </xsl:when>
-                                            <xsl:otherwise>
-                                                <xsl:value-of select="document($externalMetadataURL)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']" />
-                                            </xsl:otherwise>
-                                        </xsl:choose>
+                                        <div class="media-abstract">
+                                            <xsl:choose>
+                                                <xsl:when
+                                                    test="$abstract-length &gt; 410"
+                                                >
+                                                    <xsl:value-of select="substring(document($externalMetadataURL)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract'],0,410)" />
+                                                    <i18n:text>page.landing.ellipsis</i18n:text>                                                
+                                                </xsl:when>
+                                                <xsl:otherwise>
+                                                    <xsl:value-of select="document($externalMetadataURL)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']" />
+                                                </xsl:otherwise>
+                                            </xsl:choose>
+                                        </div>
                                     </div>
                                     <div class="media-right hidden-md-down">
                                         <img alt="page.general.thumbnail media-object" class="img-responsive" i18n:attribute="alt">

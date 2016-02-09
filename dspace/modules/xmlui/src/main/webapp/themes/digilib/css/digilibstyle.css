@@ -231,11 +231,10 @@ div.card div.card-block:nth-of-type(n+2)
 
 .discovery-panel
 {
-    margin-top: 150px;
     padding: 25px 0 50px;
     background-color: #ECEEEF;
     border-bottom: 1px solid #000;
-    border-top: 1px solid #BDBDBD;
+    border-top: 1px solid #c0c0c0;;
 }
 
 .follow-us a:link,
@@ -288,4 +287,27 @@ div.card div.card-block:nth-of-type(n+2)
 .media:not(:first-of-type)
 {
     margin-top: 25px !important;
+}
+
+.browse-panel
+{
+    margin-top: 150px;
+    border-bottom: 1px solid #eceeef;
+    background-color: #C0C0C0;
+    padding: 25px 0 25px;
+}
+
+.browse-by-link:visited,
+.browse-by-link:link
+{
+    color: #373a3c;
+}
+
+a.browse-by-link:hover div
+{
+    color: #fff;
+    background-color: #373a3c !important;
+    border: 1px solid #373a3c;
+    border-radius: .25rem;
+    text-decoration: none;
 }

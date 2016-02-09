@@ -64,7 +64,7 @@
                             <i18n:text>navigation.main.button.contactus</i18n:text>
                         </a>
                     </li>
-<!--                    <li class="nav-item">
+                    <!--                    <li class="nav-item">
                         <div class="dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Other</a>
                             <div class="dropdown-menu">
@@ -352,21 +352,43 @@
     
     <xsl:template
         name="search-panel"
-    >        
+    >
         <div class="row search-panel">
             <div class="col-md-offset-3 col-xl-offset-2 col-md-6 col-xl-8">
                 <div class="row">
                     <div class="col-xs-12 col-md-offset-3 col-md-6">
-                        <h3 class="text-xs-center">!search</h3>
-                        <div class="input-group">
-                            <input class="form-control form-control-lg" type="text" placeholder="Search term..." />
-                            <span class="input-group-btn">
-                                <button class="btn btn-secondary btn-lg" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                        </div>
-                        <h3>&#160;</h3>
+                        <form method="post">
+                            <xsl:attribute
+                                name="action"
+                            >
+                                <xsl:value-of
+                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search' and @qualifier='advancedURL']"
+                                />
+                            </xsl:attribute>
+                            <h3 class="text-xs-center">!search</h3>
+                            <div class="input-group">
+                                <input
+                                    type="text" 
+                                    class="form-control form-control-lg" 
+                                    placeholder="navigation.main.button.search"
+                                    i18n:attr="placeholder" 
+                                >
+                                    <xsl:attribute
+                                        name="name"
+                                    >
+                                        <xsl:value-of
+                                            select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search' and @qualifier='queryField']"
+                                        />
+                                    </xsl:attribute>
+                                </input>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-secondary btn-lg" type="button">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+                            <h3>&#160;</h3>
+                        </form>
                     </div>
                 </div>                
             </div>

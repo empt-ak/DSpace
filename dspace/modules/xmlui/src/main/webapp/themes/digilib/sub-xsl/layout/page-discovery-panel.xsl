@@ -23,11 +23,70 @@
     
     
     <xsl:template name="discovery-panel">
+        <div class="row browse-panel">
+            <div class="col-md-offset-3 col-xl-offset-2 col-md-6 col-xl-8">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h1 class="text-xs-center">!Browse</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6 col-md-3">
+                        <a href="/digilib5/browse?type=author" class="browse-by-link">
+                            <div class="card">
+                                <div class="card-block text-xs-center">
+                                    <i class="fa fa-users fa-5x"></i>
+                                </div>
+                                <div class="card-block">
+                                    <h4 class="card-title text-xs-center">!Autori</h4>                                
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xs-6 col-md-3">
+                        <a href="/digilib5/browse?type=title" class="browse-by-link">
+                            <div class="card">
+                                <div class="card-block text-xs-center">
+                                    <i class="fa fa-quote-right fa-5x"></i>
+                                </div>
+                                <div class="card-block">
+                                    <h4 class="card-title text-xs-center">!Nazvy</h4>                                
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xs-6 col-md-3">
+                        <a href="/digilib5/browse?type=subject" class="browse-by-link">
+                            <div class="card">
+                                <div class="card-block text-xs-center">
+                                    <i class="fa fa-tags fa-5x"></i>
+                                </div>
+                                <div class="card-block">
+                                    <h4 class="card-title text-xs-center">!Klicova slova</h4>                                
+                                </div>
+                            </div>     
+                        </a>                   
+                    </div>
+                    <div class="col-xs-6 col-md-3">
+                        <a href="/digilib5/browse?type=dateissued" class="browse-by-link">
+                            <div class="card">
+                                <div class="card-block text-xs-center">
+                                    <i class="fa fa-clock-o fa-5x"></i>
+                                </div>
+                                <div class="card-block">
+                                    <h4 class="card-title text-xs-center">!Datum vydani</h4>                                
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row discovery-panel">
             <div class="col-md-offset-3 col-xl-offset-2 col-md-6 col-xl-8">        
                 <div class="row">
                     <div class="col-xs-12">
-                        <h1 class="text-xs-center">!Prochazeni</h1>
+                        <h1 class="text-xs-center">!Discover</h1>
                     </div>
                 </div>
                 <div class="row">

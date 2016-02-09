@@ -32,31 +32,37 @@ import org.xml.sax.SAXException;
 public class MainAspect extends AbstractDSpaceTransformer
 {
     private static final Set<String> JOURNAL_CATEGORIES = new HashSet<>(4);
+    private static final Set<String> MONO_CATEGORIES = new HashSet<>(5);
     private static final String JOURNAL = "JOURNAL";
-    
+
     public MainAspect()
     {
-        JOURNAL_CATEGORIES.addAll(Arrays.asList("JOURNAL","BSE","BBGN","ERB"));
+        JOURNAL_CATEGORIES.addAll(Arrays.asList("JOURNAL", "BSE", "BBGN", "ERB"));
+        MONO_CATEGORIES.addAll(Arrays.asList("SINGLEBOOKS", "BOOKSERIES", "BOOKSERIESSPISYFF", "BOOKSERIESNUMBERED", "BOOKSERIESUNNUMBERED"));
     }
-    
+
     @Override
     public void addBody(Body body) throws SAXException, WingException, UIException, SQLException, IOException, AuthorizeException, ProcessingException
     {
         Division home = body.addDivision("landing-page", "index");
-        
+
         Community[] topcomms = Community.findAllTop(context);
-        
-        SortedMap<String,List<Community>> map = new TreeMap<>();
-        
-        for(Community comm : topcomms)
+
+        SortedMap<String, List<Community>> map = new TreeMap<>();
+
+        for (Community comm : topcomms)
         {
             String category = comm.getMetadataByMetadataString("dc.type")[0].value;
-            
-            if(JOURNAL_CATEGORIES.contains(category))
+
+            if (JOURNAL_CATEGORIES.contains(category))
             {
                 category = JOURNAL;
             }
-            if(map.containsKey(category))
+            if(MONO_CATEGORIES.contains(category))
+            {
+                category = "MONOGRAPH";
+            }
+            if (map.containsKey(category))
             {
                 List<Community> temp = map.get(category);
                 temp.add(comm);
@@ -69,18 +75,17 @@ public class MainAspect extends AbstractDSpaceTransformer
                 map.put(category, temp);
             }
         }
-        
-        
-        for(String category : map.keySet())
+
+        for (String category : map.keySet())
         {
             Division topcomGroup = home.addDivision("topcoms", category);
             ReferenceSet rs = topcomGroup.addReferenceSet("topcom-listing", ReferenceSet.TYPE_SUMMARY_LIST);
-            for(Community c : map.get(category))
+            for (Community c : map.get(category))
             {
                 rs.addReference(c);
             }
         }
-        
+
     }
-    
+
 }

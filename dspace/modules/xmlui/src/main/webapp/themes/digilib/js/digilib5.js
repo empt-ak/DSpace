@@ -115,9 +115,15 @@ $(document).ready(function () {
                 }
             });
 
-    $(".toggle-abstracts").click(function(){
+    $(".toggle-abstracts").on('click',function(){
         $(".issue-item-abstract").toggle();
         $(this).blur();
+    });
+    
+    $(".minify-list").on('click',function(){
+        $(".media-left").toggle();
+        $(".media-right").toggle();
+        $(".media-abstract").toggle(); 
     });
 
 //    $(".slider").bxSlider();
