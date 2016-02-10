@@ -36,7 +36,7 @@
 				</field>
 				-->
     </mapping>
-    
+
     <mapping>
         <class-a>cz.muni.ics.digilaw.domain.Monography</class-a>
         <class-b>cz.muni.ics.dspace5.metadata.MetadataWrapper</class-b>

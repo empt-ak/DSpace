@@ -17,12 +17,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
  * @author Dominik Szalai - emptulik at gmail.com
+ * @author Vlastimil Krejcir - krejcir at ics.muni.cz
  */
 public class CelebrityResolver implements ObjectWrapperResolver
 {
@@ -71,6 +75,7 @@ public class CelebrityResolver implements ObjectWrapperResolver
             {
                 List<Path> monographyPaths = folderProvider.getFoldersFromPath(objectWrapper.getPath());
                 List<ObjectWrapper> monographies = new ArrayList<>(monographyPaths.size());
+								SortedSet<ObjectWrapper> workTypes = new TreeSet<>();
 
                 for (Path monoPath : monographyPaths)
                 {
@@ -79,13 +84,43 @@ public class CelebrityResolver implements ObjectWrapperResolver
                     resolveObjectWrapper(monography, false);
 
                     monographies.add(monography);
+
+										ObjectWrapper workType = objectWrapperFactory.createObjectWrapper(monoPath, true, true, true);
+
+										workTypes.add(workType);
+
                 }
 
-                objectWrapper.setChildren(monographies);
-            }
+				for (ObjectWrapper workType : workTypes) {
+
+					LOGGER.debug("Mapping celebrity work type " + workType.getPath() + " @handle [" + workType.getHandle() + "]");
+
+					List<ObjectWrapper> workTypeMonographies = new ArrayList<>();
+
+					String workTypeNumber = StringUtils.substringBefore(workType.getPath().getFileName().toString(), ".xml");
+
+					for (ObjectWrapper monography : monographies) {
+
+						if (dspaceTools.getVolumeNumber(monography.getPath()).equals(workTypeNumber)) {
+
+							LOGGER.debug("Work [" + monography.getPath() + "] belongs to workType " + workTypeNumber);
+
+							workTypeMonographies.add(monography);
+						}
+					}
+
+					workType.setChildren(workTypeMonographies);
+				}
+
+				objectWrapper.setChildren(new ArrayList<>(workTypes));
+			}
+
             topLevelResult = objectWrapper;
         }
-        if (level == 1)
+        
+				
+				
+		if (level == 1)
         {
             if (mainCall)
             {
@@ -95,12 +130,23 @@ public class CelebrityResolver implements ObjectWrapperResolver
                 
                 ObjectWrapper rootObject = objectWrapperFactory.createObjectWrapper(root, false, true, true);
                 
+								ObjectWrapper workType = objectWrapperFactory.createObjectWrapper(objectWrapper.getPath(), true, true, true);
+
+
+
                 resolveObjectWrapper(objectWrapper, false);
                 
                 List<ObjectWrapper> monographies = new ArrayList<>(1);
-                monographies.add(objectWrapper);
-                
-                rootObject.setChildren(monographies);
+                List<ObjectWrapper> workTypes = new ArrayList<>();
+							
+
+				monographies.add(objectWrapper);
+
+				workType.setChildren(monographies);
+
+				workTypes.add(workType);
+
+                rootObject.setChildren(workTypes);
                 
                 topLevelResult = rootObject;
             }
@@ -141,15 +187,20 @@ public class CelebrityResolver implements ObjectWrapperResolver
                 objectWrapper.setHandle(handleService.getHandleForPath(objectWrapper.getPath(), true));
                 
                 ObjectWrapper monoSeries = objectWrapperFactory.createObjectWrapper(root, false, true, true);
+								ObjectWrapper workType = objectWrapperFactory.createObjectWrapper(monographyPath, true, true, true);
                 ObjectWrapper mono = objectWrapperFactory.createObjectWrapper(monographyPath, false, true, true);
                 
                 List<ObjectWrapper> articles = new ArrayList<>(1);
                 List<ObjectWrapper> monographies = new ArrayList<>(1);
+								List<ObjectWrapper> workTypes = new ArrayList<>();
+
                 articles.add(objectWrapper);
                 mono.setChildren(articles);
-                monographies.add(mono);
+				monographies.add(mono);
+				workType.setChildren(monographies);
+				workTypes.add(workType);
                 
-                monoSeries.setChildren(monographies);
+                monoSeries.setChildren(workTypes);
                 
                 topLevelResult = monoSeries;
             }

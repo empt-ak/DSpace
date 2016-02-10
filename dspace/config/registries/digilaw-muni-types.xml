@@ -15,7 +15,14 @@
         <namespace>http://digilaw.ics.muni.cz</namespace>
     </dc-schema>
 
-  
+	<dc-type>
+		<schema>digilaw</schema>
+		<element>position</element>
+		<qualifier>volume</qualifier>
+		<scope_note>Volume position in list of volumes.</scope_note>
+	</dc-type>
+
+
 
     <!-- Used by system: do not remove -->
     <dc-type>

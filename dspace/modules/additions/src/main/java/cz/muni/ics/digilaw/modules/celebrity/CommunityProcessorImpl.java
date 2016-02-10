@@ -6,12 +6,15 @@
 package cz.muni.ics.digilaw.modules.celebrity;
 
 import cz.muni.ics.digilaw.domain.MonographicSeries;
+import cz.muni.ics.digilaw.domain.Volume;
 import cz.muni.ics.digilaw.movingwall.MovingWallFactoryBean;
 import cz.muni.ics.dspace5.api.ObjectMapper;
 import cz.muni.ics.dspace5.api.module.CommunityProcessor;
 import cz.muni.ics.dspace5.api.module.ObjectWrapper;
 import cz.muni.ics.dspace5.exceptions.MovingWallException;
+import cz.muni.ics.dspace5.comparators.ComparatorFactory;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
+import cz.muni.ics.dspace5.impl.io.FolderProvider;
 import cz.muni.ics.dspace5.metadata.MetadataWrapper;
 import cz.muni.ics.dspace5.metadata.MetadatumFactory;
 import java.io.FileInputStream;
@@ -20,7 +23,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.dozer.Mapper;
 import org.dspace.authorize.AuthorizeException;
@@ -43,6 +48,10 @@ public class CommunityProcessorImpl implements CommunityProcessor
     private Mapper mapper;
     @Autowired
     private MetadatumFactory metadatumFactory;
+	@Autowired
+	private FolderProvider folderProvider;
+	@Autowired
+	private ComparatorFactory comparatorFactory;
     @Autowired
     private DSpaceTools dSpaceTools;
     @Autowired
@@ -50,6 +59,7 @@ public class CommunityProcessorImpl implements CommunityProcessor
 
     private ObjectWrapper currentWrapper;
     private MonographicSeries monographicSeries;
+	private Volume workType;
 
     @Override
     public void setup(ObjectWrapper objectWrapper) throws IllegalStateException, IllegalArgumentException
@@ -60,15 +70,37 @@ public class CommunityProcessorImpl implements CommunityProcessor
         }
         //TODO exceptions
         this.currentWrapper = objectWrapper;
-        
-        try
-        {
-            this.monographicSeries = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
-        }
-        catch (FileNotFoundException ex)
-        {
-            logger.error(ex, ex.getCause());
-        }
+       
+		if(objectWrapper.getLevel().equals(ObjectWrapper.LEVEL.COM)) 
+		{
+
+        	try
+        	{
+          	  this.monographicSeries = objectMapper.convertPathToObject(objectWrapper.getPath(), "detail.xml");
+        	}
+        	catch (FileNotFoundException ex)
+        	{
+          	  logger.error(ex, ex.getCause());
+        	}
+		
+		
+		}
+		else if(objectWrapper.getLevel().equals(ObjectWrapper.LEVEL.SUBCOM))
+		{
+			try
+			{
+				this.workType = objectMapper.convertPathToObject(objectWrapper.getPath(), "");
+			}
+			catch (FileNotFoundException nfe)
+			{
+				logger.error(nfe, nfe.getCause());
+			}
+		}
+		else 
+		{
+
+			throw new IllegalArgumentException();
+		}
     }
 
     @Override
@@ -79,8 +111,15 @@ public class CommunityProcessorImpl implements CommunityProcessor
         {
             mapper.map(this.monographicSeries, metadataWrapper);
         }
-        else
+        else if(this.workType != null)
         {
+			mapper.map(this.workType, metadataWrapper);
+			// fallback
+			//metadataWrapper.put(metadatumFactory.createMetadatum("dc", "title", null, null, getVolumeNumber(currentWrapper.getPath())));
+			metadataWrapper.put(metadatumFactory.createMetadatum("digilaw", "position", "volume", null, getVolumeNumber(currentWrapper.getPath())));
+		}
+		else 
+		{
             // TODO
             throw new IllegalStateException();
         }
@@ -93,14 +132,49 @@ public class CommunityProcessorImpl implements CommunityProcessor
     @Override
     public void processCommunity(Community community, List<ObjectWrapper> parents) throws IllegalStateException, IllegalArgumentException
     {
-        try
-        {
-            setCover(currentWrapper.getPath().resolve(COVER_FILENAME), community);
-        }
-        catch (IllegalArgumentException iax)
-        {
-            logger.info("For handle@" + currentWrapper.getHandle() + iax.getMessage());
-        }
+		Path coverPath = null;
+
+		if (currentWrapper.getLevel().equals(ObjectWrapper.LEVEL.COM))
+		{
+			coverPath = currentWrapper.getPath();
+		}
+		else if (currentWrapper.getLevel().equals(ObjectWrapper.LEVEL.SUBCOM))
+		{
+			List<Path> monographies = folderProvider.getIssuesFromPath(currentWrapper.getPath());
+
+			if (!monographies.isEmpty())
+			{
+				Collections.sort(monographies, comparatorFactory.provideIssuePathComparator());
+
+				coverPath = monographies.get(0);
+			}
+			else {
+				logger.warn("There are no works for given work type.");
+			}
+		}
+		else {
+			throw new IllegalArgumentException("Given objectWrapper does not have supported level [COM/SUBCOM], but was [" + currentWrapper.getLevel() + "]");
+		}
+
+		if (coverPath != null)
+		{
+
+			coverPath = coverPath.resolve(COVER_FILENAME);
+
+        	try
+        	{
+            	setCover(coverPath, community);
+        	}
+        	catch (IllegalArgumentException iax)
+        	{
+            	logger.info("For handle@" + currentWrapper.getHandle() + iax.getMessage());
+        	}
+		}
+
+		//if(this.monographicSeries != null) 
+		//{
+		//	this.currentWrapper.setObject(monographicSeries.getVolume());
+		//}
     }
 
     @Override
@@ -108,6 +182,7 @@ public class CommunityProcessorImpl implements CommunityProcessor
     {
         this.currentWrapper = null;
         this.monographicSeries = null;
+		this.workType = null;
     }
 
     /**
@@ -143,4 +218,14 @@ public class CommunityProcessorImpl implements CommunityProcessor
     {
         movingWallFactoryBean.parse(monographicSeries);
     }
+
+	/**
+	 * Method returns number of given volume path
+	 * @param volumePath
+	 * @return 
+	 */
+	private String getVolumeNumber(Path volumePath)
+	{
+		return StringUtils.substringBeforeLast(volumePath.getFileName().toString(), ".xml");
+	}
 }
