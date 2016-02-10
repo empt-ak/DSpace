@@ -15,35 +15,15 @@ import org.dspace.content.Metadatum;
  */
 public interface ReferenceService
 {
-
     /**
-     * Method loads given reference file into list of reference entries.
+     * Method converts references for given objectWrapper. File is specified by
+     * configuration file under property key {@code meditor.reference.file}. If
+     * no file is found then empty list of metadata is returned.
      *
-     * @param objectWrapper holding path to references
-     *
-     * @return list of references from specific file, empty list if there are no
-     *         references
+     * @param objectWrapper containing path to references
+     * @return list of metadata for given object wrapper
+     * @throws IllegalArgumentException if objectWrapper is null, or does not
+     * contain path
      */
-    List<Reference> loadReferences(ObjectWrapper objectWrapper);
-
-    /**
-     * Method loads references from given object wrapper into list of string
-     * representing reference line
-     *
-     * @param objectWrapper holding path to references
-     *
-     * @return list of references in form of string, empty list if there are no
-     *         references
-     */
-    List<String> getParsedReferences(ObjectWrapper objectWrapper);
-
-    /**
-     * Method loads given object wrapper holding reference to reference file
-     * into list of metadatum
-     *
-     * @param objectWrapper
-     *
-     * @return
-     */
-    List<Metadatum> getReferencesAsMetadata(ObjectWrapper objectWrapper);
+    List<Metadatum> processReferences(ObjectWrapper objectWrapper) throws IllegalArgumentException;
 }

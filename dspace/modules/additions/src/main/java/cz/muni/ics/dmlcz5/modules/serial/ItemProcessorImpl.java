@@ -131,7 +131,7 @@ public class ItemProcessorImpl implements ItemProcessor
             throw new IllegalStateException();
         }
         
-        metadataWrapper.push(referenceService.getReferencesAsMetadata(currentWrapper));
+        metadataWrapper.push(referenceService.processReferences(currentWrapper));
 
         return metadataWrapper.getMetadata();
     }
