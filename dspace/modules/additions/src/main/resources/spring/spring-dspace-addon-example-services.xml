@@ -438,107 +438,35 @@
         </property>
     </bean>
     
-    <bean
+<!--    <bean
         id="citationProvider"
         class="cz.muni.ics.dspace5.citation.CitationProviderImpl"
         
-    />
+    />    
+    
     <bean
-        class="de.undercouch.citeproc.CSL"
-        p:outputFormat="text"
-    >
-        <constructor-arg
-            index="0"
-            ref="citationProvider"
-        />
-        <constructor-arg
-            index="1"
-            value="ieee"
-        />
-        <constructor-arg
-            index="2"
-            value="cs-CZ"
-        />
-    </bean>
-    
-    <!--    <bean
-        id="ieeeProcessor"
-        class="cz.muni.ics.dspace5.citation.CitationProcessorImpl"
-        p:dcField="dc.citation.ieee"
-        p:citationProvider-ref="citationProvider"
-    >
-        <property name="cslProcessor">
-            <bean
-                class="de.undercouch.citeproc.CSL"
-                p:outputFormat="text"
-            >
-                <constructor-arg
-                    index="0"
-                    ref="citationProvider"
-                />
-                <constructor-arg
-                    index="1"
-                    value="ieee"
-                />
-                <constructor-arg
-                    index="2"
-                    value="cs-CZ"
-                />
-            </bean>
-        </property>
-    </bean>
-    -->
-    
-    <!--    <bean
         id="iso690Processor"
         class="cz.muni.ics.dspace5.citation.CitationProcessorImpl"
         p:dcField="dc.identifier.citation"
         p:citationProvider-ref="citationProvider"
-    >
-        <property name="cslProcessor">
-            <bean
-                class="de.undercouch.citeproc.CSL"
-                p:outputFormat="text"
-            >
-                <constructor-arg
-                    index="0"
-                    ref="citationProvider"
-                />
-                <constructor-arg
-                    index="1"
-                    value="iso690-numeric-cs"
-                />
-                <constructor-arg
-                    index="2"
-                    value="cs-CZ"
-                />
-            </bean>
-        </property>
-    </bean>-->
+        p:language="cs-CZ"
+        p:style="iso690-numeric-cs"
+    />
     
     <bean
-        class="de.undercouch.citeproc.CSL"
-        p:outputFormat="text"
-    >
-        <constructor-arg
-            index="0"
-            ref="citationProvider"
-        />
-        <constructor-arg
-            index="1"
-            value="iso690-numeric-cs"
-        />
-        <constructor-arg
-            index="2"
-            value="cs-CZ"
-        />
-    </bean>
+        id="ieeeProcessor"
+        class="cz.muni.ics.dspace5.citation.CitationProcessorImpl"
+        p:dcField="dc.identifier.citation"
+        p:citationProvider-ref="citationProvider"
+        p:language="cs-CZ"
+        p:style="ieee"
+    />
     
     <bean
         id="citationProviderFactory"
         class="cz.muni.ics.dspace5.citation.CitationProviderFactory"
     >
-<!--        <property name="processors">
+        <property name="processors">
             <list>
                 <ref
                     bean="ieeeProcessor"
@@ -547,6 +475,6 @@
                     bean="iso690Processor"
                 />
             </list>
-        </property>-->
-    </bean>
+        </property>
+    </bean>-->
 </beans>

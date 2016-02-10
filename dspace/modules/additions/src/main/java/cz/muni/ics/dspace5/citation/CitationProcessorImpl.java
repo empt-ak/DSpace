@@ -9,13 +9,14 @@ import cz.muni.ics.dspace5.metadata.MetadatumFactory;
 import de.undercouch.citeproc.CSL;
 import org.apache.log4j.Logger;
 import org.dspace.content.Metadatum;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
  * @author Dominik Szalai - emptulik at gmail.com
  */
-public class CitationProcessorImpl implements CitationProcessor
+public class CitationProcessorImpl implements CitationProcessor, InitializingBean
 {
     private static final Logger LOG = Logger.getLogger(CitationProcessorImpl.class);
     private CSL cslProcessor;
@@ -23,6 +24,8 @@ public class CitationProcessorImpl implements CitationProcessor
     private String schema;
     private String element;
     private String qualifier;
+    private String style;
+    private String language;
     private CitationProvider citationProvider;
     
     @Autowired
@@ -41,6 +44,16 @@ public class CitationProcessorImpl implements CitationProcessor
     public void setCitationProvider(CitationProvider citationProvider)
     {
         this.citationProvider = citationProvider;
+    }
+
+    public void setStyle(String style)
+    {
+        this.style = style;
+    }
+
+    public void setLanguage(String language)
+    {
+        this.language = language;
     }
     
     @Override
@@ -64,8 +77,12 @@ public class CitationProcessorImpl implements CitationProcessor
         {
             qualifier = splitValue[2];
         }
+        // following object cannot be created by spring because of
+        // javascript
+        cslProcessor = new CSL(citationProvider, style, language);
+        cslProcessor.setOutputFormat("text");
         
-        LOG.info("Values set as following :");
+        //LOG.info("Values set as following :");
     }
     
 }
