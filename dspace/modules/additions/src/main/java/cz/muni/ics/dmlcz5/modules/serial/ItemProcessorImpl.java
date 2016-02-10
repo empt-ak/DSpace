@@ -119,11 +119,11 @@ public class ItemProcessorImpl implements ItemProcessor
                 logger.error(ex);
             }
             
-            citationBuilder.process(article, currentWrapper);
-            for(Metadatum m : citationProviderFactory.getCitationsAsMetadatum(citationBuilder.build()))
-            {
-                logger.fatal(m.value);
-            }
+//            citationBuilder.process(article, currentWrapper);
+//            for(Metadatum m : citationProviderFactory.getCitationsAsMetadatum(citationBuilder.build()))
+//            {
+//                logger.fatal(m.value);
+//            }
         }
         else
         {
