@@ -229,7 +229,8 @@
                 <value>cz.muni.ics.dmlcz5.domain.Issue</value>
                 <value>cz.muni.ics.dmlcz5.domain.Journal</value>
                 <value>cz.muni.ics.dmlcz5.domain.Volume</value>
-                <value>cz.muni.ics.dmlcz5.service.io.references.References</value>
+                <value>cz.muni.ics.dmlcz5.services.io.references.References</value>
+                <value>cz.muni.ics.dmlcz5.services.io.related.Related</value>
             </list>
         </constructor-arg>
     </bean>

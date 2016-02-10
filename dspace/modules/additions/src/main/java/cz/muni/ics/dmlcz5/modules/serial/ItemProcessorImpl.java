@@ -5,15 +5,14 @@
  */
 package cz.muni.ics.dmlcz5.modules.serial;
 
-import cz.muni.ics.dmlcz5.citation.CitationBuilder;
 import cz.muni.ics.dmlcz5.domain.Article;
-import cz.muni.ics.dmlcz5.services.io.math.MathService;
 import cz.muni.ics.dmlcz5.movingwall.MovingWallFactoryBean;
+import cz.muni.ics.dmlcz5.services.io.math.MathService;
 import cz.muni.ics.dmlcz5.services.io.references.ReferenceService;
+import cz.muni.ics.dmlcz5.services.io.related.RelatedService;
 import cz.muni.ics.dspace5.api.ObjectMapper;
 import cz.muni.ics.dspace5.api.module.ItemProcessor;
 import cz.muni.ics.dspace5.api.module.ObjectWrapper;
-import cz.muni.ics.dspace5.citation.CitationProviderFactory;
 import cz.muni.ics.dspace5.exceptions.MovingWallException;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
@@ -71,10 +70,8 @@ public class ItemProcessorImpl implements ItemProcessor
     @Autowired
     private MathService mathService;
     @Autowired
-    private CitationBuilder citationBuilder;
-    private List<Metadatum> citations;
-    @Autowired
-    private CitationProviderFactory citationProviderFactory;
+    private RelatedService relatedService;
+    
 
     private String[] itemFileNames;
     private Article article;
@@ -132,6 +129,7 @@ public class ItemProcessorImpl implements ItemProcessor
         }
         
         metadataWrapper.push(referenceService.processReferences(currentWrapper));
+        metadataWrapper.push(relatedService.processSimilarity(currentWrapper));
 
         return metadataWrapper.getMetadata();
     }

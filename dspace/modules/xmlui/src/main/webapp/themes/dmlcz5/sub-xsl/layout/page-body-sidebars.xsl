@@ -117,7 +117,7 @@
                     </ul>
                 </xsl:if>
             </div>
-            <div class="hidden-sm-down">
+<!--            <div class="hidden-sm-down">
                 <div class="card-header">
                     <i18n:text>page.sidebar.left.quickstats</i18n:text>
                 </div>
@@ -140,7 +140,7 @@
                         <i18n:text>page.sidebar.left.quickstats.more</i18n:text>
                     </li>
                 </ul>
-            </div>        
+            </div>        -->
         </div>
     </xsl:template>
     

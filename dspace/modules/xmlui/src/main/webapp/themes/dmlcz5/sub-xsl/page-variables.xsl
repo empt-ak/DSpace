@@ -96,4 +96,8 @@
         <xsl:text>http://www.ams.org/mathscinet-getitem?mr=</xsl:text>
     </xsl:variable>
         
+    <xsl:variable 
+        name="numdamUrl"
+        select="'http://www.numdam.org/item?id='" 
+    />
 </xsl:stylesheet>

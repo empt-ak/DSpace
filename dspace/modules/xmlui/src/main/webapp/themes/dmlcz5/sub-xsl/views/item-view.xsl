@@ -409,7 +409,7 @@
                                                     select="./@language"
                                                 />
                                             </td>
-                                            <td>
+                                            <td class="disable-math">
                                                 <xsl:value-of
                                                     select="."
                                                 />
@@ -456,63 +456,14 @@
                                         </p>
                                     </div>
                                     <ul class="list-group list-group-flush">
-                                        <li class="list-group-item">
-                                            $\varrho$-ideals in th
-                                            <progress class="progress" value="84" max="100">
-                                                <div class="progress">
-                                                    <span class="progress-bar" style="width: 84%;">84%</span>
-                                                </div>
-                                            </progress>
-                                        </li>
-                                        <li class="list-group-item">On midpoints in lattices 
-                                            <progress class="progress" value="83" max="100">
-                                                <div class="progress">
-                                                    <span class="progress-bar" style="width: 83%;">83%</span>
-                                                </div>
-                                            </progress>
-                                        </li>
-                                        <li class="list-group-item">Multipliers on a nearl <progress class="progress" value="83" max="100">
-                                                <div class="progress">
-                                                    <span class="progress-bar" style="width: 83%;">83%</span>
-                                                </div>
-                                            </progress>
-                                        </li>
-                                        <li class="list-group-item">Restricted ideals and <progress class="progress" value="82" max="100">
-                                                <div class="progress">
-                                                    <span class="progress-bar" style="width: 82%;">82%</span>
-                                                </div>
-                                            </progress>
-                                        </li>
-                                        <li class="list-group-item">Concept lattices unify <progress class="progress" value="70" max="100">
-                                                <div class="progress">
-                                                    <span class="progress-bar" style="width: 70%;">70%</span>
-                                                </div>
-                                            </progress>
-                                        </li>
-                                        <li class="list-group-item">Semiprime ideals in or <progress class="progress" value="65" max="100">
-                                                <div class="progress">
-                                                    <span class="progress-bar" style="width: 70%;">65%</span>
-                                                </div>
-                                            </progress>
-                                        </li>
-                                        <li class="list-group-item">On lattices and algebr <progress class="progress" value="55" max="100">
-                                                <div class="progress">
-                                                    <span class="progress-bar" style="width: 70%;">55%</span>
-                                                </div>
-                                            </progress>
-                                        </li>
-                                        <li class="list-group-item">Remarks on special ide <progress class="progress" value="45" max="100">
-                                                <div class="progress">
-                                                    <span class="progress-bar" style="width: 70%;">45%</span>
-                                                </div>
-                                            </progress>
-                                        </li>
-                                        <li class="list-group-item">On the rhomboidal here <progress class="progress" value="25" max="100">
-                                                <div class="progress">
-                                                    <span class="progress-bar" style="width: 70%;">25%</span>
-                                                </div>
-                                            </progress>
-                                        </li>
+                                        <xsl:for-each
+                                            select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@mdschema='dmlcz' and @element='related' and @qualifier='lsi']"
+                                        >
+                                            <xsl:apply-templates
+                                                mode="similar"
+                                                select="."
+                                            />
+                                        </xsl:for-each>
                                     </ul>                                    
                                 </div>
                             </div>
@@ -529,33 +480,14 @@
                                         </p>
                                     </div>
                                     <ul class="list-group list-group-flush">
-                                        <li class="list-group-item">
-                                            $\varrho$-ideals in th
-                                            <progress class="progress" value="84" max="100">
-                                                <div class="progress">
-                                                    <span class="progress-bar" style="width: 84%;">84%</span>
-                                                </div>
-                                            </progress>
-                                        </li>
-                                        <li class="list-group-item">On midpoints in lattices 
-                                            <progress class="progress" value="83" max="100">
-                                                <div class="progress">
-                                                    <span class="progress-bar" style="width: 83%;">83%</span>
-                                                </div>
-                                            </progress>
-                                        </li>
-                                        <li class="list-group-item">Multipliers on a nearl <progress class="progress" value="83" max="100">
-                                                <div class="progress">
-                                                    <span class="progress-bar" style="width: 83%;">83%</span>
-                                                </div>
-                                            </progress>
-                                        </li>
-                                        <li class="list-group-item">Restricted ideals and <span class="badge">82%</span></li>
-                                        <li class="list-group-item">Concept lattices unify <span class="badge">81%</span></li>
-                                        <li class="list-group-item">Semiprime ideals in or <span class="badge">80%</span></li>
-                                        <li class="list-group-item">On lattices and algebr <span class="badge">80%</span></li>
-                                        <li class="list-group-item">Remarks on special ide <span class="badge">80%</span></li>
-                                        <li class="list-group-item">On the rhomboidal here <span class="badge">79%</span></li>
+                                        <xsl:for-each
+                                            select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@mdschema='dmlcz' and @element='related' and @qualifier='rp']"
+                                        >
+                                            <xsl:apply-templates
+                                                mode="similar"
+                                                select="."
+                                            />
+                                        </xsl:for-each>
                                     </ul>                                    
                                 </div>
                             </div>
@@ -572,33 +504,14 @@
                                         </p>
                                     </div>
                                     <ul class="list-group list-group-flush">
-                                        <li class="list-group-item">
-                                            $\varrho$-ideals in th
-                                            <progress class="progress" value="84" max="100">
-                                                <div class="progress">
-                                                    <span class="progress-bar" style="width: 84%;">84%</span>
-                                                </div>
-                                            </progress>
-                                        </li>
-                                        <li class="list-group-item">On midpoints in lattices 
-                                            <progress class="progress" value="83" max="100">
-                                                <div class="progress">
-                                                    <span class="progress-bar" style="width: 83%;">83%</span>
-                                                </div>
-                                            </progress>
-                                        </li>
-                                        <li class="list-group-item">Multipliers on a nearl <progress class="progress" value="83" max="100">
-                                                <div class="progress">
-                                                    <span class="progress-bar" style="width: 83%;">83%</span>
-                                                </div>
-                                            </progress>
-                                        </li>
-                                        <li class="list-group-item">Restricted ideals and <span class="label label-default label-pill pull-right">82%</span></li>
-                                        <li class="list-group-item">Concept lattices unify <span class="label label-default label-pill pull-right">81%</span></li>
-                                        <li class="list-group-item">Semiprime ideals in or <span class="label label-default label-pill pull-right">80%</span></li>
-                                        <li class="list-group-item">On lattices and algebr <span class="label label-default label-pill pull-right">80%</span></li>
-                                        <li class="list-group-item">Remarks on special ide <span class="label label-default label-pill pull-right">80%</span></li>
-                                        <li class="list-group-item">On the rhomboidal here <span class="label label-default label-pill pull-right">80%</span></li>
+                                        <xsl:for-each
+                                            select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@mdschema='dmlcz' and @element='related' and @qualifier='tfidf']"
+                                        >
+                                            <xsl:apply-templates
+                                                mode="similar"
+                                                select="."
+                                            />
+                                        </xsl:for-each>
                                     </ul>                                    
                                 </div>
                             </div>
@@ -607,5 +520,51 @@
                 </div>
             </div>
         </div>       
-    </xsl:template>            
+    </xsl:template>
+    
+    <xsl:template
+        mode="similar"
+        match="dim:field[@mdschema='dmlcz' and @element='related']"
+    >
+        <xsl:variable name="percents" select="substring-before(substring-before(.,'☎'),'.')" />
+        <li class="list-group-item">
+            <a>
+                <xsl:attribute
+                    name="href">
+                    <xsl:variable
+                        name="target"
+                        select="substring-before(substring-after(.,'☎'),'☎')"
+                    />
+                    <xsl:choose>
+                        <xsl:when
+                            test="substring-before($target,':') = 'dmlcz'"
+                        >
+                            <xsl:value-of
+                                select="concat($contextPath,'/handle/',substring-after($target,':'))"
+                            />
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:value-of
+                                select="concat($numdamUrl,substring-after($target,':'))"
+                            />
+                        </xsl:otherwise>                                                            
+                    </xsl:choose>
+                                                        
+                </xsl:attribute>
+                <xsl:value-of
+                    select="substring-after(substring-after(.,'☎'),'☎')"
+                />     
+            </a>
+            <progress class="progress" value="{$percents}" max="100">
+                <div class="progress">
+                    <span class="progress-bar" style="width: {$percents}%;">
+                        <xsl:value-of
+                            select="$percents"
+                        />
+                        <xsl:text>%</xsl:text>
+                    </span>
+                </div>
+            </progress>
+        </li>
+    </xsl:template>              
 </xsl:stylesheet>

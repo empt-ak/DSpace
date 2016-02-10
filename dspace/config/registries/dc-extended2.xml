@@ -8,12 +8,30 @@
 
     <dc-schema>
         <name>dmlcz</name>
-        <namespace>http://http://dml.cz//</namespace>
+        <namespace>http://dml.cz//</namespace>
     </dc-schema>
 
     <dc-type>
         <schema>dmlcz</schema>
         <element>math</element>
         <scope_note>Field used for math indexing.</scope_note>
+    </dc-type>
+<dc-type>
+        <schema>dmlcz</schema>
+        <element>related</element>
+<qualifier>lsi</qualifier>
+        <scope_note>Field to store related#lsi</scope_note>
+    </dc-type>
+<dc-type>
+        <schema>dmlcz</schema>
+        <element>related</element>
+<qualifier>rp</qualifier>
+        <scope_note>Field to store related#rp</scope_note>
+    </dc-type>
+<dc-type>
+        <schema>dmlcz</schema>
+        <element>related</element>
+<qualifier>tfidf</qualifier>
+        <scope_note>Field to store related#tfidf</scope_note>
     </dc-type>
 </dspace-dc-types>

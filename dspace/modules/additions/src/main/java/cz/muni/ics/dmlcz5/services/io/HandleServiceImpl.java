@@ -64,13 +64,26 @@ public class HandleServiceImpl implements HandleService
         logger.fatal("looking handle for path"+path);
         String result = null;
         
-        if(handleMap.containsKey(path))
+        Path lookupPath = null;
+        
+        if(isRetro(path))
         {
-            result = handlePrefix+handleMap.get(path);
+            logger.info("Path "+path+" is retro. Path needs to be modified.");
+            lookupPath = fixRetroPath(path);
+            logger.info("Retro path has been fixed into: "+lookupPath);
+        }
+        else
+        {
+            lookupPath = path;
+        }
+        
+        if(handleMap.containsKey(lookupPath))
+        {
+            result = handlePrefix+handleMap.get(lookupPath);
         }
         else if(createIfMissing)
         {
-            throw new RuntimeException("k$"+path);
+            throw new RuntimeException("k$"+lookupPath);
         }
         else
         {
@@ -239,5 +252,18 @@ public class HandleServiceImpl implements HandleService
     public String getHandleForPath(Path path, boolean createIfMissing, String fileName) throws IllegalArgumentException
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
+    private boolean isRetro(Path p)
+    {
+        return p.getName(5).toString().endsWith("Retro");
+    }
+    
+    private Path fixRetroPath(Path p)
+    {
+        return p.subpath(0, 5)
+                .resolve(StringUtils.substringBefore(p.getName(5).toString(), "Retro"))
+                .resolve(p.subpath(6, p.getNameCount()));
     }
 }
