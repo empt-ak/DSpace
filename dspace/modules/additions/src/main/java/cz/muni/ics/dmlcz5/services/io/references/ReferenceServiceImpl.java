@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.ics.dmlcz5.service.io.references;
+package cz.muni.ics.dmlcz5.services.io.references;
 
 import cz.muni.ics.dspace5.api.ObjectMapper;
 import cz.muni.ics.dspace5.api.module.ObjectWrapper;

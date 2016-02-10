@@ -4,7 +4,7 @@
 // Any modifications to this file will be lost upon recompilation of the source schema. 
 // Generated on: 2016.02.10 at 10:03:27 AM CET 
 //
-package cz.muni.ics.dmlcz5.service.io.references;
+package cz.muni.ics.dmlcz5.services.io.references;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
