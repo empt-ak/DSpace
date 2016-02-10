@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.ics.dmlcz5.math;
+package cz.muni.ics.dmlcz5.services.io.math;
 
 import cz.muni.ics.dspace5.api.module.ObjectWrapper;
 import java.io.IOException;

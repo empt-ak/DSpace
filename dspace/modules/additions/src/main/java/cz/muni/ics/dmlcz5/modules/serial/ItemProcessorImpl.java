@@ -7,7 +7,7 @@ package cz.muni.ics.dmlcz5.modules.serial;
 
 import cz.muni.ics.dmlcz5.citation.CitationBuilder;
 import cz.muni.ics.dmlcz5.domain.Article;
-import cz.muni.ics.dmlcz5.math.MathService;
+import cz.muni.ics.dmlcz5.services.io.math.MathService;
 import cz.muni.ics.dmlcz5.movingwall.MovingWallFactoryBean;
 import cz.muni.ics.dmlcz5.services.io.references.ReferenceService;
 import cz.muni.ics.dspace5.api.ObjectMapper;
