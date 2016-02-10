@@ -121,6 +121,7 @@ public class ReferenceServiceImpl implements ReferenceService
         sb.append(reference.getTitle());
         sb.append("</b>.");
         sb.append(reference.getSuffix());
+        sb.append(" ");
         
         for(Iterator<Link> iter = reference.getLinks().getLink().iterator(); iter.hasNext();)
         {
