@@ -555,16 +555,28 @@
                     select="substring-after(substring-after(.,'☎'),'☎')"
                 />     
             </a>
-            <progress class="progress" value="{$percents}" max="100">
-                <div class="progress">
-                    <span class="progress-bar" style="width: {$percents}%;">
+            <div class="row">
+                <div class="col-xs-10">
+                    <progress class="progress" value="{$percents}" max="100">
+                        <div class="progress">
+                            <span class="progress-bar" style="width: {$percents}%;">
+                                <xsl:value-of
+                                    select="$percents"
+                                />
+                                <xsl:text>%</xsl:text>
+                            </span>
+                        </div>
+                    </progress>
+                </div>
+                <div class="col-xs-2">
+                    <span class="label label-pill label-default">
                         <xsl:value-of
                             select="$percents"
                         />
                         <xsl:text>%</xsl:text>
-                    </span>
-                </div>
-            </progress>
+                    </span>  
+                </div>  
+            </div>          
         </li>
     </xsl:template>              
 </xsl:stylesheet>
