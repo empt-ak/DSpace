@@ -63,6 +63,7 @@ public class ReferenceServiceImpl implements ReferenceService
         // check if file exists so filenotfound is not thrown
         if (Files.exists(objectWrapper.getPath().resolve(referenceFileName)))
         {
+            logger.info("Processing references: "+objectWrapper.getPath());
             // prepare container for xml references
             List<Reference> references = null;
 
@@ -104,7 +105,11 @@ public class ReferenceServiceImpl implements ReferenceService
      */
     private String convert(Reference reference)
     {
-        StringBuilder sb = new StringBuilder(reference.getPrefix());
+        StringBuilder sb = new StringBuilder();
+        if(reference.getPrefix()!= null)
+        {
+            sb.append(reference.getPrefix());
+        }
         sb.append(" ");
         
         for(Iterator<String> iter = reference.getAuthors().getAuthor().iterator(); iter.hasNext();)
