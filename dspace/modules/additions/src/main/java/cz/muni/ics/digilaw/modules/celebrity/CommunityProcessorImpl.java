@@ -126,6 +126,8 @@ public class CommunityProcessorImpl implements CommunityProcessor
         
         metadataWrapper.getMetadata().add(metadatumFactory.createMetadatum("digilaw", "mepath", null, null, dSpaceTools.getOnlyMEPath(currentWrapper.getPath()).toString()));
 
+		metadataWrapper.getMetadata().add(metadatumFactory.createMetadatum("dc", "type", null, null, "celebrity"));
+
         return metadataWrapper.getMetadata();
     }
 
