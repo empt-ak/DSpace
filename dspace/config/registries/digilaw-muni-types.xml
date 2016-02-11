@@ -32,6 +32,17 @@
         <scope_note>Section in which item belongs.</scope_note>
     </dc-type>
 
+<dc-type>
+        <schema>digilaw</schema>
+        <element>mepath</element>
+        <scope_note>Metadata editor path.</scope_note>
+    </dc-type>
+<dc-type>
+        <schema>digilaw</schema>
+        <element>externalcontent</element>
+        <scope_note>external content</scope_note>
+    </dc-type>
+
     <dc-type>
         <schema>dc</schema>
         <element>contributor</element>

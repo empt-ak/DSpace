@@ -11,8 +11,8 @@ import cz.muni.ics.digilaw.movingwall.MovingWallFactoryBean;
 import cz.muni.ics.dspace5.api.ObjectMapper;
 import cz.muni.ics.dspace5.api.module.CommunityProcessor;
 import cz.muni.ics.dspace5.api.module.ObjectWrapper;
-import cz.muni.ics.dspace5.exceptions.MovingWallException;
 import cz.muni.ics.dspace5.comparators.ComparatorFactory;
+import cz.muni.ics.dspace5.exceptions.MovingWallException;
 import cz.muni.ics.dspace5.impl.DSpaceTools;
 import cz.muni.ics.dspace5.impl.io.FolderProvider;
 import cz.muni.ics.dspace5.metadata.MetadataWrapper;
@@ -124,7 +124,7 @@ public class CommunityProcessorImpl implements CommunityProcessor
             throw new IllegalStateException();
         }
         
-        metadataWrapper.getMetadata().add(metadatumFactory.createMetadatum("muni", "mepath", null, null, dSpaceTools.getOnlyMEPath(currentWrapper.getPath()).toString()));
+        metadataWrapper.getMetadata().add(metadatumFactory.createMetadatum("digilaw", "mepath", null, null, dSpaceTools.getOnlyMEPath(currentWrapper.getPath()).toString()));
 
         return metadataWrapper.getMetadata();
     }

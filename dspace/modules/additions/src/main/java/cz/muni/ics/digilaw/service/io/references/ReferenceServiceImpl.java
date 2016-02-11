@@ -133,7 +133,7 @@ public class ReferenceServiceImpl implements ReferenceService
         
         for(String s : metadata)
         {
-            result.add(metadatumFactory.createMetadatum("muni", "reference", null, null, s));
+            result.add(metadatumFactory.createMetadatum("dc", "relation", "isbasedon", null, s));
         }
         
         return result;

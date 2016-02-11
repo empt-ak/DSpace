@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    The contents of this file are subject to the license and copyright
+    detailed in the LICENSE and NOTICE files at the root of the source
+    tree and available online at
+
+    http://www.dspace.org/license/
+
+-->
+
+<!-- 
+The XML Test Aspect is just a simple playground for viewing XML source 
+in various configurations.
+
+-->
+<map:sitemap xmlns:map="http://apache.org/cocoon/sitemap/1.0">
+    <map:components>
+
+        <map:transformers>
+            <map:transformer name="MainAspect" src="cz.muni.ics.digilaw.aspects.MainAspect" />
+            <map:transformer name="CommunityAspect" src="cz.muni.ics.digilaw.aspects.CommunityAspect" />
+            <map:transformer name="CollectionAspect" src="cz.muni.ics.digilaw.aspects.CollectionAspect" />
+            <map:transformer name="ItemAspect" src="cz.muni.ics.digilaw.aspects.ItemAspect" />
+            <map:transformer name="AboutUsAspect" src="cz.muni.ics.digilaw.aspects.statik.AboutUsAspect" />
+            <map:transformer name="ArchiveAspect" src="cz.muni.ics.digilaw.aspects.statik.ArchiveAspect" />
+            <map:transformer name="ConditionsAspect" src="cz.muni.ics.digilaw.aspects.statik.ConditionsAspect" />
+            <map:transformer name="FAQAspect" src="cz.muni.ics.digilaw.aspects.statik.FAQAspect" />
+            <map:transformer name="NewsAspect" src="cz.muni.ics.digilaw.aspects.statik.NewsAspect" />
+        </map:transformers>
+  
+    </map:components>
+    <map:pipelines>
+        <map:pipeline>
+
+            <map:generate/>
+
+            <map:match pattern="">
+                <map:transform type="MainAspect" />
+            </map:match>
+            
+            <map:match pattern="aboutus">
+                <map:transform type="AboutUsAspect" />
+            </map:match>
+            
+            <map:match pattern="faq">
+                <map:transform type="FAQAspect" />
+            </map:match>
+            <map:match pattern="news">
+                <map:transform type="NewsAspect" />
+            </map:match>
+            <map:match pattern="conditions">
+                <map:transform type="ConditionsAspect" />
+            </map:match>
+            <map:match pattern="archives">
+                <map:transform type="ArchiveAspect" />
+            </map:match>
+            
+            <map:match pattern="handle/*/*">
+                <map:transform type="CommunityAspect" />
+                <map:transform type="CollectionAspect" />
+                <map:transform type="ItemAspect" />
+            </map:match>
+
+            <map:serialize type="xml"/>
+
+        </map:pipeline>
+    </map:pipelines>
+</map:sitemap>

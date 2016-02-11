@@ -83,10 +83,10 @@
         <aspect name="Displaying Artifacts" path="resource://aspects/ViewArtifacts/" />
         <aspect name="Browsing Artifacts" path="resource://aspects/BrowseArtifacts/" />
         <aspect name="Discovery" path="resource://aspects/Discovery/" />
-        <aspect name="Administration" path="resource://aspects/Administrative/" />
+<!--        <aspect name="Administration" path="resource://aspects/Administrative/" />
         <aspect name="E-Person" path="resource://aspects/EPerson/" />
         <aspect name="Submission and Workflow" path="resource://aspects/Submission/" />
-
+-->
         <!-- ========================
              Usage Statistics Engines
              ======================== -->
@@ -107,7 +107,7 @@
              Approval Workflow Systems
              ========================= -->
         <!-- By default, DSpace uses a legacy 3-step approval workflow for new submissions -->
-        <aspect name="Original Workflow" path="resource://aspects/Workflow/" />
+   <!--     <aspect name="Original Workflow" path="resource://aspects/Workflow/" /> -->
 
         <!-- If you prefer, a Configurable XML-based Workflow is available. To enable it, you can
              uncomment the below aspect and comment out the "Original Workflow" aspect above.
@@ -148,6 +148,7 @@
             It's accessible for admins in the XMLTest menu or via the /XMLTest/ URL.
         -->
         <!-- <aspect name="XML Tests" path="resource://aspects/XMLTest/"/> -->
+	<aspect name="digilaw" path="resource://aspects/digilaw/" />
     </aspects>
 
     <!--
@@ -182,7 +183,8 @@
         <!-- <theme name="Test Theme 2" regex="community-list" path="theme2/"/> -->
 
         <!-- Mirage theme, @mire contributed theme, default since DSpace 3.0 -->
-        <theme name="Atmire Mirage Theme" regex=".*" path="Mirage/" />
+<!--        <theme name="Atmire Mirage Theme" regex=".*" path="Mirage/" /> -->
+	<theme name="digilaw" regex=".*" path="digilaw/" />
 
         <!-- Reference theme, the default Manakin XMLUI layout up to DSpace 1.8 -->
         <!-- <theme name="Default Reference Theme" regex=".*" path="Reference/" /> -->

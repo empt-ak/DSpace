@@ -18,22 +18,17 @@ import cz.muni.ics.dspace5.movingwall.MWLockerProvider;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.dozer.Mapper;
 import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Collection;
-import org.dspace.content.Item;
-import org.dspace.content.ItemIterator;
 import org.dspace.content.Metadatum;
 import org.dspace.services.ConfigurationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -144,11 +139,11 @@ public class CollectionProcessorImpl implements CollectionProcessor
     /**
      * Sets cover for given Collection. Cover is specified by {@code coverPath}.
      *
-     * @param coverPath  path to cover file.
+     * @param coverPath path to cover file.
      * @param collection to which cover is set
      *
      * @throws IllegalArgumentException if cover does not exist on given
-     *                                  {@code coverPath}
+     * {@code coverPath}
      */
     private void setCover(Path coverPath, Collection collection) throws IllegalArgumentException
     {
@@ -171,7 +166,7 @@ public class CollectionProcessorImpl implements CollectionProcessor
 
     private void setupMonography(Collection collection, List<ObjectWrapper> parents)
     {
-			/*
+        /*
         try
         {
             resolveVirtual(collection);
@@ -180,7 +175,7 @@ public class CollectionProcessorImpl implements CollectionProcessor
         {
             logger.error(ex);
         }
-*/
+         */
         for (String file : collectionFileNames)
         {
             Path extraContent = currentWrapper.getPath().resolve(file);
@@ -192,9 +187,9 @@ public class CollectionProcessorImpl implements CollectionProcessor
                 {
                     Files.createDirectories(extraStorage);
                     Files.copy(extraContent, extraStorage.resolve(file), StandardCopyOption.REPLACE_EXISTING);
-                    
-                    collection.clearMetadata("muni", "externalcontent", "*", "*");
-                    collection.addMetadata("muni", "externalcontent", null, null, file);
+
+                    collection.clearMetadata("digilaw", "externalcontent", "*", "*");
+                    collection.addMetadata("digilaw", "externalcontent", null, null, file);
                     movingWallFactoryBean.setExtraStoragePath(extraStorage);
                 }
                 catch (IOException ex)
@@ -202,10 +197,10 @@ public class CollectionProcessorImpl implements CollectionProcessor
                     logger.error(ex, ex.getCause());
                 }
             }
-        }        
+        }
     }
 
-		/*
+    /*
     private void resolveVirtual(Collection collection) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException
     {
 
@@ -253,8 +248,7 @@ public class CollectionProcessorImpl implements CollectionProcessor
             }
         }
     }
-    */
-
+     */
     @Override
     public void movingWall(Collection collection) throws MovingWallException
     {
