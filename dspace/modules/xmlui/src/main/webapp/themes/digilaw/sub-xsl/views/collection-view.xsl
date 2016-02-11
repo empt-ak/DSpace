@@ -26,7 +26,7 @@
     <xsl:output method="xml" encoding="UTF-8" indent="no"/>
     
     <xsl:template 
-        match="dri:body/dri:div[@id='cz.muni.ics.dmlcz5.aspects.CollectionAspect.div.collection-view' and @n='collection-view']"
+        match="dri:body/dri:div[@id='cz.muni.ics.digilaw.aspects.CollectionAspect.div.collection-view' and @n='collection-view']"
     >
         <xsl:variable
             name="collectionMetadata"
@@ -75,7 +75,7 @@
                     />
                     <xsl:with-param
                         name="issueSiblings"
-                        select="./dri:referenceSet[@id='cz.muni.ics.dmlcz5.aspects.CollectionAspect.referenceSet.issue-siblings']"
+                        select="./dri:referenceSet[@id='cz.muni.ics.digilaw.aspects.CollectionAspect.referenceSet.issue-siblings']"
                     />
                     <xsl:with-param
                         name="currentIssueUrl"

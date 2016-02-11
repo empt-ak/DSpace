@@ -26,7 +26,7 @@
     <xsl:output method="xml" encoding="UTF-8" indent="no"/>
     
     
-    <xsl:template match="dri:body/dri:div[@id='cz.muni.ics.dmlcz5.aspects.CommunityAspect.div.community-view' and @rend='top-comm']">
+    <xsl:template match="dri:body/dri:div[@id='cz.muni.ics.digilaw.aspects.CommunityAspect.div.community-view' and @rend='top-comm']">
         <xsl:variable
             name="externalMetadata"
         >
@@ -153,7 +153,7 @@
             the mono/cele/proc type of community which has collections as children
             -->
             <xsl:when
-                test="./dri:div[@id='cz.muni.ics.dmlcz5.aspects.CommunityAspect.div.sub-table' and @rend='left']"
+                test="./dri:div[@id='cz.muni.ics.digilaw.aspects.CommunityAspect.div.sub-table' and @rend='left']"
             >
                 <h3>
                     <i18n:text>page.community.serial.label.volumes</i18n:text>
@@ -163,7 +163,7 @@
                         <div class="table-responsive">
                             <table class="table table-hover">
                                 <xsl:for-each
-                                    select="./dri:div[@id='cz.muni.ics.dmlcz5.aspects.CommunityAspect.div.sub-table' and @rend='left']/dri:referenceSet[@id='cz.muni.ics.dmlcz5.aspects.CommunityAspect.referenceSet.volume']"
+                                    select="./dri:div[@id='cz.muni.ics.digilaw.aspects.CommunityAspect.div.sub-table' and @rend='left']/dri:referenceSet[@id='cz.muni.ics.digilaw.aspects.CommunityAspect.referenceSet.volume']"
                                 >
                                     <xsl:variable
                                         name="volumeMetadata"
@@ -224,7 +224,7 @@
                         <div class="table-responsive">
                             <table class="table table-hover">
                                 <xsl:for-each
-                                    select="./dri:div[@id='cz.muni.ics.dmlcz5.aspects.CommunityAspect.div.sub-table' and @rend='right']/dri:referenceSet[@id='cz.muni.ics.dmlcz5.aspects.CommunityAspect.referenceSet.volume']"
+                                    select="./dri:div[@id='cz.muni.ics.digilaw.aspects.CommunityAspect.div.sub-table' and @rend='right']/dri:referenceSet[@id='cz.muni.ics.digilaw.aspects.CommunityAspect.referenceSet.volume']"
                                 >
                                     <xsl:variable
                                         name="volumeMetadata"
@@ -284,7 +284,7 @@
                 </div>
             </xsl:when><!-- serial list of volume end -->
             <xsl:when
-                test="./dri:referenceSet[@id='cz.muni.ics.dmlcz5.aspects.CommunityAspect.referenceSet.community-volumes']"
+                test="./dri:referenceSet[@id='cz.muni.ics.digilaw.aspects.CommunityAspect.referenceSet.community-volumes']"
             >
                 <!-- for celebrity -->
                 <h3>
@@ -294,7 +294,7 @@
                     <div class="col-md-12">
                         <table class="table table-condensed">
                             <xsl:for-each
-                                select="./dri:referenceSet[@id='cz.muni.ics.dmlcz5.aspects.CommunityAspect.referenceSet.community-volumes']/dri:reference"
+                                select="./dri:referenceSet[@id='cz.muni.ics.digilaw.aspects.CommunityAspect.referenceSet.community-volumes']/dri:reference"
                             >
                                 <xsl:variable
                                     name="volumeMetadata"
@@ -330,7 +330,7 @@
                 </div>
             </xsl:when>
             <xsl:when
-                test="./dri:referenceSet[@id='cz.muni.ics.dmlcz5.aspects.CommunityAspect.referenceSet.collection-list']"
+                test="./dri:referenceSet[@id='cz.muni.ics.digilaw.aspects.CommunityAspect.referenceSet.collection-list']"
             >
                 <xsl:choose>
                     <xsl:when
@@ -343,7 +343,7 @@
                             <div class="col-xs-12">
                                 <table class="table table-condensed monograph-table">
                                     <xsl:for-each
-                                        select="./dri:referenceSet[@id='cz.muni.ics.dmlcz5.aspects.CommunityAspect.referenceSet.collection-list']/dri:reference"
+                                        select="./dri:referenceSet[@id='cz.muni.ics.digilaw.aspects.CommunityAspect.referenceSet.collection-list']/dri:reference"
                                     >
                                         <xsl:variable
                                             name="collectionMetadata"
@@ -380,7 +380,7 @@
                             <div class="col-xs-12">
                                 <table class="table table-condensed">
                                     <xsl:for-each
-                                        select="./dri:referenceSet[@id='cz.muni.ics.dmlcz5.aspects.CommunityAspect.referenceSet.collection-list']/dri:reference"
+                                        select="./dri:referenceSet[@id='cz.muni.ics.digilaw.aspects.CommunityAspect.referenceSet.collection-list']/dri:reference"
                                     >
                                         <xsl:variable
                                             name="collectionMetadata"
@@ -436,19 +436,19 @@
         </xsl:choose>
     </xsl:template>
     
-    <xsl:template match="dri:body/dri:div[@id='cz.muni.ics.dmlcz5.aspects.CommunityAspect.div.community-view' and @rend='volume']">
+    <xsl:template match="dri:body/dri:div[@id='cz.muni.ics.digilaw.aspects.CommunityAspect.div.community-view' and @rend='volume']">
         <xsl:variable
             name="volumeMetadata"
         >
             <xsl:text>cocoon://</xsl:text>
-            <xsl:value-of select="./dri:referenceSet[@id='cz.muni.ics.dmlcz5.aspects.CommunityAspect.referenceSet.volume']/dri:reference[@type='DSpace Community']/@url"/>
+            <xsl:value-of select="./dri:referenceSet[@id='cz.muni.ics.digilaw.aspects.CommunityAspect.referenceSet.volume']/dri:reference[@type='DSpace Community']/@url"/>
             <xsl:text>?sections=dmdSec</xsl:text>
         </xsl:variable>
         <xsl:variable
             name="parentVolumeMetadata"
         >
             <xsl:text>cocoon://</xsl:text>
-            <xsl:value-of select="./dri:referenceSet[@id='cz.muni.ics.dmlcz5.aspects.CommunityAspect.referenceSet.parent-community']/dri:reference[@type='DSpace Community']/@url"/>
+            <xsl:value-of select="./dri:referenceSet[@id='cz.muni.ics.digilaw.aspects.CommunityAspect.referenceSet.parent-community']/dri:reference[@type='DSpace Community']/@url"/>
             <xsl:text>?sections=dmdSec</xsl:text>
         </xsl:variable>
         <xsl:choose>
@@ -502,7 +502,7 @@
                                 <i18n:text>page.community.serial.volume.issues</i18n:text>
                             </a>
                             <xsl:for-each
-                                select="./dri:referenceSet[@id='cz.muni.ics.dmlcz5.aspects.CommunityAspect.referenceSet.issues']/dri:reference[@type='DSpace Collection']"
+                                select="./dri:referenceSet[@id='cz.muni.ics.digilaw.aspects.CommunityAspect.referenceSet.issues']/dri:reference[@type='DSpace Collection']"
                             >
                                 <xsl:variable 
                                     name="collectionMetadata"
@@ -587,7 +587,7 @@
                     <div class="col-xs-12">
                         <table class="table table-condensed">
                             <xsl:for-each
-                                select="./dri:referenceSet[@id='cz.muni.ics.dmlcz5.aspects.CommunityAspect.referenceSet.issues']/dri:reference[@type='DSpace Collection']"
+                                select="./dri:referenceSet[@id='cz.muni.ics.digilaw.aspects.CommunityAspect.referenceSet.issues']/dri:reference[@type='DSpace Collection']"
                             >
                                 <xsl:variable 
                                     name="collectionMetadata"

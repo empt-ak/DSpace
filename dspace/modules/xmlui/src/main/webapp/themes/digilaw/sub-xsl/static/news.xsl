@@ -26,7 +26,7 @@
     <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
     
     <xsl:template 
-        match="dri:body/dri:div[@id='cz.muni.ics.dmlcz5.aspects.statik.NewsAspect.div.news-section']"
+        match="dri:body/dri:div[@id='cz.muni.ics.digilaw.aspects.statik.NewsAspect.div.news-section']"
     >
         <div class="row">
             <div class="col-xs-12">

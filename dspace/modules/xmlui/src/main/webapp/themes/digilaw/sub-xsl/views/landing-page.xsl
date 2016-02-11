@@ -26,7 +26,7 @@
     <xsl:output method="xml" encoding="UTF-8" indent="no"/>
     
     
-    <xsl:template match="dri:body/dri:div[@id='cz.muni.ics.dmlcz5.aspects.MainAspect.div.landing-page']">
+    <xsl:template match="dri:body/dri:div[@id='cz.muni.ics.digilaw.aspects.MainAspect.div.landing-page']">
         <div class="jumbotron">
             <p class="lead">
                 <i18n:text>page.landing.jubotron</i18n:text>
@@ -34,7 +34,7 @@
         </div>
         
         <ul class="nav nav-tabs" role="tablist">
-            <xsl:for-each select="./dri:div[@id='cz.muni.ics.dmlcz5.aspects.MainAspect.div.topcoms']">
+            <xsl:for-each select="./dri:div[@id='cz.muni.ics.digilaw.aspects.MainAspect.div.topcoms']">
                 <li class="nav-item">
                     <a data-toggle="tab" role="tab" href="#{./@rend}">
                         <xsl:attribute
@@ -61,7 +61,7 @@
             </xsl:for-each>
         </ul>
         <div class="tab-content">
-            <xsl:for-each select="./dri:div[@id='cz.muni.ics.dmlcz5.aspects.MainAspect.div.topcoms']">
+            <xsl:for-each select="./dri:div[@id='cz.muni.ics.digilaw.aspects.MainAspect.div.topcoms']">
                 <div role="tabpanel">
                     <xsl:attribute name="class">
                         <xsl:choose>
@@ -84,7 +84,7 @@
                         </i18n:text>
                     </h2>
                     <ul class="media-list section-list">
-                        <xsl:for-each select="dri:referenceSet[@id='cz.muni.ics.dmlcz5.aspects.MainAspect.referenceSet.topcom-listing']/dri:reference">
+                        <xsl:for-each select="dri:referenceSet[@id='cz.muni.ics.digilaw.aspects.MainAspect.referenceSet.topcom-listing']/dri:reference">
                             <xsl:variable name="externalMetadataURL">
                                 <xsl:text>cocoon://</xsl:text>
                                 <xsl:value-of select="@url"/>

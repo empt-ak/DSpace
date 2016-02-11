@@ -146,7 +146,7 @@
     
     <xsl:template name="buildRightSidebar">
         <xsl:if
-            test="not(/dri:document/dri:body/dri:div[@id='cz.muni.ics.dmlcz5.aspects.MainAspect.div.landing-page'])"
+            test="not(/dri:document/dri:body/dri:div[@id='cz.muni.ics.digilaw.aspects.MainAspect.div.landing-page'])"
         >
             <xsl:call-template
                 name="buildPUN"

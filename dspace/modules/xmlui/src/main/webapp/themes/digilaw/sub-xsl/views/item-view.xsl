@@ -29,14 +29,14 @@
     <xsl:output method="xml" encoding="UTF-8" indent="no"/>
     
     <xsl:template
-        match="dri:body/dri:div[@id='cz.muni.ics.dmlcz5.aspects.ItemAspect.div.item-view' and @n='item-view']"
+        match="dri:body/dri:div[@id='cz.muni.ics.digilaw.aspects.ItemAspect.div.item-view' and @n='item-view']"
     >
         <xsl:apply-templates />
     </xsl:template>
     
     
     <xsl:template 
-        match="dri:referenceSet[@id='cz.muni.ics.dmlcz5.aspects.ItemAspect.referenceSet.current-item' or @id='cz.muni.ics.dmlcz5.aspects.CollectionAspect.referenceSet.item-list']/dri:reference"
+        match="dri:referenceSet[@id='cz.muni.ics.digilaw.aspects.ItemAspect.referenceSet.current-item' or @id='cz.muni.ics.digilaw.aspects.CollectionAspect.referenceSet.item-list']/dri:reference"
     >
         <xsl:variable
             name="itemMetadata"
