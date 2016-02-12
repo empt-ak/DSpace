@@ -39,16 +39,24 @@
         </xsl:variable>        
         <xsl:choose>
             <xsl:when
-                test="$communityType = 'monograph'"
+                test="$communityType = 'monography'"
             >
                 <xsl:call-template
-                    name="monograph"                    
+                    name="celebrity"
                 >
                     <xsl:with-param
                         name="collectionMetadata"
                         select="$collectionMetadata"
                     />
                 </xsl:call-template>
+<!--                <xsl:call-template
+                    name="monograph"                    
+                >
+                    <xsl:with-param
+                        name="collectionMetadata"
+                        select="$collectionMetadata"
+                    />
+                </xsl:call-template>-->
             </xsl:when>
             <xsl:when
                 test="$communityType = 'proceedings'"
