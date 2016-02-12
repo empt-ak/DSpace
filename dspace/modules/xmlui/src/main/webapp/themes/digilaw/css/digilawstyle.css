@@ -200,3 +200,17 @@ li.list-inline-item:not(:last-of-type):after
 {
     content: "| ";
 }
+
+
+.vertical-wrapper
+{
+    display: table;
+    overflow: hidden;
+    height: 110px;
+}
+
+.vertical-align
+{
+    display: table-cell;
+    vertical-align: middle;
+}

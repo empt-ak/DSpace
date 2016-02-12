@@ -236,40 +236,40 @@
                                     </a>
                                 </li>
                             </ul>
-                                <!--
-    <ul>
-        <li>
-            <a href="{concat($contextPath,'/sitemap')}">
-                <i18n:text>page.footer.links.sitemap</i18n:text>
-            </a>
-        </li>
-        <li>
-            <a href="{concat($contextPath,'/aboutus')}">
-                <i18n:text>page.footer.links.aboutus</i18n:text>
-            </a>
-        </li>
-        <li>
-            <a href="{concat($contextPath,'/news')}">
-                <i18n:text>page.footer.links.news</i18n:text>
-            </a>
-        </li>
-        <li>
-            <a href="{concat($contextPath,'/faq')}">
-                <i18n:text>page.footer.links.faq</i18n:text>
-            </a>
-        </li>
-        <li>
-            <a href="{concat($contextPath,'/conditions')}">
-                <i18n:text>page.footer.links.terms</i18n:text>
-            </a>
-        </li>
-        <li>
-            <a href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page' and @qualifier='contactURL']}">
-                <i18n:text>page.footer.links.contactus</i18n:text>
-            </a>
-        </li>                                                  
-                                </ul>
-                                -->
+                            <!--
+<ul>
+    <li>
+        <a href="{concat($contextPath,'/sitemap')}">
+            <i18n:text>page.footer.links.sitemap</i18n:text>
+        </a>
+    </li>
+    <li>
+        <a href="{concat($contextPath,'/aboutus')}">
+            <i18n:text>page.footer.links.aboutus</i18n:text>
+        </a>
+    </li>
+    <li>
+        <a href="{concat($contextPath,'/news')}">
+            <i18n:text>page.footer.links.news</i18n:text>
+        </a>
+    </li>
+    <li>
+        <a href="{concat($contextPath,'/faq')}">
+            <i18n:text>page.footer.links.faq</i18n:text>
+        </a>
+    </li>
+    <li>
+        <a href="{concat($contextPath,'/conditions')}">
+            <i18n:text>page.footer.links.terms</i18n:text>
+        </a>
+    </li>
+    <li>
+        <a href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page' and @qualifier='contactURL']}">
+            <i18n:text>page.footer.links.contactus</i18n:text>
+        </a>
+    </li>                                                  
+                            </ul>
+                            -->
                         </div>
                         <div class="col-md-4 col-xs-12">
                             <h4>
@@ -327,13 +327,15 @@
                 </a>            
             </div>
             <div class="col-sm-10">
-                <p>
-                    <a href="{$contextPath}" class="page-header">
-                        <h1>
-                            <i18n:text>page.head.title</i18n:text>
-                        </h1>
-                    </a>
-                </p> 
+                <div class="vertical-wrapper">
+                    <h1 class="vertical-align">
+                        <a href="{$contextPath}" class="page-header">
+                            <h1>
+                                <i18n:text>page.head.title</i18n:text>
+                            </h1>
+                        </a>
+                    </h1>
+                </div>
             </div>
         </div>
     </xsl:template>
