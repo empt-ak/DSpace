@@ -266,7 +266,8 @@
                     </h5>
                     <div>
                         <xsl:choose>
-                            <xsl:when test="./dri:list[@n=concat($h,':dc.description.abstract')]/dri:item">
+                            <xsl:when 
+                                test="./dri:list[@n=concat($h,':dc.description.abstract')]/dri:item">
                                 <xsl:apply-templates
                                     select="./dri:list[@n=concat($h,':dc.description.abstract')]/dri:item"
                                 />

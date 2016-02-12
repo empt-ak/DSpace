@@ -144,14 +144,7 @@
         </div>
     </xsl:template>
     
-    <xsl:template name="buildRightSidebar">
-        <xsl:if
-            test="not(/dri:document/dri:body/dri:div[@id='cz.muni.ics.digilaw.aspects.MainAspect.div.landing-page'])"
-        >
-            <xsl:call-template
-                name="buildPUN"
-            />
-        </xsl:if>        
+    <xsl:template name="buildRightSidebar">     
         <div class="card disable-bottom-border">            
             <xsl:if
                 test="/dri:document/dri:options/dri:list[@id='aspect.discovery.Navigation.list.discovery']/dri:list[@id='aspect.discovery.SidebarFacetsTransformer.list.subject']/dri:item"
@@ -244,47 +237,6 @@
                         </li>                        
                     </xsl:for-each> 
                 </ul> 
-            </xsl:if>
-            <xsl:if
-                test="/dri:document/dri:options/dri:list[@id='aspect.discovery.Navigation.list.discovery']/dri:list[@id='aspect.discovery.SidebarFacetsTransformer.list.msc']/dri:item"
-            >
-                <div class="card-header disable-bottom-border">
-                    <i18n:text>page.sidebar.right.discovery.msc</i18n:text>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <xsl:for-each
-                        select="/dri:document/dri:options/dri:list[@id='aspect.discovery.Navigation.list.discovery']/dri:list[@id='aspect.discovery.SidebarFacetsTransformer.list.msc']/dri:item/dri:xref"
-                    >
-                        <li class="list-group-item">
-                            <a>
-                                <xsl:attribute
-                                    name="href"
-                                >
-                                    <xsl:value-of
-                                        select="./@target"
-                                    />
-                                </xsl:attribute>
-                                <xsl:choose>
-                                    <xsl:when 
-                                        test="substring(./@target,string-length(./@target)- 22) = 'search-filter?field=msc'"
-                                    >
-                                        <i18n:text>page.sidebar.right.discovery.more</i18n:text>
-                                    </xsl:when>
-                                    <xsl:otherwise>
-                                        <span class="label label-default label-pill pull-right">
-                                            <xsl:value-of
-                                                select="substring-before(substring-after(./text(),'('),')')"
-                                            />
-                                        </span>
-                                        <xsl:value-of
-                                            select="substring-before(./text(),' (')"
-                                        />
-                                    </xsl:otherwise>
-                                </xsl:choose>              
-                            </a>
-                        </li>                    
-                    </xsl:for-each>
-                </ul>
             </xsl:if>
             <xsl:if                
                 test="/dri:document/dri:body/dri:div[@id='aspect.discovery.RelatedItems.div.item-related-container']/dri:div[@id='aspect.discovery.RelatedItems.div.item-related']/dri:referenceSet[@id='aspect.discovery.RelatedItems.referenceSet.item-related-items']"

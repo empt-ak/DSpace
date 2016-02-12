@@ -26,20 +26,6 @@
     >
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">&#160;</script>
-        <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">&#160;</script>
-        <script type="text/x-mathjax-config">
-            MathJax.Hub.Config({
-            tex2jax: {
-            inlineMath: [['$','$'], ['\\(','\\)']],
-            ignoreClass: "detail-field-data|exception|disable-math"
-            },
-            TeX: {
-            Macros: {
-            AA: '{\\mathring A}'
-            }
-            }
-            });
-        </script> 
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script>
             <xsl:attribute 
@@ -67,7 +53,7 @@
                 <xsl:value-of 
                     select="$theme" 
                 />
-                <xsl:text>/js/dmlcz5.min.js</xsl:text>
+                <xsl:text>/js/digilaw.min.js</xsl:text>
             </xsl:attribute>
                     &#160;
         </script>
@@ -85,116 +71,7 @@
                 <xsl:text>/js/holder.min.js</xsl:text>
             </xsl:attribute>
                     &#160;
-        </script>
-        <script>
-            <xsl:attribute 
-                name="src"
-            >
-                <xsl:value-of 
-                    select="$contextPath" 
-                />
-                <xsl:text>/themes/</xsl:text>
-                <xsl:value-of 
-                    select="$theme" 
-                />
-                <xsl:text>/js/chart.min.js</xsl:text>
-            </xsl:attribute>
-                    &#160;
-        </script>
-        <script>
-            <xsl:attribute 
-                name="src"
-            >
-                <xsl:value-of 
-                    select="$contextPath" 
-                />
-                <xsl:text>/themes/</xsl:text>
-                <xsl:value-of 
-                    select="$theme" 
-                />
-                <xsl:text>/js/jquery.sticky.min.js</xsl:text>
-            </xsl:attribute>
-                    &#160;
-        </script>
-        <script>
-            <xsl:attribute 
-                name="src"
-            >
-                <xsl:value-of 
-                    select="$contextPath" 
-                />
-                <xsl:text>/themes/</xsl:text>
-                <xsl:value-of 
-                    select="$theme" 
-                />
-                <xsl:text>/js/mathjax.min.js</xsl:text>
-            </xsl:attribute>
-                    &#160;
-        </script>
-        <script>
-            <xsl:attribute 
-                name="src"
-            >
-                <xsl:value-of 
-                    select="$contextPath" 
-                />
-                <xsl:text>/themes/</xsl:text>
-                <xsl:value-of 
-                    select="$theme" 
-                />
-                <xsl:text>/js/jquery.dmlmathjax.min.js</xsl:text>
-            </xsl:attribute>
-                    &#160;
-        </script>
-        
-        <script>
-            <!--            $(window).load(function(){
-                $("#sticky").sticky({topSpacing: 0});
-            });-->
-            $(document).ready(function(){             
-            <xsl:if
-                test="$communityType = 'serial' and count(/dri:document/dri:meta/dri:pageMeta/dri:trail) = 3"
-            >
-                if($("#myChart").length){
-                var colors = getRandomColor(6);
-            
-                var data = [
-                <xsl:variable name="solrQuery">
-                    <xsl:text>select?q=*%3A*&amp;fq=location%3A</xsl:text>
-                    <xsl:call-template
-                        name="getSolrLocation"
-                    />
-                    <xsl:text>&amp;rows=0&amp;wt=xml&amp;facet=true&amp;facet.field=msc_keyword</xsl:text>
-                </xsl:variable>
-                
-                <!--<xsl:value-of select="concat($solrServer,$solrQuery)" />-->
-                <xsl:for-each select="document(concat($solrServer,$solrQuery))/response/lst[@name='facet_counts']/lst[@name='facet_fields']/lst[@name='msc_keyword']/int[. > 0]">
-                    { value: <xsl:value-of select="current()" />, label: "<xsl:value-of select="current()/@name" />",color: getRandomColor(),highlight: getRandomColor()}
-                    <xsl:if 
-                        test="position() != last()"
-                    >
-                        <xsl:text>,</xsl:text>
-                    </xsl:if>
-                </xsl:for-each>
-                ];
-                // Get context with jQuery - using jQuery's .get() method.
-                var ctx = $("#myChart").get(0).getContext("2d");
-                // This will get the first returned node in the jQuery collection.
-                var myNewChart = new Chart(ctx).Pie(data,{responsive : true});
-                }
-                
-            </xsl:if>
-           
-            
-           
-            
-            function getRandomColor() {
-            return "#" + (Math.round(Math.random() * 0XFFFFFF)).toString(16);
-            }
-            
-            });
-            
-        </script>              
+        </script>          
     </xsl:template>
 
 </xsl:stylesheet>

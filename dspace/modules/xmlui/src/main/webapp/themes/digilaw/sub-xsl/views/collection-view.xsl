@@ -269,29 +269,7 @@
                                 select="document($collectionMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and not(@qualifier)]"
                             />
                         </dd>
-                    </xsl:if>
-                    <xsl:if
-                        test="document($collectionMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='subject' and @qualifier='msc']"
-                    >
-                        <dt class="col-sm-3">
-                            <i18n:text>page.collection.monograph.msc</i18n:text>
-                        </dt>
-                        <dd class="col-md-9">
-                            <xsl:for-each
-                                select="document($collectionMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='subject' and @qualifier='msc']"
-                            >
-                                <!-- href
-                                        http://localhost:8080/dmlcz5/discover?filtertype=msc&filter_relational_operator=equals&filter=26A39
-                                        -->
-                                <a class="label label-info" href="#">
-                                    <xsl:value-of
-                                        select="."
-                                    />
-                                </a>
-                                <xsl:text> </xsl:text>                              
-                            </xsl:for-each>
-                        </dd>
-                    </xsl:if>
+                    </xsl:if>                    
                 </dl>
             </div>
         </div>
@@ -454,52 +432,7 @@
                                 select="document($collectionMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='identifier' and @qualifier='isbn']"
                             />
                         </dd>
-                    </xsl:if>
-                    <xsl:variable 
-                        name="zblID" 
-                        select="document($collectionMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='identifier' and @qualifier='idzbl']" 
-                    />
-                    <xsl:if
-                        test="$zblID"
-                    >
-                        <dt class="col-xs-12 col-md-3">
-                            <i18n:text>page.collection.proceedings.idzbl</i18n:text>
-                        </dt>
-                        <dd class="col-xs-12 col-md-9">
-                            <a target="_blank" href="{concat($zblUrl,substring-after($zblID,'Zbl '))}">
-                                <xsl:value-of
-                                    select="$zblID"
-                                />
-                            </a>     
-                        </dd>
                     </xsl:if>                    
-                    <xsl:if
-                        test="document($collectionMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='subject' and @qualifier='msc']"
-                    >
-                        <dt class="col-xs-12 col-md-3">
-                            <i18n:text>page.collection.proceedings.msc</i18n:text>
-                        </dt>
-                        <dd class="col-xs-12 col-md-9">
-                            <xsl:for-each
-                                select="document($collectionMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='subject' and @qualifier='msc']"
-                            >
-                                <a class="label label-info">
-                                    <xsl:attribute
-                                        name="href"
-                                    >
-                                        <!--
-                                        http://localhost:8080/dmlcz5/discover?filtertype=msc&filter_relational_operator=equals&filter=26A39
-                                        -->
-                                        <xsl:text>#</xsl:text>
-                                    </xsl:attribute>
-                                    <xsl:value-of
-                                        select="."
-                                    />
-                                </a>
-                                <xsl:text> </xsl:text>                              
-                            </xsl:for-each>
-                        </dd>
-                    </xsl:if>
                 </dl>
             </div>
         </div>

@@ -25,7 +25,7 @@
     <xsl:template name="buildNavigation">
         <nav class="navbar navbar-light bg-faded">
             <button class="navbar-toggler hidden-md-up" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2">
-    &#9776;
+                <i class="fa fa-bars"></i>
             </button>
             <div class="collapse navbar-toggleable-sm" id="exCollapsingNavbar2">
                 <ul class="nav navbar-nav">
@@ -54,11 +54,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{concat($contextPath,'/conditions')}">
                             <i18n:text>navigation.main.button.terms</i18n:text>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{concat($contextPath,'/archives')}">
-                            <i18n:text>navigation.main.button.matharchives</i18n:text>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -136,11 +131,11 @@
                                                     select="./@target"
                                                 />
                                             </xsl:attribute>                                                                       
-											<i18n:text>
-                                            <xsl:value-of
-                                                select="."
-												/>
-											</i18n:text>
+                                            <i18n:text>
+                                                <xsl:value-of
+                                                    select="."
+                                                />
+                                            </i18n:text>
                                         </a>
                                     </xsl:when>
                                     <!--
@@ -153,11 +148,11 @@
                                         <i18n:text>navigation.breadcrumb.viewitem</i18n:text>
                                     </xsl:when>
                                     <xsl:otherwise>
-										<i18n:text>
-                                        	<xsl:value-of
-                                            	select="."
-											/>
-										</i18n:text>
+                                        <i18n:text>
+                                            <xsl:value-of
+                                                select="."
+                                            />
+                                        </i18n:text>
                                     </xsl:otherwise>
                                 </xsl:choose>                                 
                             </li>
@@ -198,69 +193,69 @@
             <div class="row">
                 <div class="col-md-6 col-md-offset-3 col-xl-8 col-xl-offset-2 col-xs-12">
                     <div class="row">
-						<!--
-						<div class="col-md-4 col-xs-12">	
-							<h4>
-                                <i18n:text>page.footer.partners.title</i18n:text>
-							</h4>
-						</div>
-						-->
+                        <!--
+                        <div class="col-md-4 col-xs-12">	
+                                <h4>
+        <i18n:text>page.footer.partners.title</i18n:text>
+                                </h4>
+                        </div>
+                        -->
                         <div class="col-md-4 col-xs-12">
                             <h4>
                                 <i18n:text>page.footer.links.title</i18n:text>
                             </h4>
-                                    <a href="{concat($contextPath,'/sitemap')}">
-                                        <i18n:text>page.footer.links.sitemap</i18n:text>
-                                    </a> | 
-                                    <a href="{concat($contextPath,'/aboutus')}">
-                                        <i18n:text>page.footer.links.aboutus</i18n:text>
-                                    </a> |
-                                    <a href="{concat($contextPath,'/news')}">
-                                        <i18n:text>page.footer.links.news</i18n:text>
-                                    </a> |
-                                    <a href="{concat($contextPath,'/faq')}">
-                                        <i18n:text>page.footer.links.faq</i18n:text>
-                                    </a> |
-                                    <a href="{concat($contextPath,'/conditions')}">
-                                        <i18n:text>page.footer.links.terms</i18n:text>
-                                    </a> | 
-                                    <a href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page' and @qualifier='contactURL']}">
-                                        <i18n:text>page.footer.links.contactus</i18n:text>
-                                    </a>
-							<!--
-                            <ul>
-                                <li>
-                                    <a href="{concat($contextPath,'/sitemap')}">
-                                        <i18n:text>page.footer.links.sitemap</i18n:text>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{concat($contextPath,'/aboutus')}">
-                                        <i18n:text>page.footer.links.aboutus</i18n:text>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{concat($contextPath,'/news')}">
-                                        <i18n:text>page.footer.links.news</i18n:text>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{concat($contextPath,'/faq')}">
-                                        <i18n:text>page.footer.links.faq</i18n:text>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{concat($contextPath,'/conditions')}">
-                                        <i18n:text>page.footer.links.terms</i18n:text>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page' and @qualifier='contactURL']}">
-                                        <i18n:text>page.footer.links.contactus</i18n:text>
-                                    </a>
-                                </li>                                                  
-							</ul>
-							-->
+                            <a href="{concat($contextPath,'/sitemap')}">
+                                <i18n:text>page.footer.links.sitemap</i18n:text>
+                            </a> | 
+                            <a href="{concat($contextPath,'/aboutus')}">
+                                <i18n:text>page.footer.links.aboutus</i18n:text>
+                            </a> |
+                            <a href="{concat($contextPath,'/news')}">
+                                <i18n:text>page.footer.links.news</i18n:text>
+                            </a> |
+                            <a href="{concat($contextPath,'/faq')}">
+                                <i18n:text>page.footer.links.faq</i18n:text>
+                            </a> |
+                            <a href="{concat($contextPath,'/conditions')}">
+                                <i18n:text>page.footer.links.terms</i18n:text>
+                            </a> | 
+                            <a href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page' and @qualifier='contactURL']}">
+                                <i18n:text>page.footer.links.contactus</i18n:text>
+                            </a>
+                            <!--
+<ul>
+    <li>
+        <a href="{concat($contextPath,'/sitemap')}">
+            <i18n:text>page.footer.links.sitemap</i18n:text>
+        </a>
+    </li>
+    <li>
+        <a href="{concat($contextPath,'/aboutus')}">
+            <i18n:text>page.footer.links.aboutus</i18n:text>
+        </a>
+    </li>
+    <li>
+        <a href="{concat($contextPath,'/news')}">
+            <i18n:text>page.footer.links.news</i18n:text>
+        </a>
+    </li>
+    <li>
+        <a href="{concat($contextPath,'/faq')}">
+            <i18n:text>page.footer.links.faq</i18n:text>
+        </a>
+    </li>
+    <li>
+        <a href="{concat($contextPath,'/conditions')}">
+            <i18n:text>page.footer.links.terms</i18n:text>
+        </a>
+    </li>
+    <li>
+        <a href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page' and @qualifier='contactURL']}">
+            <i18n:text>page.footer.links.contactus</i18n:text>
+        </a>
+    </li>                                                  
+                            </ul>
+                            -->
                         </div>
                         <div class="col-md-4 col-xs-12">
                             <h4>
@@ -301,32 +296,11 @@
     
     <xsl:template 
         name="buildBodyHead"
-    >
-        <xsl:if
-            test="contains($debug,'true')"
-        >
-            <div class="alert alert-danger">
-                <xsl:value-of select="$solrServer" />
-                <br />
-                
-                <xsl:value-of select="$communityType" />
-                <br/>
-                <xsl:variable name="solrQuery">
-                    <xsl:text>select?q=*%3A*&amp;fq=location%3A</xsl:text>
-                    <xsl:call-template
-                        name="getSolrLocation"
-                    />
-                    <xsl:text>&amp;rows=0&amp;wt=xml&amp;facet=true&amp;facet.field=msc_keyword</xsl:text>
-                </xsl:variable>
-                <xsl:value-of
-                    select="$solrQuery"
-                />
-            </div>
-        </xsl:if>
+    >        
         <div class="row">
             <div class="col-sm-2 hidden-sm-down">
-                <a href="{/dri:document/dri:meta/dri:pageMeta/dri:trail[1]/@target}" >
-                    <img alt="page.general.banner" i18n:attribute="alt" class="dspace-banner">
+                <a href="{$contextPath}" >
+                    <img alt="page.general.banner" i18n:attr="alt" class="dspace-banner">
                         <xsl:attribute
                             name="src"
                         >

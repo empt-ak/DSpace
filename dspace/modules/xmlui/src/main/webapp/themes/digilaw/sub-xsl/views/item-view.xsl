@@ -57,7 +57,7 @@
                         <i18n:text>page.item.fullentry</i18n:text>
                     </a>
                 </li>
-<!--                <li class="nav-item">
+                <!--                <li class="nav-item">
                     <a class="nav-link" href="#referencesTab" role="tab" data-toggle="tab">
                         <i18n:text>page.item.references</i18n:text>
                         <xsl:text> (</xsl:text>
@@ -197,85 +197,8 @@
                                                 </xsl:for-each>
                                             </ul>
                                         </div>
-                                    </xsl:if>
-                                    
-                                    <xsl:if
-                                        test="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='subject' and @qualifier='msc']"
-                                    >
-                                        <div class="card-block card-block-reduced">
-                                            
-                                            <!--<h5>-->
-                                            <b>
-                                                <i class="fa fa-link" />
-                                                <xsl:text> </xsl:text>
-                                                <i18n:text>page.item.msc</i18n:text>
-                                            </b>
-                                            <!--</h5>-->
-                                            <ul class="list-unstyled">
-                                                <xsl:for-each
-                                                    select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='subject' and @qualifier='msc']"
-                                                >
-                                                    <li>
-                                                        <a class="label label-info">
-                                                            <xsl:value-of
-                                                                select="."
-                                                            />
-                                                        </a>
-                                                    </li>
-                                                </xsl:for-each>                 
-                                            </ul>
-                                        </div>
-                                    </xsl:if>
-                                    
-                                    <xsl:if
-                                        test="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='identifier' and @qualifier='idzbl']"
-                                    >
-                                        <div class="card-block card-block-reduced">
-                                            <!--<h5>-->  
-                                            <i class="fa fa-link" />
-                                            <xsl:text> </xsl:text>                                              
-                                            <b>                                                    
-                                                <i18n:text>page.item.zbmath</i18n:text>
-                                            </b>
-                                            <!--</h5>-->      
-                                            <ul class="list-unstyled">
-                                                <li>
-                                                    <a target="_blank" href="{concat($zblUrl,substring-after(document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='identifier' and @qualifier='idzbl'],'Zbl '))}">
-                                                        <xsl:value-of
-                                                            select="substring-after(document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='identifier' and @qualifier='idzbl'],'Zbl ')"
-                                                        />
-                                                        <xsl:text> </xsl:text>                          
-                                                    </a>                                
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </xsl:if>
-                                    
-                                    <xsl:if
-                                        test="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='identifier' and @qualifier='idmr']"
-                                    > 
-                                        <div class="card-block card-block-reduced">
-                                            <!--<h5>-->
-                                            <i class="fa fa-link"></i>
-                                            <xsl:text> </xsl:text>
-                                            <b>
-                                                <i18n:text>page.item.idmr</i18n:text>
-                                            </b>
-                                            <!--</h5>-->      
-                                            <ul class="list-unstyled">
-                                                <li>
-                                                    <!-- href="{concat($amsUrl,substring-after(document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='identifier' and @qualifier='idmr'],'MR'))"-->
-                                                    <a target="_blank" href="{concat($amsUrl,substring-after(document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='identifier' and @qualifier='idmr'],'MR'))">
-                                                        <xsl:value-of
-                                                            select="substring-after(document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='identifier' and @qualifier='idmr'],'MR')"
-                                                        />
-                                                        <xsl:text> </xsl:text>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>  
-                                    </xsl:if>                                 
-                                </div>                                
+                                    </xsl:if>                                    
+                                </div>                             
                             </div>
                             <div class="col-xs-12 col-md-6 col-xl-9">
                                 <div class="card">
@@ -415,7 +338,7 @@
                             </table>
                         </div>
                     </div>
-<!--                    <div role="tabpanel" class="tab-pane" id="referencesTab">
+                    <!--                    <div role="tabpanel" class="tab-pane" id="referencesTab">
                         <h2>!References</h2>
                         <small>
                             <ul class="list-unstyled">
@@ -439,63 +362,5 @@
                 </div>
             </div>
         </div>       
-    </xsl:template>
-    
-    <xsl:template
-        mode="similar"
-        match="dim:field[@mdschema='dmlcz' and @element='related']"
-    >
-        <xsl:variable name="percents" select="substring-before(substring-before(.,'☎'),'.')" />
-        <li class="list-group-item">
-            <a>
-                <xsl:attribute
-                    name="href">
-                    <xsl:variable
-                        name="target"
-                        select="substring-before(substring-after(.,'☎'),'☎')"
-                    />
-                    <xsl:choose>
-                        <xsl:when
-                            test="substring-before($target,':') = 'dmlcz'"
-                        >
-                            <xsl:value-of
-                                select="concat($contextPath,'/handle/',substring-after($target,':'))"
-                            />
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:value-of
-                                select="concat($numdamUrl,substring-after($target,':'))"
-                            />
-                        </xsl:otherwise>                                                            
-                    </xsl:choose>
-                                                        
-                </xsl:attribute>
-                <xsl:value-of
-                    select="substring-after(substring-after(.,'☎'),'☎')"
-                />     
-            </a>
-            <div class="row">
-                <div class="col-xs-10">
-                    <progress class="progress" value="{$percents}" max="100">
-                        <div class="progress">
-                            <span class="progress-bar" style="width: {$percents}%;">
-                                <xsl:value-of
-                                    select="$percents"
-                                />
-                                <xsl:text>%</xsl:text>
-                            </span>
-                        </div>
-                    </progress>
-                </div>
-                <div class="col-xs-2">
-                    <span class="label label-pill label-default">
-                        <xsl:value-of
-                            select="$percents"
-                        />
-                        <xsl:text>%</xsl:text>
-                    </span>  
-                </div>  
-            </div>          
-        </li>
-    </xsl:template>              
+    </xsl:template>               
 </xsl:stylesheet>
