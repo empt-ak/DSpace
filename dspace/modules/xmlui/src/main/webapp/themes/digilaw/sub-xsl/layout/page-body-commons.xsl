@@ -290,20 +290,21 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-md-offset-3 col-xl-8 col-xl-offset-2 col-xs-12">            
-                <p class="footer-text">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 col-xl-8 col-xl-offset-2 col-xs-12 footer-text"> 
                     <xsl:text>&#169; 2016 </xsl:text>
                     <a href="#">
                         <i18n:text>page.footer.copyright.text</i18n:text>
                     </a>
                     <xsl:text> </xsl:text>
-                    <i18n:text>page.footer.contact</i18n:text>                    
+                    <i18n:text>page.footer.contact</i18n:text> 
+                    <xsl:text> </xsl:text>                   
                     <a href="#">
                         <span class="contact-email">
                             <i18n:text>page.footer.contact.javascript</i18n:text>
                         </span>
-                    </a>
-                </p>                    
+                    </a>           
+                </div>
             </div>
         </div>
     </xsl:template>
