@@ -140,15 +140,7 @@
                                             <xsl:value-of select="document($externalMetadataURL)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']" />
                                         </xsl:otherwise>
                                     </xsl:choose>
-                                </div>
-                                <div class="media-right hidden-md-down">
-                                    <img alt="page.general.thumbnail media-object" class="img-responsive" i18n:attribute="alt">
-                                        <xsl:attribute name="data-src">
-                                            <xsl:text>holder.js/100x100</xsl:text>
-                                            <xsl:text>?text=Publisher logo</xsl:text>
-                                        </xsl:attribute>
-                                    </img>
-                                </div>
+                                </div>                                
                             </li>
                         </xsl:for-each>
                     </ul>
