@@ -136,9 +136,11 @@
                                                     select="./@target"
                                                 />
                                             </xsl:attribute>                                                                       
+											<i18n:text>
                                             <xsl:value-of
                                                 select="."
-                                            />
+												/>
+											</i18n:text>
                                         </a>
                                     </xsl:when>
                                     <!--
@@ -151,9 +153,11 @@
                                         <i18n:text>navigation.breadcrumb.viewitem</i18n:text>
                                     </xsl:when>
                                     <xsl:otherwise>
-                                        <xsl:value-of
-                                            select="."
-                                        />
+										<i18n:text>
+                                        	<xsl:value-of
+                                            	select="."
+											/>
+										</i18n:text>
                                     </xsl:otherwise>
                                 </xsl:choose>                                 
                             </li>

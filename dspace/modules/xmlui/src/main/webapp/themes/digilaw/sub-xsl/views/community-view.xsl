@@ -45,7 +45,7 @@
         </div>        
         <div class="row">
             <div class="col-sm-2 hidden-xs-down">
-                <img height="200" alt="page.community.serial.thumbnail" i18n:attribute="alt" class="img-responsive">
+                <img height="200" alt="page.community.serial.thumbnail" i18n:attr="alt" class="img-responsive">
                     <xsl:attribute name="src">
                         <xsl:value-of select="document($externalMetadata)/mets:METS/mets:fileSec/mets:fileGrp/mets:file/mets:FLocat/@xlink:href" />
                     </xsl:attribute>
@@ -480,14 +480,14 @@
                     <div class="col-md-2">
                         <xsl:choose>
                             <xsl:when test="document($volumeMetadata)/mets:METS/mets:fileSec/mets:fileGrp/mets:file/mets:FLocat/@xlink:href">
-                                <img alt="page.general.thumbnail" i18n:attribute="alt">
+                                <img alt="page.general.thumbnail" i18n:attr="alt">
                                     <xsl:attribute name="src">
                                         <xsl:value-of select="document($volumeMetadata)/mets:METS/mets:fileSec/mets:fileGrp/mets:file/mets:FLocat/@xlink:href"/>
                                     </xsl:attribute>
                                 </img>
                             </xsl:when>
                             <xsl:otherwise>
-                                <img class="img-responsive" alt="page.general.thumbnail" i18n:attribute="alt">
+                                <img class="img-responsive" alt="page.general.thumbnail" i18n:attr="alt">
                                     <xsl:attribute name="data-src">
                                         <xsl:text>holder.js/100px200</xsl:text>
                                         <xsl:text>?text=No Thumbnail</xsl:text>
@@ -532,14 +532,14 @@
                     <div class="col-md-2">
                         <xsl:choose>
                             <xsl:when test="document($volumeMetadata)/mets:METS/mets:fileSec/mets:fileGrp/mets:file/mets:FLocat/@xlink:href">
-                                <img alt="page.general.thumbnail" i18n:attribute="alt">
+                                <img alt="page.general.thumbnail" i18n:attr="alt">
                                     <xsl:attribute name="src">
                                         <xsl:value-of select="document($volumeMetadata)/mets:METS/mets:fileSec/mets:fileGrp/mets:file/mets:FLocat/@xlink:href"/>
                                     </xsl:attribute>
                                 </img>
                             </xsl:when>
                             <xsl:otherwise>
-                                <img alt="page.general.thumbnail" i18n:attribute="alt" class="img-responsive">
+                                <img alt="page.general.thumbnail" i18n:attr="alt" class="img-responsive">
                                     <xsl:attribute name="data-src">
                                         <xsl:text>holder.js/100px200</xsl:text>
                                         <xsl:text>?text=No Thumbnail</xsl:text>
