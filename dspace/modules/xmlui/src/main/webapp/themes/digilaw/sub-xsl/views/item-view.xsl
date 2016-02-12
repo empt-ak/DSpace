@@ -57,7 +57,7 @@
                         <i18n:text>page.item.fullentry</i18n:text>
                     </a>
                 </li>
-                <li class="nav-item">
+<!--                <li class="nav-item">
                     <a class="nav-link" href="#referencesTab" role="tab" data-toggle="tab">
                         <i18n:text>page.item.references</i18n:text>
                         <xsl:text> (</xsl:text>
@@ -66,12 +66,7 @@
                         />
                         <xsl:text>)</xsl:text>
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#similarTab" role="tab" data-toggle="tab">
-                        <i18n:text>page.item.similar</i18n:text>
-                    </a>
-                </li>
+                </li>-->
             </ul>
         </div>        
         <div class="row">
@@ -420,7 +415,7 @@
                             </table>
                         </div>
                     </div>
-                    <div role="tabpanel" class="tab-pane" id="referencesTab">
+<!--                    <div role="tabpanel" class="tab-pane" id="referencesTab">
                         <h2>!References</h2>
                         <small>
                             <ul class="list-unstyled">
@@ -440,83 +435,7 @@
                                 </xsl:for-each>
                             </ul>
                         </small>
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="similarTab">  
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <div class="card-block">
-                                        <h4 class="card-title">
-                                            <i18n:text>page.item.similar.lsi.title</i18n:text>
-                                        </h4>
-                                    </div>
-                                    <div class="card-block">
-                                        <p class="text-muted">
-                                            <i18n:text>page.item.similar.lsi.description</i18n:text>
-                                        </p>
-                                    </div>
-                                    <ul class="list-group list-group-flush">
-                                        <xsl:for-each
-                                            select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@mdschema='dmlcz' and @element='related' and @qualifier='lsi']"
-                                        >
-                                            <xsl:apply-templates
-                                                mode="similar"
-                                                select="."
-                                            />
-                                        </xsl:for-each>
-                                    </ul>                                    
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <div class="card-block">
-                                        <h4 class="card-title">
-                                            <i18n:text>page.item.similar.rpi.title</i18n:text>
-                                        </h4>
-                                    </div>
-                                    <div class="card-block">
-                                        <p class="text-muted">
-                                            <i18n:text>page.item.similar.rpi.description</i18n:text>
-                                        </p>
-                                    </div>
-                                    <ul class="list-group list-group-flush">
-                                        <xsl:for-each
-                                            select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@mdschema='dmlcz' and @element='related' and @qualifier='rp']"
-                                        >
-                                            <xsl:apply-templates
-                                                mode="similar"
-                                                select="."
-                                            />
-                                        </xsl:for-each>
-                                    </ul>                                    
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <div class="card-block">
-                                        <h4 class="card-title">
-                                            <i18n:text>page.item.similar.tfidf.title</i18n:text>
-                                        </h4>
-                                    </div>
-                                    <div class="card-block">
-                                        <p class="text-muted">
-                                            <i18n:text>page.item.similar.tfidf.description</i18n:text>
-                                        </p>
-                                    </div>
-                                    <ul class="list-group list-group-flush">
-                                        <xsl:for-each
-                                            select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@mdschema='dmlcz' and @element='related' and @qualifier='tfidf']"
-                                        >
-                                            <xsl:apply-templates
-                                                mode="similar"
-                                                select="."
-                                            />
-                                        </xsl:for-each>
-                                    </ul>                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </div>       
