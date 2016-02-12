@@ -5,11 +5,8 @@
  */
 package cz.muni.ics.digilaw.aspects;
 
-import cz.muni.ics.digilaw.aspects.comparators.ItemComparator;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.SortedSet;
-import java.util.TreeSet;
 import org.apache.cocoon.ProcessingException;
 import org.dspace.app.xmlui.cocoon.AbstractDSpaceTransformer;
 import org.dspace.app.xmlui.utils.HandleUtil;
@@ -22,7 +19,6 @@ import org.dspace.authorize.AuthorizeException;
 import org.dspace.content.Collection;
 import org.dspace.content.Community;
 import org.dspace.content.DSpaceObject;
-import org.dspace.content.Item;
 import org.dspace.content.ItemIterator;
 import org.xml.sax.SAXException;
 
@@ -82,17 +78,18 @@ public class CollectionAspect extends AbstractDSpaceTransformer
                 items = home.addReferenceSet("item-list", ReferenceSet.TYPE_SUMMARY_LIST);
             }
 
-            SortedSet<Item> sortedSet = new TreeSet<>(new ItemComparator());
+            // by default items are returned in alphabetical order
+//            SortedSet<Item> sortedSet = new TreeSet<>(new ItemComparator());
             ItemIterator ii = col.getItems();
             while (ii.hasNext())
             {
-                sortedSet.add(ii.next());
+                items.addReference(ii.next());
             }
 
-            for (Item i : sortedSet)
-            {
-                items.addReference(i);
-            }
+//            for (Item i : sortedSet)
+//            {
+//                items.addReference(i);
+//            }
         }
     }
 }
