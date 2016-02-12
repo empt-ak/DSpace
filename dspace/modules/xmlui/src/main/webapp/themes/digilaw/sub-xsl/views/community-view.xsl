@@ -334,7 +334,7 @@
             >
                 <xsl:choose>
                     <xsl:when
-                        test="$communityType='monograph'"
+                        test="$communityType='monography'"
                     >
                         <h3>
                             <i18n:text>page.community.monograph.archive</i18n:text>
