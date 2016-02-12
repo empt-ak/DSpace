@@ -75,7 +75,7 @@ and open the template in the editor.
     <message key="page.community.noentry.head">Zde nejsou žádné záznamy v této </message>
     <message key="page.community.noentry.body">Neznámý</message>
 
-    <message key="page.community.serial.thumbnail">Náhled</message>
+    <message key="page.community.serial.thumbnail">Náhledový obrázek</message>
     <message key="page.community.serial.issn">ISSN:</message>
     <message key="page.community.serial.publisher">Publisher:</message>
     <message key="page.community.serial.publicationplace">Publication place:</message>
