@@ -30,7 +30,7 @@
     >
         <div class="row">
             <div class="col-xs-12">
-                <h1>Feedback</h1>
+				<h1><i18n:text>page.static.feedback.title</i18n:text></h1>
             </div>
         </div>
         <form action="{@action}" method="{@method}">

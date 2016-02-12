@@ -7,5 +7,288 @@ and open the template in the editor.
 
 
 <catalogue xml:lang="en" xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
-<message key="xmlui.general.dspace_home">DSpace Home</message>
+    <!--<message key="navigation.main.button.about">DSpace Home</message>-->
+    <message key="navigation.main.button.aboutus">O nás</message>
+    <message key="navigation.main.button.news">Novinky</message>
+    <message key="navigation.main.button.faq">FAQ</message>    
+    <message key="navigation.main.button.terms">Podmínky užití</message>
+    <message key="navigation.main.button.matharchives"></message>
+    <message key="navigation.main.button.contactus">Kontakt</message>
+    <message key="navigation.main.button.search">Hledat ...</message>
+    <message key="navigation.main.button.toggle">Navigace</message>
+    <message key="navigation.breadcrumb.viewitem">Prohlédní záznam</message>
+    <message key="navigation.pun.previous">Předchozí</message>
+    <message key="navigation.pun.up">Nahoru</message>
+    <message key="navigation.pun.next">Další</message>
+    <message key="navigation.next">Další</message>
+    <message key="navigation.previous">Předchozí</message>
+    
+    <message key="page.head.title">Digitální knihovna Právnické fakulty MU</message>
+    <message key="page.title">DigiLaw</message>
+    
+    <message key="page.sidebar.left.quickstats">Stručné statistiky</message>
+    <message key="page.sidebar.left.quickstats.more">Více statistik</message>
+    <message key="page.sidebar.left.browseby">Procházet knihovnu</message>
+    <message key="page.sidebar.left.projects"></message>
+    <message key="page.sidebar.left.rss">RSS</message>
+    <message key="page.sidebar.left.count.author">Celkový počet autorů:</message>
+    <message key="page.sidebar.left.count.article">Celkový počet publikací:</message>
+    <message key="page.sidebar.right.discovery.keyword">Klíčová slova</message>
+    <message key="page.sidebar.right.discovery.author">Autoři</message>
+    <message key="page.sidebar.right.discovery.msc">MSC</message>
+    <message key="page.sidebar.right.discovery.more">Více...</message>
+    <message key="page.sidebar.right.related.items">Související publikace</message>
+    
+    <message key="page.footer.partners.title">Partners</message>
+    <message key="page.footer.partners.ascr">ASCR</message>
+    <message key="page.footer.partners.eudml">eudml</message>
+    <message key="page.footer.partners.ics">ics@mu</message>
+    <message key="page.footer.partners.fimu">fi@mu</message>
+    <message key="page.footer.partners.ficuni">fi@cuni</message>
+    <message key="page.footer.partners.libprague">lib@prague</message>
+    <message key="page.footer.links.title">Odkazy</message>
+    <message key="page.footer.links.sitemap">Sitemap</message>
+    <message key="page.footer.links.aboutus">O nás</message>
+    <message key="page.footer.links.news">Novinky</message>
+    <message key="page.footer.links.faq">FAQ</message>    
+    <message key="page.footer.links.terms">Podmínky užití</message>
+    <message key="page.footer.links.matharchives">Math archives</message>
+    <message key="page.footer.links.contactus">Kontakt</message>
+    <message key="page.footer.social.title">Social media</message>
+    <message key="page.footer.copyright.text">Právnická fakulta Masarykovy univerzity</message>
+    <message key="page.footer.contact">Kontakt:</message>
+    <message key="page.footer.contact.javascript">Pro zobrazeníkontaktního e-mailu si prosím aktivujte si JavaScript</message>
+    
+    
+    <message key="page.landing.thumbnail">Náhled</message>
+    <message key="page.landing.category.serial">Časopisy</message>
+    <message key="page.landing.category.monography">Monografie</message>
+    <message key="page.landing.category.proceedings">Sborníky</message>
+    <message key="page.landing.ellipsis">...</message>
+    <message key="page.landing.category.celebrity">Osobnosti</message>
+    <message key="page.landing.more">Více</message>
+    <message key="page.landing.jubotron">Digitální knihovna Právnické fakulty Masarykovy univerzity.</message>
+
+
+    <message key="page.community.published.untilnow">nyní</message>
+    <message key="page.community.unknown.head">Neznámý</message>
+    <message key="page.community.noentry.head">Zde nejsou žádné záznamy v této </message>
+    <message key="page.community.noentry.body">Neznámý</message>
+
+    <message key="page.community.serial.thumbnail">Náhled</message>
+    <message key="page.community.serial.issn">ISSN:</message>
+    <message key="page.community.serial.publisher">Publisher:</message>
+    <message key="page.community.serial.publicationplace">Publication place:</message>
+    <message key="page.community.serial.website">Journal website:</message>
+    <message key="page.community.serial.description">Description:</message>
+    <message key="page.community.serial.published">Published:</message>
+    <message key="page.community.serial.label.volumes">Volumes (Years)</message>
+    <message key="page.community.serial.label.volume">Volume</message>
+    <message key="page.community.serial.volume.issues">Issues within this volume</message>
+    <message key="page.community.serial.volume.thumbnail">Thumbnail of this volume</message>
+    <message key="page.community.serial.volume.issue">Issue</message>
+    <message key="page.community.serial.volume.volume">Volume</message>
+    
+    <message key="page.community.monograph.archive">Archiv</message>
+    <message key="page.community.proceedings.archive">Archiv</message>
+    <message key="page.community.celebrity.collections">Kolekce</message>
+    <message key="page.community.celebrity.volume.archive">Archiv</message>
+    
+    <message key="page.collection.proceedings.thumbnail">Náhled</message>
+    <message key="page.collection.proceedings.editors">Editors:</message>
+    <message key="page.collection.proceedings.organized">Organized by:</message>
+    <message key="page.collection.proceedings.venue">Venue:</message>
+    <message key="page.collection.proceedings.publisher">Publisher:</message>
+    <message key="page.collection.proceedings.isbn">ISBN:</message>
+    <message key="page.collection.proceedings.msc">MSC:</message>
+    <message key="page.collection.proceedings.toc">Table of contents:</message>
+    <message key="page.collection.monograph.creator">Autor:</message>
+    <message key="page.collection.monograph.contributor">Přispěvatel:</message>
+    <message key="page.collection.monograph.language">Jazyk:</message>
+    <message key="page.collection.monograph.issued">Vydal:</message>
+    <message key="page.collection.monograph.publisher">Vydavatel:</message>
+    <message key="page.collection.monograph.place">Místo:</message>
+    <message key="page.collection.monograph.printer">Tiskárna:</message>
+    <message key="page.collection.monograph.description">Popis:</message>
+    <message key="page.collection.monograph.note">Poznámka:</message>
+    <message key="page.collection.monograph.msc">MSC:</message>
+    <message key="page.collection.monograph.toc">Obsah</message>
+    
+    <message key="page.item.view">Otevřít</message>
+    <message key="page.item.fulltext">Plný text</message>
+    <message key="page.item.authors">Autoři</message>
+    <message key="page.item.msc">MSC</message>
+    <message key="page.item.zbmath">zbMATH</message>
+    <message key="page.item.idmr">Mathematical Reviews&#174;</message>
+    <message key="page.item.keywords">Klíčová slova</message>
+    <message key="page.item.citation">Citace</message>
+    <message key="page.item.abstract">Abstrakt</message>
+    <message key="page.item.entry">Záznam</message>
+    <message key="page.item.fullentry">Plný záznam</message>
+    <message key="page.item.references">Odkazy</message>
+    <message key="page.item.similar">Similar articles</message>
+    <message key="page.item.fullentry.schema">Schéma</message>
+    <message key="page.item.fullentry.element">Element</message>
+    <message key="page.item.fullentry.qualifier">Kvalifikátor</message>
+    <message key="page.item.fullentry.language">Jazyk</message>
+    <message key="page.item.fullentry.value">Hodnota</message>
+    <message key="page.item.missing.abstract">Tato položka nemá vyplněný abstrakt</message>
+    <message key="page.item.missing.author">Tato položka nemá vyplněné autory</message>
+    <message key="page.item.missing.title">Tato položka nemá vyplněný název</message>
+    <message key="page.item.date.lastupdate">Naposledy aktualizováno:</message>
+    <message key="page.item.similar.lsi.title">Method LSI</message>
+    <message key="page.item.similar.lsi.description">
+        <mark>Latent Semantic Indexing</mark> improves on TFIDF by taking into account the similarity between different words. This is accomplished by Singular Value Decomposion (a linear algebra method) of the term-document matrix.</message>
+    <message key="page.item.similar.rpi.title">Random Projection Method</message>
+    <message key="page.item.similar.rpi.description">The <mark>Random Projections</mark> method builds on the TFIDF method. It simplifies the computations by projecting vectors onto a subspace of lower dimensionality.</message>
+    <message key="page.item.similar.tfidf.title">TFIDF Method</message>
+    <message key="page.item.similar.tfidf.description">
+        <mark>Term Frequency - Inverse Document Frequency</mark> is a method which quantifies the amount of vocabulary overlap between two articles. Texts of the articles are represented as vectors in a vector space and the similarity is measured by their cosine angle.</message>
+    
+    <message key="page.search.table.occurences">Počet výskytů</message>
+    <message key="page.general.thumbnail">Náhled</message>
+    <message key="page.general.banner">Banner</message>
+    
+    <message key="page.discovery.filters-in-use">Současné filtry:</message>
+    
+    <message key="page.contact.help">Můžete použít následující možnosti.</message>
+    
+    <message key="page.error.error">ERROR: </message>
+    <message key="page.error.unknowntype">Unknown type</message>
+    <message key="page.error.noentries">Subcommunites and subcollections has to be imported first in order to display them</message>
+    
+    <message key="file.extension.size.bytes">B</message>
+    <message key="file.extension.size.kbytes">kB</message>
+    <message key="file.extension.size.mbytes">MB</message>
+    <message key="file.extension.size.gbytes">GB</message>
+    <message key="file.image.nopreview">Náhled není k dispozici</message>
+    
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.math">Math</message>
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.msc">MSC</message>
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.button.apply">Použít filtry</message>
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.button.add">Přidat filtr</message>
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.button.reset">Resetovat filtry</message>
+    <message key="xmlui.general.go">Hledej</message>
+    
+    <message key="xmlui.ArtifactBrowser.AbstractSearch.result_query">Na váš dotaz "{0}" bylo nalezeno {1} výsledků.</message>
+    <message key="xmlui.ArtifactBrowser.AbstractSearch.head2">Výsledky (kolekce)</message>
+    <message key="xmlui.ArtifactBrowser.AbstractSearch.head3">Výsledky (publikace)</message>
+    <message key="xmlui.ArtifactBrowser.AbstractSearch.no_results">Nebylo nic nalezeno.</message>
+    <message key="xmlui.ArtifactBrowser.AbstractSearch.all_of_dspace">Celou knihovnu</message>
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.head">Hledat</message>
+    <message key="xmlui.mirage2.discovery.showAdvancedFilters">Zobrazit pokročilé filtry</message>
+    <message key="xmlui.mirage2.discovery.hideAdvancedFilters">Skrýt pokorčilé filtry</message>
+    <message key="xmlui.Discovery.SimpleSearch.filter_head">Filtry</message>
+    <message key="xmlui.Discovery.SimpleSearch.filter_help">Použít filtry pro zpřesnění výsledků.</message>
+    <!-- org.dspace.app.xmlui.artifactbrowser.Navigation.java -->
+    <message key="xmlui.ArtifactBrowser.Navigation.head_browse">Procházet</message>
+    <message key="xmlui.ArtifactBrowser.Navigation.head_all_of_dspace">Celou knihovnu</message>
+    <message key="xmlui.ArtifactBrowser.Navigation.communities_and_collections">Kolekce</message>
+    <message key="xmlui.ArtifactBrowser.Navigation.browse_title">Názvy</message>
+    <message key="xmlui.ArtifactBrowser.Navigation.browse_author">Autoři</message>
+    <message key="xmlui.ArtifactBrowser.Navigation.browse_subject">Klíčová slova</message>
+    <message key="xmlui.ArtifactBrowser.Navigation.browse_dateissued">Dle data publikování</message>
+    <message key="xmlui.ArtifactBrowser.Navigation.browse_dateaccessioned">Dle data vložení do knihovny</message>
+    <message key="xmlui.ArtifactBrowser.Navigation.head_this_collection">Tuto kolekci</message>
+    <message key="xmlui.ArtifactBrowser.Navigation.head_this_community">Tuto kolekci</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.general.starts_with">Or enter first few letters:</message>    
+    <message key="xmlui.dri2xhtml.structural.pagination-info">Výsledky hledání {0}-{1} z celkem {2}</message>
+    <message key="xmlui.dri2xhtml.structural.pagination-info.nototal">Výsledky hledání {0}-{1}</message>
+    <message key="xmlui.Discovery.AbstractSearch.head2">Kolekce</message>
+    <message key="xmlui.Discovery.AbstractSearch.head3">Publikace</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.general.starts_with_help">Procházet publikace začínající písmenem</message>
+    <message key="xmlui.Discovery.AbstractSearch.sort_by.head">Možnosti třídění:</message>
+    <message key="xmlui.Discovery.AbstractSearch.sort_by.relevance">Relevance</message>
+    <message key="xmlui.Discovery.AbstractSearch.sort_by.dc.title_sort_asc">Název vzestupně</message>
+    <message key="xmlui.Discovery.AbstractSearch.sort_by.dc.title_sort_desc">Název sestupně</message>
+    <message key="xmlui.Discovery.AbstractSearch.sort_by.dc.date.issued_dt_asc">Datum vydání vzestupně</message>
+    <message key="xmlui.Discovery.AbstractSearch.sort_by.dc.date.issued_dt_desc">Datum vydání sestupně</message>
+	<message key="xmlui.Discovery.AbstractSearch.rpp">Výsledky/strana</message>
+    <message key="xmlui.ArtifactBrowser.Navigation.head_this_community">Procházet tuto kolekci</message>
+    <message key="xmlui.ArtifactBrowser.Navigation.head_this_collection">Procházet tuto kolekci</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.item.dateissued">Procházet dle data vydání</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.metadata.author">Procházet dle autora</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.item.title">Procházet dle názvu</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.metadata.subject">Procházet dle klíčových slov</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.subject.column_heading">Klíčová slova</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.author.column_heading">Autoři</message>
+    <message key="xmlui.ArtifactBrowser.Contact.head">Kontakt</message>
+    <message key="xmlui.ArtifactBrowser.Contact.feedback_label">Online formulář:</message>
+    <message key="xmlui.ArtifactBrowser.Contact.email">Váš e-mail: </message>
+    <message key="xmlui.ArtifactBrowser.Contact.feedback_link">Kontakt</message>
+    <message key="xmlui.ArtifactBrowser.FeedbackForm.email">Odeslat</message>
+    <message key="xmlui.ArtifactBrowser.FeedbackForm.email_help">Tato adresa bude použita pro odpověď na Váš dotaz.</message>
+	<message key="xmlui.ArtifactBrowser.FeedbackForm.comments">Dotaz/komentář: </message>
+    <message key="xmlui.ArtifactBrowser.FeedbackForm.submit">Odeslat</message>    
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.general.sort_by">Třídit dle</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.sort_by.title">Názvu</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.sort_by.dateissued">Data vydání</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.sort_by.dateaccessioned">Data vložení do knihovny</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.general.order">V pořadí</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.order.asc">Vzestupně</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.order.desc">Sestupně</message>
+	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.general.rpp">Výsledky/strana</message>
+
+
+	<message key="xmlui.general.dspace_home">Hlavní stránka</message>
+	<message key="xmlui.ArtifactBrowser.Contact.trail">Kontakt</message>
+	<message key="xmlui.ArtifactBrowser.FeedbackForm.trail">Kontakt - formulář</message>
+	<message key="xmlui.ArtifactBrowser.CommunityBrowser.trail">Kolekce</message>
+	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.item.dateissued">Dle data vydání</message>
+	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.metadata.author">Dle autora</message>
+	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.item.title">Dle názvu</message>
+	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.metadata.subject">Dle klíčových slov</message>
+
+
+
+
+	<message key="page.static.feedback.title">Kontakt</message>
+
+	<message key="page.static.news">
+		<div class="row">
+            <div class="col-xs-12">
+                <h1>Novinky</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="media">
+                    <div class="media-body">
+                        <h4 class="media-heading">x.y.2016</h4>
+						Spuštění knihovny
+                    </div>
+                </div>
+            </div>
+        </div>
+	</message>
+
+
+	<message key="page.static.aboutus">
+		<div class="row">
+            <div class="col-xs-12">
+                <h1>O digitální knihovně</h1>
+            </div>
+		</div>
+	</message>
+
+	<message key="page.static.conditions">
+		<div class="row">
+            <div class="col-xs-12">
+                <h1>Podmínky užití</h1>
+            </div>
+		</div>
+	</message>
+	
+	<message key="page.static.faq">
+		<div class="row">
+            <div class="col-xs-12">
+                <h1>Často kladené dotazy (FAQ)</h1>
+            </div>
+		</div>
+	</message>
+
+
+
+
+
 </catalogue>

@@ -23,12 +23,12 @@ and open the template in the editor.
     <message key="navigation.next">Next</message>
     <message key="navigation.previous">Next</message>
     
-    <message key="page.head.title">Czech Digital Mathematics Library</message>
-    <message key="page.title">dml.cz</message>
+    <message key="page.head.title">Digital Library of the Faculty of Law</message>
+    <message key="page.title">Digilaw</message>
     
     <message key="page.sidebar.left.quickstats">Quick statistics</message>
     <message key="page.sidebar.left.quickstats.more">More statistics</message>
-    <message key="page.sidebar.left.browseby">Browse in DSpace</message>
+    <message key="page.sidebar.left.browseby">Browse Digilaw</message>
     <message key="page.sidebar.left.projects">Projects and partners</message>
     <message key="page.sidebar.left.rss">RSS channels</message>
     <message key="page.sidebar.left.count.author">Total authors:</message>
@@ -55,7 +55,7 @@ and open the template in the editor.
     <message key="page.footer.links.matharchives">Math archives</message>
     <message key="page.footer.links.contactus">Contact Us</message>
     <message key="page.footer.social.title">Social media</message>
-    <message key="page.footer.copyright.text">Institute of Mathematics ASCR</message>
+    <message key="page.footer.copyright.text">Faculty of Law, Masaryk University</message>
     <message key="page.footer.contact">Contact:</message>
     <message key="page.footer.contact.javascript">Please enable javascript to see contact email</message>
     
@@ -65,9 +65,9 @@ and open the template in the editor.
     <message key="page.landing.category.monograph">Monographs</message>
     <message key="page.landing.category.proceedings">Proceedings</message>
     <message key="page.landing.ellipsis">...</message>
-    <message key="page.landing.category.celebrity">Eminent Czech mathematicians</message>
+    <message key="page.landing.category.celebrity">Eminent persons</message>
     <message key="page.landing.more">Read more</message>
-    <message key="page.landing.jubotron">Welcome to DML-CZ (Czech Digital Mathematics Library), the website offering an open access to the metadata and fulltext of mathematical journals, proceedings and books published throughout history in the Czech lands.</message>
+    <message key="page.landing.jubotron"></message>
 
 
     <message key="page.community.published.untilnow">now</message>

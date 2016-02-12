@@ -194,47 +194,36 @@
             <div class="row">
                 <div class="col-md-6 col-md-offset-3 col-xl-8 col-xl-offset-2 col-xs-12">
                     <div class="row">
-                        <div class="col-md-4 col-xs-12">
-                            <h4>
+						<!--
+						<div class="col-md-4 col-xs-12">	
+							<h4>
                                 <i18n:text>page.footer.partners.title</i18n:text>
-                            </h4>
-                            <ul>
-                                <li>
-                                    <a href="#">
-                                        <i18n:text>page.footer.partners.ascr</i18n:text>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i18n:text>page.footer.partners.eudml</i18n:text>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i18n:text>page.footer.partners.ics</i18n:text>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i18n:text>page.footer.partners.fimu</i18n:text>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i18n:text>page.footer.partners.ficuni</i18n:text>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i18n:text>page.footer.partners.libprague</i18n:text>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+							</h4>
+						</div>
+						-->
                         <div class="col-md-4 col-xs-12">
                             <h4>
                                 <i18n:text>page.footer.links.title</i18n:text>
                             </h4>
+                                    <a href="{concat($contextPath,'/sitemap')}">
+                                        <i18n:text>page.footer.links.sitemap</i18n:text>
+                                    </a> | 
+                                    <a href="{concat($contextPath,'/aboutus')}">
+                                        <i18n:text>page.footer.links.aboutus</i18n:text>
+                                    </a> |
+                                    <a href="{concat($contextPath,'/news')}">
+                                        <i18n:text>page.footer.links.news</i18n:text>
+                                    </a> |
+                                    <a href="{concat($contextPath,'/faq')}">
+                                        <i18n:text>page.footer.links.faq</i18n:text>
+                                    </a> |
+                                    <a href="{concat($contextPath,'/conditions')}">
+                                        <i18n:text>page.footer.links.terms</i18n:text>
+                                    </a> | 
+                                    <a href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page' and @qualifier='contactURL']}">
+                                        <i18n:text>page.footer.links.contactus</i18n:text>
+                                    </a>
+							<!--
                             <ul>
                                 <li>
                                     <a href="{concat($contextPath,'/sitemap')}">
@@ -262,16 +251,12 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{concat($contextPath,'/archives')}">
-                                        <i18n:text>page.footer.links.matharchives</i18n:text>
-                                    </a>
-                                </li>
-                                <li>
                                     <a href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page' and @qualifier='contactURL']}">
                                         <i18n:text>page.footer.links.contactus</i18n:text>
                                     </a>
                                 </li>                                                  
-                            </ul>
+							</ul>
+							-->
                         </div>
                         <div class="col-md-4 col-xs-12">
                             <h4>
@@ -344,7 +329,7 @@
                             <xsl:value-of
                                 select="$resourcePath"
                             />
-                            <xsl:text>/img/dml-logo.gif</xsl:text>
+                            <xsl:text>/img/znak_PF_fialovy_RGB.png</xsl:text>
                         </xsl:attribute>
                     </img>
                 </a>            

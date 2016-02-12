@@ -108,7 +108,7 @@ $(document).ready(function () {
 
 (function ($) {
     $.fn.email = function (options) {
-        var defaults = {user : 'webmaster', a : '@', domain : 'dml', suffix : ".cz" };
+        var defaults = {user : 'webmaster', a : '@', domain : 'digilaw', suffix : ".cz" };
         
         var output = $.extend({},defaults,options);
         var href = 'mailto:';

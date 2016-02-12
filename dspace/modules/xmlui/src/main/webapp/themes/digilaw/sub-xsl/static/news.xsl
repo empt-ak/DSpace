@@ -28,27 +28,8 @@
     <xsl:template 
         match="dri:body/dri:div[@id='cz.muni.ics.digilaw.aspects.statik.NewsAspect.div.news-section']"
     >
-        <div class="row">
-            <div class="col-xs-12">
-                <h1>News</h1>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="media">
-                    <div class="media-body">
-                        <h4 class="media-heading">09.09.2015</h4>
-                        Four new monographic collections of mid-20th century added to DML-CZ: Škola mladých matematiků (School of Young Mathematicians), Cesta k vědění (Path to Knowledge), Brána k vědění (Gate to Knowledge), Kruh (The Ring). The new conference series PANM added.
-                    </div>
-                </div>
-                <div class="media">
-                    <div class="media-body">
-                        <h4 class="media-heading">01.06.2015</h4>
-                        Digital Archive of prominent Czech mathematician Eduard Čech (1893–1960).
-                    </div>
-                </div>
-            </div>
-        </div>
+
+		<i18n:text>page.static.news</i18n:text>
     </xsl:template>
             
 </xsl:stylesheet>

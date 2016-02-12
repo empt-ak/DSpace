@@ -76,12 +76,14 @@
                     <xsl:attribute name="id">
                         <xsl:value-of select="./@rend" />
                     </xsl:attribute>
-                    <h2>
+					<h2>
+						<!--
                         <i18n:text>
                             <xsl:value-of
                                 select="concat('page.landing.category.',./@rend)"
                             />
-                        </i18n:text>
+						</i18n:text>
+						-->
                     </h2>
                     <ul class="media-list section-list">
                         <xsl:for-each select="dri:referenceSet[@id='cz.muni.ics.digilaw.aspects.MainAspect.referenceSet.topcom-listing']/dri:reference">
