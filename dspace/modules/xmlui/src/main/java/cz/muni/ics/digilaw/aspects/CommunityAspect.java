@@ -5,7 +5,6 @@
  */
 package cz.muni.ics.digilaw.aspects;
 
-import cz.muni.ics.digilaw.aspects.comparators.CollectionCelebrityComparator;
 import cz.muni.ics.digilaw.aspects.comparators.CollectionProceedingComparator;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -157,10 +156,10 @@ public class CommunityAspect extends AbstractDSpaceTransformer
                         break;
                         case "celebrity":
                         {
-                            SortedSet<Collection> temp = new TreeSet<>(new CollectionCelebrityComparator());
-                            temp.addAll(Arrays.asList(comm.getCollections()));
+//                            SortedSet<Collection> temp = new TreeSet<>(new CollectionCelebrityComparator());
+//                            temp.addAll(Arrays.asList(comm.getCollections()));
                             
-                            for(Collection c : temp)
+                            for(Collection c : comm.getCollections())
                             {
                                 issues.addReference(c);
                             }
