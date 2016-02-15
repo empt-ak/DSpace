@@ -132,11 +132,13 @@
         </div>
         <div class="row">
             <div class="col-sm-2 hidden-xs-down">
+				<!--
                 <img height="200" width="140" alt="page.collection.proceedings.thumbnail" i18n:attribute="alt">
                     <xsl:attribute name="src">
                         <xsl:value-of select="document(concat($collectionMetadata,',fileSec'))/mets:METS/mets:fileSec/mets:fileGrp/mets:file/mets:FLocat/@xlink:href" />
                     </xsl:attribute>
-                </img>
+				</img>
+				-->
             </div>
             <div class="col-sm-10">
                 <dl class="dl-horizontal">
@@ -335,11 +337,13 @@
         </div>
         <div class="row">
             <div class="col-sm-2 hidden-xs-down">
+				<!--
                 <img height="200" alt="page.collection.proceedings.thumbnail" i18n:attribute="alt" class="img-responsive">
                     <xsl:attribute name="src">
                         <xsl:value-of select="document(concat($collectionMetadata,',fileSec'))/mets:METS/mets:fileSec/mets:fileGrp/mets:file/mets:FLocat/@xlink:href" />
                     </xsl:attribute>
-                </img>
+				</img>
+				-->
             </div>
             <div class="col-sm-10">
                 <dl class="dl-horizontal">                    

@@ -109,12 +109,14 @@
                                             </img>
                                         </xsl:when>
                                         <xsl:otherwise>
+											<!--
                                             <img alt="page.general.thumbnail" i18n:attribute="alt" class="card-img-top hidden-xs-down">
                                                 <xsl:attribute name="data-src">
                                                     <xsl:text>holder.js/100px200</xsl:text>
                                                     <xsl:text>?text=No Thumbnail</xsl:text>
                                                 </xsl:attribute>
-                                            </img>
+											</img>
+											-->
                                         </xsl:otherwise>
                                     </xsl:choose>
                                     <div class="card-block card-block-reduced">

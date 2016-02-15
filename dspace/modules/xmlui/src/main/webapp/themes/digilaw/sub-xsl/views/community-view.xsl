@@ -44,13 +44,15 @@
             </div>
         </div>        
         <div class="row">
+			<!--
             <div class="col-sm-2 hidden-xs-down">
                 <img height="200" alt="page.community.serial.thumbnail" i18n:attr="alt" class="img-responsive">
                     <xsl:attribute name="src">
                         <xsl:value-of select="document($externalMetadata)/mets:METS/mets:fileSec/mets:fileGrp/mets:file/mets:FLocat/@xlink:href" />
                     </xsl:attribute>
                 </img>
-            </div>
+			</div>
+			-->
             <div class="col-sm-10">
                 <dl class="dl-horizontal">
                     <xsl:if
@@ -486,13 +488,15 @@
                                     </xsl:attribute>
                                 </img>
                             </xsl:when>
-                            <xsl:otherwise>
+							<xsl:otherwise>
+								<!--
                                 <img class="img-responsive" alt="page.general.thumbnail" i18n:attr="alt">
                                     <xsl:attribute name="data-src">
                                         <xsl:text>holder.js/100px200</xsl:text>
                                         <xsl:text>?text=No Thumbnail</xsl:text>
                                     </xsl:attribute>
-                                </img>
+								</img>
+								-->
                             </xsl:otherwise>
                         </xsl:choose>
                     </div>
@@ -539,12 +543,14 @@
                                 </img>
                             </xsl:when>
                             <xsl:otherwise>
+								<!--
                                 <img alt="page.general.thumbnail" i18n:attr="alt" class="img-responsive">
                                     <xsl:attribute name="data-src">
                                         <xsl:text>holder.js/100px200</xsl:text>
                                         <xsl:text>?text=No Thumbnail</xsl:text>
                                     </xsl:attribute>
-                                </img>
+								</img>
+								-->
                             </xsl:otherwise>
                         </xsl:choose>
                     </div>

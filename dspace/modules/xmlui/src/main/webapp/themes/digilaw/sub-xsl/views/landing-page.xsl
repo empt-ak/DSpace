@@ -108,12 +108,14 @@
                                         </xsl:when>
                                         <xsl:otherwise>
                                             <!-- TODO -->
+											<!--
                                             <img alt="page.general.thumbnail" class="img-responsive" i18n:attribute="alt">
                                                 <xsl:attribute name="data-src">
                                                     <xsl:text>holder.js/100x100</xsl:text>
                                                     <xsl:text>?text=No Thumbnail</xsl:text>
                                                 </xsl:attribute>
-                                            </img>
+											</img>
+											-->
                                         </xsl:otherwise>
                                     </xsl:choose> 
                                 </div>
@@ -123,6 +125,7 @@
                                             <xsl:value-of select="document($externalMetadataURL)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title']" />
                                         </a>
                                     </h4>
+									<!--
                                     <xsl:choose>
                                         <xsl:when
                                             test="string-length(document($externalMetadataURL)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']) &gt; 410"
@@ -139,7 +142,8 @@
                                         <xsl:otherwise>
                                             <xsl:value-of select="document($externalMetadataURL)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']" />
                                         </xsl:otherwise>
-                                    </xsl:choose>
+									</xsl:choose>
+									-->
                                 </div>                                
                             </li>
                         </xsl:for-each>
