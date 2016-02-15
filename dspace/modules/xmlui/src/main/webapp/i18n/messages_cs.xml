@@ -113,6 +113,7 @@ and open the template in the editor.
     <message key="page.collection.monograph.note">Poznámka:</message>
     <message key="page.collection.monograph.msc">MSC:</message>
     <message key="page.collection.monograph.toc">Obsah</message>
+	<message key="page.collection.missing.abstract">Tato položka nemá vyplněný popis.</message>
     
     <message key="page.item.view">Otevřít</message>
     <message key="page.item.fulltext">Plný text</message>
@@ -132,7 +133,7 @@ and open the template in the editor.
     <message key="page.item.fullentry.qualifier">Kvalifikátor</message>
     <message key="page.item.fullentry.language">Jazyk</message>
     <message key="page.item.fullentry.value">Hodnota</message>
-    <message key="page.item.missing.abstract">Tato položka nemá vyplněný abstrakt</message>
+    <message key="page.item.missing.abstract">Tato položka nemá vyplněný abstrakt.</message>
     <message key="page.item.missing.author">Tato položka nemá vyplněné autory</message>
     <message key="page.item.missing.title">Tato položka nemá vyplněný název</message>
     <message key="page.item.date.lastupdate">Naposledy aktualizováno:</message>
