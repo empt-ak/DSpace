@@ -151,17 +151,17 @@
                                                             <i18n:text>file.extension.size.bytes</i18n:text>
                                                         </xsl:when>
                                                         <xsl:when test="$size &lt; 1024 * 1024">
-                                                            <xsl:value-of select="substring(string($size div 1024),1,5)"/>
+                                                            <xsl:value-of select="substring(string($size div 1024),1,3)"/>
                                                             <xsl:text> </xsl:text>
                                                             <i18n:text>file.extension.size.kbytes</i18n:text>
                                                         </xsl:when>
                                                         <xsl:when test="$size &lt; 1024 * 1024 * 1024">
-                                                            <xsl:value-of select="substring(string($size div (1024 * 1024)),1,5)"/>
+                                                            <xsl:value-of select="substring(string($size div (1024 * 1024)),1,3)"/>
                                                             <xsl:text> </xsl:text>
                                                             <i18n:text>file.extension.size.mbytes</i18n:text>
                                                         </xsl:when>
                                                         <xsl:otherwise>
-                                                            <xsl:value-of select="substring(string($size div (1024 * 1024 * 1024)),1,5)"/>
+                                                            <xsl:value-of select="substring(string($size div (1024 * 1024 * 1024)),1,3)"/>
                                                             <xsl:text> </xsl:text>
                                                             <i18n:text>file.extension.size.gbytes</i18n:text>
                                                         </xsl:otherwise>
@@ -251,12 +251,15 @@
                                             </ul> 
                                         </div>
                                     </xsl:if>
-                                    <div class="card-block">
+									<div class="card-block">
                                         <h5 class="card-title">
                                             <i18n:text>page.item.citation</i18n:text>
-                                        </h5>
-                                        [mono]<b>Item#title</b>. (Item#language). In: Collection#editors: Collection#title. Collection#publisher, Collection#publisher#place, Collection#date. pp. Item#extent
-                                    </div>
+										</h5>
+										<!--
+										[mono]<b>Item#title</b>. (Item#language). In: Collection#editors: Collection#title. Collection#publisher, Collection#publisher#place, Collection#date. pp. Item#extent
+										-->
+
+									</div>
                                 </div>
                             </div>                                          
                         </div>
