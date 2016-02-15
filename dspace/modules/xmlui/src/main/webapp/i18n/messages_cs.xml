@@ -193,6 +193,7 @@ and open the template in the editor.
     <message key="xmlui.ArtifactBrowser.Navigation.head_this_collection">Tuto kolekci</message>
     <message key="xmlui.ArtifactBrowser.Navigation.head_this_community">Tuto kolekci</message>
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.general.starts_with">Or enter first few letters:</message>    
+	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.general.no_results">Nebyly nalezeny žádné výsledky</message>
     <message key="xmlui.dri2xhtml.structural.pagination-info">Výsledky hledání {0}-{1} z celkem {2}</message>
     <message key="xmlui.dri2xhtml.structural.pagination-info.nototal">Výsledky hledání {0}-{1}</message>
     <message key="xmlui.Discovery.AbstractSearch.head2">Kolekce</message>
@@ -213,6 +214,7 @@ and open the template in the editor.
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.metadata.subject">Procházet dle klíčových slov</message>
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.subject.column_heading">Klíčová slova</message>
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.author.column_heading">Autoři</message>
+	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.metadata.author">Autor</message>
     <message key="xmlui.ArtifactBrowser.Contact.head">Kontakt</message>
     <message key="xmlui.ArtifactBrowser.Contact.feedback_label">Online formulář:</message>
     <message key="xmlui.ArtifactBrowser.Contact.email">Váš e-mail: </message>
