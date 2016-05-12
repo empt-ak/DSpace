@@ -207,7 +207,7 @@ public class DSpaceTools
     /**
      * Out of given path (somewhere in ME) method recreates name for its PDF
      * file. For example <b>serial/1_SuperMag/14-1765-2/#3</b> the filename will
-     * be <b>1_SuperMag_14-1765-2_3</b>
+     * be <b>1_SuperMag_14-1765-2_3.pdf</b>
      *
      * @param path to be converted into PDF file name
      *
@@ -226,7 +226,7 @@ public class DSpaceTools
 
         sb.append(n.getName(n.getNameCount() - 1).toString().replace("#", ""));
 
-        return sb.toString();
+        return (sb.toString()) + ".pdf";
     }
 
     /**
