@@ -153,17 +153,17 @@
                                                             <i18n:text>file.extension.size.bytes</i18n:text>
                                                         </xsl:when>
                                                         <xsl:when test="$size &lt; 1024 * 1024">
-                                                            <xsl:value-of select="substring(string($size div 1024),1,3)"/>
+                                                            <xsl:value-of select="substring(string($size div 1024),1,4)"/>
                                                             <xsl:text> </xsl:text>
                                                             <i18n:text>file.extension.size.kbytes</i18n:text>
                                                         </xsl:when>
                                                         <xsl:when test="$size &lt; 1024 * 1024 * 1024">
-                                                            <xsl:value-of select="substring(string($size div (1024 * 1024)),1,3)"/>
+                                                            <xsl:value-of select="substring(string($size div (1024 * 1024)),1,4)"/>
                                                             <xsl:text> </xsl:text>
                                                             <i18n:text>file.extension.size.mbytes</i18n:text>
                                                         </xsl:when>
                                                         <xsl:otherwise>
-                                                            <xsl:value-of select="substring(string($size div (1024 * 1024 * 1024)),1,3)"/>
+                                                            <xsl:value-of select="substring(string($size div (1024 * 1024 * 1024)),1,4)"/>
                                                             <xsl:text> </xsl:text>
                                                             <i18n:text>file.extension.size.gbytes</i18n:text>
                                                         </xsl:otherwise>
