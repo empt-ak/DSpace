@@ -359,10 +359,14 @@
                                                 <a href="{document($collectionMetadata)/mets:METS/@OBJID}">
                                                     <xsl:value-of
                                                         select="document($collectionMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title' and @language]"
-                                                    />
-                                                    <xsl:value-of
+														/>
+													<xsl:if test="document($collectionMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title' and @qualifier='alternative' and @language]">
+														<xsl:text> (</xsl:text>
+                                                    	<xsl:value-of
                                                         select="document($collectionMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title' and @qualifier='alternative' and @language]"
-                                                    />
+														/>
+														<xsl:text>)</xsl:text>
+													</xsl:if>
                                                 </a>
                                                 
                                             </td>                                            
