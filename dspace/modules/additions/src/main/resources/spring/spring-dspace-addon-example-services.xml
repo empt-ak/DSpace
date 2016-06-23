@@ -26,202 +26,63 @@
     <!-- 
         allows us to use spring annotations in beans 
     -->
-    <context:annotation-config/> 
-    
-    <aop:aspectj-autoproxy proxy-target-class="true" />
+    <context:annotation-config/>
+
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
     <!--
         where to look
     -->
-    <context:component-scan base-package="cz.muni.ics" /> 
+    <context:component-scan base-package="cz.muni.ics"/>
 
     <!--
         import configurations of modules
     -->
-    <import resource="serialModule.xml" />
-    <import resource="monographModule.xml" />
-    <import resource="proceedingsModule.xml" />
-    <import resource="celebrityModule.xml" />
-    
-    
-    
-    <!--
-        command lines
-    -->
-    <bean
-        id="commandLineParser"
-        class="org.apache.commons.cli.DefaultParser"
-    />
+    <import resource="serialModule.xml"/>
+    <import resource="monographModule.xml"/>
+    <import resource="proceedingsModule.xml"/>
+    <import resource="celebrityModule.xml"/>
+
+    <util:list id="importOptions">
+        <bean
+                class="cz.muni.ics.dspace5.impl.io.CLIOptionImpl"
+                p:description="Path in meditor"
+                p:option="value"
+                p:hasArgs="true"
+                p:required="true"
+        />
+        <bean
+                class="cz.muni.ics.dspace5.impl.io.CLIOptionImpl"
+                p:description="Method of import single/update"
+                p:option="method"
+                p:hasArgs="true"
+                p:required="true"
+        />
+        <bean
+                class="cz.muni.ics.dspace5.impl.io.CLIOptionImpl"
+                p:description="user executing import"
+                p:required="false"
+                p:option="user"
+                p:hasArgs="true"
+        />
+    </util:list>
 
     <bean
-        id="helpFormatter"
-        class="org.apache.commons.cli.HelpFormatter"
-        p:optionComparator-ref="optionComparator"
-    />
-    
-    <bean
-        id="commandLineService"
+        id="commandLineSerivce"
         class="cz.muni.ics.dmlcz5.services.io.CommandLineServiceImpl"
-    >
-        <lookup-method
-            name="getDeleteCommandLine"
-            bean="deleteCommandLine"
-        />
-        <lookup-method
-            name="getImportCommandLine"
-            bean="importCommandLine"
-        />
-        <lookup-method
-            name="getMovingWallCommandLine"
-            bean="movingWallCommandLine"
-        />
-    </bean>
-    
-    <bean
-        id="userOption"
-        class="org.apache.commons.cli.Option"
-        c:opt="#{null}"
-        c:longOpt="user"
-        c:hasArg="true"
-        c:description="OPTIONAL. User under which import should be executed. If parameter is not used, then first one ever created (administrator) will be used."
-    >
-        <property name="required" value="false" />
-        <property name="argName" value="user" />
-    </bean>
-    
-    <bean
-        id="deleteCommandLine"
-        class="cz.muni.ics.dmlcz5.services.io.DeleteCommandLine"
-        p:subClass="cz.muni.ics.dspace5.Delete"
-    >
+        >
         <property name="options">
-            <list>
-                <ref bean="userOption" />
-                <bean
-                    class="org.apache.commons.cli.Option"
-                    c:opt="#{null}"
-                    c:longOpt="value"
-                    c:hasArg="true"
-                    c:description="REQUIRED. either handle, or path based on --method value. By default --method is set to handle so value should be handle with prefix. If --method=path, then value should be path inside MEditor base."
-                >
-                    <property name="required" value="true" />
-                    <property name="argName" value="value" />
-                </bean>
-                <bean
-                    class="org.apache.commons.cli.Option"
-                    c:opt="#{null}"
-                    c:longOpt="method"
-                    c:hasArg="true"
-                    c:description="OPTIONAL. Can be either 'handle', which deletes object and its descendants by handle value specified by --value option, or 'path' which deletes by path specified again by --value option. By default set to 'handle'."
-                >
-                    <property name="required" value="false" />
-                    <property name="argName" value="method" />
-                </bean>
-            </list>
+            <map>
+                <entry key="import" value-ref="importOptions" />
+            </map>
         </property>
     </bean>
-    
-    <!--
-        set is used because .contains() runs in O(1), 
-        if we used list it would be O(n)
-    -->
-    <util:set id="movingWallOptions">
-        <value>lock</value>
-        <value>unlock</value>
-        <value>auto</value>
-        <value>off</value>
-    </util:set>
-    
+
+
+
     <bean
-        id="importCommandLine"
-        class="cz.muni.ics.dmlcz5.services.io.ImportCommandLine"
-        p:subClass="cz.muni.ics.dspace5.Import"
-        p:movingWallOptions-ref="movingWallOptions"
-    >
-        <property name="options">
-            <list>
-                <ref bean="userOption" />
-                <bean
-                    class="org.apache.commons.cli.Option"
-                    c:opt="#{null}"
-                    c:longOpt="value"
-                    c:hasArg="true"
-                    c:description="REQUIRED. Path to be imported inside DSpace. Value should be already as part of path e.g. serial/6_SomeSerial"
-                >
-                    <property name="required" value="true" />
-                    <property name="argName" value="value" />
-                </bean>
-                <bean
-                    class="org.apache.commons.cli.Option"
-                    c:opt="#{null}"
-                    c:longOpt="method"
-                    c:hasArg="true"
-                    c:description="OPTIONAL. Can be either 'single', which updates only current object and its parents, or 'all' which includes parents, object and its ancestors. By default value is set to 'all'."
-                >
-                    <property name="required" value="false" />
-                    <property name="argName" value="method" />
-                </bean>
-                <bean
-                    class="org.apache.commons.cli.Option"
-                    c:opt="#{null}"
-                    c:longOpt="movingwall"
-                    c:hasArg="true"
-                    c:description="OPTIONAL. Whether moving wall should or should ne be executed, based on parameter value. Values can be 'lock', with which all objects are locked, if they should be, 'unlock', which unlocks all objects, when they should not be under restriction, 'auto' for locking objects if they should be locked, and unlocking if they should not be and 'off' for ignoring restriction setting. By default set to 'auto'."
-                >
-                    <property name="required" value="false" />
-                    <property name="argName" value="movingwall" />
-                </bean>
-                <bean
-                    class="org.apache.commons.cli.Option"
-                    c:opt="#{null}"
-                    c:longOpt="check"
-                    c:hasArg="false"
-                    c:description="OPTIONAL. If files should be prechecked first, values can be 'true', or 'false' which results in desired behaviour. By default set to 'false'"
-                >
-                    <property name="required" value="false" />
-                </bean>                
-            </list>
-        </property>
-    </bean>
-    
-    <bean
-        id="movingWallCommandLine"
-        class="cz.muni.ics.dmlcz5.services.io.MovingWallCommandLine"
-        p:subClass="cz.muni.ics.dspace5.MovingWall"
-        p:movingWallOptions-ref="movingWallOptions"
-    >
-        <property name="options">
-            <util:list>
-                <ref
-                    bean="userOption"
-                />
-                <bean
-                    class="org.apache.commons.cli.Option"
-                    c:opt="#{null}"
-                    c:longOpt="value"
-                    c:hasArg="true"
-                    c:description="REQUIRED. Path to be imported inside DSpace. Value should be already as part of path e.g. serial/6_SomeSerial"
-                >
-                    <property name="required" value="true" />
-                    <property name="argName" value="value" />
-                </bean>
-                <bean
-                    class="org.apache.commons.cli.Option"
-                    c:opt="#{null}"
-                    c:longOpt="method"
-                    c:hasArg="true"
-                    c:description="k"
-                >
-                    <property name="required" value="false" />
-                    <property name="argName" value=" method"/> 
-                </bean>
-            </util:list>
-        </property>
-    </bean>
-    
-    <bean
-        id="jaxbc"
-        class="javax.xml.bind.JAXBContext"
-        factory-method="newInstance"
+            id="jaxbc"
+            class="javax.xml.bind.JAXBContext"
+            factory-method="newInstance"
     >
         <constructor-arg>
             <list>
@@ -234,67 +95,67 @@
             </list>
         </constructor-arg>
     </bean>
-    
+
     <bean
-        id="unmarshaller"
-        class="javax.xml.bind.Unmarshaller"
-        factory-bean="jaxbc"
-        factory-method="createUnmarshaller"
+            id="unmarshaller"
+            class="javax.xml.bind.Unmarshaller"
+            factory-bean="jaxbc"
+            factory-method="createUnmarshaller"
     />
-    
+
     <bean
-        id="objectWrapper"
-        class="cz.muni.ics.dmlcz5.ObjectWrapperImpl"
-        scope="prototype"
+            id="objectWrapper"
+            class="cz.muni.ics.dmlcz5.ObjectWrapperImpl"
+            scope="prototype"
     />
-    
+
     <bean
-        id="issuePathComparator"
-        class="cz.muni.ics.dspace5.comparators.IssuePathComparator"
+            id="issuePathComparator"
+            class="cz.muni.ics.dspace5.comparators.IssuePathComparator"
     />
-    
+
     <bean
-        id="articlePathComparator"
-        class="cz.muni.ics.dspace5.comparators.ArticlePathComparator"
+            id="articlePathComparator"
+            class="cz.muni.ics.dspace5.comparators.ArticlePathComparator"
     />
-    
+
     <bean
-        id="optionComparator"
-        class="cz.muni.ics.dspace5.comparators.OptionComparator"
+            id="optionComparator"
+            class="cz.muni.ics.dspace5.comparators.OptionComparator"
     />
-    
+
     <bean
-        id="comparatorFactory"
-        class="cz.muni.ics.dspace5.comparators.ComparatorFactory"
+            id="comparatorFactory"
+            class="cz.muni.ics.dspace5.comparators.ComparatorFactory"
     >
         <lookup-method
-            name="provideIssuePathComparator"
-            bean="issuePathComparator"
-        />        
-        <lookup-method
-            name="provideArticlePathComparator"
-            bean="articlePathComparator"
+                name="provideIssuePathComparator"
+                bean="issuePathComparator"
         />
         <lookup-method
-            name="provideOptionComparator"
-            bean="optionComparator"
+                name="provideArticlePathComparator"
+                bean="articlePathComparator"
+        />
+        <lookup-method
+                name="provideOptionComparator"
+                bean="optionComparator"
         />
     </bean>
-    
+
     <bean
-        id="objectWrapperFactory"
-        class="cz.muni.ics.dspace5.impl.ObjectWrapperFactoryImpl"
+            id="objectWrapperFactory"
+            class="cz.muni.ics.dspace5.impl.ObjectWrapperFactoryImpl"
     >
         <lookup-method
-            name="createObjectWrapper"
-            bean="objectWrapper"
+                name="createObjectWrapper"
+                bean="objectWrapper"
         />
     </bean>
-    
+
     <bean
-        id="mapper"
-        class="org.dozer.DozerBeanMapper"
-        scope="singleton"
+            id="mapper"
+            class="org.dozer.DozerBeanMapper"
+            scope="singleton"
     >
         <property name="mappingFiles">
             <list>
@@ -303,88 +164,88 @@
         </property>
         <property name="customConvertersWithId">
             <map>
-                <entry key="simpleconverter" value-ref="simpleElementConverter" />
-                <entry key="composedconverter" value-ref="composedElementConverter" />
+                <entry key="simpleconverter" value-ref="simpleElementConverter"/>
+                <entry key="composedconverter" value-ref="composedElementConverter"/>
                 <!--<entry key="relateddocumentconverter" value-ref="relatedDocumentConverter" />-->
-                <entry key="dmlnoteconverter" value-ref="dmlNoteConverter" />
-                <entry key="titlecompconverter" value-ref="titlecompConverter" />
-                <entry key="dmlpersonconverter" value-ref="dmlPersonConverter" />
+                <entry key="dmlnoteconverter" value-ref="dmlNoteConverter"/>
+                <entry key="titlecompconverter" value-ref="titlecompConverter"/>
+                <entry key="dmlpersonconverter" value-ref="dmlPersonConverter"/>
             </map>
         </property>
-    </bean> 
-    
+    </bean>
+
     <bean
-        id="simpleElementConverter"
-        class="cz.muni.ics.dmlcz5.convertors.SimpleElementConverter"
-    />      
-            
-    <bean
-        id="composedElementConverter"
-        class="cz.muni.ics.dmlcz5.convertors.ComposedElementConverter"
-        p:valueFieldName="value"
+            id="simpleElementConverter"
+            class="cz.muni.ics.dmlcz5.convertors.SimpleElementConverter"
     />
-    
+
     <bean
-        id="dmlNoteConverter"
-        class="cz.muni.ics.dmlcz5.convertors.ComposedElementConverter"
-        p:valueFieldName="content"
+            id="composedElementConverter"
+            class="cz.muni.ics.dmlcz5.convertors.ComposedElementConverter"
+            p:valueFieldName="value"
     />
-    
+
     <bean
-        id="titlecompConverter"
-        class="cz.muni.ics.dmlcz5.convertors.TitlecompConverter"
-        p:subtitleSchema="dc"
-        p:subtitleElement="title"
-        p:subtitleQualifier="alternative"
-        p:volumeSchema="dc"
-        p:volumeElement="title"
-        p:volumeQualifier="volume"
+            id="dmlNoteConverter"
+            class="cz.muni.ics.dmlcz5.convertors.ComposedElementConverter"
+            p:valueFieldName="content"
     />
-    
+
     <bean
-        id="dmlPersonConverter"
-        class="cz.muni.ics.dmlcz5.convertors.DmlPersonConvertor"
+            id="titlecompConverter"
+            class="cz.muni.ics.dmlcz5.convertors.TitlecompConverter"
+            p:subtitleSchema="dc"
+            p:subtitleElement="title"
+            p:subtitleQualifier="alternative"
+            p:volumeSchema="dc"
+            p:volumeElement="title"
+            p:volumeQualifier="volume"
     />
-        
+
     <bean
-        id="documentBuilderFactory"
-        class="javax.xml.parsers.DocumentBuilderFactory"
-        factory-method="newInstance"
+            id="dmlPersonConverter"
+            class="cz.muni.ics.dmlcz5.convertors.DmlPersonConvertor"
     />
-    
+
     <bean
-        id="documentBuilder"
-        class="javax.xml.parsers.DocumentBuilder"
-        factory-bean="documentBuilderFactory"
-        factory-method="newDocumentBuilder"
+            id="documentBuilderFactory"
+            class="javax.xml.parsers.DocumentBuilderFactory"
+            factory-method="newInstance"
     />
-    
+
     <bean
-        id="xPathFactory"
-        class="javax.xml.xpath.XPathFactory"
-        factory-method="newInstance"
+            id="documentBuilder"
+            class="javax.xml.parsers.DocumentBuilder"
+            factory-bean="documentBuilderFactory"
+            factory-method="newDocumentBuilder"
     />
-    
+
     <bean
-        id="xPath"
-        class="javax.xml.xpath.XPath"
-        factory-bean="xPathFactory"
-        factory-method="newXPath"
-    /> 
-    
-    <bean
-        id="collectionLocker"
-        class="cz.muni.ics.dmlcz5.movingwall.CollectionMWLocker"
+            id="xPathFactory"
+            class="javax.xml.xpath.XPathFactory"
+            factory-method="newInstance"
     />
-    
+
     <bean
-        id="bitstreamLocker"
-        class="cz.muni.ics.dmlcz5.movingwall.BitstreamMWLocker"
+            id="xPath"
+            class="javax.xml.xpath.XPath"
+            factory-bean="xPathFactory"
+            factory-method="newXPath"
     />
-    
+
     <bean
-        id="mwLockerProvider"
-        class="cz.muni.ics.dmlcz5.movingwall.MWLockerProviderImpl"
+            id="collectionLocker"
+            class="cz.muni.ics.dmlcz5.movingwall.CollectionMWLocker"
+    />
+
+    <bean
+            id="bitstreamLocker"
+            class="cz.muni.ics.dmlcz5.movingwall.BitstreamMWLocker"
+    />
+
+    <bean
+            id="mwLockerProvider"
+            class="cz.muni.ics.dmlcz5.movingwall.MWLockerProviderImpl"
     >
         <property name="implementedClasses">
             <list>
@@ -393,89 +254,89 @@
             </list>
         </property>
         <lookup-method
-            name="getCollectionLocker"
-            bean="collectionLocker"
+                name="getCollectionLocker"
+                bean="collectionLocker"
         />
         <lookup-method
-            name="getBitstreamLocker"
-            bean="bitstreamLocker"
+                name="getBitstreamLocker"
+                bean="bitstreamLocker"
         />
     </bean>
-    
+
     <bean
-        id="moduleManager"
-        class="cz.muni.ics.dspace5.impl.ModuleManagerImpl"
+            id="moduleManager"
+            class="cz.muni.ics.dspace5.impl.ModuleManagerImpl"
     >
         <property name="availableModules">
             <map>
-                <entry key="serial" value-ref="serialModule" />
-                <entry key="monograph" value-ref="monographModule" />
-                <entry key="proceedings" value-ref="proceedingsModule" />
-                <entry key="celebrity" value-ref="celebrityModule" />
+                <entry key="serial" value-ref="serialModule"/>
+                <entry key="monograph" value-ref="monographModule"/>
+                <entry key="proceedings" value-ref="proceedingsModule"/>
+                <entry key="celebrity" value-ref="celebrityModule"/>
             </map>
         </property>
     </bean>
-    
+
     <bean
-        id="deleteObjectService"
-        class="cz.muni.ics.dspace5.impl.io.DeleteObjectService"
+            id="deleteObjectService"
+            class="cz.muni.ics.dspace5.impl.io.DeleteObjectService"
     />
-    
+
     <bean
-        id="importAndMovingWallObjectService"
-        class="cz.muni.ics.dspace5.impl.io.ImportAndMovingWallObjectService"
+            id="importAndMovingWallObjectService"
+            class="cz.muni.ics.dspace5.impl.io.ImportAndMovingWallObjectService"
     />
-    
+
     <bean
-        id="dspaceExecutor"
-        class="cz.muni.ics.dspace5.impl.io.DSpaceExecutorImpl"
+            id="dspaceExecutor"
+            class="cz.muni.ics.dspace5.impl.io.DSpaceExecutorImpl"
     >
         <property name="dspaceServices">
             <map>
-                <entry key="delete" value-ref="deleteObjectService" />
-                <entry key="import" value-ref="importAndMovingWallObjectService" />
-                <entry key="movingwall" value-ref="importAndMovingWallObjectService" />
+                <entry key="delete" value-ref="deleteObjectService"/>
+                <entry key="import" value-ref="importAndMovingWallObjectService"/>
+                <entry key="movingwall" value-ref="importAndMovingWallObjectService"/>
             </map>
         </property>
     </bean>
-    
-<!--    <bean
-        id="citationProvider"
-        class="cz.muni.ics.dspace5.citation.CitationProviderImpl"
-        
-    />    
-    
-    <bean
-        id="iso690Processor"
-        class="cz.muni.ics.dspace5.citation.CitationProcessorImpl"
-        p:dcField="dc.identifier.citation"
-        p:citationProvider-ref="citationProvider"
-        p:language="cs-CZ"
-        p:style="iso690-numeric-cs"
-    />
-    
-    <bean
-        id="ieeeProcessor"
-        class="cz.muni.ics.dspace5.citation.CitationProcessorImpl"
-        p:dcField="dc.identifier.citation"
-        p:citationProvider-ref="citationProvider"
-        p:language="cs-CZ"
-        p:style="ieee"
-    />
-    
-    <bean
-        id="citationProviderFactory"
-        class="cz.muni.ics.dspace5.citation.CitationProviderFactory"
-    >
-        <property name="processors">
-            <list>
-                <ref
-                    bean="ieeeProcessor"
-                />
-                <ref
-                    bean="iso690Processor"
-                />
-            </list>
-        </property>
-    </bean>-->
+
+    <!--    <bean
+            id="citationProvider"
+            class="cz.muni.ics.dspace5.citation.CitationProviderImpl"
+
+        />
+
+        <bean
+            id="iso690Processor"
+            class="cz.muni.ics.dspace5.citation.CitationProcessorImpl"
+            p:dcField="dc.identifier.citation"
+            p:citationProvider-ref="citationProvider"
+            p:language="cs-CZ"
+            p:style="iso690-numeric-cs"
+        />
+
+        <bean
+            id="ieeeProcessor"
+            class="cz.muni.ics.dspace5.citation.CitationProcessorImpl"
+            p:dcField="dc.identifier.citation"
+            p:citationProvider-ref="citationProvider"
+            p:language="cs-CZ"
+            p:style="ieee"
+        />
+
+        <bean
+            id="citationProviderFactory"
+            class="cz.muni.ics.dspace5.citation.CitationProviderFactory"
+        >
+            <property name="processors">
+                <list>
+                    <ref
+                        bean="ieeeProcessor"
+                    />
+                    <ref
+                        bean="iso690Processor"
+                    />
+                </list>
+            </property>
+        </bean>-->
 </beans>

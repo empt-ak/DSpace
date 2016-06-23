@@ -5,7 +5,6 @@
  */
 package cz.muni.ics.dspace5.impl.io;
 
-import cz.muni.ics.dspace5.api.CommandLineService;
 import cz.muni.ics.dspace5.api.DSpaceObjectService;
 import cz.muni.ics.dspace5.api.HandleService;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
