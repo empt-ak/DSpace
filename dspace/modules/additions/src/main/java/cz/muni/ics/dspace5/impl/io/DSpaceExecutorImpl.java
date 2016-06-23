@@ -6,14 +6,13 @@
 package cz.muni.ics.dspace5.impl.io;
 
 import cz.muni.ics.dspace5.api.DSpaceExecutor;
-import cz.muni.ics.dspace5.api.CommandLineService;
 import cz.muni.ics.dspace5.api.DSpaceObjectService;
 import cz.muni.ics.dspace5.impl.ContextWrapper;
 import cz.muni.ics.dspace5.impl.InputDataMap;
-import java.util.Map;
-import org.apache.commons.cli.ParseException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Map;
 
 /**
  *
@@ -44,10 +43,11 @@ public class DSpaceExecutorImpl implements DSpaceExecutor
 
         try
         {
-            commandLineService.getCommandLine(mode).process(args);
+            commandLineService.parse(mode,args).process();
         }
-        catch (ParseException pe)
+        catch (Exception pe)
         {
+            logger.fatal(pe.getMessage());
             error = true;
         }
 
