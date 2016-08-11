@@ -17,10 +17,12 @@
             <a>volumeName</a>
             <b>metadata</b>
         </field>
+		<!--
 		<field custom-converter-id="simpleconverter" custom-converter-param="dc.title">
 			<a>title</a>
 			<b>metadata</b>
 		</field>
+		-->
     </mapping>   
     
     <mapping>
