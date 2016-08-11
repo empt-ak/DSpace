@@ -45,6 +45,19 @@
             <xsl:value-of select="./@url"/>
             <xsl:text>?sections=dmdSec,fileSec</xsl:text>
         </xsl:variable>
+
+		<xsl:variable name="collectionMetadataLink">
+			<xsl:value-of select="../../dri:referenceSet[@n='current-collection']/dri:reference/@url" />
+		</xsl:variable>
+
+		<xsl:variable name="collectionMetadata">
+			<xsl:text>cocoon://</xsl:text>
+			<xsl:value-of select="$collectionMetadataLink" />
+			<xsl:text>?sections=fileSec</xsl:text>
+		</xsl:variable>
+
+
+		<h1 id="test2" style="display: none"><xsl:value-of select="$collectionMetadataLink" /></h1>
         <div class="col-xs-12">
             <ul class="nav nav-tabs pull-sm-left pull-md-right" role="tablist">
                 <li class="nav-item">
@@ -254,9 +267,11 @@
                                         </div>
                                     </xsl:if>
 									<div class="card-block">
+										<!--
                                         <h5 class="card-title">
                                             <i18n:text>page.item.citation</i18n:text>
 										</h5>
+										-->
 										<!--
 										[mono]<b>Item#title</b>. (Item#language). In: Collection#editors: Collection#title. Collection#publisher, Collection#publisher#place, Collection#date. pp. Item#extent
 										-->
