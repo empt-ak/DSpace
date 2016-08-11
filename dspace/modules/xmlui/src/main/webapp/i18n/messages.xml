@@ -62,7 +62,7 @@ and open the template in the editor.
     
     <message key="page.landing.thumbnail">Thumbnail of this entry</message>
     <message key="page.landing.category.serial">Journals</message>
-    <message key="page.landing.category.monograph">Monographs</message>
+    <message key="page.landing.category.monography">Monographs</message>
     <message key="page.landing.category.proceedings">Proceedings</message>
     <message key="page.landing.ellipsis">...</message>
     <message key="page.landing.category.celebrity">Eminent persons</message>
@@ -169,6 +169,7 @@ and open the template in the editor.
     <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.button.add">Add filter</message>
     <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.button.reset">Reset filters</message>
     <message key="xmlui.general.go">Go</message>
+	<message key="xmlui.general.dspace_home">Homepage</message>
     
     <message key="xmlui.ArtifactBrowser.AbstractSearch.result_query">Your query "{0}" produced {1} result(s).</message>
     <message key="xmlui.ArtifactBrowser.AbstractSearch.head2">Communities or Collections matching your query</message>
@@ -228,4 +229,9 @@ and open the template in the editor.
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.order.asc">Ascending</message>
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.order.desc">Descending</message>
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.general.rpp">Results/page</message>
+	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.metadata.subject">Browsing by Subject</message>
+	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.metadata.author">Browsing by Author</message>
+	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.item.title">Browsing by Title</message>
+	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.item.dateissued">Browsing by Date Issued</message>
+	<message key="xmlui.ArtifactBrowser.CommunityBrowser.trail">Collections Browse</message>
 </catalogue>
