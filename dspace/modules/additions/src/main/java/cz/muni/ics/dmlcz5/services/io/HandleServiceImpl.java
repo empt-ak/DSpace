@@ -24,7 +24,8 @@ import java.util.Map;
 import java.util.TreeMap;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import org.apache.commons.lang.StringUtils;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.dspace.content.DSpaceObject;
 import org.dspace.handle.HandleManager;
@@ -257,13 +258,19 @@ public class HandleServiceImpl implements HandleService
     
     private boolean isRetro(Path p)
     {
-        return p.getName(5).toString().endsWith("Retro");
+        return dSpaceTools.getOnlyMEPath(p).getName(1).toString().endsWith("Retro");
     }
     
     private Path fixRetroPath(Path p)
     {
-        return p.subpath(0, 5)
-                .resolve(StringUtils.substringBefore(p.getName(5).toString(), "Retro"))
-                .resolve(p.subpath(6, p.getNameCount()));
+        Path result = dSpaceTools.getMeditorRootPath();
+        Path mePath = dSpaceTools.getOnlyMEPath(p);
+        result = result.resolve(mePath.getName(0));
+        result = result.resolve(StringUtils.substringBefore(mePath.getName(1).toString(),"Retro"));
+        if(mePath.getNameCount()>2){
+            result = result.resolve(mePath.subpath(2,mePath.getNameCount()-1));
+        }
+
+        return result;
     }
 }
