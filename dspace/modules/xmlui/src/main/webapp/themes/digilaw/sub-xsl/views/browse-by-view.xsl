@@ -33,11 +33,7 @@
         <div class="row">
             <div class="col-xs-12">
                 <h1>
-                    <i18n:text>
-                        <xsl:value-of
-                            select="./dri:head"
-                        />
-                    </i18n:text>
+						<xsl:apply-templates select="dri:head" />
                 </h1>
             </div>
         </div>
@@ -197,7 +193,7 @@
                         <tr>
                             <th>
                                 <i18n:text>
-                                    <xsl:value-of
+                                    <xsl:copy-of
                                         select="./dri:table[starts-with(@id,'aspect.artifactbrowser.ConfigurableBrowse.table.browse-by-')]/dri:row[@role='header']/dri:cell"
                                     />
                                 </i18n:text>

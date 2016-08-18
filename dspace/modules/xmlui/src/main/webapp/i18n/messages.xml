@@ -234,4 +234,5 @@ and open the template in the editor.
 	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.item.title">Browsing by Title</message>
 	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.item.dateissued">Browsing by Date Issued</message>
 	<message key="xmlui.ArtifactBrowser.CommunityBrowser.trail">Collections Browse</message>
+	<message key="xmlui.ArtifactBrowser.ItemViewer.trail">Item Record</message>
 </catalogue>

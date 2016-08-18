@@ -209,12 +209,28 @@ and open the template in the editor.
     <message key="xmlui.ArtifactBrowser.Navigation.head_this_community">Procházet tuto kolekci</message>
     <message key="xmlui.ArtifactBrowser.Navigation.head_this_collection">Procházet tuto kolekci</message>
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.item.dateissued">Procházet dle data vydání</message>
-    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.metadata.author">Procházet dle autora</message>
-    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.item.title">Procházet dle názvu</message>
-    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.metadata.subject">Procházet dle klíčových slov</message>
-    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.subject.column_heading">Klíčová slova</message>
+	
+	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.item.title">Procházení {0} dle názvu {1}</message>
+	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.item.title">Procházení {0} dle názvu</message>
+
+	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.metadata.author">Procházení {0} dle autora {1}</message>
+	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.metadata.author">Procházení {0} dle autora</message>
+
+	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.metadata.subject">Procházení {0} dle klíčového slova {1}</message>
+	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.metadata.subject">Procházení {0} dle klíčového slova</message>
+
+	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.item.dateissued">Procházení {0} dle data vydání {1}</message>
+	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.item.dateissued">Procházení {0} dle data vydání</message>
+
+	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.item.dateaccessioned">Procházení {0} dle data uložení {1}</message>
+	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.item.dateaccessioned">Procházení {0} dle data uložení</message>
+
+
+	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.subject.column_heading">Klíčová slova: </message>
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.author.column_heading">Autoři</message>
-	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.metadata.author">Autor</message>
+
+	
+
     <message key="xmlui.ArtifactBrowser.Contact.head">Kontakt</message>
     <message key="xmlui.ArtifactBrowser.Contact.feedback_label">Online formulář:</message>
     <message key="xmlui.ArtifactBrowser.Contact.email">Váš e-mail: </message>
@@ -239,10 +255,10 @@ and open the template in the editor.
 	<message key="xmlui.ArtifactBrowser.CommunityBrowser.trail">Kolekce</message>
 	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.item.dateissued">Dle data vydání</message>
 	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.metadata.author">Dle autora</message>
-	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.item.title">Dle názvu</message>
 	<message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.metadata.subject">Dle klíčových slov</message>
 
 
+	<message key="xmlui.ArtifactBrowser.ItemViewer.trail">Záznam</message>
 
 
 	<message key="page.static.feedback.title">Kontakt</message>

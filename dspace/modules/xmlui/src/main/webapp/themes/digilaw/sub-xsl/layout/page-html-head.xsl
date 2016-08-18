@@ -22,6 +22,7 @@
     <xsl:output method="xml" encoding="UTF-8" indent="no"/>
     
     <xsl:template name="buildHTMLHead">
+		<meta name="google-site-verification" content="yJjiVRaPQ6QJO8Au5DLPUY--pJyTJa3apjGTL7FQQRk" />
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />

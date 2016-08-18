@@ -131,11 +131,9 @@
                                                     select="./@target"
                                                 />
                                             </xsl:attribute>                                                                       
-                                            <i18n:text>
-                                                <xsl:value-of
+                                                <xsl:copy-of
                                                     select="."
                                                 />
-                                            </i18n:text>
                                         </a>
                                     </xsl:when>
                                     <!--
@@ -149,7 +147,7 @@
                                     </xsl:when>
                                     <xsl:otherwise>
                                         <i18n:text>
-                                            <xsl:value-of
+                                            <xsl:copy-of
                                                 select="."
                                             />
                                         </i18n:text>
