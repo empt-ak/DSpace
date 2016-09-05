@@ -75,7 +75,7 @@
                 </input>
             </xsl:when>
             <xsl:otherwise>
-                huehue <xsl:value-of select="." />
+                <xsl:value-of select="." />
             </xsl:otherwise>
 <!--            <xsl:when test="@type= 'textarea'">
                     <textarea>

@@ -193,7 +193,7 @@
                         <tr>
                             <th>
                                 <i18n:text>
-                                    <xsl:copy-of
+                                    <xsl:value-of
                                         select="./dri:table[starts-with(@id,'aspect.artifactbrowser.ConfigurableBrowse.table.browse-by-')]/dri:row[@role='header']/dri:cell"
                                     />
                                 </i18n:text>

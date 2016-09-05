@@ -147,7 +147,7 @@
                                     </xsl:when>
                                     <xsl:otherwise>
                                         <i18n:text>
-                                            <xsl:copy-of
+                                            <xsl:value-of
                                                 select="."
                                             />
                                         </i18n:text>

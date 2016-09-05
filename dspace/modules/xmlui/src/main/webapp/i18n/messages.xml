@@ -169,6 +169,7 @@ and open the template in the editor.
     <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.button.add">Add filter</message>
     <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.button.reset">Reset filters</message>
     <message key="xmlui.general.go">Go</message>
+	<message key="xmlui.general.update">Update</message>
 	<message key="xmlui.general.dspace_home">Homepage</message>
     
     <message key="xmlui.ArtifactBrowser.AbstractSearch.result_query">Your query "{0}" produced {1} result(s).</message>

@@ -170,6 +170,7 @@ and open the template in the editor.
     <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.button.add">Přidat filtr</message>
     <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.button.reset">Resetovat filtry</message>
     <message key="xmlui.general.go">Hledej</message>
+	<message key="xmlui.general.update">Aktualizuj</message>
     
     <message key="xmlui.ArtifactBrowser.AbstractSearch.result_query">Na váš dotaz "{0}" bylo nalezeno {1} výsledků.</message>
     <message key="xmlui.ArtifactBrowser.AbstractSearch.head2">Výsledky (kolekce)</message>
