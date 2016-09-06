@@ -147,14 +147,14 @@
                                                         name="href"
                                                     >
                                                         <xsl:value-of
-                                                            select="document($itemMetadata)/mets:METS/mets:fileSec/mets:fileGrp/mets:file/mets:FLocat/@xlink:href"
+                                                            select="document($itemMetadata)/mets:METS/mets:fileSec/mets:fileGrp[@USE='CONTENT']/mets:file/mets:FLocat/@xlink:href"
                                                         />
                                                     </xsl:attribute>
                                                     <xsl:variable
                                                         name="size"
                                                     >
                                                         <xsl:value-of
-                                                            select="document($itemMetadata)/mets:METS/mets:fileSec/mets:fileGrp/mets:file/@SIZE"
+                                                            select="document($itemMetadata)/mets:METS/mets:fileSec/mets:fileGrp[@USE='CONTENT']/mets:file/@SIZE"
                                                         />
                                                     </xsl:variable>
                                                     <i18n:text>page.item.fulltext</i18n:text> 
