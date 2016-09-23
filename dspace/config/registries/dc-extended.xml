@@ -161,4 +161,12 @@
         <qualifier>section</qualifier>
         <scope_note>Number of conference.</scope_note>
     </dc-type>
+    <dc-type>
+        <schema>dc</schema>
+        <element>identifier</element>
+        <qualifier>seriesno</qualifier>
+				<scope_note>Series identifier (e.g. book series).</scope_note>
+    </dc-type>
+
+
 </dspace-dc-types>
