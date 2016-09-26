@@ -192,8 +192,8 @@ public class CollectionProcessorImpl implements CollectionProcessor
                     Files.createDirectories(extraStorage);
                     Files.copy(extraContent, extraStorage.resolve(file), StandardCopyOption.REPLACE_EXISTING);
                     
-                    collection.clearMetadata("muni", "externalcontent", "*", "*");
-                    collection.addMetadata("muni", "externalcontent", null, null, file);
+                    collection.clearMetadata("dc", "relation", "externalcontent", "*");
+                    collection.addMetadata("dc", "relation", "externalcontent", null, file);
                     movingWallFactoryBean.setExtraStoragePath(extraStorage);
                 }
                 catch (IOException ex)

@@ -167,6 +167,14 @@
         <qualifier>seriesno</qualifier>
 				<scope_note>Series identifier (e.g. book series).</scope_note>
     </dc-type>
+	 
+		<dc-type>
+        <schema>dc</schema>
+        <element>relation</element>
+        <qualifier>externalcontent</qualifier>
+				<scope_note>pointer to the extrernal file for the DSpace object.</scope_note>
+    </dc-type>
+
 
 
 </dspace-dc-types>
