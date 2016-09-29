@@ -78,6 +78,8 @@ public class HandleServiceImpl implements HandleService
             lookupPath = path;
         }
         
+        logger.info("hledame id pro: " + lookupPath.toString());
+        
         if(handleMap.containsKey(lookupPath))
         {
             result = handlePrefix+handleMap.get(lookupPath);
@@ -174,6 +176,7 @@ public class HandleServiceImpl implements HandleService
         
         
         handleMap = new TreeMap<>();
+        
         try(BufferedReader br = Files.newBufferedReader(Paths.get(globalHandleFile), Charset.forName("UTF-8")))
         {
             for(String line; (line = br.readLine()) != null; )
@@ -268,7 +271,7 @@ public class HandleServiceImpl implements HandleService
         result = result.resolve(mePath.getName(0));
         result = result.resolve(StringUtils.substringBefore(mePath.getName(1).toString(),"Retro"));
         if(mePath.getNameCount()>2){
-            result = result.resolve(mePath.subpath(2,mePath.getNameCount()-1));
+            result = result.resolve(mePath.subpath(2,mePath.getNameCount()));
         }
 
         return result;
