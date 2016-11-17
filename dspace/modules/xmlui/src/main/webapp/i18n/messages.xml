@@ -10,8 +10,9 @@ and open the template in the editor.
     <!--<message key="navigation.main.button.about">DSpace Home</message>-->
     
     <message key="xmlui.general.go">Go</message>
-    <message key="xmlui.general.dspace_home">DML-CZ</message>
-    
+    <message key="xmlui.general.dspace_home">DML-CZ</message> 
+		<message key="xmlui.general.untitled"></message>
+
     <message key="navigation.main.button.aboutus">About us</message>
     <message key="navigation.main.button.news">News</message>
     <message key="navigation.main.button.faq">FAQ</message>    
@@ -215,6 +216,11 @@ and open the template in the editor.
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.metadata.author">Browsing by Author</message>
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.item.title">Browsing by Title</message>
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.metadata.subject">Browsing by Subject</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.item.dateissued">Browsing by Issue Date</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.metadata.author">Browsing by Author</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.item.title">Browsing by Title</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.metadata.subject">Browsing by Subject</message>
+ 
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.subject.column_heading">Subjects</message>
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.author.column_heading">Authors</message>
     <message key="xmlui.ArtifactBrowser.Contact.head">Contact us</message>
