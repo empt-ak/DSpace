@@ -136,7 +136,6 @@
                                                     select="./@target"
                                                 />
                                             </xsl:attribute>
-                                            <xsl:text>not last</xsl:text>                                                                      
                                             <xsl:copy-of
                                                 select="."
                                             />
@@ -152,7 +151,6 @@
                                         <i18n:text>navigation.breadcrumb.viewitem</i18n:text>
                                     </xsl:when>
                                     <xsl:otherwise>
-                                        <xsl:text>otherwise</xsl:text>
                                         <xsl:copy-of
                                             select="."
                                         />
@@ -276,6 +274,57 @@
                             </ul>
                         </div>
                         <div class="col-md-4 col-xs-12">
+                            <div class="hidden-sm-down">
+                <xsl:if
+                    test="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='feed']"
+                >  
+                    <h4>
+                        <i18n:text>page.sidebar.left.rss</i18n:text>
+                    </h4>
+                    <ul>
+                        <xsl:for-each
+                            select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='feed']"
+                        >
+                            <li>
+                                <i class="fa fa-rss" />
+                                <xsl:text> </xsl:text>
+                                <a>
+                                    <xsl:attribute
+                                        name="href"
+                                    >
+                                        <xsl:value-of
+                                            select="." 
+                                        />
+                                    </xsl:attribute>                                
+                                    <xsl:choose>
+                                        <xsl:when 
+                                            test="contains(., 'rss_1.0')"
+                                        >
+                                            <xsl:text>RSS 1.0</xsl:text>
+                                        </xsl:when>
+                                        <xsl:when 
+                                            test="contains(., 'rss_2.0')"
+                                        >
+                                            <xsl:text>RSS 2.0</xsl:text>
+                                        </xsl:when>
+                                        <xsl:when 
+                                            test="contains(., 'atom_1.0')"
+                                        >
+                                            <xsl:text>Atom</xsl:text>
+                                        </xsl:when>
+                                        <xsl:otherwise>
+                                            <xsl:value-of 
+                                                select="@qualifier"
+                                            />
+                                        </xsl:otherwise>
+                                    </xsl:choose>
+                                </a>
+                            </li>
+                        </xsl:for-each>
+                    </ul>
+                </xsl:if>
+            </div>
+                            <!--
                             <h4>
                                 <i18n:text>page.footer.social.title</i18n:text>
                             </h4>
@@ -289,7 +338,8 @@
                                 <li> 
                                     <i class="fa fa-twitter fa-3x" />
                                 </li>
-                            </ul>                           
+                            </ul>
+                            -->                           
                         </div>
                     </div>
                 </div>
@@ -338,7 +388,7 @@
         </xsl:if>
         <div class="row">
             <div class="col-sm-2 hidden-sm-down">
-                <a href="{/dri:document/dri:meta/dri:pageMeta/dri:trail[1]/@target}" >
+                <a href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']}" >
                     <img alt="page.general.banner" i18n:attribute="alt" class="dspace-banner">
                         <xsl:attribute
                             name="src"
@@ -352,9 +402,9 @@
                 </a>            
             </div>
             <div class="col-sm-10">
-                <p>
+                <p class="align-baseline">
                     <a href="{$contextPath}" class="page-header">
-                        <h1>
+                        <h1 class="align-baseline">
                             <i18n:text>page.head.title</i18n:text>
                         </h1>
                     </a>

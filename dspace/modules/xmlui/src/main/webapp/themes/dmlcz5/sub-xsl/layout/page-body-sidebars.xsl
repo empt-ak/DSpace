@@ -30,6 +30,9 @@
                 <xsl:for-each
                     select="/dri:document/dri:options/dri:list[@id='aspect.viewArtifacts.Navigation.list.browse']/dri:list[@id='aspect.browseArtifacts.Navigation.list.global']/dri:item"
                 >
+                    <xsl:variable name="loctarget" select="dri:xref/@target" />
+                    <xsl:if test="not(contains($loctarget, 'community-list'))">
+                        
                     <li class="list-group-item">
                         <a href="{./dri:xref/@target}">
                             <i18n:text>
@@ -39,6 +42,7 @@
                             </i18n:text>
                         </a>
                     </li>
+                    </xsl:if>
                 </xsl:for-each>
             </ul> 
             <xsl:if
@@ -66,7 +70,8 @@
                         </li>
                     </xsl:for-each>
                 </ul> 
-            </xsl:if>  
+            </xsl:if> 
+            <!-- 
             <div class="hidden-sm-down">
                 <xsl:if
                     test="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='feed']"
@@ -117,6 +122,7 @@
                     </ul>
                 </xsl:if>
             </div>
+            -->
             <div class="hidden-sm-down">
                 <div class="card-header">
                     <i18n:text>page.sidebar.left.quickstats</i18n:text>
@@ -136,9 +142,11 @@
                             select="document(concat($solrServer,'select?q=search.resourcetype%3A2&amp;rows=0&amp;wt=xml'))/response/result/@numFound"
                         />
                     </li>
+                    <!--
                     <li class="list-group-item">
                         <i18n:text>page.sidebar.left.quickstats.more</i18n:text>
                     </li>
+                    -->
                 </ul>
             </div>        
         </div>
@@ -148,12 +156,13 @@
         <xsl:if
             test="not(/dri:document/dri:body/dri:div[@n='landing-page']) 
                 or not(/dri:document/dri:body/dri:div[@n='contact']) 
-                or $level &gt; 2"
+                and $level &gt; 2"
         >
         <!-- <xsl:text>TEST</xsl:text> -->
+            <!--
             <xsl:call-template
                 name="buildPUN"
-            />
+            />-->
         </xsl:if>        
         <div class="card disable-bottom-border">            
             <xsl:if

@@ -114,12 +114,13 @@
                                             </img>
                                         </xsl:when>
                                         <xsl:otherwise>
+                                            <!--
                                             <img alt="page.general.thumbnail" i18n:attribute="alt" class="card-img-top hidden-xs-down">
                                                 <xsl:attribute name="data-src">
                                                     <xsl:text>holder.js/100px200</xsl:text>
                                                     <xsl:text>?text=No Thumbnail</xsl:text>
                                                 </xsl:attribute>
-                                            </img>
+                                            </img>-->
                                         </xsl:otherwise>
                                     </xsl:choose>
                                     <div class="card-block card-block-reduced">
@@ -337,7 +338,25 @@
                                         <h5 class="card-title">
                                             <i18n:text>page.item.citation</i18n:text>
                                         </h5>
-                                        [mono]<b>Item#title</b>. (Item#language). In: Collection#editors: Collection#title. Collection#publisher, Collection#publisher#place, Collection#date. pp. Item#extent
+                                        <!-- <xsl:variable name="meta" select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/" /> -->
+                                        
+                                        <b><xsl:value-of select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title']" /></b>. 
+                                        <xsl:text>(</xsl:text>
+                                        <xsl:call-template name="language">
+                                            <xsl:with-param name="lang">
+                                                <xsl:value-of select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='language']" />
+                                                </xsl:with-param>
+                                        </xsl:call-template>
+                                        <xsl:text>). </xsl:text>
+                                        <!--
+                                        <xsl:text>In: </xsl:text> 
+                                        Collection#editors: 
+                                        Collection#title. 
+                                        Collection#publisher, 
+                                        Collection#publisher#place, 
+                                        Collection#date. 
+                                        pp. Item#extent
+                                        -->
                                     </div>
                                 </div>
                             </div>                                          
@@ -421,7 +440,7 @@
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="referencesTab">
-                        <h2>!References</h2>
+                        <h2><i18n:text>page.item.references</i18n:text></h2>
                         <small>
                             <ul class="list-unstyled">
                                 <xsl:for-each

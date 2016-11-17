@@ -169,6 +169,24 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
+    
+    <!-- languages codes to full name -->
+    <xsl:template name="language">
+      <xsl:param name="lang" />
 
+      <xsl:choose>
+        <xsl:when test="$lang = 'eng'">English</xsl:when>
+        <xsl:when test="$lang = 'rus'">Russian</xsl:when>
+        <xsl:when test="$lang = 'fre'">French</xsl:when>
+        <xsl:when test="$lang = 'ger'">German</xsl:when>
+        <xsl:when test="$lang = 'ita'">Italian</xsl:when>
+        <xsl:when test="$lang = 'cze'">Czech</xsl:when>
+        <xsl:when test="$lang = 'slo'">Slovak</xsl:when>
+        <xsl:when test="$lang = 'spa'">Spanish</xsl:when>
+        <xsl:when test="$lang = 'pol'">Polish</xsl:when>
+        <xsl:when test="$lang = 'rum'">Romanian</xsl:when>
+        <xsl:otherwise><xsl:value-of select="$lang" /></xsl:otherwise>
+      </xsl:choose>
+    </xsl:template>
 
 </xsl:stylesheet>

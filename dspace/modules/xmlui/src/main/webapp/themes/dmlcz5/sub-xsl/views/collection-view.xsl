@@ -616,13 +616,15 @@
         <div class="row">
             <div class="col-xs-12">
                 <h2>
-                    <i18n:text>page.community.serial.volume.issue</i18n:text> 
+                    <i18n:text>page.community.serial.volume.issue</i18n:text>
+                    <xsl:text> </xsl:text>
                     <xsl:value-of
                         select="document($collectionMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title' and @qualifier='name']"
                     />
                     <xsl:text>, </xsl:text>
                     <small>
                         <i18n:text>page.community.serial.volume.volume</i18n:text> 
+                        <xsl:text> </xsl:text>
                         <xsl:value-of
                             select="/dri:document/dri:meta/dri:pageMeta/dri:trail[3]"
                         />
