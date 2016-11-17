@@ -84,47 +84,50 @@
                 </ul>
             </div>
         </div>
-        <div class="card-deck-wrapper">
-            <div class="card-deck">
-                <div class="card">
-                    <img alt="page.general.thumbnail" i18n:attribute="alt" class="card-img-top">
-                        <xsl:attribute
-                            name="src"
-                        >
-                            <xsl:value-of
-                                select="$resourcePath"
-                            />
-                            <xsl:text>/img/eudml.png</xsl:text>
-                        </xsl:attribute>
-                    </img>
-                    <div class="card-block">
-                        <h4 class="card-title">Card title</h4>
-                        <p class="card-text">
-                            <a href="https://eudml.org/">The EuDML</a> combines data, tools and services initially assembled or created in the <a href="https://project.eudml.org/">project</a> <i>The European Digital Mathematics Library</i> that was co-funded by the European Commission from February 2009 to January 2013. Access to EuDML content is provided by a central search engine allowing easy and unified search and retrieval of the mathematical literature. The EuDML services provide a gateway to the electronic publications and repositories of participating data providers, while the latter retain full responsibility and control over the creation, maintenance and the access provisions of their data collections. See the <a href="https://eudml.org/statistics">statistics</a> for up to date information about EuDML content.</p>
-                    </div>
-                </div>
-<!--                <div class="card">
-                    <img class="card-img-top" data-src="holder.js/100%x200/" alt="Card image cap" />
-                    <div class="card-block">
-                        <h4 class="card-title">Card title</h4>
-                        <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-                        <p class="card-text">
-                            <small class="text-muted">Last updated 3 mins ago</small>
-                        </p>
-                    </div>
-                </div>
-                <div class="card">
-                    <img class="card-img-top" data-src="holder.js/100%x200/" alt="Card image cap" />
-                    <div class="card-block">
-                        <h4 class="card-title">Card title</h4>
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-                        <p class="card-text">
-                            <small class="text-muted">Last updated 3 mins ago</small>
-                        </p>
-                    </div>
-                </div>-->
+        <div class="row">
+            <div class="col-sm-12">
+                <img style="margin-left: 1em" class="hidden-lg-up" alt="page.general.thumbnail" i18n:attribute="alt">
+                    <xsl:attribute
+                        name="src"
+                    >
+                        <xsl:value-of
+                            select="$resourcePath"
+                        />
+                        <xsl:text>/img/eudml.png</xsl:text>
+                    </xsl:attribute>
+                </img>
             </div>
-        </div>     
+        </div>
+        <div class="media" style="margin-top: 1em">
+            <div class="media-left media-top">
+                <img alt="page.general.thumbnail" i18n:attribute="alt" class="media-object hidden-md-down">
+                    <xsl:attribute
+                        name="src"
+                    >
+                        <xsl:value-of
+                            select="$resourcePath"
+                        />
+                        <xsl:text>/img/eudml.png</xsl:text>
+                    </xsl:attribute>
+                </img>
+            </div>
+            <div class="media-body">
+                <a href="https://eudml.org/">The EuDML</a> combines data, tools 
+                and services initially assembled or created in the 
+                <a href="https://project.eudml.org/">project</a> 
+                <i>The European Digital Mathematics Library</i> that was 
+                co-funded by the European Commission from February 2009 to 
+                January 2013. Access to EuDML content is provided by a central 
+                search engine allowing easy and unified search and retrieval of 
+                the mathematical literature. The EuDML services provide a 
+                gateway to the electronic publications and repositories of 
+                participating data providers, while the latter retain full 
+                responsibility and control over the creation, maintenance and 
+                the access provisions of their data collections. See the 
+                <a href="https://eudml.org/statistics">statistics</a> for up to 
+                date information about EuDML content.
+            </div>
+        </div>
     </xsl:template>
             
 </xsl:stylesheet>

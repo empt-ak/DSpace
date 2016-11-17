@@ -139,6 +139,7 @@
                                         </xsl:otherwise>
                                     </xsl:choose>
                                 </div>
+                                <!--
                                 <div class="media-right hidden-md-down">
                                     <img alt="page.general.thumbnail media-object" class="img-responsive" i18n:attribute="alt">
                                         <xsl:attribute name="data-src">
@@ -147,6 +148,7 @@
                                         </xsl:attribute>
                                     </img>
                                 </div>
+                                -->
                             </li>
                         </xsl:for-each>
                     </ul>

@@ -85,6 +85,12 @@
     </xsl:variable>
     
     <xsl:variable
+        name="level"
+    >
+        <xsl:value-of select="count(/dri:document/dri:meta/dri:pageMeta/dri:trail)" />
+    </xsl:variable>
+    
+    <xsl:variable
         name="zblUrl"
     >
         <xsl:text>https://zbmath.org/?q=an:</xsl:text>

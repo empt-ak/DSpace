@@ -105,14 +105,16 @@
                     <xsl:value-of select="./@url"/>
                     <xsl:text>?sections=dmdSec,fileSec</xsl:text>
                 </xsl:variable>
-                <div class="media disable-math">
+                <div class="media disable-math">                   
                     <div class="media-left hidden-sm-down">
+                        <!--
                         <img alt="page.general.thumbnail" class="img-responsive" i18n:attribute="alt">
                             <xsl:attribute name="data-src">
                                 <xsl:text>holder.js/100x100</xsl:text>
                                 <xsl:text>?text=No Thumbnail</xsl:text>
                             </xsl:attribute>
                         </img>
+                        -->
                     </div>
                     <div class="media-body">
                         <h5 class="media-heading">

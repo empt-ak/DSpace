@@ -135,8 +135,9 @@
                                                 <xsl:value-of
                                                     select="./@target"
                                                 />
-                                            </xsl:attribute>                                                                       
-                                            <xsl:value-of
+                                            </xsl:attribute>
+                                            <xsl:text>not last</xsl:text>                                                                      
+                                            <xsl:copy-of
                                                 select="."
                                             />
                                         </a>
@@ -151,7 +152,8 @@
                                         <i18n:text>navigation.breadcrumb.viewitem</i18n:text>
                                     </xsl:when>
                                     <xsl:otherwise>
-                                        <xsl:value-of
+                                        <xsl:text>otherwise</xsl:text>
+                                        <xsl:copy-of
                                             select="."
                                         />
                                     </xsl:otherwise>
