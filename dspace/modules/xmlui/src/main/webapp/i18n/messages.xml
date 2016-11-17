@@ -8,6 +8,10 @@ and open the template in the editor.
 
 <catalogue xml:lang="en" xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
     <!--<message key="navigation.main.button.about">DSpace Home</message>-->
+    
+    <message key="xmlui.general.go">Go</message>
+    <message key="xmlui.general.dspace_home">DML-CZ</message>
+    
     <message key="navigation.main.button.aboutus">About us</message>
     <message key="navigation.main.button.news">News</message>
     <message key="navigation.main.button.faq">FAQ</message>    
@@ -168,7 +172,7 @@ and open the template in the editor.
     <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.button.apply">Apply filters</message>
     <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.button.add">Add filter</message>
     <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.button.reset">Reset filters</message>
-    <message key="xmlui.general.go">Go</message>
+    
     
     <message key="xmlui.ArtifactBrowser.AbstractSearch.result_query">Your query "{0}" produced {1} result(s).</message>
     <message key="xmlui.ArtifactBrowser.AbstractSearch.head2">Communities or Collections matching your query</message>
@@ -176,6 +180,7 @@ and open the template in the editor.
     <message key="xmlui.ArtifactBrowser.AbstractSearch.no_results">Search produced no results.</message>
     <message key="xmlui.ArtifactBrowser.AbstractSearch.all_of_dspace">All of DSpace</message>
     <message key="xmlui.ArtifactBrowser.SimpleSearch.head">Search</message>
+		<message key="xmlui.ArtifactBrowser.SimpleSearch.trail">Search</message>
     <message key="xmlui.mirage2.discovery.showAdvancedFilters">Show Advanced Filters</message>
     <message key="xmlui.mirage2.discovery.hideAdvancedFilters">Hide Advanced Filters</message>
     <message key="xmlui.Discovery.SimpleSearch.filter_head">Filters</message>
@@ -216,6 +221,7 @@ and open the template in the editor.
     <message key="xmlui.ArtifactBrowser.Contact.feedback_label">On-line form:</message>
     <message key="xmlui.ArtifactBrowser.Contact.email">Email: </message>
     <message key="xmlui.ArtifactBrowser.Contact.feedback_link">Feedback</message>
+    <message key="xmlui.ArtifactBrowser.Contact.trail">Contact us</message>
     <message key="xmlui.ArtifactBrowser.FeedbackForm.email">Your Email:</message>
     <message key="xmlui.ArtifactBrowser.FeedbackForm.email_help">This address will be used to follow up on your feedback.</message>
     <message key="xmlui.ArtifactBrowser.FeedbackForm.comments">Comments: </message>
