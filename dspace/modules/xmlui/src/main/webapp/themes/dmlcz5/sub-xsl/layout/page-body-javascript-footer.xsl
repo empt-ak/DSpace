@@ -25,7 +25,39 @@
         name="buildBodyFooter"
     >
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">&#160;</script>
+        <script>
+            <xsl:attribute
+                    name="src"
+            >
+                <xsl:value-of
+                        select="$contextPath"
+                />
+                <xsl:text>/webjars/jquery/3.1.1/jquery.min.js</xsl:text>
+            </xsl:attribute>
+            &#160;
+        </script>
+        <script>
+            <xsl:attribute
+                    name="src"
+            >
+                <xsl:value-of
+                        select="$contextPath"
+                />
+                <xsl:text>/webjars/tether/1.3.7/dist/js/tether.min.js</xsl:text>
+            </xsl:attribute>
+            &#160;
+        </script>
+        <script>
+            <xsl:attribute
+                    name="src"
+            >
+                <xsl:value-of
+                        select="$contextPath"
+                />
+                <xsl:text>/webjars/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js</xsl:text>
+            </xsl:attribute>
+            &#160;
+        </script>
         <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">&#160;</script>
         <script type="text/x-mathjax-config">
             MathJax.Hub.Config({
@@ -52,39 +84,20 @@
                 <xsl:value-of 
                     select="$theme" 
                 />
-                <xsl:text>/js/bootstrap.min.js</xsl:text>
-            </xsl:attribute>
-                    &#160;
-        </script>
-        <script>
-            <xsl:attribute 
-                name="src"
-            >
-                <xsl:value-of 
-                    select="$contextPath" 
-                />
-                <xsl:text>/themes/</xsl:text>
-                <xsl:value-of 
-                    select="$theme" 
-                />
                 <xsl:text>/js/dmlcz5.js</xsl:text>
             </xsl:attribute>
                     &#160;
         </script>
         <script>
-            <xsl:attribute 
-                name="src"
+            <xsl:attribute
+                    name="src"
             >
-                <xsl:value-of 
-                    select="$contextPath" 
+                <xsl:value-of
+                        select="$contextPath"
                 />
-                <xsl:text>/themes/</xsl:text>
-                <xsl:value-of 
-                    select="$theme" 
-                />
-                <xsl:text>/js/holder.min.js</xsl:text>
+                <xsl:text>/webjars/holderjs/2.5.2/holder.min.js</xsl:text>
             </xsl:attribute>
-                    &#160;
+            &#160;
         </script>
         <script>
             <xsl:attribute 

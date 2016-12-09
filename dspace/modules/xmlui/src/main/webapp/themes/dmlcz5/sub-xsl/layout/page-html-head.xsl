@@ -40,17 +40,17 @@
         <link rel="stylesheet">
             <xsl:attribute name="href">
                 <xsl:value-of
-                    select="$resourcePath"
+                    select="$contextPath"
                 />
-                <xsl:text>/css/bootstrap.min.css</xsl:text>
+                <xsl:text>/webjars/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css</xsl:text>
             </xsl:attribute>
         </link>
         <link rel="stylesheet">
             <xsl:attribute name="href">
                 <xsl:value-of
-                    select="$resourcePath"
+                    select="$contextPath"
                 />
-                <xsl:text>/css/font-awesome.min.css</xsl:text>
+                <xsl:text>/webjars/font-awesome/4.7.0/css/font-awesome.min-jsf.css</xsl:text>
             </xsl:attribute>
         </link>
         <link rel="stylesheet">

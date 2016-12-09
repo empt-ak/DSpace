@@ -19,6 +19,11 @@
     <properties>
         <!-- This is the path to the root [dspace-src] directory. -->
         <root.basedir>${basedir}/../../..</root.basedir>
+        <org.webjars.jquery.version>3.1.1</org.webjars.jquery.version>
+        <org.webjars.font-awesome.version>4.7.0</org.webjars.font-awesome.version>
+        <org.webjars.holder.version>2.5.2</org.webjars.holder.version>
+        <org.webjars.bootstrap.version>4.0.0-alpha.5</org.webjars.bootstrap.version>
+        <org.webjars.tether.version>1.3.7</org.webjars.tether.version>
     </properties>
 
     <build>
@@ -187,11 +192,31 @@
     </profiles>
 
     <dependencies>
-	<dependency>
-<groupId>org.webjars</groupId>
-<artifactId>bootstrap</artifactId>
-<version>4.0.0-alpha.5</version>
-</dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery</artifactId>
+            <version>${org.webjars.jquery.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>${org.webjars.bootstrap.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>font-awesome</artifactId>
+            <version>${org.webjars.font-awesome.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>holderjs</artifactId>
+            <version>${org.webjars.holder.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars.bower</groupId>
+            <artifactId>tether</artifactId>
+            <version>${org.webjars.tether.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.dspace.modules</groupId>
             <artifactId>additions</artifactId>
