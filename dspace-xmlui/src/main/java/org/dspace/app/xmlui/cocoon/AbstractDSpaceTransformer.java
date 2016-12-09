@@ -21,6 +21,7 @@ import org.apache.cocoon.components.flow.WebContinuation;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.SourceResolver;
+import org.apache.log4j.Logger;
 import org.dspace.app.xmlui.objectmanager.DSpaceObjectManager;
 import org.dspace.app.xmlui.utils.ContextUtil;
 import org.dspace.app.xmlui.utils.UIException;
@@ -45,6 +46,7 @@ public abstract class AbstractDSpaceTransformer extends AbstractWingTransformer
 {
 
     private static final String NAME_TRIM = "org.dspace.app.xmlui.";
+    private static Logger log = Logger.getLogger(AbstractDSpaceTransformer.class);
 
     protected Map objectModel;
 

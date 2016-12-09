@@ -41,7 +41,7 @@ import org.apache.cocoon.environment.Request;
  * @author Scott Phillips
  */
 
-public class HttpServletRequestCocoonWrapper implements HttpServletRequest{
+public abstract class HttpServletRequestCocoonWrapper implements HttpServletRequest{
 
 	private Request cocoonRequest;
 	// private HttpServletRequest realRequest;

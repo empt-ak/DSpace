@@ -290,6 +290,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>cz.muni.fi.mias</groupId>
+            <artifactId>miasmath</artifactId>
+            <version>1.6.5-4.10.2-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>org.dspace</groupId>
             <artifactId>handle</artifactId>
         </dependency>

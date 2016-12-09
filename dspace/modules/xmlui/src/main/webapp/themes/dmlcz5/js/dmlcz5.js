@@ -6,6 +6,24 @@
 $(document).ready(function () {
     $('.contact-email').email();
 
+    $("form#aspect_discovery_SimpleSearch_div_search-filters").on('submit',function (event) {
+        // event.preventDefault();
+        var filterName = null;
+
+        $(this).find("select").each(function(){
+            if($(this).val() === "math"){
+                var temp = $(this).attr('name');
+                filterName = temp.substring(temp.indexOf("_")+1,temp.length);
+            }
+        });
+
+
+        var $input = $(this).find('[name="filter_'+filterName+'"]');
+        // $input.val(encodeURIComponent($input.val()));
+
+        // event.preventDefault();
+    });
+
     $(".show-advanced-filters").click(function (event) {
         $("#aspect_discovery_SimpleSearch_div_search-filters").show();
         $(this).hide();

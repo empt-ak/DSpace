@@ -67,7 +67,7 @@
                 <xsl:value-of 
                     select="$theme" 
                 />
-                <xsl:text>/js/dmlcz5.min.js</xsl:text>
+                <xsl:text>/js/dmlcz5.js</xsl:text>
             </xsl:attribute>
                     &#160;
         </script>

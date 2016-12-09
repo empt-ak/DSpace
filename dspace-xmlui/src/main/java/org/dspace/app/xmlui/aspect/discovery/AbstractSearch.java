@@ -41,9 +41,13 @@ import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * This is an abstract search page. It is a collection of search methods that
@@ -87,6 +91,9 @@ public abstract class AbstractSearch extends AbstractDSpaceTransformer implement
     private static final Message T_result_head_3 = message("xmlui.Discovery.AbstractSearch.head3");
     private static final Message T_result_head_2 = message("xmlui.Discovery.AbstractSearch.head2");
 
+    private static final TeXConverter CONVERTER = new TeXConverter();
+    private static final Pattern FQ_PATTERN = Pattern.compile("(?<=\\()[^]]+(?=\\))");
+ ///math:($\int_0^1$)
     /**
      * Cached query results
      */
@@ -737,9 +744,33 @@ public abstract class AbstractSearch extends AbstractDSpaceTransformer implement
 
         if (fqs != null)
         {
+            for(int i = 0 ; i < fqs.length;i++)
+            {
+                if(fqs[i].startsWith("math:"))
+                {
+                    Matcher m = FQ_PATTERN.matcher(fqs[i]);
+
+                    if(m.find())
+                    {
+                        log.info("Math found. Replacing LaTeX formula with mathml.");
+
+                        String mathml = CONVERTER.convertTexLatexML(org.apache.commons.lang3.StringEscapeUtils.unescapeJava(m.group()));
+
+                        log.info("Attempting to search for latex formula: "+m.group());
+                        log.info("Hopefully unescaped version is "+ org.apache.commons.lang3.StringEscapeUtils.unescapeJava(m.group()));
+                        log.info("And converted version is "+mathml);
+
+                        fqs[i]= "math:("+mathml+")";
+                    }
+                    else
+                    {
+                        log.warn("Math found but it is in invalid format. Expected math:($VALID LATEX$). but was "+ fqs[i]);
+                    }
+                }
+            }
+
             filterQueries.addAll(Arrays.asList(fqs));
         }
-
 
         this.queryArgs = new DiscoverQuery();
 
