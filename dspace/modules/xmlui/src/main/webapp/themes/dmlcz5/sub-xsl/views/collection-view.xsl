@@ -349,7 +349,7 @@
         </div>
         <div class="row">
             <div class="col-sm-2 hidden-xs-down">
-                <img height="200" alt="page.collection.proceedings.thumbnail" i18n:attribute="alt" class="img-responsive">
+                <img height="200" alt="page.collection.proceedings.thumbnail" i18n:attribute="alt" class="img-fluid">
                     <xsl:attribute name="src">
                         <xsl:value-of select="document(concat($collectionMetadata,',fileSec'))/mets:METS/mets:fileSec/mets:fileGrp/mets:file/mets:FLocat/@xlink:href" />
                     </xsl:attribute>

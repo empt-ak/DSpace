@@ -237,7 +237,7 @@
             <div class="media">
                 <div class="media-left hidden-sm-down">
                     <!--
-                    <img alt="page.general.thumbnail" class="img-responsive" i18n:attribute="alt">
+                    <img alt="page.general.thumbnail" class="img-fluid" i18n:attribute="alt">
                         <xsl:attribute name="data-src">
                             <xsl:text>holder.js/100x100</xsl:text>
                             <xsl:text>?text=No Thumbnail</xsl:text>
@@ -322,7 +322,7 @@
                     <div class="media">                      
                         <div class="media-left hidden-sm-down">
                             <!--
-                            <img alt="page.general.thumbnail" class="img-responsive" i18n:attribute="alt">
+                            <img alt="page.general.thumbnail" class="img-fluid" i18n:attribute="alt">
                                 <xsl:attribute name="data-src">
                                     <xsl:text>holder.js/100x100</xsl:text>
                                     <xsl:text>?text=No Thumbnail</xsl:text>

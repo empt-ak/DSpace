@@ -44,25 +44,25 @@
             </div>
         </div>        
         <div class="row">
-            <div class="col-sm-2 hidden-xs-down">
-                <img height="200" alt="page.community.serial.thumbnail" i18n:attribute="alt" class="img-responsive">
+            <div class="col-sm-2 hidden-sm-down">
+                <img height="200" alt="page.community.serial.thumbnail" i18n:attribute="alt" class="img-fluid">
                     <xsl:attribute name="src">
                         <xsl:value-of select="document($externalMetadata)/mets:METS/mets:fileSec/mets:fileGrp/mets:file/mets:FLocat/@xlink:href" />
                     </xsl:attribute>
                 </img>
             </div>
             <div class="col-sm-10">
-                <dl class="dl-horizontal">
+                <dl class="row">
                     <xsl:if
                         test="document($externalMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='identifier' and @qualifier='issn']"
                     >
                         <xsl:for-each
                             select="document($externalMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='identifier' and @qualifier='issn']"
                         >
-                            <dt class="col-xs-12 col-md-3">
+                            <dt class="col-xs-12 col-sm-3">
                                 <i18n:text>page.community.serial.issn</i18n:text>
                             </dt>
-                            <dd class="col-xs-12 col-md-9">
+                            <dd class="col-xs-12 col-sm-9">
                                 <xsl:value-of
                                     select="./text()"
                                 />
@@ -487,7 +487,7 @@
                                 </img>
                             </xsl:when>
                             <xsl:otherwise>
-                                <img class="img-responsive" alt="page.general.thumbnail" i18n:attribute="alt">
+                                <img class="img-fluid" alt="page.general.thumbnail" i18n:attribute="alt">
                                     <xsl:attribute name="data-src">
                                         <xsl:text>holder.js/100px200</xsl:text>
                                         <xsl:text>?text=No Thumbnail</xsl:text>
@@ -539,7 +539,7 @@
                                 </img>
                             </xsl:when>
                             <xsl:otherwise>
-                                <img alt="page.general.thumbnail" i18n:attribute="alt" class="img-responsive">
+                                <img alt="page.general.thumbnail" i18n:attribute="alt" class="img-fluid">
                                     <xsl:attribute name="data-src">
                                         <xsl:text>holder.js/100px200</xsl:text>
                                         <xsl:text>?text=No Thumbnail</xsl:text>

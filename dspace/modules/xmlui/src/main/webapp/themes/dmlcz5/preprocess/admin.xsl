@@ -76,7 +76,7 @@
             <xsl:call-template name="copy-attributes"/>
             <xsl:attribute name="rend">
                 <xsl:value-of select="@rend"/>
-                <xsl:text> logo img-responsive</xsl:text>
+                <xsl:text> logo img-fluid</xsl:text>
             </xsl:attribute>
         </figure>
         </div>
@@ -89,7 +89,7 @@
             <xsl:call-template name="copy-attributes"/>
             <xsl:attribute name="rend">
                 <xsl:value-of select="@rend"/>
-                <xsl:text> logo img-responsive</xsl:text>
+                <xsl:text> logo img-fluid</xsl:text>
             </xsl:attribute>
         </figure>
         </div>

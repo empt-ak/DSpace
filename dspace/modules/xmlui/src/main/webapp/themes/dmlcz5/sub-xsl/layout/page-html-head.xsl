@@ -20,19 +20,20 @@
                 xmlns="http://www.w3.org/1999/xhtml"
                 exclude-result-prefixes="i18n dri mets xlink xsl dim xhtml mods dc">
     <xsl:output method="xml" encoding="UTF-8" indent="no"/>
-    
+
     <xsl:template name="buildHTMLHead">
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content="Digital library offering an open access to the metadata and fulltext of mathematical texts published throughout history in the Czech lands" />
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="description"
+              content="Digital library offering an open access to the metadata and fulltext of mathematical texts published throughout history in the Czech lands"/>
         <xsl:if test="//dri:metadata[@element='xhtml_head_item']">
             <xsl:value-of select="//dri:metadata[@element='xhtml_head_item']" disable-output-escaping="yes"/>
         </xsl:if>
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         <title>
             <xsl:call-template
-                name="buildTitle"
+                    name="buildTitle"
             />
         </title>
 
@@ -40,23 +41,31 @@
         <link rel="stylesheet">
             <xsl:attribute name="href">
                 <xsl:value-of
-                    select="$contextPath"
+                        select="$resourcePath"
                 />
-                <xsl:text>/webjars/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css</xsl:text>
+                <xsl:text>/css/bootstrap.min.css</xsl:text>
+            </xsl:attribute>
+        </link>
+        <!--<link rel="stylesheet">-->
+        <!--<xsl:attribute name="href">-->
+        <!--<xsl:value-of-->
+        <!--select="$contextPath"-->
+        <!--/>-->
+        <!--<xsl:text>/webjars/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css</xsl:text>-->
+        <!--</xsl:attribute>-->
+        <!--</link>-->
+        <link rel="stylesheet">
+            <xsl:attribute name="href">
+                <xsl:value-of
+                        select="$contextPath"
+                />
+                <xsl:text>/webjars/font-awesome/4.7.0/css/font-awesome.min.css</xsl:text>
             </xsl:attribute>
         </link>
         <link rel="stylesheet">
             <xsl:attribute name="href">
                 <xsl:value-of
-                    select="$contextPath"
-                />
-                <xsl:text>/webjars/font-awesome/4.7.0/css/font-awesome.min-jsf.css</xsl:text>
-            </xsl:attribute>
-        </link>
-        <link rel="stylesheet">
-            <xsl:attribute name="href">
-                <xsl:value-of
-                    select="$resourcePath"
+                        select="$resourcePath"
                 />
                 <xsl:text>/css/dmlstyle.min.css</xsl:text>
             </xsl:attribute>

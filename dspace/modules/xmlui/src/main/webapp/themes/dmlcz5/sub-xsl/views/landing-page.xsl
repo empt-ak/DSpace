@@ -27,7 +27,10 @@
     
     
     <xsl:template match="dri:body/dri:div[@id='cz.muni.ics.dmlcz5.aspects.MainAspect.div.landing-page']">
-        <div class="jumbotron">
+        <div class="jumbotron hidden-xl-down" id="welcome-banner">
+            <button type="button" class="close" aria-label="Close">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
             <p class="lead">
                 <i18n:text>page.landing.jubotron</i18n:text>
             </p>
@@ -96,7 +99,7 @@
                                         <xsl:when 
                                             test="document(concat('cocoon://',@url,'?sections=fileSec'))/mets:METS/mets:fileSec/mets:fileGrp/mets:file/mets:FLocat/@xlink:href"
                                         >
-                                            <img height="100" alt="page.landing.thumbnail" i18n:attr="alt" class="img-responsive"><!-- width="70" -->       
+                                            <img height="100" alt="page.landing.thumbnail" i18n:attr="alt"><!-- width="70" -->
                                                 <xsl:attribute name="src">
                                                     <xsl:value-of 
                                                         select="document(concat('cocoon://',@url,'?sections=fileSec'))/mets:METS/mets:fileSec/mets:fileGrp/mets:file/mets:FLocat/@xlink:href" 
@@ -106,7 +109,7 @@
                                         </xsl:when>
                                         <xsl:otherwise>
                                             <!-- TODO -->
-                                            <img alt="page.general.thumbnail" class="img-responsive" i18n:attribute="alt">
+                                            <img alt="page.general.thumbnail" class="img-fluid" i18n:attribute="alt">
                                                 <xsl:attribute name="data-src">
                                                     <xsl:text>holder.js/100x100</xsl:text>
                                                     <xsl:text>?text=No Thumbnail</xsl:text>
@@ -141,7 +144,7 @@
                                 </div>
                                 <!--
                                 <div class="media-right hidden-md-down">
-                                    <img alt="page.general.thumbnail media-object" class="img-responsive" i18n:attribute="alt">
+                                    <img alt="page.general.thumbnail media-object" class="img-fluid" i18n:attribute="alt">
                                         <xsl:attribute name="data-src">
                                             <xsl:text>holder.js/100x100</xsl:text>
                                             <xsl:text>?text=Publisher logo</xsl:text>
