@@ -5,89 +5,41 @@
  */
 
 
-var Preview = {
-    delay: 150, // delay after keystroke before updating 
 
-    preview: null, // filled in by Init below
-    buffer: null, // filled in by Init below
-    input: null,
-    timeout: null, // store setTimout id
-    mjRunning: false, // true when MathJax is processing
-    oldText: null, // used to check if an update is needed
-    mathmlElement: null,
+//
+//  Use a closure to hide the local variables from the
+//  global namespace
+//
+(function () {
+    var QUEUE = MathJax.Hub.queue;  // shorthand for the queue
+    var math = null, box = null;    // the element jax for the math output, and the box it's in
+
     //
-    //  Get the preview and buffer DIV's
+    //  Hide and show the box (so it doesn't flicker as much)
     //
-    Init: function (data) {
-        this.preview = document.getElementById(data.preview);
-        this.buffer = document.getElementById(data.buffer);
-        this.input = document.getElementById(data.input);
-        this.mathmlElement = document.getElementById(data.mathmlElement);
-        //console.log(this);
-        return this;
-    },
+    var HIDEBOX = function () {box.style.visibility = "hidden"}
+    var SHOWBOX = function () {box.style.visibility = "visible"}
+
     //
-    //  Switch the buffer and preview, and display the right one.
-    //  (We use visibility:hidden rather than display:none since
-    //  the results of running MathJax are more accurate that way.)
+    //  Get the element jax when MathJax has produced it.
     //
-    swapBuffers: function () {
-        var buffer = this.preview, preview = this.buffer;
-        this.buffer = buffer;
-        this.preview = preview;
-        buffer.style.visibility = "hidden";
-        buffer.style.position = "absolute";
-        preview.style.position = "";
-        preview.style.visibility = "";
-    },
+    QUEUE.Push(function () {
+        math = MathJax.Hub.getAllJax("MathOutput")[0];
+        box = document.getElementById("box");
+        SHOWBOX(); // box is initially hidden so the braces don't show
+    });
+
     //
-    //  This gets called when a key is pressed in the textarea.
-    //  We check if there is already a pending update and clear it if so.
-    //  Then set up an update to occur after a small delay (so if more keys
-    //    are pressed, the update won't occur until after there has been 
-    //    a pause in the typing).
-    //  The callback function is set up below, after the Preview object is set up.
+    //  The onchange event handler that typesets the math entered
+    //  by the user.  Hide the box, then typeset, then show it again
+    //  so we don't see a flash as the math is cleared and replaced.
     //
-    update: function () {
-        if (this.timeout) {
-            clearTimeout(this.timeout);
-        }
-        this.timeout = setTimeout(this.callback, this.delay);
-    },
-    //
-    //  Creates the preview and runs MathJax on it.
-    //  If MathJax is already trying to render the code, return
-    //  If the text hasn't changed, return
-    //  Otherwise, indicate that MathJax is running, and start the
-    //    typesetting.  After it is done, call PreviewDone.
-    //  
-    createPreview: function () {
-        Preview.timeout = null;
-        if (this.mjRunning)
-            return;
-        var text = this.input.value;
-        if (text === this.oldtext)
-            return;
-        this.buffer.innerHTML = this.oldtext = text;
-        this.mjRunning = true;
-        MathJax.Hub.Queue(
-                ["Typeset", MathJax.Hub, this.buffer],
-                ["previewDone", this]
-                );
-    },
-    //
-    //  Indicate that MathJax is no longer running,
-    //  and swap the buffers to show the results.
-    //
-    previewDone: function () {
-        this.mjRunning = false;
-        this.swapBuffers();
+    window.UpdateMath = function (TeX) {
+        QUEUE.Push(
+            HIDEBOX,
+            ["resetEquationNumbers",MathJax.InputJax.TeX],
+            ["Text",math,"\\displaystyle{"+TeX+"}"],
+            SHOWBOX
+        );
     }
-
-};
-
-//
-//  Cache a callback to the CreatePreview action
-//
-Preview.callback = MathJax.Callback(["createPreview", Preview]);
-Preview.callback.autoReset = true;  // make sure it can run more than once
+})();

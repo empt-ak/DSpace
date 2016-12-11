@@ -3,45 +3,56 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-$(document).ready(function () {
+$(function(){
     $('.contact-email').email();
 
-    $("form#aspect_discovery_SimpleSearch_div_search-filters").on('submit',function (event) {
-        // event.preventDefault();
-        var filterName = null;
+    if (typeof(Storage) !== "undefined") {
+        if (localStorage.getItem("hasvisited") == null) {
+            $("div#welcome-banner").removeClass("hidden-xl-down");
 
-        $(this).find("select").each(function(){
-            if($(this).val() === "math"){
-                var temp = $(this).attr('name');
-                filterName = temp.substring(temp.indexOf("_")+1,temp.length);
-            }
-        });
+            localStorage.setItem("hasvisited", true);
+        }
+    }
 
-
-        var $input = $(this).find('[name="filter_'+filterName+'"]');
-        // $input.val(encodeURIComponent($input.val()));
-
-        // event.preventDefault();
+    $("div#welcome-banner button.close").on('click', function () {
+        $(this).parent().hide();
     });
 
-    $(".show-advanced-filters").click(function (event) {
-        $("#aspect_discovery_SimpleSearch_div_search-filters").show();
-        $(this).hide();
-        $(".hide-advanced-filters").show();
+    var typingTimer;
+    var $input = $("#MathInput");
+
+    $input.on("keyup", function () {
+        clearTimeout(typingTimer);
+
+        typingTimer = setTimeout(doneTyping,800)
     });
-    
-    $(".hide-advanced-filters").click(function (event) {
-        $("#aspect_discovery_SimpleSearch_div_search-filters").hide();
-        $(this).hide();
-        $(".show-advanced-filters").show();
+
+    $input.on("keydown",function () {
+        clearTimeout(typingTimer);
     });
+
+    function doneTyping(){
+        $("#mathbuffer").text($input.val());
+
+        MathJax.Hub.Queue(["Typeset", MathJax.Hub, "mathbuffer"],copyRendered);
+    }
+
+    var copyRendered = function (){
+        $("#mathpreview").html($("#mathbuffer").html());
+    }
+
+    $(".show-advanced-filters, .hide-advanced-filters").on('click',function(event){
+        $(".filters-hidden-section").toggle();
+    });
+
+    $('[data-toggle="tooltip"]').tooltip();
 
     $(this).on('click', '.filter-remove', function (event) {
         if ($('.row .in-use').length > 1) {
             $(this).closest('.row .in-use').remove();
         }
     });
-    
+
     $(this).on('click', '.filter-add', function () {
         var $row = $("div.in-use:last").clone();
         $.each($row.find(':input[name]'), function () {
@@ -97,7 +108,7 @@ $(document).ready(function () {
                 var param = val.split('=')[0];
                 var value = val.split('=')[1];
                 form.find('input[name="' + param + '"]').val(value);
-            });           
+            });
             form.submit();
         }
         e.preventDefault();
@@ -109,16 +120,16 @@ $(document).ready(function () {
         $("#aspect_artifactbrowser_ConfigurableBrowse_div_browse-controls select[name='" + name + "']").val(val).change();
         $("#aspect_artifactbrowser_ConfigurableBrowse_div_browse-controls").submit();
     });
-    
+
     $(".used-filters span.label").on('click',function(){
         var removeID = $(this).data('remove-input');
-        
+
         $(".used-filters input").each(function(){
             if($(this).data('remove')==removeID){
                 $(this).remove();
             }
         });
-        
+
         $("#aspect_discovery_SimpleSearch_div_general-query").submit();
     });
 });

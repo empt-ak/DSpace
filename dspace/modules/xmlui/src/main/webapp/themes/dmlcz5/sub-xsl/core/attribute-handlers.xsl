@@ -116,7 +116,7 @@
                     <xsl:choose>
                         <xsl:when test="$position = 'top' and $gear">
                             <div class="row">
-                                <div class="col-xs-10">
+                                <div class="col-10">
                                     <p class="pagination-info">
                                         <i18n:translate>
                                             <xsl:choose>
@@ -140,7 +140,7 @@
                                         </i18n:translate>
                                     </p>
                                 </div>
-                                <div class="col-xs-2">
+                                <div class="col-2">
                                     <xsl:call-template name="renderSortOptionsMenu"/>
                                 </div>
                             </div>
@@ -176,13 +176,13 @@
                         <ul class="pagination">
                             <li>
                                 <xsl:attribute name="class">
-                                    <xsl:text>previous</xsl:text>
+                                    <xsl:text>page-item</xsl:text>
                                     <xsl:if test="not($prev-page)">
                                         <xsl:text> disabled</xsl:text>
                                     </xsl:if>
                                 </xsl:attribute>
 
-                                <a class="previous-page-link">
+                                <a class="page-link">
                                     <xsl:attribute name="href">
                                         <xsl:value-of select="$prev-page"/>
                                     </xsl:attribute>
@@ -191,13 +191,13 @@
                             </li>
                             <li>
                                 <xsl:attribute name="class">
-                                    <xsl:text>next pull-right</xsl:text>
+                                    <xsl:text>page-item</xsl:text>
                                     <xsl:if test="not($next-page)">
                                         <xsl:text> disabled</xsl:text>
                                     </xsl:if>
                                 </xsl:attribute>
 
-                                <a class="next-page-link">
+                                <a class="page-link">
                                     <xsl:attribute name="href">
                                         <xsl:value-of select="$next-page"/>
                                     </xsl:attribute>
@@ -216,7 +216,7 @@
                     <xsl:choose>
                         <xsl:when test="$position = 'top' and $gear">
                             <div class="row">
-                                <div class="col-xs-9">
+                                <div class="col-9">
                                     <p class="pagination-info">
                                         <i18n:translate>
                                             <xsl:choose>
@@ -240,7 +240,7 @@
                                         </i18n:translate>
                                     </p>
                                 </div>
-                                <div class="col-xs-3">
+                                <div class="col-3">
                                     <xsl:apply-templates select="$gear"/>
                                 </div>
                             </div>
@@ -277,11 +277,11 @@
                     <xsl:if test="not($position = 'top') and (not($is-first-page) or $has-next-page)">
                         <div class="centered-pagination">
                             <ul class="pagination">
-                                <li>
+                                <li class="page-item">
                                     <xsl:if test="$is-first-page">
-                                        <xsl:attribute name="class">disabled</xsl:attribute>
+                                        <xsl:attribute name="class">page-item disabled</xsl:attribute>
                                     </xsl:if>
-                                    <a class="previous-page-link">
+                                    <a class="page-link">
                                         <xsl:attribute name="href">
                                             <xsl:value-of
                                                     select="substring-before(parent::node()/@pageURLMask,'{pageNum}')"/>
@@ -293,8 +293,8 @@
                                     </a>
                                 </li>
                                 <xsl:if test="(parent::node()/@currentPage - 4) &gt; 0">
-                                    <li class="first-page-link">
-                                        <a>
+                                    <li class="page-item">
+                                        <a class="page-link">
                                             <xsl:attribute name="href">
                                                 <xsl:value-of
                                                         select="substring-before(parent::node()/@pageURLMask,'{pageNum}')"/>
@@ -305,7 +305,7 @@
                                             <xsl:text>1</xsl:text>
                                         </a>
                                     </li>
-                                    <li>
+                                    <li class="page-item">
                                         <span>
                                             <xsl:text>&#8230;</xsl:text>
                                         </span>
@@ -333,14 +333,14 @@
                                     <xsl:with-param name="pageOffset">3</xsl:with-param>
                                 </xsl:call-template>
                                 <xsl:if test="(parent::node()/@currentPage + 4) &lt;= (parent::node()/@pagesTotal)">
-                                    <li>
+                                    <li class="page-item">
                                         <span>
                                             <xsl:text>&#8230;</xsl:text>
                                         </span>
 
                                     </li>
-                                    <li class="last-page-link">
-                                        <a>
+                                    <li class="page-item">
+                                        <a class="page-link">
                                             <xsl:attribute name="href">
                                                 <xsl:value-of
                                                         select="substring-before(parent::node()/@pageURLMask,'{pageNum}')"/>
@@ -353,8 +353,8 @@
                                     </li>
                                 </xsl:if>
                                 <xsl:if test="$has-next-page">
-                                    <li>
-                                        <a class="next-page-link">
+                                    <li class="page-item">
+                                        <a class="page-link">
                                             <xsl:attribute name="href">
                                                 <xsl:value-of
                                                         select="substring-before(parent::node()/@pageURLMask,'{pageNum}')"/>
@@ -366,7 +366,6 @@
                                         </a>
                                     </li>
                                 </xsl:if>
-
                             </ul>
                         </div>
                     </xsl:if>
@@ -388,11 +387,11 @@
         <xsl:variable name="distance" select="$pageOffset*($pageOffset >=0) - $pageOffset*($pageOffset &lt; 0)"/>
         <xsl:if test="((parent::node()/@currentPage + $pageOffset) &gt; 0) and
             ((parent::node()/@currentPage + $pageOffset) &lt;= (parent::node()/@pagesTotal))">
-            <li class="page-link page-link-offset-{$distance}">
+            <li class="page-item page-link-offset-{$distance}">
                 <xsl:if test="$pageOffset = 0">
-                    <xsl:attribute name="class">active</xsl:attribute>
+                    <xsl:attribute name="class">page-item active</xsl:attribute>
                 </xsl:if>
-                <a>
+                <a class="page-link">
                     <xsl:attribute name="href">
                         <xsl:value-of select="substring-before(parent::node()/@pageURLMask,'{pageNum}')"/>
                         <xsl:value-of select="parent::node()/@currentPage + $pageOffset"/>
@@ -405,9 +404,9 @@
     </xsl:template>
 
     <xsl:template name="renderSortOptionsMenu">
-        <div class="btn-group sort-options-menu pull-right">
+        <div class="btn-group sort-options-menu float-right">
             <xsl:call-template name="renderGearButton"/>
-            <ul class="dropdown-menu pull-right" role="menu">
+            <ul class="dropdown-menu float-right" role="menu">
                 <xsl:for-each
                         select="//dri:div[@id='aspect.artifactbrowser.ConfigurableBrowse.div.browse-controls'
                         or @id='aspect.administrative.WithdrawnItems.div.browse-controls'

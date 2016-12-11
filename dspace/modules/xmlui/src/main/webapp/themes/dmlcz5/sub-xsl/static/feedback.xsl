@@ -29,7 +29,7 @@
         match="dri:body/dri:div[@id='aspect.artifactbrowser.FeedbackForm.div.feedback-form']"
     >
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-12">
                 <h1>Feedback</h1>
             </div>
         </div>

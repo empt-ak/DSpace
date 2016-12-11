@@ -29,12 +29,12 @@
         match="dri:body/dri:div[@id='cz.muni.ics.dmlcz5.aspects.statik.AboutUsAspect.div.aboutus-section']"
     >
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-12">
                 <h1>About DML-CZ</h1>
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-12">
                 <h4>DML-CZ</h4>
 
                 <p>The Czech Digital Mathematics Library (DML-CZ) has been developed in order to preserve in a digital form the content of major part of mathematical literature that has ever been published in the Czech lands, and to provide a free access to the digital content and bibliographical data.</p>

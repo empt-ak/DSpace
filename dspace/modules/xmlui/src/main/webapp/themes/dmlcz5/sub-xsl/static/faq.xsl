@@ -29,12 +29,12 @@
         match="dri:body/dri:div[@id='cz.muni.ics.dmlcz5.aspects.statik.FAQAspect.div.faq-section']"
     >
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-12">
                 <h1>Frequently Asked Questions (FAQ)</h1>
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-12">
                 <ul>
                     <li>
                         <a href="#faq1">What is the DML-CZ?</a>
@@ -58,7 +58,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-12">
                 <div class="media" id="faq1">
                     <!--            <a class="media-left" href="#">
                         <img class="media-object" data-src="holder.js/64x64" alt="Generic placeholder image">

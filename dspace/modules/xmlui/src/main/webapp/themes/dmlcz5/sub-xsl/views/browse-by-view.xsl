@@ -31,7 +31,7 @@
         priority="10000"
     >
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-12">
                 <h1>
                     <i18n:text>
                         <xsl:value-of
@@ -45,7 +45,7 @@
             select="./dri:div[contains(@rend,'browse-navigation-wrapper')]/dri:div[@id='aspect.artifactbrowser.ConfigurableBrowse.div.browse-navigation']"
         />
         <div class="form-group row">
-            <div class="col-xs-10">
+            <div class="col-10">
                 <p class="form-control-static">
                     <xsl:apply-templates
                         mode="pagination"
@@ -53,14 +53,14 @@
                     />
                 </p>
             </div>
-            <div class="col-xs-2">
+            <div class="col-2">
                 <xsl:apply-templates
                     select="./dri:div[@id='aspect.artifactbrowser.ConfigurableBrowse.div.browse-controls']" 
                 />
             </div>
         </div>
         <div class="row offset-top-25">
-            <div class="col-xs-12">
+            <div class="col-12">
                 <xsl:apply-templates
                     select="./dri:div[starts-with(@id,'aspect.artifactbrowser.ConfigurableBrowse.div.browse-by-')]"
                 />
@@ -77,8 +77,8 @@
                 <xsl:for-each
                     select="./dri:item/dri:xref"
                 >
-                    <li>
-                        <a href="{./@target}">
+                    <li class="page-item">
+                        <a href="{./@target}" class="page-link">
                             <xsl:value-of
                                 select="."
                             />
@@ -105,17 +105,16 @@
                     <xsl:value-of select="./@url"/>
                     <xsl:text>?sections=dmdSec,fileSec</xsl:text>
                 </xsl:variable>
-                <div class="media disable-math">                   
+                <div class="media disable-math">
+                    <!--
                     <div class="media-left hidden-sm-down">
-                        <!--
                         <img alt="page.general.thumbnail" class="img-fluid" i18n:attribute="alt">
                             <xsl:attribute name="data-src">
                                 <xsl:text>holder.js/100x100</xsl:text>
                                 <xsl:text>?text=No Thumbnail</xsl:text>
                             </xsl:attribute>
                         </img>
-                        -->
-                    </div>
+                    </div>-->
                     <div class="media-body">
                         <h5 class="media-heading">
                             <a href="{document($extMets)/mets:METS/@OBJID}">
@@ -236,7 +235,7 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <span class="label label-default label-pill pull-xs-left">
+                                    <span class="label label-default label-pill float-left">
                                         <xsl:value-of
                                             select="./text()"
                                         />
@@ -338,12 +337,12 @@
     >
         <form method="{@method}" action="{@action}">
             <div class="form-group row">
-                <div class="col-xs-4 hidden-md-up">
+                <div class="col-4 hidden-md-up">
                     <xsl:apply-templates
                         select="./dri:div[@rend='row']/dri:div/dri:field"
                     />
                 </div>
-                <div class="col-xs-8 col-md-12">
+                <div class="col-8 col-md-12">
                     <div class="hidden-sm-down">
                         <xsl:apply-templates
                             select="./dri:div[@rend='row']/dri:div/dri:list"
@@ -377,7 +376,7 @@
     <xsl:template 
         match="dri:div[@id='aspect.artifactbrowser.ConfigurableBrowse.div.browse-controls']"
     >
-        <form action="{@action}" method="{@method}" id="{translate(@id,'.','_')}" class="pull-xs-right">
+        <form action="{@action}" method="{@method}" id="{translate(@id,'.','_')}" class="float-right">
             <div class="hidden">
                 <xsl:for-each
                     select="./dri:p[@n='hidden-fields']/dri:field[@type='hidden']"

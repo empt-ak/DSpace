@@ -77,7 +77,7 @@
                 <xsl:when test="node()">
                     <div>
                         <xsl:attribute name="rend">
-                            <xsl:text>col-xs-2 col-sm-1</xsl:text>
+                            <xsl:text>col-2 col-sm-1</xsl:text>
                             <xsl:if test="$left-width > 1">
                                 <xsl:text> col-sm-offset-</xsl:text>
                                 <xsl:value-of select="$left-width - 1"/>
@@ -85,14 +85,14 @@
                         </xsl:attribute>
                         <field rend="community-browser-toggle-button" value="#collapse-{$handle}"/>
                     </div>
-                    <div rend="col-xs-10 col-sm-{12 - $left-width}">
+                    <div rend="col-10 col-sm-{12 - $left-width}">
                         <xsl:apply-templates select="document($externalMetadataURL)" mode="community-browser"/>
                     </div>
                 </xsl:when>
                 <xsl:otherwise>
-                    <div rend="col-xs-10 col-sm-{12 - $left-width} col-xs-offset-2 col-sm-offset-{$left-width}">
+                    <div rend="col-10 col-sm-{12 - $left-width} col-offset-2 col-sm-offset-{$left-width}">
                         <xsl:attribute name="rend">
-                            <xsl:text>col-xs-10 col-sm-</xsl:text><xsl:value-of select="12 - $left-width"/>
+                            <xsl:text>col-10 col-sm-</xsl:text><xsl:value-of select="12 - $left-width"/>
                             <xsl:text> col-sm-offset-</xsl:text><xsl:value-of select="$left-width"/>
                             <xsl:choose>
                                 <xsl:when test="$depth = 1 and $needs_one_less_indent">
@@ -102,7 +102,7 @@
                                     <!--<xsl:text> col-xs-offset-2  half-indented</xsl:text>-->
                                 <!--</xsl:when>-->
                                 <xsl:otherwise>
-                                    <xsl:text> col-xs-offset-2</xsl:text>
+                                    <xsl:text> col-offset-2</xsl:text>
                                 </xsl:otherwise>
                             </xsl:choose>
 

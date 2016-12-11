@@ -29,12 +29,12 @@
         match="dri:body/dri:div[@id='cz.muni.ics.dmlcz5.aspects.statik.NewsAspect.div.news-section']"
     >
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-12">
                 <h1>News</h1>
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-12">
                 <div class="media">
                     <div class="media-body">
                         <h4 class="media-heading">09.09.2015</h4>

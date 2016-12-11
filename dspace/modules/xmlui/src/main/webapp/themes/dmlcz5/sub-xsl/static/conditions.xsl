@@ -29,12 +29,12 @@
         match="dri:body/dri:div[@id='cz.muni.ics.dmlcz5.aspects.statik.ConditionsAspect.div.conditions-section']"
     >
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-12">
                 <h1>Conditions of Use</h1>
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-12">
                 <p>The <a href="http://www.math.cas.cz/">Institute of Mathematics CAS</a> (IM in the following) provides access to digitized documents strictly for personal use. Using the library's online system to access or download a digitized document you accept these Conditions of Use.</p>
 
                 <p>The database itself is the property of the IM and contains elements covered by copyright. Access to the database containing the bibliographical references of all journal and conference proceedings articles and of monograph chapters is provided for free via the "search" and "browse" functions.</p>

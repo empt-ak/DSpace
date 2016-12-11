@@ -53,10 +53,10 @@
                 <xsl:choose>
                     <xsl:when test="dri:list[@rend='alphabet']">
                         <div rend="row">
-                            <div rend="col-xs-4 col-sm-12">
+                            <div rend="col-4 col-sm-12">
                                 <xsl:apply-templates select="dri:list[@rend='alphabet']"/>
                             </div>
-                            <div rend="col-xs-8 col-sm-12">
+                            <div rend="col-8 col-sm-12">
                                 <xsl:apply-templates select="*[not(self::dri:list[@rend='alphabet'])]"/>
                             </div>
                         </div>

@@ -186,7 +186,7 @@
                                     <xsl:apply-templates select="dri:cell[not(@role='header') and not(dri:field)]"/>
                                 </p>
                             </div>
-                            <div rend="col-sm-2 pull-right col-xs-12 clearfix">
+                            <div rend="col-sm-2 pull-right col-12 clearfix">
                                 <xsl:apply-templates select="dri:cell[dri:field]"/>
                                 <p><hi></hi></p>
                             </div>

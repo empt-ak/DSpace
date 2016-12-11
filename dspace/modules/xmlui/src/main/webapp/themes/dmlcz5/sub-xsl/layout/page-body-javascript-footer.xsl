@@ -20,9 +20,9 @@
                 xmlns="http://www.w3.org/1999/xhtml"
                 exclude-result-prefixes="i18n dri mets xlink xsl dim xhtml mods dc">
     <xsl:output method="xml" encoding="UTF-8" indent="no"/>
-    
-    <xsl:template 
-        name="javascript-footer"
+
+    <xsl:template
+            name="javascript-footer"
     >
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script>
@@ -47,6 +47,17 @@
             </xsl:attribute>
             &#160;
         </script>
+        <!--<script>-->
+        <!--<xsl:attribute-->
+        <!--name="src"-->
+        <!--&gt;-->
+        <!--<xsl:value-of-->
+        <!--select="$contextPath"-->
+        <!--/>-->
+        <!--<xsl:text>/webjars/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js</xsl:text>-->
+        <!--</xsl:attribute>-->
+        <!--&#160;-->
+        <!--</script>-->
         <script>
             <xsl:attribute
                     name="src"
@@ -54,39 +65,44 @@
                 <xsl:value-of
                         select="$contextPath"
                 />
-                <xsl:text>/webjars/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js</xsl:text>
+                <xsl:text>/themes/</xsl:text>
+                <xsl:value-of
+                        select="$theme"
+                />
+                <xsl:text>/js/bootstrap.min.js</xsl:text>
             </xsl:attribute>
             &#160;
         </script>
-        <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">&#160;</script>
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+            &#160;</script>
         <script type="text/x-mathjax-config">
             MathJax.Hub.Config({
-            tex2jax: {
-            inlineMath: [['$','$'], ['\\(','\\)']],
-            ignoreClass: "detail-field-data|exception|disable-math"
-            },
-            TeX: {
-            Macros: {
-            AA: '{\\mathring A}'
-            }
-            }
+                tex2jax: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']],
+                    ignoreClass: "detail-field-data|exception|disable-math"
+                },
+                TeX: {
+                    Macros: {
+                        AA: '{\\mathring A}'
+                    }
+                }
             });
-        </script> 
+        </script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script>
-            <xsl:attribute 
-                name="src"
+            <xsl:attribute
+                    name="src"
             >
-                <xsl:value-of 
-                    select="$contextPath" 
+                <xsl:value-of
+                        select="$contextPath"
                 />
                 <xsl:text>/themes/</xsl:text>
-                <xsl:value-of 
-                    select="$theme" 
+                <xsl:value-of
+                        select="$theme"
                 />
                 <xsl:text>/js/dmlcz5.js</xsl:text>
             </xsl:attribute>
-                    &#160;
+            &#160;
         </script>
         <script>
             <xsl:attribute
@@ -99,52 +115,12 @@
             </xsl:attribute>
             &#160;
         </script>
-        <script>
-            <xsl:attribute 
-                name="src"
-            >
-                <xsl:value-of 
-                    select="$contextPath" 
-                />
-                <xsl:text>/themes/</xsl:text>
-                <xsl:value-of 
-                    select="$theme" 
-                />
-                <xsl:text>/js/mathjax.min.js</xsl:text>
-            </xsl:attribute>
-                    &#160;
-        </script>
-        <script>
-            <xsl:attribute 
-                name="src"
-            >
-                <xsl:value-of 
-                    select="$contextPath" 
-                />
-                <xsl:text>/themes/</xsl:text>
-                <xsl:value-of 
-                    select="$theme" 
-                />
-                <xsl:text>/js/jquery.dmlmathjax.min.js</xsl:text>
-            </xsl:attribute>
-                    &#160;
-        </script>
-        
-        <script>
-           $(function(){
-               if (typeof(Storage) !== "undefined") {
-                   if(localStorage.getItem("hasvisited") == null){
-                       $("div#welcome-banner").removeClass("hidden-xl-down");
 
-                        localStorage.setItem("hasvisited",true);
-                   }
-               }
+        <script>
+            $(function () {
 
-               $("div#welcome-banner button.close").on('click',function(){
-                   $(this).parent().hide();
-               });
-           });
-        </script>              
+            });
+        </script>
     </xsl:template>
 
 </xsl:stylesheet>

@@ -164,6 +164,7 @@
                     <i18n:text>page.sidebar.right.discovery.author</i18n:text>
                 </div>
                 <ul class="list-group list-group-flush">
+                    <!-- todo if we are at browse by author item has no xref element -->
                     <xsl:for-each
                             select="/dri:document/dri:options/dri:list[@id='aspect.discovery.Navigation.list.discovery']/dri:list[@id='aspect.discovery.SidebarFacetsTransformer.list.author']/dri:item/dri:xref"
                     >

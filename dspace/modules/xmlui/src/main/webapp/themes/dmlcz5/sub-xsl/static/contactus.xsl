@@ -29,7 +29,7 @@
         match="dri:body/dri:div[@id='aspect.artifactbrowser.Contact.div.contact']"
     >
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-12">
                 <h1>
                     <i18n:text>xmlui.ArtifactBrowser.Contact.head</i18n:text>
                 </h1>
@@ -39,7 +39,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-12">
                 <table class="table">
                     <tr>
                         <td>
