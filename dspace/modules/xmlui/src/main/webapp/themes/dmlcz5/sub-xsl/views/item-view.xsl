@@ -17,9 +17,6 @@
                 xmlns:dim="http://www.dspace.org/xmlns/dspace/dim"
                 xmlns:xlink="http://www.w3.org/TR/xlink/"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"
-                xmlns:atom="http://www.w3.org/2005/Atom"
-                xmlns:ore="http://www.openarchives.org/ore/terms/"
-                xmlns:oreatom="http://www.openarchives.org/ore/atom/"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:xalan="http://xml.apache.org/xalan"
                 xmlns:encoder="xalan://java.net.URLEncoder"
@@ -47,7 +44,7 @@
         </xsl:variable>
         <div class="row">
             <div class="col-12">
-                <ul class="nav nav-tabs float-sm-left float-md-right" role="tablist">
+                <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" href="#entryTab" role="tab" data-toggle="tab">
                             <i18n:text>page.item.entry</i18n:text>
@@ -126,7 +123,7 @@
                                             </img>-->
                                         </xsl:otherwise>
                                     </xsl:choose>
-                                    <div class="card-block card-block-reduced">
+                                    <div class="card-block pb-0">
                                         <!--<h5>-->
                                         <i class="fa fa-file"/>
                                         <xsl:text> </xsl:text>
@@ -187,7 +184,7 @@
                                     <xsl:if
                                             test="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='contributor' and @qualifier='author']"
                                     >
-                                        <div class="card-block card-block-reduced">
+                                        <div class="card-block pb-0 pt-0">
                                             <!--<h5>-->
                                             <i class="fa fa-user"/>
                                             <xsl:text> </xsl:text>
@@ -200,7 +197,7 @@
                                                         select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='contributor' and @qualifier='author']"
                                                 >
                                                     <li>
-                                                        <a>
+                                                        <a href="{concat($contextPath,'/discover?filtertype=author&amp;filter_relational_operator=equals&amp;filter=',.)}">
                                                             <xsl:value-of
                                                                     select="."
                                                             />
@@ -214,21 +211,18 @@
                                     <xsl:if
                                             test="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='subject' and @qualifier='msc']"
                                     >
-                                        <div class="card-block card-block-reduced">
-
-                                            <!--<h5>-->
+                                        <div class="card-block pb-0 pt-0">
                                             <b>
                                                 <i class="fa fa-link"/>
                                                 <xsl:text> </xsl:text>
                                                 <i18n:text>page.item.msc</i18n:text>
                                             </b>
-                                            <!--</h5>-->
                                             <ul class="list-unstyled">
                                                 <xsl:for-each
                                                         select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='subject' and @qualifier='msc']"
                                                 >
                                                     <li>
-                                                        <a class="label label-info">
+                                                        <a class="badge badge-info" href="{concat($contextPath,'/discover?filtertype=msc&amp;filter_relational_operator=equals&amp;filter=',.)}">
                                                             <xsl:value-of
                                                                     select="."
                                                             />
@@ -242,7 +236,7 @@
                                     <xsl:if
                                             test="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='identifier' and @qualifier='idzbl']"
                                     >
-                                        <div class="card-block card-block-reduced">
+                                        <div class="card-block pb-0 pt-0">
                                             <!--<h5>-->
                                             <i class="fa fa-link"/>
                                             <xsl:text> </xsl:text>
@@ -267,7 +261,7 @@
                                     <xsl:if
                                             test="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='identifier' and @qualifier='idmr']"
                                     >
-                                        <div class="card-block card-block-reduced">
+                                        <div class="card-block pb-0 pt-0">
                                             <!--<h5>-->
                                             <i class="fa fa-link"></i>
                                             <xsl:text> </xsl:text>
@@ -456,12 +450,13 @@
                         <h2>
                             <i18n:text>page.item.references</i18n:text>
                         </h2>
-                        <small>
-                            <ul class="list-unstyled">
-                                <xsl:for-each
-                                        select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='relation' and @qualifier='isbasedon']"
-                                >
-                                    <li>
+
+                        <ul class="list-unstyled">
+                            <xsl:for-each
+                                    select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='relation' and @qualifier='isbasedon']"
+                            >
+                                <li>
+                                    <small>
                                         <xsl:call-template
                                                 name="replacehtml-ent"
                                         >
@@ -470,10 +465,10 @@
                                                     select="."
                                             />
                                         </xsl:call-template>
-                                    </li>
-                                </xsl:for-each>
-                            </ul>
-                        </small>
+                                    </small>
+                                </li>
+                            </xsl:for-each>
+                        </ul>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="similarTab">
                         <div class="row">

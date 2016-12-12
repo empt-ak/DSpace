@@ -39,7 +39,12 @@ $(function(){
 
     var copyRendered = function (){
         $("#mathpreview").html($("#mathbuffer").html());
-    }
+    };
+
+
+    $("a.show-math-help").on("click",function(){
+        $("div#math-help").modal('toggle');
+    });
 
     $(".show-advanced-filters, .hide-advanced-filters").on('click',function(event){
         $(".filters-hidden-section").toggle();

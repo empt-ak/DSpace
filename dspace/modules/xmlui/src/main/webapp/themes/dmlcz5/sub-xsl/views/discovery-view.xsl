@@ -445,23 +445,22 @@
                               title="Try entering quadratic formula $x^2+bx+c=0$">
                             <xsl:text>formulas.</xsl:text>
                         </mark>
-                        <a href="#" data-toggle="tooltip" data-placement="top"
+                        <a href="#" class="show-math-help" data-toggle="tooltip" data-placement="top"
                            title="Click for detailed help.">
                             <i class="fa fa-question-circle-o" aria-hidden="true"></i>
                         </a>
-
                     </div>
                     <div class="col-xl-4">
                         <label class="h3">Latex or Mathml input</label>
                         <textarea class="form-control" placeholder="Enter formula" rows="5"
                                   id="MathInput"></textarea>
+                        <div id="mathbuffer" style="visibility: hidden">
+                            <xsl:text>${}$</xsl:text>
+                        </div>
                     </div>
                     <div class="col-xl-5">
                         <span class="h3">Rendered output</span>
                         <div id="mathpreview"></div>
-                    </div>
-                    <div id="mathbuffer" style="visibility: hidden">
-                        <xsl:text>${}$</xsl:text>
                     </div>
                 </div>
                 <div class="row">

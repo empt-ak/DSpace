@@ -67,7 +67,7 @@
                 <xsl:value-of
                         select="$resourcePath"
                 />
-                <xsl:text>/css/dmlstyle.min.css</xsl:text>
+                <xsl:text>/css/dmlstyle.css</xsl:text>
             </xsl:attribute>
         </link>
 

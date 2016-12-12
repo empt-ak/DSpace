@@ -98,14 +98,71 @@
         </nav>
     </xsl:template>
 
+    <xsl:template name="math-help">
+        <div class="modal fade" id="math-help" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Math help</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row mb-3">
+                            <div class="col-12 disable-math">
+                                <xsl:text>Math formulae can be entered either in TeX or MathML notation (format will be autodetected).
+                                                LaTeX math within $ or $$, including AMS packages, is supported. Matching is by similarity,
+                                                which includes exact matches. Bear in mind that math metadata and full-text are not available
+                                                for all papers, and hence matching on such papers is limited.</xsl:text>
+                            </div>
+                        </div>
+                        <xhtml:h3>Examples:</xhtml:h3>
+                        <xhtml:table class="table">
+                            <xhtml:thead>
+                                <xhtml:tr>
+                                    <xhtml:th>Input</xhtml:th>
+                                    <xhtml:th>Rendered output</xhtml:th>
+                                </xhtml:tr>
+                            </xhtml:thead>
+                            <xhtml:tbody>
+                                <xhtml:tr>
+                                    <xhtml:td class="disable-math">$x^2 + y^2 = z^2$</xhtml:td>
+                                    <xhtml:td>$x^2 + y^2 = z^2$</xhtml:td>
+                                </xhtml:tr>
+                                <xhtml:tr>
+                                    <xhtml:td class="disable-math">$\iiint_V \mu(u,v,w) \,du\,dv\,dw$</xhtml:td>
+                                    <xhtml:td>$\iiint_V \mu(u,v,w) \,du\,dv\,dw$</xhtml:td>
+                                </xhtml:tr>
+                                <xhtml:tr>
+                                    <xhtml:td class="disable-math">$\sum_{n=1}^{\infty} 2^{-n} = 1$</xhtml:td>
+                                    <xhtml:td>$\sum_{n=1}^{\infty} 2^{-n} = 1$</xhtml:td>
+                                </xhtml:tr>
+                                <xhtml:tr>
+                                    <xhtml:td class="disable-math">$$\binom{n}{k} = \frac{n!}{k!(n-k)!$$</xhtml:td>
+                                    <xhtml:td>$$\binom{n}{k} = \frac{n!}{k!(n-k)!}$$</xhtml:td>
+                                </xhtml:tr>
+                            </xhtml:tbody>
+                        </xhtml:table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </xsl:template>
 
     <xsl:template name="sidebar">
         <div class="card sidebar">
             <!--<div class="card-block text-center">-->
-                <!--<a href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']}">-->
-                    <!--<img src="{concat($resourcePath,'/img/dml-logo.gif')}" alt="page.general.banner"-->
-                         <!--i18n:attribute="alt" class="dspace-banner"/>-->
-                <!--</a>-->
+            <!--<a href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']}">-->
+            <!--<img src="{concat($resourcePath,'/img/dml-logo.gif')}" alt="page.general.banner"-->
+            <!--i18n:attribute="alt" class="dspace-banner"/>-->
+            <!--</a>-->
             <!--</div>-->
             <xsl:if
                     test="/dri:document/dri:options/dri:list[@id='aspect.discovery.Navigation.list.discovery']/dri:list[@id='aspect.discovery.SidebarFacetsTransformer.list.subject']/dri:item"
@@ -270,6 +327,100 @@
                 </ul>
             </xsl:if>
         </div>
+    </xsl:template>
+
+    <xsl:template name="footer">
+        <!--<div class="footer pt-4">-->
+        <!--<div class="container-fluid">-->
+        <!--<footer class="row">-->
+        <!--<article class="offset-md-2 col-md-2">-->
+        <!--<p class="h3">DML-CZ</p>-->
+        <!--is offering an open access to the metadata and fulltext of mathematical journals, proceedings-->
+        <!--and-->
+        <!--books published throughout history in the Czech lands.-->
+        <!--</article>-->
+        <!--<nav class="col-md-1">-->
+        <!--<p class="h3">Links</p>-->
+        <!--<ul class="list-unstyled">-->
+        <!--<li>-->
+        <!--<a href="/dmlcz5/sitemap">Sitemap</a>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<a href="/dmlcz5/aboutus">About us</a>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<a href="/dmlcz5/news">News</a>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<a href="/dmlcz5/conditions">Conditions of Use</a>-->
+        <!--</li>-->
+        <!--</ul>-->
+        <!--</nav>-->
+        <!--<nav class="col-md-1">-->
+        <!--<p class="h3">&#160;</p>-->
+        <!--<ul class="list-unstyled">-->
+        <!--<li>-->
+        <!--<a href="/dmlcz5/faq">FAQ</a>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<a href="/dmlcz5/archives">Math archives</a>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<a href="/dmlcz5/contact">Contact Us</a>-->
+        <!--</li>-->
+        <!--</ul>-->
+        <!--</nav>-->
+        <!--<nav class="col-md-1">-->
+        <!--<p class="h3">Subscribe</p>-->
+        <!--<ul class="list-unstyled">-->
+        <!--<li>-->
+        <!--<a href="/dmlcz5/sitemap">Rss 1.0</a>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<a href="/dmlcz5/aboutus">Rss 2.0</a>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<a href="/dmlcz5/news">Atom</a>-->
+        <!--</li>-->
+        <!--</ul>-->
+        <!--</nav>-->
+        <!--<nav class="col-md-2">-->
+        <!--<p class="h3">Social networks</p>-->
+        <!--<ul class="list-unstyled">-->
+        <!--<li>-->
+        <!--<a href="/dmlcz5/sitemap">Facebook</a>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<a href="/dmlcz5/aboutus">Twitter</a>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<a href="/dmlcz5/news">Google+</a>-->
+        <!--</li>-->
+        <!--</ul>-->
+        <!--</nav>-->
+        <!--<nav class="col-md-2">-->
+        <!--<p class="h3">Contact</p>-->
+        <!--<ul class="list-unstyled">-->
+        <!--<li>-->
+        <!--<a href="mailto:webmaster@dml.cz">-->
+        <!--<span class="contact-email">webmaster@dml.cz</span>-->
+        <!--</a>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<a href="/dmlcz5/aboutus">Contact form</a>-->
+        <!--</li>-->
+        <!--</ul>-->
+        <!--</nav>-->
+        <!--</footer>-->
+        <!--<footer class="row mt-3 p-2">-->
+        <!--<div class="offset-md-2 col-md-5 ">-->
+        <!--&#169; 2010&#8211;-->
+        <!--<span class="copyright-date"></span>-->
+        <!--<a href="#">Institute of Mathematics ASCR</a>-->
+        <!--</div>-->
+        <!--</footer>-->
+        <!--</div>-->
+        <!--</div>-->
     </xsl:template>
 
 
