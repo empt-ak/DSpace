@@ -178,6 +178,7 @@ and open the template in the editor.
     <message key="xmlui.ArtifactBrowser.AbstractSearch.no_results">Nebylo nic nalezeno.</message>
     <message key="xmlui.ArtifactBrowser.AbstractSearch.all_of_dspace">Celou knihovnu</message>
     <message key="xmlui.ArtifactBrowser.SimpleSearch.head">Hledat</message>
+	<message key="xmlui.ArtifactBrowser.SimpleSearch.trail">Vyhledávání</message>
     <message key="xmlui.mirage2.discovery.showAdvancedFilters">Zobrazit pokročilé filtry</message>
     <message key="xmlui.mirage2.discovery.hideAdvancedFilters">Skrýt pokorčilé filtry</message>
     <message key="xmlui.Discovery.SimpleSearch.filter_head">Filtry</message>

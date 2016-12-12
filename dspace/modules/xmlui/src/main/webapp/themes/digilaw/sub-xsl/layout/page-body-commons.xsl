@@ -134,6 +134,7 @@
                                                 <xsl:copy-of
                                                     select="."
                                                 />
+											<xsl:comment>there</xsl:comment>
                                         </a>
                                     </xsl:when>
                                     <!--
@@ -145,12 +146,13 @@
                                     >
                                         <i18n:text>navigation.breadcrumb.viewitem</i18n:text>
                                     </xsl:when>
-                                    <xsl:otherwise>
-                                        <i18n:text>
+									<xsl:otherwise>
+										<xsl:comment>here</xsl:comment>
+										<i18n:text> 
                                             <xsl:value-of
                                                 select="."
                                             />
-                                        </i18n:text>
+										</i18n:text> 
                                     </xsl:otherwise>
                                 </xsl:choose>                                 
                             </li>

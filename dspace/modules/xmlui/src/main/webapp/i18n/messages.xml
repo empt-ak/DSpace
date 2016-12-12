@@ -178,6 +178,7 @@ and open the template in the editor.
     <message key="xmlui.ArtifactBrowser.AbstractSearch.no_results">Search produced no results.</message>
     <message key="xmlui.ArtifactBrowser.AbstractSearch.all_of_dspace">All of DSpace</message>
     <message key="xmlui.ArtifactBrowser.SimpleSearch.head">Search</message>
+	<message key="xmlui.ArtifactBrowser.SimpleSearch.trail">Simple search</message>
     <message key="xmlui.mirage2.discovery.showAdvancedFilters">Show Advanced Filters</message>
     <message key="xmlui.mirage2.discovery.hideAdvancedFilters">Hide Advanced Filters</message>
     <message key="xmlui.Discovery.SimpleSearch.filter_head">Filters</message>
