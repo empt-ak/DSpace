@@ -33,7 +33,7 @@ and open the template in the editor.
     
     <message key="page.sidebar.left.quickstats">Quick statistics</message>
     <message key="page.sidebar.left.quickstats.more">More statistics</message>
-    <message key="page.sidebar.left.browseby">Browse in DSpace</message>
+    <message key="page.sidebar.left.browseby">Browse in DML-CZ</message>
     <message key="page.sidebar.left.projects">Projects and partners</message>
     <message key="page.sidebar.left.rss">RSS channels</message>
     <message key="page.sidebar.left.count.author">Total authors:</message>
