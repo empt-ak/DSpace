@@ -110,7 +110,7 @@
                                         <xsl:value-of select="./dri:value"/>
 
                                         <xsl:text> </xsl:text>
-                                        <i class="fa fa-times"></i>
+                                        <i class="fa fa-times drop-badge"></i>
                                     </span>
                                     <xsl:if
                                             test="position() != last()"
@@ -451,15 +451,17 @@
                         </a>
                     </div>
                     <div class="col-xl-4">
-                        <label class="h3">Latex or Mathml input</label>
-                        <textarea class="form-control" placeholder="Enter formula" rows="5"
+                        <label class="h3">LaTeX or Mathml input</label>
+                        <textarea class="form-control" placeholder="Enter formula" rows="5" name="filter_1"
                                   id="MathInput"></textarea>
                         <div id="mathbuffer" style="visibility: hidden">
                             <xsl:text>${}$</xsl:text>
                         </div>
+                        <input type="hidden" name="filter_relational_operator_1" value="contains" />
+                        <input type="hidden" name="filtertype_1" value="math" />
                     </div>
                     <div class="col-xl-5">
-                        <span class="h3">Rendered output</span>
+                        <span class="h3">Preview</span>
                         <div id="mathpreview"></div>
                     </div>
                 </div>
@@ -511,7 +513,7 @@
             match="dri:div[@rend='clearfix']/dri:p[@rend='pull-right']/dri:xref"
     >
         <button type="button" class="btn btn-primary {concat('cursor-pointer ',@rend)}">
-            Toggle additional filters
+            <i class="fa fa-sort" aria-hidden="true"></i> Toggle additional filters
         </button>
     </xsl:template>
 

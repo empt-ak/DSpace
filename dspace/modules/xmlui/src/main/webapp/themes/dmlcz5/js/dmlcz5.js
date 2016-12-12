@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-$(function(){
+$(function () {
     $('.contact-email').email();
 
     if (typeof(Storage) !== "undefined") {
@@ -24,33 +24,35 @@ $(function(){
     $input.on("keyup", function () {
         clearTimeout(typingTimer);
 
-        typingTimer = setTimeout(doneTyping,800)
+        typingTimer = setTimeout(doneTyping, 800)
     });
 
-    $input.on("keydown",function () {
+    $input.on("keydown", function () {
         clearTimeout(typingTimer);
     });
 
-    function doneTyping(){
+    function doneTyping() {
         $("#mathbuffer").text($input.val());
 
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub, "mathbuffer"],copyRendered);
+        MathJax.Hub.Queue(["Typeset", MathJax.Hub, "mathbuffer"], copyRendered);
     }
 
-    var copyRendered = function (){
+    var copyRendered = function () {
         $("#mathpreview").html($("#mathbuffer").html());
     };
 
 
-    $("a.show-math-help").on("click",function(){
+    $("a.show-math-help").on("click", function () {
         $("div#math-help").modal('toggle');
     });
 
-    $(".show-advanced-filters, .hide-advanced-filters").on('click',function(event){
+    $(".show-advanced-filters, .hide-advanced-filters").on('click', function (event) {
         $(".filters-hidden-section").toggle();
     });
 
-    $('[data-toggle="tooltip"]').tooltip();
+    $('[data-toggle="tooltip"]').tooltip({
+        "animation": false,
+    });
 
     $(this).on('click', '.filter-remove', function (event) {
         if ($('.row .in-use').length > 1) {
@@ -66,47 +68,43 @@ $(function(){
             $(this).attr('id', $(this).attr('id').replace(/(\d+)(?!.*\d)/g, no));
             $(this).find('option:selected').removeAttr("selected");
             $(this).val("");
-            if ($(this).is('select[name*="filter_relational_operator_"]')) {
-                $(this).attr('readonly', true);
-            }
         });
         $row.insertBefore('.button-row');
     });
 
-    $(this).on('change', 'form#aspect_discovery_SimpleSearch_div_search-filters select', function () {
-        var $parent = $(this).parents("div.row:first");
-        if ($(this).val() === "math") {
-            var attrs = {};
-
-            var $input = $parent.find("input:text");
-            if ($input.length) {
-                $.each($input[0].attributes, function (idx, attr) {
-                    if (attr.nodeName !== 'type' && attr.nodeName !== 'value') {
-                        attrs[attr.nodeName] = attr.nodeValue;
-                    }
-                });
-
-                $input.replaceWith($("<textarea />", attrs));
-            }
-        } else {
-            $textarea = $parent.find("textarea");
-            if ($textarea.length) {
-                attrs = {};
-                $.each($textarea[0].attributes, function (idx, attr) {
-                    attrs[attr.nodeName] = attr.nodeValue;
-                });
-
-                $.extend(attrs, {type: 'text'});
-
-                $textarea.replaceWith($("<input />", attrs));
-            }
-        }
-    });
+    // $(this).on('change', 'form#aspect_discovery_SimpleSearch_div_search-filters select', function () {
+    //     var $parent = $(this).parents("div.row:first");
+    //     if ($(this).val() === "math") {
+    //         var attrs = {};
+    //
+    //         var $input = $parent.find("input:text");
+    //         if ($input.length) {
+    //             $.each($input[0].attributes, function (idx, attr) {
+    //                 if (attr.nodeName !== 'type' && attr.nodeName !== 'value') {
+    //                     attrs[attr.nodeName] = attr.nodeValue;
+    //                 }
+    //             });
+    //
+    //             $input.replaceWith($("<textarea />", attrs));
+    //         }
+    //     } else {
+    //         $textarea = $parent.find("textarea");
+    //         if ($textarea.length) {
+    //             attrs = {};
+    //             $.each($textarea[0].attributes, function (idx, attr) {
+    //                 attrs[attr.nodeName] = attr.nodeValue;
+    //             });
+    //
+    //             $.extend(attrs, {type: 'text'});
+    //
+    //             $textarea.replaceWith($("<input />", attrs));
+    //         }
+    //     }
+    // });
 
     $("#aspect_discovery_SimpleSearch_div_search-controls-gear a.gear-option").on('click', function (e) {
         e.stopPropagation();
-        if ($(this).not(".gear-option-selected").length)
-        {
+        if ($(this).not(".gear-option-selected").length) {
             var params = $(this).attr('href').split('&');
             var form = $("#aspect_discovery_SimpleSearch_div_main-form");
             $.each(params, function (i, val) {
@@ -126,11 +124,11 @@ $(function(){
         $("#aspect_artifactbrowser_ConfigurableBrowse_div_browse-controls").submit();
     });
 
-    $(".used-filters span.label").on('click',function(){
+    $(".used-filters span.badge i.fa-close").on('click', function () {
         var removeID = $(this).data('remove-input');
 
-        $(".used-filters input").each(function(){
-            if($(this).data('remove')==removeID){
+        $(".used-filters input").each(function () {
+            if ($(this).data('remove') == removeID) {
                 $(this).remove();
             }
         });
@@ -142,15 +140,15 @@ $(function(){
 
 (function ($) {
     $.fn.email = function (options) {
-        var defaults = {user : 'webmaster', a : '@', domain : 'dml', suffix : ".cz" };
-        
-        var output = $.extend({},defaults,options);
+        var defaults = {user: 'webmaster', a: '@', domain: 'dml', suffix: ".cz"};
+
+        var output = $.extend({}, defaults, options);
         var href = 'mailto:';
         var label = '';
-        $.each(output,function(k,v){
-            label+=v;
+        $.each(output, function (k, v) {
+            label += v;
         });
-        href+=label;
+        href += label;
         $(this).parent('a').attr('href', href);
         $(this).html(label);
         return this;

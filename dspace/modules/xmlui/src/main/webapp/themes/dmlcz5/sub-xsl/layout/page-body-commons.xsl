@@ -142,7 +142,7 @@
                                     <xhtml:td>$\sum_{n=1}^{\infty} 2^{-n} = 1$</xhtml:td>
                                 </xhtml:tr>
                                 <xhtml:tr>
-                                    <xhtml:td class="disable-math">$$\binom{n}{k} = \frac{n!}{k!(n-k)!$$</xhtml:td>
+                                    <xhtml:td class="disable-math">$$\binom{n}{k} = \frac{n!}{k!(n-k)!}$$</xhtml:td>
                                     <xhtml:td>$$\binom{n}{k} = \frac{n!}{k!(n-k)!}$$</xhtml:td>
                                 </xhtml:tr>
                             </xhtml:tbody>
@@ -158,175 +158,130 @@
 
     <xsl:template name="sidebar">
         <div class="card sidebar">
-            <!--<div class="card-block text-center">-->
-            <!--<a href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']}">-->
-            <!--<img src="{concat($resourcePath,'/img/dml-logo.gif')}" alt="page.general.banner"-->
-            <!--i18n:attribute="alt" class="dspace-banner"/>-->
-            <!--</a>-->
-            <!--</div>-->
-            <xsl:if
-                    test="/dri:document/dri:options/dri:list[@id='aspect.discovery.Navigation.list.discovery']/dri:list[@id='aspect.discovery.SidebarFacetsTransformer.list.subject']/dri:item"
-            >
-                <div class="card-header">
-                    <i18n:text>page.sidebar.right.discovery.keyword</i18n:text>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <xsl:for-each
-                            select="/dri:document/dri:options/dri:list[@id='aspect.discovery.Navigation.list.discovery']/dri:list[@id='aspect.discovery.SidebarFacetsTransformer.list.subject']/dri:item/dri:xref"
+            <xsl:choose>
+                <xsl:when
+                        test="/dri:document/dri:options/dri:list[@id='aspect.discovery.Navigation.list.discovery']/dri:list[@id='aspect.discovery.SidebarFacetsTransformer.list.subject']/dri:item"
+                >
+                    <xsl:if
+                            test="/dri:document/dri:options/dri:list[@id='aspect.discovery.Navigation.list.discovery']/dri:list[@id='aspect.discovery.SidebarFacetsTransformer.list.subject']/dri:item"
                     >
-                        <li class="list-group-item">
-                            <a class="disable-math">
-                                <xsl:attribute
-                                        name="href"
+                        <div class="card-header">
+                            <i18n:text>page.sidebar.right.discovery.keyword</i18n:text>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <xsl:for-each
+                                    select="/dri:document/dri:options/dri:list[@id='aspect.discovery.Navigation.list.discovery']/dri:list[@id='aspect.discovery.SidebarFacetsTransformer.list.subject']/dri:item"
+                            >
+                                <xsl:apply-templates select="." mode="sidebar"/>
+                            </xsl:for-each>
+                        </ul>
+                    </xsl:if>
+                    <xsl:if
+                            test="/dri:document/dri:options/dri:list[@id='aspect.discovery.Navigation.list.discovery']/dri:list[@id='aspect.discovery.SidebarFacetsTransformer.list.author']/dri:item"
+                    >
+                        <div class="card-header">
+                            <i18n:text>page.sidebar.right.discovery.author</i18n:text>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <xsl:for-each
+                                    select="/dri:document/dri:options/dri:list[@id='aspect.discovery.Navigation.list.discovery']/dri:list[@id='aspect.discovery.SidebarFacetsTransformer.list.author']/dri:item"
+                            >
+                                <xsl:apply-templates select="." mode="sidebar"/>
+                            </xsl:for-each>
+                        </ul>
+                    </xsl:if>
+                    <xsl:if
+                            test="/dri:document/dri:options/dri:list[@id='aspect.discovery.Navigation.list.discovery']/dri:list[@id='aspect.discovery.SidebarFacetsTransformer.list.msc']/dri:item"
+                    >
+                        <div class="card-header">
+                            <i18n:text>page.sidebar.right.discovery.msc</i18n:text>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <xsl:for-each
+                                    select="/dri:document/dri:options/dri:list[@id='aspect.discovery.Navigation.list.discovery']/dri:list[@id='aspect.discovery.SidebarFacetsTransformer.list.msc']/dri:item"
+                            >
+                                <xsl:apply-templates select="." mode="sidebar"/>
+                            </xsl:for-each>
+                        </ul>
+                    </xsl:if>
+                    <xsl:if
+                            test="/dri:document/dri:body/dri:div[@id='aspect.discovery.RelatedItems.div.item-related-container']/dri:div[@id='aspect.discovery.RelatedItems.div.item-related']/dri:referenceSet[@id='aspect.discovery.RelatedItems.referenceSet.item-related-items']"
+                    >
+                        <div class="card-header">
+                            <i18n:text>page.sidebar.right.related.items</i18n:text>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <xsl:for-each
+                                    select="/dri:document/dri:body/dri:div[@id='aspect.discovery.RelatedItems.div.item-related-container']/dri:div[@id='aspect.discovery.RelatedItems.div.item-related']/dri:referenceSet[@id='aspect.discovery.RelatedItems.referenceSet.item-related-items']/dri:reference"
+                            >
+                                <xsl:variable
+                                        name="relatedItemMetadata"
                                 >
+                                    <xsl:text>cocoon://</xsl:text>
                                     <xsl:value-of
-                                            select="./@target"
+                                            select="./@url"
                                     />
-                                </xsl:attribute>
-                                <xsl:choose>
-                                    <xsl:when
-                                            test="substring(./@target,string-length(./@target)- 26) = 'search-filter?field=subject'"
-                                    >
-                                        <i18n:text>page.sidebar.right.discovery.more</i18n:text>
-                                    </xsl:when>
-                                    <xsl:otherwise>
-                                        <span class="badge badge-info float-right">
-                                            <xsl:variable
-                                                    name="badge"
-                                            >
-                                                <xsl:call-template name="substring-after-last">
-                                                    <xsl:with-param name="string" select="./text()"/>
-                                                    <xsl:with-param name="delimiter" select="'('"/>
-                                                </xsl:call-template>
-                                            </xsl:variable>
-
-                                            <xsl:value-of
-                                                    select="substring-before($badge,')')"
-                                            />
-                                        </span>
+                                    <xsl:text>?sections=dmdSec</xsl:text>
+                                </xsl:variable>
+                                <li class="list-group-item">
+                                    <a href="{./@url}">
                                         <xsl:value-of
-                                                select="substring-before(./text(),' (')"
+                                                select="document($relatedItemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title']"
                                         />
-                                    </xsl:otherwise>
-                                </xsl:choose>
-                            </a>
-                        </li>
-                    </xsl:for-each>
-                </ul>
-            </xsl:if>
-            <xsl:if
-                    test="/dri:document/dri:options/dri:list[@id='aspect.discovery.Navigation.list.discovery']/dri:list[@id='aspect.discovery.SidebarFacetsTransformer.list.author']/dri:item"
-            >
-                <div class="card-header">
-                    <i18n:text>page.sidebar.right.discovery.author</i18n:text>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <!-- todo if we are at browse by author item has no xref element -->
-                    <xsl:for-each
-                            select="/dri:document/dri:options/dri:list[@id='aspect.discovery.Navigation.list.discovery']/dri:list[@id='aspect.discovery.SidebarFacetsTransformer.list.author']/dri:item/dri:xref"
-                    >
-                        <li class="list-group-item">
-                            <a>
-                                <xsl:attribute
-                                        name="href"
-                                >
-                                    <xsl:value-of
-                                            select="./@target"
-                                    />
-                                </xsl:attribute>
-                                <xsl:choose>
-                                    <xsl:when
-                                            test="substring(./@target,string-length(./@target)- 25) = 'search-filter?field=author'"
-                                    >
-                                        <i18n:text>page.sidebar.right.discovery.more</i18n:text>
-                                    </xsl:when>
-                                    <xsl:otherwise>
-                                        <span class="badge badge-info float-right">
-                                            <xsl:value-of
-                                                    select="substring-before(substring-after(./text(),'('),')')"
-                                            />
-                                        </span>
-                                        <xsl:value-of
-                                                select="substring-before(./text(),' (')"
-                                        />
-                                    </xsl:otherwise>
-                                </xsl:choose>
-                            </a>
-                        </li>
-                    </xsl:for-each>
-                </ul>
-            </xsl:if>
-            <xsl:if
-                    test="/dri:document/dri:options/dri:list[@id='aspect.discovery.Navigation.list.discovery']/dri:list[@id='aspect.discovery.SidebarFacetsTransformer.list.msc']/dri:item"
-            >
-                <div class="card-header">
-                    <i18n:text>page.sidebar.right.discovery.msc</i18n:text>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <xsl:for-each
-                            select="/dri:document/dri:options/dri:list[@id='aspect.discovery.Navigation.list.discovery']/dri:list[@id='aspect.discovery.SidebarFacetsTransformer.list.msc']/dri:item/dri:xref"
-                    >
-                        <li class="list-group-item">
-                            <a>
-                                <xsl:attribute
-                                        name="href"
-                                >
-                                    <xsl:value-of
-                                            select="./@target"
-                                    />
-                                </xsl:attribute>
-                                <xsl:choose>
-                                    <xsl:when
-                                            test="substring(./@target,string-length(./@target)- 22) = 'search-filter?field=msc'"
-                                    >
-                                        <i18n:text>page.sidebar.right.discovery.more</i18n:text>
-                                    </xsl:when>
-                                    <xsl:otherwise>
-                                        <span class="badge badge-info float-right">
-                                            <xsl:value-of
-                                                    select="substring-before(substring-after(./text(),'('),')')"
-                                            />
-                                        </span>
-                                        <xsl:value-of
-                                                select="substring-before(./text(),' (')"
-                                        />
-                                    </xsl:otherwise>
-                                </xsl:choose>
-                            </a>
-                        </li>
-                    </xsl:for-each>
-                </ul>
-            </xsl:if>
-            <xsl:if
-                    test="/dri:document/dri:body/dri:div[@id='aspect.discovery.RelatedItems.div.item-related-container']/dri:div[@id='aspect.discovery.RelatedItems.div.item-related']/dri:referenceSet[@id='aspect.discovery.RelatedItems.referenceSet.item-related-items']"
-            >
-                <div class="card-header">
-                    <i18n:text>page.sidebar.right.related.items</i18n:text>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <xsl:for-each
-                            select="/dri:document/dri:body/dri:div[@id='aspect.discovery.RelatedItems.div.item-related-container']/dri:div[@id='aspect.discovery.RelatedItems.div.item-related']/dri:referenceSet[@id='aspect.discovery.RelatedItems.referenceSet.item-related-items']/dri:reference"
-                    >
-                        <xsl:variable
-                                name="relatedItemMetadata"
-                        >
-                            <xsl:text>cocoon://</xsl:text>
-                            <xsl:value-of
-                                    select="./@url"
-                            />
-                            <xsl:text>?sections=dmdSec</xsl:text>
-                        </xsl:variable>
-                        <li class="list-group-item">
-                            <a href="{./@url}">
-                                <xsl:value-of
-                                        select="document($relatedItemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title']"
-                                />
-                            </a>
-                        </li>
-                    </xsl:for-each>
-                </ul>
-            </xsl:if>
+                                    </a>
+                                </li>
+                            </xsl:for-each>
+                        </ul>
+                    </xsl:if>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xhtml:div class="card-block text-muted">
+                        Unfortunately there are no additional information for this view.
+                    </xhtml:div>
+                </xsl:otherwise>
+            </xsl:choose>
         </div>
+    </xsl:template>
+
+    <xsl:template match="dri:item" mode="sidebar">
+        <li class="list-group-item">
+            <xsl:if test="@rend='selected'">
+                <xsl:attribute name="class">
+                    <xsl:text>list-group-item list-group-item-info</xsl:text>
+                </xsl:attribute>
+            </xsl:if>
+            <a class="disable-math" href="{./dri:xref/@target}">
+                <xsl:choose>
+                    <xsl:when
+                            test="./dri:xref/i18n:text"
+                    >
+                        <i18n:text>page.sidebar.right.discovery.more</i18n:text>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <span class="badge badge-info float-right">
+                            <xsl:variable
+                                    name="badge"
+                            >
+                                <!-- if ./rend='selected' == true then this node has no xref children
+                                 so we pass value of this node like | ./text()
+                                 -->
+                                <xsl:call-template name="substring-after-last">
+                                    <xsl:with-param name="string" select="./dri:xref/text() | ./text()"/>
+                                    <xsl:with-param name="delimiter" select="'('"/>
+                                </xsl:call-template>
+                            </xsl:variable>
+
+                            <xsl:value-of
+                                    select="substring-before($badge,')')"
+                            />
+                        </span>
+                        <xsl:value-of
+                                select="substring-before(./dri:xref/text() | ./text(),' (')"
+                        />
+                    </xsl:otherwise>
+                </xsl:choose>
+            </a>
+        </li>
     </xsl:template>
 
     <xsl:template name="footer">
