@@ -62,6 +62,15 @@
                 <xsl:text>/webjars/font-awesome/4.7.0/css/font-awesome.min.css</xsl:text>
             </xsl:attribute>
         </link>
+<link rel="stylesheet">
+            <xsl:attribute name="href">
+                <xsl:value-of
+                        select="$contextPath"
+                />
+                <xsl:text>/webjars/cookieconsent/3.0.3/build/cookieconsent.min.css</xsl:text>
+            </xsl:attribute>
+        </link>
+
         <link rel="stylesheet">
             <xsl:attribute name="href">
                 <xsl:value-of

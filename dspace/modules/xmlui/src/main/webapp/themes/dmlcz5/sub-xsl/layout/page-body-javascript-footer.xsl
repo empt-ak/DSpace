@@ -115,6 +115,18 @@
             </xsl:attribute>
             &#160;
         </script>
+ <script>
+            <xsl:attribute
+                    name="src"
+            >
+                <xsl:value-of
+                        select="$contextPath"
+                />
+                <xsl:text>/webjars/cookieconsent/3.0.3/build/cookieconsent.min.js</xsl:text>
+            </xsl:attribute>
+            &#160;
+        </script>
+
     </xsl:template>
 
 </xsl:stylesheet>
