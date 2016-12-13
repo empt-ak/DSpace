@@ -25,8 +25,11 @@
     <xsl:template name="navbar">
         <nav class="navbar navbar-light bg-faded">
             <nav class="navbar navbar-light bg-faded">
-                <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"></button>
-                <a class="navbar-brand" href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']}">
+                <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse"
+                        data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+                        aria-label="Toggle navigation"></button>
+                <a class="navbar-brand"
+                   href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']}">
                     <!--<img src="{concat($resourcePath,'/img/dml-logo.gif')}" alt="page.general.banner"-->
                     <!--i18n:attribute="alt" width="30" height="30"/>-->
                     <i18n:text>page.head.title</i18n:text>
@@ -88,7 +91,8 @@
                     <form class="form-inline float-right"
                           action="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search' and @qualifier='advancedURL']}">
                         <div class="input-group">
-                            <input type="text" class="form-control rounded-0" placeholder="navigation.main.button.search"
+                            <input type="text" class="form-control rounded-0"
+                                   placeholder="navigation.main.button.search"
                                    i18n:attr="placeholder"
                                    name="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search' and @qualifier='queryField']}"/>
                             <span class="input-group-btn">
@@ -248,10 +252,13 @@
                 </xsl:when>
                 <xsl:otherwise>
                     <xhtml:div class="card-block text-muted">
-                        Unfortunately there are no additional information for this view. To be updated about changes subscribe to RSS.
+                        Unfortunately there are no additional information for this view. To be updated about changes
+                        subscribe to RSS.
                         <xhtml:div class="dropdown ">
-                            <xhtml:button class="btn btn-secondary dropdown-toggle" id="rss-subscribe" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-rss"/> RSS
+                            <xhtml:button class="btn btn-secondary dropdown-toggle" id="rss-subscribe"
+                                          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-rss"/>
+                                RSS
                             </xhtml:button>
 
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -330,7 +337,8 @@
                 </xhtml:div>
                 <xhtml:nav class="col-md-2 col-12">
                     <h3>
-                        <i class="fa fa-sitemap"></i> <i18n:text>page.footer.links.title</i18n:text>
+                        <i class="fa fa-sitemap"></i>
+                        <i18n:text>page.footer.links.title</i18n:text>
                     </h3>
                     <ul class="list-unstyled">
                         <li>
@@ -376,7 +384,8 @@
                 >
                     <xhtml:div class="col-md-2 col-12">
                         <h3>
-                            <i class="fa fa-rss"/> <i18n:text>page.sidebar.left.rss</i18n:text>
+                            <i class="fa fa-rss"/>
+                            <i18n:text>page.sidebar.left.rss</i18n:text>
                         </h3>
                         <ul class="list-unstyled">
                             <xsl:for-each
@@ -432,7 +441,8 @@
                     </ul>
                 </xhtml:div>
                 <xhtml:div class="col-md-1 col-12 hidden-xl-down">
-                    <button type="button" class="btn btn-lg btn-outline-danger rounded-circle" data-toggle="tooltip" data-placement="bottom" id="scroll-top"
+                    <button type="button" class="btn btn-lg btn-outline-danger rounded-circle" data-toggle="tooltip"
+                            data-placement="bottom" id="scroll-top"
                             title="Back to top">
                         <i class="fa fa-chevron-up" aria-hidden="true"></i>
                     </button>
@@ -440,16 +450,19 @@
             </xhtml:footer>
             <xhtml:footer class="row">
                 <div class="col-12 text-center">
-                    &#169; 2010&#8211;<span class="copyright-date"></span>
-                    <a href="#"> Institute of Mathematics ASCR</a>. Contact us at
+                    &#169; 2010&#8211;
+                    <span class="copyright-date"></span>
+                    <a href="#">Institute of Mathematics ASCR</a>. Contact us at
                     <a href="#">
                         <span class="contact-email">
                             <i18n:text>page.footer.contact.javascript</i18n:text>
                         </span>
-                    </a>, or using <a class="nav-link"
-                                href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page' and @qualifier='contactURL']}">
-                    form
-                </a>
+                    </a>
+                    , or using
+                    <a class="nav-link"
+                       href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page' and @qualifier='contactURL']}">
+                        form
+                    </a>
                 </div>
             </xhtml:footer>
         </div>
@@ -457,9 +470,15 @@
 
     <xsl:template name="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item"><a href="#">Library</a></li>
-            <li class="breadcrumb-item active">Data</li>
+            <xsl:for-each select="/dri:document/dri:meta/dri:pageMeta/dri:trail/text()">
+                <xhtml:li class="breadcrumb-item">
+                    <xhtml:a href="{./parent::dri:trail/@target}">
+                        <xsl:value-of
+                                select="."
+                        />
+                    </xhtml:a>
+                </xhtml:li>
+            </xsl:for-each>
         </ol>
     </xsl:template>
 </xsl:stylesheet>

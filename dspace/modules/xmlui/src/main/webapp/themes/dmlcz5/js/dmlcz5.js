@@ -3,6 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+window.addEventListener("load", function () {
+    window.cookieconsent.initialise({
+        "palette": {
+            "popup": {
+                "background": "#237afc"
+            },
+            "button": {
+                "background": "transparent",
+                "text": "#fff",
+                "border": "#fff"
+            }
+        }
+    })
+});
+
 $(function () {
     $(".contact-email").email();
 
@@ -107,17 +123,17 @@ $(function () {
         $("#aspect_discovery_SimpleSearch_div_general-query").submit();
     });
 
-    var checkScrollTopButton = function(){
+    var checkScrollTopButton = function () {
         if ($(document).height() > $(window).height()) {
             $("#scroll-top").parent().removeClass("hidden-xl-down");
-        }else{
+        } else {
             $("#scroll-top").parent().addClass("hidden-xl-down");
         }
     };
 
     checkScrollTopButton();
 
-    $(window).on("resize",function(){
+    $(window).on("resize", function () {
         checkScrollTopButton();
     });
 

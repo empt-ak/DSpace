@@ -115,7 +115,7 @@
             </xsl:attribute>
             &#160;
         </script>
- <script>
+        <script>
             <xsl:attribute
                     name="src"
             >

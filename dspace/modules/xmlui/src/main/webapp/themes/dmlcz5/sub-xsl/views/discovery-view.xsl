@@ -330,7 +330,10 @@
                         </div>
                         <div class="media-body disable-math">
                             <h5 class="media-heading">
-                                <a href="{$extMets/mets:METS/@OBJID}">
+                                <a href="{$extMets/mets:METS/@OBJID}"
+                                   data-result-position="{position()}"
+                                   data-result-page="{/dri:document/dri:body/dri:div[@id='aspect.discovery.SimpleSearch.div.search']/
+                                   dri:div[@id='aspect.discovery.SimpleSearch.div.search-results']/@currentPage}">
                                     <xsl:choose>
                                         <xsl:when
                                                 test="dri:list[@n=(concat($h,':dc.title')) and descendant::text()]"
