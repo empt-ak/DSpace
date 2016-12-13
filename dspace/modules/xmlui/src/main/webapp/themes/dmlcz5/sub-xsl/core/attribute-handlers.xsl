@@ -305,10 +305,10 @@
                                             <xsl:text>1</xsl:text>
                                         </a>
                                     </li>
-                                    <li class="page-item">
-                                        <span>
+                                    <li class="page-item disabled">
+                                        <a class="page-link">
                                             <xsl:text>&#8230;</xsl:text>
-                                        </span>
+                                        </a>
                                     </li>
                                 </xsl:if>
                                 <xsl:call-template name="offset-link">
@@ -333,11 +333,10 @@
                                     <xsl:with-param name="pageOffset">3</xsl:with-param>
                                 </xsl:call-template>
                                 <xsl:if test="(parent::node()/@currentPage + 4) &lt;= (parent::node()/@pagesTotal)">
-                                    <li class="page-item">
-                                        <span>
+                                    <li class="page-item disabled">
+                                        <a class="page-link">
                                             <xsl:text>&#8230;</xsl:text>
-                                        </span>
-
+                                        </a>
                                     </li>
                                     <li class="page-item">
                                         <a class="page-link">

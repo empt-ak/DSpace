@@ -110,7 +110,7 @@
                                         <xsl:value-of select="./dri:value"/>
 
                                         <xsl:text> </xsl:text>
-                                        <i class="fa fa-times"></i>
+                                        <i class="fa fa-times drop-badge"></i>
                                     </span>
                                     <xsl:if
                                             test="position() != last()"
@@ -445,23 +445,24 @@
                               title="Try entering quadratic formula $x^2+bx+c=0$">
                             <xsl:text>formulas.</xsl:text>
                         </mark>
-                        <a href="#" data-toggle="tooltip" data-placement="top"
+                        <a href="#" class="show-math-help" data-toggle="tooltip" data-placement="top"
                            title="Click for detailed help.">
                             <i class="fa fa-question-circle-o" aria-hidden="true"></i>
                         </a>
-
                     </div>
                     <div class="col-xl-4">
-                        <label class="h3">Latex or Mathml input</label>
-                        <textarea class="form-control" placeholder="Enter formula" rows="5"
+                        <label class="h3">LaTeX or Mathml input</label>
+                        <textarea class="form-control" placeholder="Enter formula" rows="5" name="filter_1"
                                   id="MathInput"></textarea>
+                        <div id="mathbuffer" style="visibility: hidden">
+                            <xsl:text>${}$</xsl:text>
+                        </div>
+                        <input type="hidden" name="filter_relational_operator_1" value="contains" />
+                        <input type="hidden" name="filtertype_1" value="math" />
                     </div>
                     <div class="col-xl-5">
-                        <span class="h3">Rendered output</span>
+                        <span class="h3">Preview</span>
                         <div id="mathpreview"></div>
-                    </div>
-                    <div id="mathbuffer" style="visibility: hidden">
-                        <xsl:text>${}$</xsl:text>
                     </div>
                 </div>
                 <div class="row">
@@ -512,7 +513,7 @@
             match="dri:div[@rend='clearfix']/dri:p[@rend='pull-right']/dri:xref"
     >
         <button type="button" class="btn btn-primary {concat('cursor-pointer ',@rend)}">
-            Toggle additional filters
+            <i class="fa fa-sort" aria-hidden="true"></i> Toggle additional filters
         </button>
     </xsl:template>
 

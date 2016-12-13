@@ -17,9 +17,6 @@
                 xmlns:dim="http://www.dspace.org/xmlns/dspace/dim"
                 xmlns:xlink="http://www.w3.org/TR/xlink/"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"
-                xmlns:atom="http://www.w3.org/2005/Atom"
-                xmlns:ore="http://www.openarchives.org/ore/terms/"
-                xmlns:oreatom="http://www.openarchives.org/ore/atom/"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:xalan="http://xml.apache.org/xalan"
                 xmlns:encoder="xalan://java.net.URLEncoder"
@@ -45,9 +42,23 @@
             <xsl:value-of select="./@url"/>
             <xsl:text>?sections=dmdSec,fileSec</xsl:text>
         </xsl:variable>
+        <xsl:variable
+                name="show-similar-tab"
+                select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/
+                dim:field[@mdschema='dmlcz' and @element='related' and @qualifier='lsi'] |
+                document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/
+                dim:field[@mdschema='dmlcz' and @element='related' and @qualifier='rp'] |
+                document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/
+                dim:field[@mdschema='dmlcz' and @element='related' and @qualifier='tfidf']"
+        />
+        <xsl:variable
+                name="show-references-tab"
+                select="count(document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='relation' and @qualifier='isbasedon'])"
+        />
+
         <div class="row">
             <div class="col-12">
-                <ul class="nav nav-tabs float-sm-left float-md-right" role="tablist">
+                <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" href="#entryTab" role="tab" data-toggle="tab">
                             <i18n:text>page.item.entry</i18n:text>
@@ -58,21 +69,29 @@
                             <i18n:text>page.item.fullentry</i18n:text>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#referencesTab" role="tab" data-toggle="tab">
-                            <i18n:text>page.item.references</i18n:text>
-                            <xsl:text> (</xsl:text>
-                            <xsl:value-of
-                                    select="count(document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='relation' and @qualifier='isbasedon'])"
-                            />
-                            <xsl:text>)</xsl:text>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#similarTab" role="tab" data-toggle="tab">
-                            <i18n:text>page.item.similar</i18n:text>
-                        </a>
-                    </li>
+                    <xsl:if
+                            test="$show-references-tab &gt; 0"
+                    >
+                        <li class="nav-item">
+                            <a class="nav-link" href="#referencesTab" role="tab" data-toggle="tab">
+                                <i18n:text>page.item.references</i18n:text>
+                                <xsl:text> (</xsl:text>
+                                <xsl:value-of
+                                        select="count(document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='relation' and @qualifier='isbasedon'])"
+                                />
+                                <xsl:text>)</xsl:text>
+                            </a>
+                        </li>
+                    </xsl:if>
+                    <xsl:if
+                            test="$show-similar-tab"
+                    >
+                        <li class="nav-item">
+                            <a class="nav-link" href="#similarTab" role="tab" data-toggle="tab">
+                                <i18n:text>page.item.similar</i18n:text>
+                            </a>
+                        </li>
+                    </xsl:if>
                 </ul>
             </div>
         </div>
@@ -103,6 +122,89 @@
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="entryTab">
                         <div class="row">
+                            <div class="col-12 col-md-6 col-xl-9">
+                                <div class="card">
+                                    <xsl:if
+                                            test="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']"
+                                    >
+                                        <div class="card-block">
+                                            <h5 class="card-title">
+                                                <i class="fa fa-file-text-o"></i>
+                                                <xsl:text> </xsl:text>
+                                                <i18n:text>page.item.abstract</i18n:text>
+                                            </h5>
+                                            <p class="card-text text-justify">
+                                                <xsl:for-each
+                                                        select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']"
+                                                >
+                                                    <xsl:value-of
+                                                            select="./text()"
+                                                    />
+                                                    <xsl:if
+                                                            test="position() != last()"
+                                                    >
+                                                        <br/>
+                                                    </xsl:if>
+                                                </xsl:for-each>
+                                            </p>
+                                        </div>
+                                    </xsl:if>
+                                    <xsl:if
+                                            test="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='subject' and not(@qualifier)]"
+                                    >
+                                        <div class="card-block">
+                                            <h5 class="card-title">
+                                                <i class="fa fa-tags"></i>
+                                                <xsl:text> </xsl:text>
+                                                <i18n:text>page.item.keywords</i18n:text>
+                                            </h5>
+                                            <ul class="list-inline">
+                                                <xsl:for-each
+                                                        select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='subject' and not(@qualifier)]"
+                                                >
+                                                    <li>
+                                                        <a href="{concat($contextPath,'/discover?filtertype=subject&amp;filter_relational_operator=equals&amp;filter=',.)}"
+                                                           class="badge badge-info">
+                                                            <xsl:value-of
+                                                                    select="."
+                                                            />
+                                                        </a>
+                                                    </li>
+                                                </xsl:for-each>
+                                            </ul>
+                                        </div>
+                                    </xsl:if>
+                                    <div class="card-block">
+                                        <h5 class="card-title">
+                                            <i18n:text>page.item.citation</i18n:text>
+                                        </h5>
+                                        <!-- <xsl:variable name="meta" select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/" /> -->
+
+                                        <b>
+                                            <xsl:value-of
+                                                    select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title']"/>
+                                        </b>
+                                        .
+                                        <xsl:text>(</xsl:text>
+                                        <xsl:call-template name="language">
+                                            <xsl:with-param name="lang">
+                                                <xsl:value-of
+                                                        select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='language']"/>
+                                            </xsl:with-param>
+                                        </xsl:call-template>
+                                        <xsl:text>). </xsl:text>
+                                        <!--
+                                        <xsl:text>In: </xsl:text> 
+                                        Collection#editors: 
+                                        Collection#title. 
+                                        Collection#publisher, 
+                                        Collection#publisher#place, 
+                                        Collection#date. 
+                                        pp. Item#extent
+                                        -->
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-12 col-md-6 col-xl-3">
                                 <div class="card">
                                     <xsl:choose>
@@ -126,7 +228,7 @@
                                             </img>-->
                                         </xsl:otherwise>
                                     </xsl:choose>
-                                    <div class="card-block card-block-reduced">
+                                    <div class="card-block pb-0">
                                         <!--<h5>-->
                                         <i class="fa fa-file"/>
                                         <xsl:text> </xsl:text>
@@ -187,7 +289,7 @@
                                     <xsl:if
                                             test="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='contributor' and @qualifier='author']"
                                     >
-                                        <div class="card-block card-block-reduced">
+                                        <div class="card-block pb-0 pt-0">
                                             <!--<h5>-->
                                             <i class="fa fa-user"/>
                                             <xsl:text> </xsl:text>
@@ -200,7 +302,7 @@
                                                         select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='contributor' and @qualifier='author']"
                                                 >
                                                     <li>
-                                                        <a>
+                                                        <a href="{concat($contextPath,'/discover?filtertype=author&amp;filter_relational_operator=equals&amp;filter=',.)}">
                                                             <xsl:value-of
                                                                     select="."
                                                             />
@@ -214,21 +316,19 @@
                                     <xsl:if
                                             test="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='subject' and @qualifier='msc']"
                                     >
-                                        <div class="card-block card-block-reduced">
-
-                                            <!--<h5>-->
+                                        <div class="card-block pb-0 pt-0">
                                             <b>
                                                 <i class="fa fa-link"/>
                                                 <xsl:text> </xsl:text>
                                                 <i18n:text>page.item.msc</i18n:text>
                                             </b>
-                                            <!--</h5>-->
                                             <ul class="list-unstyled">
                                                 <xsl:for-each
                                                         select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='subject' and @qualifier='msc']"
                                                 >
                                                     <li>
-                                                        <a class="label label-info">
+                                                        <a class="badge badge-info"
+                                                           href="{concat($contextPath,'/discover?filtertype=msc&amp;filter_relational_operator=equals&amp;filter=',.)}">
                                                             <xsl:value-of
                                                                     select="."
                                                             />
@@ -242,7 +342,7 @@
                                     <xsl:if
                                             test="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='identifier' and @qualifier='idzbl']"
                                     >
-                                        <div class="card-block card-block-reduced">
+                                        <div class="card-block pb-0 pt-0">
                                             <!--<h5>-->
                                             <i class="fa fa-link"/>
                                             <xsl:text> </xsl:text>
@@ -267,7 +367,7 @@
                                     <xsl:if
                                             test="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='identifier' and @qualifier='idmr']"
                                     >
-                                        <div class="card-block card-block-reduced">
+                                        <div class="card-block pb-0 pt-0">
                                             <!--<h5>-->
                                             <i class="fa fa-link"></i>
                                             <xsl:text> </xsl:text>
@@ -289,88 +389,6 @@
                                             </ul>
                                         </div>
                                     </xsl:if>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-6 col-xl-9">
-                                <div class="card">
-                                    <xsl:if
-                                            test="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']"
-                                    >
-                                        <div class="card-block">
-                                            <h5 class="card-title">
-                                                <i class="fa fa-file-text-o"></i>
-                                                <xsl:text> </xsl:text>
-                                                <i18n:text>page.item.abstract</i18n:text>
-                                            </h5>
-                                            <p class="card-text text-justify">
-                                                <xsl:for-each
-                                                        select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='description' and @qualifier='abstract']"
-                                                >
-                                                    <xsl:value-of
-                                                            select="./text()"
-                                                    />
-                                                    <xsl:if
-                                                            test="position() != last()"
-                                                    >
-                                                        <br/>
-                                                    </xsl:if>
-                                                </xsl:for-each>
-                                            </p>
-                                        </div>
-                                    </xsl:if>
-                                    <xsl:if
-                                            test="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='subject' and not(@qualifier)]"
-                                    >
-                                        <div class="card-block">
-                                            <h5 class="card-title">
-                                                <i class="fa fa-tags"></i>
-                                                <xsl:text> </xsl:text>
-                                                <i18n:text>page.item.keywords</i18n:text>
-                                            </h5>
-                                            <ul class="list-inline">
-                                                <xsl:for-each
-                                                        select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='subject' and not(@qualifier)]"
-                                                >
-                                                    <li>
-                                                        <a class="label label-primary">
-                                                            <xsl:value-of
-                                                                    select="."
-                                                            />
-                                                        </a>
-                                                    </li>
-                                                </xsl:for-each>
-                                            </ul>
-                                        </div>
-                                    </xsl:if>
-                                    <div class="card-block">
-                                        <h5 class="card-title">
-                                            <i18n:text>page.item.citation</i18n:text>
-                                        </h5>
-                                        <!-- <xsl:variable name="meta" select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/" /> -->
-
-                                        <b>
-                                            <xsl:value-of
-                                                    select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title']"/>
-                                        </b>
-                                        .
-                                        <xsl:text>(</xsl:text>
-                                        <xsl:call-template name="language">
-                                            <xsl:with-param name="lang">
-                                                <xsl:value-of
-                                                        select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='language']"/>
-                                            </xsl:with-param>
-                                        </xsl:call-template>
-                                        <xsl:text>). </xsl:text>
-                                        <!--
-                                        <xsl:text>In: </xsl:text> 
-                                        Collection#editors: 
-                                        Collection#title. 
-                                        Collection#publisher, 
-                                        Collection#publisher#place, 
-                                        Collection#date. 
-                                        pp. Item#extent
-                                        -->
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -452,105 +470,112 @@
                             </table>
                         </div>
                     </div>
-                    <div role="tabpanel" class="tab-pane" id="referencesTab">
-                        <h2>
-                            <i18n:text>page.item.references</i18n:text>
-                        </h2>
-                        <small>
+                    <xsl:if
+                            test="$show-references-tab &gt; 0"
+                    >
+                        <div role="tabpanel" class="tab-pane" id="referencesTab">
+                            <h2>
+                                <i18n:text>page.item.references</i18n:text>
+                            </h2>
+
                             <ul class="list-unstyled">
                                 <xsl:for-each
                                         select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='relation' and @qualifier='isbasedon']"
                                 >
                                     <li>
-                                        <xsl:call-template
-                                                name="replacehtml-ent"
-                                        >
-                                            <xsl:with-param
-                                                    name="fragment"
-                                                    select="."
-                                            />
-                                        </xsl:call-template>
+                                        <small>
+                                            <xsl:call-template
+                                                    name="replacehtml-ent"
+                                            >
+                                                <xsl:with-param
+                                                        name="fragment"
+                                                        select="."
+                                                />
+                                            </xsl:call-template>
+                                        </small>
                                     </li>
                                 </xsl:for-each>
                             </ul>
-                        </small>
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="similarTab">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <div class="card-block">
-                                        <h4 class="card-title">
-                                            <i18n:text>page.item.similar.lsi.title</i18n:text>
-                                        </h4>
+                        </div>
+                    </xsl:if>
+                    <xsl:if test="$show-similar-tab">
+                        <div role="tabpanel" class="tab-pane" id="similarTab">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="card-block">
+                                            <h4 class="card-title">
+                                                <i18n:text>page.item.similar.lsi.title</i18n:text>
+                                            </h4>
+                                        </div>
+                                        <div class="card-block">
+                                            <p class="text-muted">
+                                                <i18n:text>page.item.similar.lsi.description</i18n:text>
+                                            </p>
+                                        </div>
+                                        <ul class="list-group list-group-flush">
+                                            <xsl:for-each
+                                                    select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@mdschema='dmlcz' and @element='related' and @qualifier='lsi']"
+                                            >
+                                                <xsl:apply-templates
+                                                        mode="similar"
+                                                        select="."
+                                                />
+                                            </xsl:for-each>
+                                        </ul>
                                     </div>
-                                    <div class="card-block">
-                                        <p class="text-muted">
-                                            <i18n:text>page.item.similar.lsi.description</i18n:text>
-                                        </p>
-                                    </div>
-                                    <ul class="list-group list-group-flush">
-                                        <xsl:for-each
-                                                select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@mdschema='dmlcz' and @element='related' and @qualifier='lsi']"
-                                        >
-                                            <xsl:apply-templates
-                                                    mode="similar"
-                                                    select="."
-                                            />
-                                        </xsl:for-each>
-                                    </ul>
                                 </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <div class="card-block">
-                                        <h4 class="card-title">
-                                            <i18n:text>page.item.similar.rpi.title</i18n:text>
-                                        </h4>
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="card-block">
+                                            <h4 class="card-title">
+                                                <i18n:text>page.item.similar.rpi.title</i18n:text>
+                                            </h4>
+                                        </div>
+                                        <div class="card-block">
+                                            <p class="text-muted">
+                                                <i18n:text>page.item.similar.rpi.description</i18n:text>
+                                            </p>
+                                        </div>
+                                        <ul class="list-group list-group-flush">
+                                            <xsl:for-each
+                                                    select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@mdschema='dmlcz' and @element='related' and @qualifier='rp']"
+                                            >
+                                                <xsl:apply-templates
+                                                        mode="similar"
+                                                        select="."
+                                                />
+                                            </xsl:for-each>
+                                        </ul>
                                     </div>
-                                    <div class="card-block">
-                                        <p class="text-muted">
-                                            <i18n:text>page.item.similar.rpi.description</i18n:text>
-                                        </p>
-                                    </div>
-                                    <ul class="list-group list-group-flush">
-                                        <xsl:for-each
-                                                select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@mdschema='dmlcz' and @element='related' and @qualifier='rp']"
-                                        >
-                                            <xsl:apply-templates
-                                                    mode="similar"
-                                                    select="."
-                                            />
-                                        </xsl:for-each>
-                                    </ul>
                                 </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <div class="card-block">
-                                        <h4 class="card-title">
-                                            <i18n:text>page.item.similar.tfidf.title</i18n:text>
-                                        </h4>
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="card-block">
+                                            <h4 class="card-title">
+                                                <i18n:text>page.item.similar.tfidf.title</i18n:text>
+                                            </h4>
+                                        </div>
+                                        <div class="card-block">
+                                            <p class="text-muted">
+                                                <i18n:text>page.item.similar.tfidf.description</i18n:text>
+                                            </p>
+                                        </div>
+                                        <ul class="list-group list-group-flush">
+                                            <xsl:for-each
+                                                    select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@mdschema='dmlcz' and @element='related' and @qualifier='tfidf']"
+                                            >
+                                                <xsl:apply-templates
+                                                        mode="similar"
+                                                        select="."
+                                                />
+                                            </xsl:for-each>
+                                        </ul>
                                     </div>
-                                    <div class="card-block">
-                                        <p class="text-muted">
-                                            <i18n:text>page.item.similar.tfidf.description</i18n:text>
-                                        </p>
-                                    </div>
-                                    <ul class="list-group list-group-flush">
-                                        <xsl:for-each
-                                                select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@mdschema='dmlcz' and @element='related' and @qualifier='tfidf']"
-                                        >
-                                            <xsl:apply-templates
-                                                    mode="similar"
-                                                    select="."
-                                            />
-                                        </xsl:for-each>
-                                    </ul>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </xsl:if>
                 </div>
             </div>
         </div>
