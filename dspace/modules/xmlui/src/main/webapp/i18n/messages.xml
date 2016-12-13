@@ -106,6 +106,7 @@ and open the template in the editor.
     <message key="page.collection.proceedings.publisher">Publisher:</message>
     <message key="page.collection.proceedings.isbn">ISBN:</message>
     <message key="page.collection.proceedings.msc">MSC:</message>
+    <message key="page.collection.proceedings.idzbl">Zentralblatt</message>
     <message key="page.collection.proceedings.toc">Table of contents:</message>
     <message key="page.collection.monograph.creator">Creator:</message>
     <message key="page.collection.monograph.contributor">Contributor:</message>

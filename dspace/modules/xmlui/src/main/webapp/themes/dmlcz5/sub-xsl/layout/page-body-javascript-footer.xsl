@@ -115,12 +115,6 @@
             </xsl:attribute>
             &#160;
         </script>
-
-        <script>
-            $(function () {
-
-            });
-        </script>
     </xsl:template>
 
 </xsl:stylesheet>

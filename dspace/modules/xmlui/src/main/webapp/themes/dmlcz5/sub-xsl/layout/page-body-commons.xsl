@@ -24,77 +24,82 @@
 
     <xsl:template name="navbar">
         <nav class="navbar navbar-light bg-faded">
-            <a class="navbar-brand" href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']}">
-                <img src="{concat($resourcePath,'/img/dml-logo.gif')}" alt="page.general.banner"
-                     i18n:attribute="alt" width="30" height="30"/>
-                <i18n:text>page.head.title</i18n:text>
-            </a>
-            <ul class="nav navbar-nav">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="supportedContentDropdown"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i18n:text>page.sidebar.left.browseby</i18n:text>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="supportedContentDropdown">
-                        <xsl:for-each
-                                select="/dri:document/dri:options/dri:list[@id='aspect.viewArtifacts.Navigation.list.browse']/dri:list[@id='aspect.browseArtifacts.Navigation.list.global']/dri:item"
-                        >
-                            <xsl:if test="not(contains(dri:xref/@target, 'community-list'))">
-                                <a href="{./dri:xref/@target}" class="dropdown-item">
-                                    <i18n:text>
-                                        <xsl:value-of
-                                                select="./dri:xref"
-                                        />
-                                    </i18n:text>
-                                </a>
-                            </xsl:if>
-                        </xsl:for-each>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{concat($contextPath,'/aboutus')}">
-                        <i18n:text>navigation.main.button.aboutus</i18n:text>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{concat($contextPath,'/news')}">
-                        <i18n:text>navigation.main.button.news</i18n:text>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{concat($contextPath,'/faq')}">
-                        <i18n:text>navigation.main.button.faq</i18n:text>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link"
-                       href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page' and @qualifier='contactURL']}">
-                        <i18n:text>navigation.main.button.contactus</i18n:text>
-                    </a>
-                </li>
-            </ul>
+            <nav class="navbar navbar-light bg-faded">
+                <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"></button>
+                <a class="navbar-brand" href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']}">
+                    <!--<img src="{concat($resourcePath,'/img/dml-logo.gif')}" alt="page.general.banner"-->
+                    <!--i18n:attribute="alt" width="30" height="30"/>-->
+                    <i18n:text>page.head.title</i18n:text>
+                </a>
+                <div class="collapse navbar-toggleable-md" id="navbarResponsive">
+                    <ul class="nav navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="supportedContentDropdown"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i18n:text>page.sidebar.left.browseby</i18n:text>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="supportedContentDropdown">
+                                <xsl:for-each
+                                        select="/dri:document/dri:options/dri:list[@id='aspect.viewArtifacts.Navigation.list.browse']/dri:list[@id='aspect.browseArtifacts.Navigation.list.global']/dri:item"
+                                >
+                                    <xsl:if test="not(contains(dri:xref/@target, 'community-list'))">
+                                        <a href="{./dri:xref/@target}" class="dropdown-item">
+                                            <i18n:text>
+                                                <xsl:value-of
+                                                        select="./dri:xref"
+                                                />
+                                            </i18n:text>
+                                        </a>
+                                    </xsl:if>
+                                </xsl:for-each>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{concat($contextPath,'/aboutus')}">
+                                <i18n:text>navigation.main.button.aboutus</i18n:text>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{concat($contextPath,'/news')}">
+                                <i18n:text>navigation.main.button.news</i18n:text>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{concat($contextPath,'/faq')}">
+                                <i18n:text>navigation.main.button.faq</i18n:text>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page' and @qualifier='contactURL']}">
+                                <i18n:text>navigation.main.button.contactus</i18n:text>
+                            </a>
+                        </li>
+                    </ul>
 
-            <ul class="nav navbar-nav float-right ml-1">
-                <li class="nav-item">
-                    <a class="nav-link"
-                       href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search' and @qualifier='advancedURL']}">
-                        Advanced Search
-                    </a>
-                </li>
-            </ul>
-            <form class="form-inline float-right"
-                  action="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search' and @qualifier='advancedURL']}">
-                <div class="input-group">
-                    <input type="text" class="form-control rounded-0" placeholder="navigation.main.button.search"
-                           i18n:attr="placeholder"
-                           name="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search' and @qualifier='queryField']}"/>
-                    <span class="input-group-btn">
-                        <button class="btn btn-outline-success rounded-0" type="submit">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </span>
+                    <ul class="nav navbar-nav float-right ml-1">
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search' and @qualifier='advancedURL']}">
+                                Advanced Search
+                            </a>
+                        </li>
+                    </ul>
+                    <form class="form-inline float-right"
+                          action="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search' and @qualifier='advancedURL']}">
+                        <div class="input-group">
+                            <input type="text" class="form-control rounded-0" placeholder="navigation.main.button.search"
+                                   i18n:attr="placeholder"
+                                   name="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search' and @qualifier='queryField']}"/>
+                            <span class="input-group-btn">
+                                <button class="btn btn-outline-success rounded-0" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </nav>
         </nav>
     </xsl:template>
 
@@ -160,7 +165,14 @@
         <div class="card sidebar">
             <xsl:choose>
                 <xsl:when
-                        test="/dri:document/dri:options/dri:list[@id='aspect.discovery.Navigation.list.discovery']/dri:list[@id='aspect.discovery.SidebarFacetsTransformer.list.subject']/dri:item"
+                        test="/dri:document/dri:options/dri:list[@id='aspect.discovery.Navigation.list.discovery']/
+                        dri:list[@id='aspect.discovery.SidebarFacetsTransformer.list.subject']/dri:item |
+                        /dri:document/dri:options/dri:list[@id='aspect.discovery.Navigation.list.discovery']/
+                        dri:list[@id='aspect.discovery.SidebarFacetsTransformer.list.author']/dri:item |
+                        /dri:document/dri:options/dri:list[@id='aspect.discovery.Navigation.list.discovery']/
+                        dri:list[@id='aspect.discovery.SidebarFacetsTransformer.list.msc']/dri:item |
+                        /dri:document/dri:body/dri:div[@id='aspect.discovery.RelatedItems.div.item-related-container']/
+                        dri:div[@id='aspect.discovery.RelatedItems.div.item-related']/dri:referenceSet[@id='aspect.discovery.RelatedItems.referenceSet.item-related-items']"
                 >
                     <xsl:if
                             test="/dri:document/dri:options/dri:list[@id='aspect.discovery.Navigation.list.discovery']/dri:list[@id='aspect.discovery.SidebarFacetsTransformer.list.subject']/dri:item"
@@ -236,8 +248,30 @@
                 </xsl:when>
                 <xsl:otherwise>
                     <xhtml:div class="card-block text-muted">
-                        Unfortunately there are no additional information for this view.
+                        Unfortunately there are no additional information for this view. To be updated about changes subscribe to RSS.
+                        <xhtml:div class="dropdown ">
+                            <xhtml:button class="btn btn-secondary dropdown-toggle" id="rss-subscribe" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-rss"/> RSS
+                            </xhtml:button>
+
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" href="#">r1</a>
+                                <a class="dropdown-item" href="#">r2</a>
+                                <a class="dropdown-item" href="#">atom</a>
+                            </div>
+                        </xhtml:div>
                     </xhtml:div>
+                    <xhtml:div class="card-header">
+                        Random articles
+                    </xhtml:div>
+                    <xhtml:ul class="list-group list-group-flush">
+                        <xhtml:li class="list-group-item">
+                            <a href="#">dummy text</a>
+                        </xhtml:li>
+                        <xhtml:li class="list-group-item">
+                            <a href="#">dummy text</a>
+                        </xhtml:li>
+                    </xhtml:ul>
                 </xsl:otherwise>
             </xsl:choose>
         </div>
@@ -285,488 +319,147 @@
     </xsl:template>
 
     <xsl:template name="footer">
-        <!--<div class="footer pt-4">-->
-        <!--<div class="container-fluid">-->
-        <!--<footer class="row">-->
-        <!--<article class="offset-md-2 col-md-2">-->
-        <!--<p class="h3">DML-CZ</p>-->
-        <!--is offering an open access to the metadata and fulltext of mathematical journals, proceedings-->
-        <!--and-->
-        <!--books published throughout history in the Czech lands.-->
-        <!--</article>-->
-        <!--<nav class="col-md-1">-->
-        <!--<p class="h3">Links</p>-->
-        <!--<ul class="list-unstyled">-->
-        <!--<li>-->
-        <!--<a href="/dmlcz5/sitemap">Sitemap</a>-->
-        <!--</li>-->
-        <!--<li>-->
-        <!--<a href="/dmlcz5/aboutus">About us</a>-->
-        <!--</li>-->
-        <!--<li>-->
-        <!--<a href="/dmlcz5/news">News</a>-->
-        <!--</li>-->
-        <!--<li>-->
-        <!--<a href="/dmlcz5/conditions">Conditions of Use</a>-->
-        <!--</li>-->
-        <!--</ul>-->
-        <!--</nav>-->
-        <!--<nav class="col-md-1">-->
-        <!--<p class="h3">&#160;</p>-->
-        <!--<ul class="list-unstyled">-->
-        <!--<li>-->
-        <!--<a href="/dmlcz5/faq">FAQ</a>-->
-        <!--</li>-->
-        <!--<li>-->
-        <!--<a href="/dmlcz5/archives">Math archives</a>-->
-        <!--</li>-->
-        <!--<li>-->
-        <!--<a href="/dmlcz5/contact">Contact Us</a>-->
-        <!--</li>-->
-        <!--</ul>-->
-        <!--</nav>-->
-        <!--<nav class="col-md-1">-->
-        <!--<p class="h3">Subscribe</p>-->
-        <!--<ul class="list-unstyled">-->
-        <!--<li>-->
-        <!--<a href="/dmlcz5/sitemap">Rss 1.0</a>-->
-        <!--</li>-->
-        <!--<li>-->
-        <!--<a href="/dmlcz5/aboutus">Rss 2.0</a>-->
-        <!--</li>-->
-        <!--<li>-->
-        <!--<a href="/dmlcz5/news">Atom</a>-->
-        <!--</li>-->
-        <!--</ul>-->
-        <!--</nav>-->
-        <!--<nav class="col-md-2">-->
-        <!--<p class="h3">Social networks</p>-->
-        <!--<ul class="list-unstyled">-->
-        <!--<li>-->
-        <!--<a href="/dmlcz5/sitemap">Facebook</a>-->
-        <!--</li>-->
-        <!--<li>-->
-        <!--<a href="/dmlcz5/aboutus">Twitter</a>-->
-        <!--</li>-->
-        <!--<li>-->
-        <!--<a href="/dmlcz5/news">Google+</a>-->
-        <!--</li>-->
-        <!--</ul>-->
-        <!--</nav>-->
-        <!--<nav class="col-md-2">-->
-        <!--<p class="h3">Contact</p>-->
-        <!--<ul class="list-unstyled">-->
-        <!--<li>-->
-        <!--<a href="mailto:webmaster@dml.cz">-->
-        <!--<span class="contact-email">webmaster@dml.cz</span>-->
-        <!--</a>-->
-        <!--</li>-->
-        <!--<li>-->
-        <!--<a href="/dmlcz5/aboutus">Contact form</a>-->
-        <!--</li>-->
-        <!--</ul>-->
-        <!--</nav>-->
-        <!--</footer>-->
-        <!--<footer class="row mt-3 p-2">-->
-        <!--<div class="offset-md-2 col-md-5 ">-->
-        <!--&#169; 2010&#8211;-->
-        <!--<span class="copyright-date"></span>-->
-        <!--<a href="#">Institute of Mathematics ASCR</a>-->
-        <!--</div>-->
-        <!--</footer>-->
-        <!--</div>-->
-        <!--</div>-->
+        <div class="container-fluid footer-container pt-4">
+            <xhtml:footer class="row">
+                <xhtml:div class="offset-md-2 col-md-2 col-12">
+                    <xhtml:h3>DML-CZ</xhtml:h3>
+                    <xsl:text>
+                        is offering an open access to the metadata and fulltext of mathematical journals, proceedings and
+                        books published throughout history in the Czech lands.
+                    </xsl:text>
+                </xhtml:div>
+                <xhtml:nav class="col-md-2 col-12">
+                    <h3>
+                        <i class="fa fa-sitemap"></i> <i18n:text>page.footer.links.title</i18n:text>
+                    </h3>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="{concat($contextPath,'/sitemap')}">
+                                <i18n:text>page.footer.links.sitemap</i18n:text>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{concat($contextPath,'/aboutus')}">
+                                <i18n:text>navigation.main.button.aboutus</i18n:text>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{concat($contextPath,'/news')}">
+                                <i18n:text>navigation.main.button.news</i18n:text>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{concat($contextPath,'/conditions')}">
+                                <i18n:text>navigation.main.button.terms</i18n:text>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{concat($contextPath,'/faq')}">
+                                <i18n:text>navigation.main.button.faq</i18n:text>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{concat($contextPath,'/archives')}">
+                                <i18n:text>navigation.main.button.matharchives</i18n:text>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page' and @qualifier='contactURL']}">
+                                <i18n:text>navigation.main.button.contactus</i18n:text>
+                            </a>
+                        </li>
+                    </ul>
+                </xhtml:nav>
+
+                <xsl:if
+                        test="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='feed']"
+                >
+                    <xhtml:div class="col-md-2 col-12">
+                        <h3>
+                            <i class="fa fa-rss"/> <i18n:text>page.sidebar.left.rss</i18n:text>
+                        </h3>
+                        <ul class="list-unstyled">
+                            <xsl:for-each
+                                    select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='feed']"
+                            >
+                                <li>
+                                    <xsl:text> </xsl:text>
+                                    <a href="{.}">
+                                        <xsl:choose>
+                                            <xsl:when
+                                                    test="contains(., 'rss_1.0')"
+                                            >
+                                                <xsl:text>RSS 1.0</xsl:text>
+                                            </xsl:when>
+                                            <xsl:when
+                                                    test="contains(., 'rss_2.0')"
+                                            >
+                                                <xsl:text>RSS 2.0</xsl:text>
+                                            </xsl:when>
+                                            <xsl:when
+                                                    test="contains(., 'atom_1.0')"
+                                            >
+                                                <xsl:text>Atom</xsl:text>
+                                            </xsl:when>
+                                            <xsl:otherwise>
+                                                <xsl:value-of
+                                                        select="@qualifier"
+                                                />
+                                            </xsl:otherwise>
+                                        </xsl:choose>
+                                    </a>
+                                </li>
+                            </xsl:for-each>
+                        </ul>
+                    </xhtml:div>
+                </xsl:if>
+
+                <xhtml:div class="col-md-2 col-12">
+                    <h3>Powered by:</h3>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="https://mir.fi.muni.cz/mias/">MIaS</a>
+                        </li>
+                        <li>
+                            <a href="http://www.dspace.org/">DSpace</a>
+                        </li>
+                    </ul>
+                    <h3>Partners:</h3>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="https://eudml.org/">EuDML</a>
+                        </li>
+                    </ul>
+                </xhtml:div>
+                <xhtml:div class="col-md-1 col-12 hidden-xl-down">
+                    <button type="button" class="btn btn-lg btn-outline-danger rounded-circle" data-toggle="tooltip" data-placement="bottom" id="scroll-top"
+                            title="Back to top">
+                        <i class="fa fa-chevron-up" aria-hidden="true"></i>
+                    </button>
+                </xhtml:div>
+            </xhtml:footer>
+            <xhtml:footer class="row">
+                <div class="col-12 text-center">
+                    &#169; 2010&#8211;<span class="copyright-date"></span>
+                    <a href="#"> Institute of Mathematics ASCR</a>. Contact us at
+                    <a href="#">
+                        <span class="contact-email">
+                            <i18n:text>page.footer.contact.javascript</i18n:text>
+                        </span>
+                    </a>, or using <a class="nav-link"
+                                href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page' and @qualifier='contactURL']}">
+                    form
+                </a>
+                </div>
+            </xhtml:footer>
+        </div>
     </xsl:template>
 
-
-    <!--<xsl:template name="buildNavigation">-->
-    <!--<nav class="navbar navbar-light bg-faded">-->
-    <!--<button class="navbar-toggler hidden-md-up" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2">-->
-    <!--&#9776;-->
-    <!--</button>-->
-    <!--<div class="collapse navbar-toggleable-sm" id="exCollapsingNavbar2">-->
-    <!--<ul class="nav navbar-nav">-->
-    <!--<li class="nav-item">-->
-    <!--<a class="nav-link">-->
-    <!--<xsl:attribute-->
-    <!--name="href"-->
-    <!--&gt;-->
-    <!--<xsl:value-of-->
-    <!--select="concat($contextPath,'/aboutus')"-->
-    <!--/>-->
-    <!--</xsl:attribute>-->
-    <!--<i18n:text>navigation.main.button.aboutus</i18n:text>-->
-    <!--</a>-->
-    <!--</li>-->
-    <!--<li class="nav-item">-->
-    <!--<a class="nav-link" href="{concat($contextPath,'/news')}">-->
-    <!--<i18n:text>navigation.main.button.news</i18n:text>-->
-    <!--</a>-->
-    <!--</li>-->
-    <!--<li class="nav-item">-->
-    <!--<a class="nav-link" href="{concat($contextPath,'/faq')}">-->
-    <!--<i18n:text>navigation.main.button.faq</i18n:text>-->
-    <!--</a>-->
-    <!--</li>-->
-    <!--<li class="nav-item">-->
-    <!--<a class="nav-link" href="{concat($contextPath,'/conditions')}">-->
-    <!--<i18n:text>navigation.main.button.terms</i18n:text>-->
-    <!--</a>-->
-    <!--</li>-->
-    <!--<li class="nav-item">-->
-    <!--<a class="nav-link" href="{concat($contextPath,'/archives')}">-->
-    <!--<i18n:text>navigation.main.button.matharchives</i18n:text>-->
-    <!--</a>-->
-    <!--</li>-->
-    <!--<li class="nav-item">-->
-    <!--<a class="nav-link" href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page' and @qualifier='contactURL']}">-->
-    <!--<i18n:text>navigation.main.button.contactus</i18n:text>-->
-    <!--</a>-->
-    <!--</li>-->
-    <!--</ul>-->
-    <!--<form class="form-inline navbar-form pull-xs-left pull-xl-right" method="post">-->
-    <!--<xsl:attribute-->
-    <!--name="action"-->
-    <!--&gt;-->
-    <!--<xsl:value-of-->
-    <!--select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search' and @qualifier='advancedURL']"-->
-    <!--/>-->
-    <!--</xsl:attribute>-->
-    <!--<input-->
-    <!--type="text" -->
-    <!--class="form-control" -->
-    <!--placeholder="navigation.main.button.search"-->
-    <!--i18n:attr="placeholder" -->
-    <!--&gt;-->
-    <!--<xsl:attribute-->
-    <!--name="name"-->
-    <!--&gt;-->
-    <!--<xsl:value-of-->
-    <!--select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search' and @qualifier='queryField']"-->
-    <!--/>-->
-    <!--</xsl:attribute>-->
-    <!--</input>-->
-    <!--<button class="btn btn-success-outline" type="submit">-->
-    <!--<span class="fa fa-search"></span>-->
-    <!--</button>-->
-    <!--</form>-->
-    <!--</div>-->
-    <!--</nav>       -->
-    <!--</xsl:template>-->
-    <!---->
-    <!--<xsl:template -->
-    <!--name="buildBreadcrumb"-->
-    <!--&gt;-->
-    <!--<xsl:if -->
-    <!--test="count(/dri:document/dri:meta/dri:pageMeta/dri:trail) > 1"-->
-    <!--&gt;-->
-    <!--<nav class="row">-->
-    <!--<div class="col-xs-12">-->
-    <!--<ol class="breadcrumb">-->
-    <!--<xsl:for-each-->
-    <!--select="/dri:document/dri:meta/dri:pageMeta/dri:trail"-->
-    <!--&gt;-->
-    <!--<li>-->
-    <!--<xsl:if-->
-    <!--test="position() = 1">-->
-    <!--<i class="fa fa-home" />-->
-    <!--<xsl:text> </xsl:text>-->
-    <!--</xsl:if>-->
-    <!--<xsl:if-->
-    <!--test="position() = last()"-->
-    <!--&gt;-->
-    <!--<xsl:attribute-->
-    <!--name="class"-->
-    <!--&gt;-->
-    <!--<xsl:text>active</xsl:text>-->
-    <!--</xsl:attribute>-->
-    <!--</xsl:if>-->
-    <!--<xsl:choose>-->
-    <!--<xsl:when-->
-    <!--test="position() != last()"-->
-    <!--&gt;-->
-    <!--<a>-->
-    <!--<xsl:attribute-->
-    <!--name="href"-->
-    <!--&gt;-->
-    <!--<xsl:value-of-->
-    <!--select="./@target"-->
-    <!--/>-->
-    <!--</xsl:attribute>-->
-    <!--<xsl:copy-of-->
-    <!--select="."-->
-    <!--/>-->
-    <!--</a>-->
-    <!--</xsl:when>-->
-    <!--&lt;!&ndash;-->
-    <!--last entry in trail chain is xmlui.ArtifactBrowser.ItemViewer.trail-->
-    <!--when we reach item-->
-    <!--&ndash;&gt;-->
-    <!--<xsl:when-->
-    <!--test="count(/dri:document/dri:meta/dri:pageMeta/dri:trail) = 5"-->
-    <!--&gt;-->
-    <!--<i18n:text>navigation.breadcrumb.viewitem</i18n:text>-->
-    <!--</xsl:when>-->
-    <!--<xsl:otherwise>-->
-    <!--<xsl:copy-of-->
-    <!--select="."-->
-    <!--/>-->
-    <!--</xsl:otherwise>-->
-    <!--</xsl:choose>                                 -->
-    <!--</li>-->
-    <!--</xsl:for-each>-->
-    <!--</ol>-->
-    <!--</div>            -->
-    <!--</nav>-->
-    <!--</xsl:if>        -->
-    <!--</xsl:template>-->
-    <!---->
-    <!--<xsl:template -->
-    <!--name="buildPUN"-->
-    <!--&gt; -->
-    <!--<div class="pun hidden-sm-down">      -->
-    <!--<ul class="pager">-->
-    <!--<li class="pager-prev disabled">-->
-    <!--<a href="#">-->
-    <!--&lt;!&ndash;                        <span class="hidden-xl-down">-->
-    <!--&#8592;-->
-    <!--</span>&ndash;&gt;-->
-    <!--<i18n:text>navigation.pun.previous</i18n:text>-->
-    <!--</a>-->
-    <!--</li>-->
-    <!--<li class="pager-next disabled">-->
-    <!--<a href="#">                        -->
-    <!--<i18n:text>navigation.pun.next</i18n:text>-->
-    <!--&lt;!&ndash;                        &#8594;&ndash;&gt;-->
-    <!--</a>-->
-    <!--</li>-->
-    <!--</ul>-->
-    <!--</div>-->
-    <!--</xsl:template>-->
-    <!---->
-    <!--<xsl:template -->
-    <!--name="buildFooter"-->
-    <!--&gt;-->
-    <!--<div class="footer-content">-->
-    <!--<div class="row">-->
-    <!--<div class="col-md-6 col-md-offset-3 col-xl-8 col-xl-offset-2 col-xs-12">-->
-    <!--<div class="row">-->
-    <!--<div class="col-md-4 col-xs-12">-->
-    <!--<h4>-->
-    <!--<i18n:text>page.footer.partners.title</i18n:text>-->
-    <!--</h4>-->
-    <!--<ul>-->
-    <!--<li>-->
-    <!--<a href="#">-->
-    <!--<i18n:text>page.footer.partners.ascr</i18n:text>-->
-    <!--</a>-->
-    <!--</li>-->
-    <!--<li>-->
-    <!--<a href="#">-->
-    <!--<i18n:text>page.footer.partners.eudml</i18n:text>-->
-    <!--</a>-->
-    <!--</li>-->
-    <!--<li>-->
-    <!--<a href="#">-->
-    <!--<i18n:text>page.footer.partners.ics</i18n:text>-->
-    <!--</a>-->
-    <!--</li>-->
-    <!--<li>-->
-    <!--<a href="#">-->
-    <!--<i18n:text>page.footer.partners.fimu</i18n:text>-->
-    <!--</a>-->
-    <!--</li>-->
-    <!--<li>-->
-    <!--<a href="#">-->
-    <!--<i18n:text>page.footer.partners.ficuni</i18n:text>-->
-    <!--</a>-->
-    <!--</li>-->
-    <!--<li>-->
-    <!--<a href="#">-->
-    <!--<i18n:text>page.footer.partners.libprague</i18n:text>-->
-    <!--</a>-->
-    <!--</li>-->
-    <!--</ul>-->
-    <!--</div>-->
-    <!--<div class="col-md-4 col-xs-12">-->
-    <!--<h4>-->
-    <!--<i18n:text>page.footer.links.title</i18n:text>-->
-    <!--</h4>-->
-    <!--<ul>-->
-    <!--<li>-->
-    <!--<a href="{concat($contextPath,'/sitemap')}">-->
-    <!--<i18n:text>page.footer.links.sitemap</i18n:text>-->
-    <!--</a>-->
-    <!--</li>-->
-    <!--<li>-->
-    <!--<a href="{concat($contextPath,'/aboutus')}">-->
-    <!--<i18n:text>page.footer.links.aboutus</i18n:text>-->
-    <!--</a>-->
-    <!--</li>-->
-    <!--<li>-->
-    <!--<a href="{concat($contextPath,'/news')}">-->
-    <!--<i18n:text>page.footer.links.news</i18n:text>-->
-    <!--</a>-->
-    <!--</li>-->
-    <!--<li>-->
-    <!--<a href="{concat($contextPath,'/faq')}">-->
-    <!--<i18n:text>page.footer.links.faq</i18n:text>-->
-    <!--</a>-->
-    <!--</li>-->
-    <!--<li>-->
-    <!--<a href="{concat($contextPath,'/conditions')}">-->
-    <!--<i18n:text>page.footer.links.terms</i18n:text>-->
-    <!--</a>-->
-    <!--</li>-->
-    <!--<li>-->
-    <!--<a href="{concat($contextPath,'/archives')}">-->
-    <!--<i18n:text>page.footer.links.matharchives</i18n:text>-->
-    <!--</a>-->
-    <!--</li>-->
-    <!--<li>-->
-    <!--<a href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page' and @qualifier='contactURL']}">-->
-    <!--<i18n:text>page.footer.links.contactus</i18n:text>-->
-    <!--</a>-->
-    <!--</li>                                                  -->
-    <!--</ul>-->
-    <!--</div>-->
-    <!--<div class="col-md-4 col-xs-12">-->
-    <!--<div class="hidden-sm-down">-->
-    <!--<xsl:if-->
-    <!--test="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='feed']"-->
-    <!--&gt;  -->
-    <!--<h4>-->
-    <!--<i18n:text>page.sidebar.left.rss</i18n:text>-->
-    <!--</h4>-->
-    <!--<ul>-->
-    <!--<xsl:for-each-->
-    <!--select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='feed']"-->
-    <!--&gt;-->
-    <!--<li>-->
-    <!--<i class="fa fa-rss" />-->
-    <!--<xsl:text> </xsl:text>-->
-    <!--<a>-->
-    <!--<xsl:attribute-->
-    <!--name="href"-->
-    <!--&gt;-->
-    <!--<xsl:value-of-->
-    <!--select="." -->
-    <!--/>-->
-    <!--</xsl:attribute>                                -->
-    <!--<xsl:choose>-->
-    <!--<xsl:when -->
-    <!--test="contains(., 'rss_1.0')"-->
-    <!--&gt;-->
-    <!--<xsl:text>RSS 1.0</xsl:text>-->
-    <!--</xsl:when>-->
-    <!--<xsl:when -->
-    <!--test="contains(., 'rss_2.0')"-->
-    <!--&gt;-->
-    <!--<xsl:text>RSS 2.0</xsl:text>-->
-    <!--</xsl:when>-->
-    <!--<xsl:when -->
-    <!--test="contains(., 'atom_1.0')"-->
-    <!--&gt;-->
-    <!--<xsl:text>Atom</xsl:text>-->
-    <!--</xsl:when>-->
-    <!--<xsl:otherwise>-->
-    <!--<xsl:value-of -->
-    <!--select="@qualifier"-->
-    <!--/>-->
-    <!--</xsl:otherwise>-->
-    <!--</xsl:choose>-->
-    <!--</a>-->
-    <!--</li>-->
-    <!--</xsl:for-each>-->
-    <!--</ul>-->
-    <!--</xsl:if>-->
-    <!--</div>-->
-    <!--&lt;!&ndash;-->
-    <!--<h4>-->
-    <!--<i18n:text>page.footer.social.title</i18n:text>-->
-    <!--</h4>-->
-    <!--<ul class="list-inline">-->
-    <!--<li>-->
-    <!--<i class="fa fa-facebook-square fa-3x" />-->
-    <!--</li>-->
-    <!--<li>-->
-    <!--<i class="fa fa-google-plus fa-3x" />-->
-    <!--</li>-->
-    <!--<li> -->
-    <!--<i class="fa fa-twitter fa-3x" />-->
-    <!--</li>-->
-    <!--</ul>-->
-    <!--&ndash;&gt;                           -->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="col-md-6 col-md-offset-3 col-xl-8 col-xl-offset-2 col-xs-12">            -->
-    <!--<p class="footer-text">-->
-    <!--<xsl:text>&#169; 2016 </xsl:text>-->
-    <!--<a href="#">-->
-    <!--<i18n:text>page.footer.copyright.text</i18n:text>-->
-    <!--</a>-->
-    <!--<xsl:text> </xsl:text>-->
-    <!--<i18n:text>page.footer.contact</i18n:text>                    -->
-    <!--<a href="#">-->
-    <!--<span class="contact-email">-->
-    <!--<i18n:text>page.footer.contact.javascript</i18n:text>-->
-    <!--</span>-->
-    <!--</a>-->
-    <!--</p>                    -->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</xsl:template>-->
-    <!---->
-    <!--<xsl:template -->
-    <!--name="buildBodyHead"-->
-    <!--&gt;-->
-    <!--<xsl:if-->
-    <!--test="contains($debug,'true')"-->
-    <!--&gt;-->
-    <!--<div class="alert alert-danger">-->
-    <!--<xsl:value-of select="$solrServer" />-->
-    <!--<br />-->
-    <!---->
-    <!--<xsl:value-of select="$communityType" />-->
-    <!--<br/>-->
-    <!--<xsl:variable name="solrQuery">-->
-    <!--<xsl:text>select?q=*%3A*&amp;fq=location%3A</xsl:text>-->
-    <!--<xsl:call-template-->
-    <!--name="getSolrLocation"-->
-    <!--/>-->
-    <!--<xsl:text>&amp;rows=0&amp;wt=xml&amp;facet=true&amp;facet.field=msc_keyword</xsl:text>-->
-    <!--</xsl:variable>-->
-    <!--<xsl:value-of-->
-    <!--select="$solrQuery"-->
-    <!--/>-->
-    <!--</div>-->
-    <!--</xsl:if>-->
-    <!--<div class="row">-->
-    <!--<div class="col-sm-2 hidden-sm-down">-->
-    <!--<a href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']}" >-->
-    <!--<img alt="page.general.banner" i18n:attribute="alt" class="dspace-banner">-->
-    <!--<xsl:attribute-->
-    <!--name="src"-->
-    <!--&gt;-->
-    <!--<xsl:value-of-->
-    <!--select="$resourcePath"-->
-    <!--/>-->
-    <!--<xsl:text>/img/dml-logo.gif</xsl:text>-->
-    <!--</xsl:attribute>-->
-    <!--</img>-->
-    <!--</a>            -->
-    <!--</div>-->
-    <!--<div class="col-sm-10">-->
-    <!--<p class="align-baseline">-->
-    <!--<a href="{$contextPath}" class="page-header">-->
-    <!--<h1 class="align-baseline">-->
-    <!--<i18n:text>page.head.title</i18n:text>-->
-    <!--</h1>-->
-    <!--</a>-->
-    <!--</p> -->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</xsl:template>-->
+    <xsl:template name="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a href="#">Library</a></li>
+            <li class="breadcrumb-item active">Data</li>
+        </ol>
+    </xsl:template>
 </xsl:stylesheet>

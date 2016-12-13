@@ -26,12 +26,13 @@
                 <xsl:call-template name="navbar"/>
                 <div class="container-fluid mt-4">
                     <div class="row">
-                        <main class="col-md-10 push-sm-2">
-                            <xsl:apply-templates/>
-                        </main>
-                        <aside class="col-md-2 pull-sm-10">
+                        <aside class="col-md-3 col-lg-2">
                             <xsl:call-template name="sidebar"/>
                         </aside>
+                        <main class="col-md-9 col-lg-10">
+                            <xsl:call-template name="breadcrumb" />
+                            <xsl:apply-templates/>
+                        </main>
                     </div>
                 </div>
                 <xsl:call-template name="footer"/>
