@@ -21,16 +21,40 @@ html {
     min-height: 100%;
 }
 
-body {
-    /* Margin bottom by footer height */
-    margin-bottom: 350px;
+@media (max-width: 1219px) {
+    body {
+        margin-bottom: 400px;
+    }
+
+    .footer-container {
+        height: 350px;
+        background-color: #f7f7f7;
+        border-top: 1px solid #000;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
+}
+@media (min-width: 1220px) {
+    body {
+        margin-bottom: 350px;
+    }
+    .footer-container {
+        height: 280px;
+        background-color: #f7f7f7;
+        border-top: 1px solid #000;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
 }
 
-.footer-container {
-    height: 280px;
-    background-color: #f7f7f7;
-    border-top: 1px solid #000;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
+.card-merge-border {
+    border-top: 0 !important;;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.progress-similar {
+    margin-top: .25em;
 }

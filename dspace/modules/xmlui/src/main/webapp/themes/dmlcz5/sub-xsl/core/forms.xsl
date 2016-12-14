@@ -33,7 +33,6 @@
     <xsl:output indent="yes"/>
 
     <xsl:template match="dri:field">
-        <xsl:variable name="confidenceIndicatorID" select="concat(translate(@id,'.','_'),'_confidence_indicator')"/>
         <xsl:choose>
             <xsl:when test="@type= 'select'">
                 <select>

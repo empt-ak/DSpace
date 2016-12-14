@@ -26,7 +26,7 @@ and open the template in the editor.
     <message key="navigation.pun.up">Up</message>
     <message key="navigation.pun.next">Next</message>
     <message key="navigation.next">Next</message>
-    <message key="navigation.previous">Next</message>
+    <message key="navigation.previous">Previous</message>
     
     <message key="page.head.title">Czech Digital Mathematics Library</message>
     <message key="page.title">dml.cz</message>

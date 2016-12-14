@@ -84,7 +84,7 @@
                         <li class="nav-item">
                             <a class="nav-link"
                                href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search' and @qualifier='advancedURL']}">
-                                Advanced Search
+                                !Advanced Search
                             </a>
                         </li>
                     </ul>
@@ -123,18 +123,18 @@
                     <div class="modal-body">
                         <div class="row mb-3">
                             <div class="col-12 disable-math">
-                                <xsl:text>Math formulae can be entered either in TeX or MathML notation (format will be autodetected).
+                                <xsl:text>!Math formulae can be entered either in TeX or MathML notation (format will be autodetected).
                                                 LaTeX math within $ or $$, including AMS packages, is supported. Matching is by similarity,
                                                 which includes exact matches. Bear in mind that math metadata and full-text are not available
                                                 for all papers, and hence matching on such papers is limited.</xsl:text>
                             </div>
                         </div>
-                        <xhtml:h3>Examples:</xhtml:h3>
+                        <xhtml:h3>!Examples:</xhtml:h3>
                         <xhtml:table class="table">
                             <xhtml:thead>
                                 <xhtml:tr>
-                                    <xhtml:th>Input</xhtml:th>
-                                    <xhtml:th>Rendered output</xhtml:th>
+                                    <xhtml:th>!Input</xhtml:th>
+                                    <xhtml:th>!Rendered output</xhtml:th>
                                 </xhtml:tr>
                             </xhtml:thead>
                             <xhtml:tbody>
@@ -158,7 +158,7 @@
                         </xhtml:table>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">!Close</button>
                     </div>
                 </div>
             </div>
@@ -252,31 +252,31 @@
                 </xsl:when>
                 <xsl:otherwise>
                     <xhtml:div class="card-block text-muted">
-                        Unfortunately there are no additional information for this view. To be updated about changes
+                        !Unfortunately there are no additional information for this view. To be updated about changes
                         subscribe to RSS.
                         <xhtml:div class="dropdown ">
                             <xhtml:button class="btn btn-secondary dropdown-toggle" id="rss-subscribe"
                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-rss"/>
-                                RSS
+                                !RSS
                             </xhtml:button>
 
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" href="#">r1</a>
-                                <a class="dropdown-item" href="#">r2</a>
-                                <a class="dropdown-item" href="#">atom</a>
+                                <a class="dropdown-item" href="#"><xsl:text>RSS 1.0</xsl:text></a>
+                                <a class="dropdown-item" href="#"><xsl:text>RSS 2.0</xsl:text></a>
+                                <a class="dropdown-item" href="#"><xsl:text>Atom</xsl:text></a>
                             </div>
                         </xhtml:div>
                     </xhtml:div>
                     <xhtml:div class="card-header">
-                        Random articles
+                        !Random articles
                     </xhtml:div>
                     <xhtml:ul class="list-group list-group-flush">
                         <xhtml:li class="list-group-item">
-                            <a href="#">dummy text</a>
+                            <a href="#">!dummy text</a>
                         </xhtml:li>
                         <xhtml:li class="list-group-item">
-                            <a href="#">dummy text</a>
+                            <a href="#">!dummy text</a>
                         </xhtml:li>
                     </xhtml:ul>
                 </xsl:otherwise>
@@ -328,10 +328,10 @@
     <xsl:template name="footer">
         <div class="container-fluid footer-container pt-4">
             <xhtml:footer class="row">
-                <xhtml:div class="offset-md-2 col-md-2 col-12">
-                    <xhtml:h3>DML-CZ</xhtml:h3>
+                <xhtml:div class="offset-lg-2 offset-md-3 col-lg-2 col-12 hidden-md-down">
+                    <xhtml:h3>!DML-CZ</xhtml:h3>
                     <xsl:text>
-                        is offering an open access to the metadata and fulltext of mathematical journals, proceedings and
+                        !is offering an open access to the metadata and fulltext of mathematical journals, proceedings and
                         books published throughout history in the Czech lands.
                     </xsl:text>
                 </xhtml:div>
@@ -424,26 +424,26 @@
                 </xsl:if>
 
                 <xhtml:div class="col-md-2 col-12">
-                    <h3>Powered by:</h3>
+                    <h3>!Powered by:</h3>
                     <ul class="list-unstyled">
                         <li>
-                            <a href="https://mir.fi.muni.cz/mias/">MIaS</a>
+                            <a href="https://mir.fi.muni.cz/mias/">!MIaS</a>
                         </li>
                         <li>
-                            <a href="http://www.dspace.org/">DSpace</a>
+                            <a href="http://www.dspace.org/">!DSpace</a>
                         </li>
                     </ul>
-                    <h3>Partners:</h3>
+                    <h3>!Partners:</h3>
                     <ul class="list-unstyled">
                         <li>
-                            <a href="https://eudml.org/">EuDML</a>
+                            <a href="https://eudml.org/">!EuDML</a>
                         </li>
                     </ul>
                 </xhtml:div>
                 <xhtml:div class="col-md-1 col-12 hidden-xl-down">
                     <button type="button" class="btn btn-lg btn-outline-danger rounded-circle" data-toggle="tooltip"
                             data-placement="bottom" id="scroll-top"
-                            title="Back to top">
+                            title="!Back to top">
                         <i class="fa fa-chevron-up" aria-hidden="true"></i>
                     </button>
                 </xhtml:div>
@@ -452,16 +452,16 @@
                 <div class="col-12 text-center">
                     &#169; 2010&#8211;
                     <span class="copyright-date"></span>
-                    <a href="#">Institute of Mathematics ASCR</a>. Contact us at
+                    <a href="#">!Institute of Mathematics ASCR</a>. !Contact us at
                     <a href="#">
                         <span class="contact-email">
                             <i18n:text>page.footer.contact.javascript</i18n:text>
                         </span>
                     </a>
-                    , or using
+                    !, or using
                     <a class="nav-link"
                        href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page' and @qualifier='contactURL']}">
-                        form
+                        !form
                     </a>
                 </div>
             </xhtml:footer>

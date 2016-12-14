@@ -442,20 +442,20 @@
             <fieldset>
                 <div class="form-group row math-row">
                     <div class="col-xl-3">
-                        <b>Search is now math aware!</b>
-                        You can now narrow you search result using math
+                        <b>!Search is now math aware!</b>
+                        !You can now narrow you search result using math
                         <mark data-toggle="tooltip" data-placement="bottom"
-                              title="Try entering quadratic formula $x^2+bx+c=0$">
+                              title="!Try entering quadratic formula $x^2+bx+c=0$">
                             <xsl:text>formulas.</xsl:text>
                         </mark>
                         <a href="#" class="show-math-help" data-toggle="tooltip" data-placement="top"
-                           title="Click for detailed help.">
+                           title="!Click for detailed help.">
                             <i class="fa fa-question-circle-o" aria-hidden="true"></i>
                         </a>
                     </div>
                     <div class="col-xl-4">
-                        <label class="h3">LaTeX or Mathml input</label>
-                        <textarea class="form-control" placeholder="Enter formula" rows="5" name="filter_1"
+                        <label class="h3">!LaTeX or Mathml input</label>
+                        <textarea class="form-control" placeholder="!Enter formula" rows="5" name="filter_1"
                                   id="MathInput"></textarea>
                         <div id="mathbuffer" style="visibility: hidden">
                             <xsl:text>${}$</xsl:text>
@@ -464,7 +464,7 @@
                         <input type="hidden" name="filtertype_1" value="math" />
                     </div>
                     <div class="col-xl-5">
-                        <span class="h3">Preview</span>
+                        <span class="h3">!Preview</span>
                         <div id="mathpreview"></div>
                     </div>
                 </div>
