@@ -133,6 +133,7 @@ and open the template in the editor.
     <message key="page.collection.monograph.note">Note:</message>
     <message key="page.collection.monograph.msc">MSC:</message>
     <message key="page.collection.monograph.toc">Table of contents</message>
+    <message key="page.collection.missing.abstract">This collection has no abstract.</message>
 
     <message key="page.item.view">View/Open</message>
     <message key="page.item.fulltext">Full-text</message>
@@ -241,9 +242,7 @@ and open the template in the editor.
     <message key="xmlui.dri2xhtml.structural.pagination-info.nototal">Now showing items {0}-{1}</message>
     <message key="xmlui.Discovery.AbstractSearch.head2">Communities or Collections matching your query</message>
     <message key="xmlui.Discovery.AbstractSearch.head3">Items matching your query</message>
-    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.general.starts_with_help">Browse for items that begin with
-        these letters
-    </message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.general.starts_with_help">Browse for items that begin with these letters</message>
     <message key="xmlui.Discovery.AbstractSearch.sort_by.head">Sort Options:</message>
     <message key="xmlui.Discovery.AbstractSearch.sort_by.relevance">Relevance</message>
     <message key="xmlui.Discovery.AbstractSearch.sort_by.dc.title_sort_asc">Title Asc</message>
@@ -253,6 +252,7 @@ and open the template in the editor.
     <message key="xmlui.Discovery.AbstractSearch.type_subject">Subjects</message>
     <message key="xmlui.Discovery.AbstractSearch.type_author">Author names</message>
     <message key="xmlui.Discovery.AbstractSearch.type_msc">Mathematics Subject classifications</message>
+    <message key="xmlui.Discovery.AbstractSearch.type_title">Titles</message>
     <message key="xmlui.Discovery.AbstractSearch.rpp">Results/page</message>
     <message key="xmlui.Discovery.AbstractSearch.occurences">Number of occurences</message>
     <message key="xmlui.ArtifactBrowser.Navigation.head_this_community">Browse this Community</message>

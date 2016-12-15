@@ -32,7 +32,6 @@
 
     <xsl:import href="preprocess/general.xsl"/>
     <xsl:import href="preprocess/admin.xsl"/>
-    <xsl:import href="preprocess/discovery.xsl"/>
     <xsl:import href="preprocess/communitylist.xsl"/>
     <xsl:import href="preprocess/itemview.xsl"/>
     <xsl:import href="preprocess/navigation.xsl"/>

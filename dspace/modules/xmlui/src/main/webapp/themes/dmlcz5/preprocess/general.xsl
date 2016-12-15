@@ -70,36 +70,6 @@
         </xsl:choose>
     </xsl:template>
 
-    <!--add some extra classes to the password login form-->
-    <xsl:template match="dri:list[@id='aspect.eperson.PasswordLogin.list.password-login']">
-        <div rend="row">
-            <list rend="col-md-6">
-                <xsl:call-template name="copy-attributes"/>
-                <xsl:apply-templates/>
-            </list>
-        </div>
-    </xsl:template>
-
-    <xsl:template match="dri:list[@id='aspect.eperson.StartRegistration.list.form']">
-        <div rend="row">
-            <list rend="col-md-6">
-                <xsl:call-template name="copy-attributes"/>
-                <xsl:apply-templates/>
-            </list>
-        </div>
-    </xsl:template>
-
-    <xsl:template match="dri:list[@id='aspect.submission.StepTransformer.list.submit-progress']/dri:item/dri:field[@type='button']">
-        <field>
-            <xsl:call-template name="copy-attributes"/>
-            <xsl:attribute name="rend">
-                <xsl:value-of select="@rend"/>
-                <xsl:text> btn-success</xsl:text>
-            </xsl:attribute>
-            <xsl:apply-templates/>
-        </field>
-    </xsl:template>
-
     <xsl:template match="dri:pageMeta[dri:metadata[@element = 'request'][@qualifier = 'URI']/text() = 'page/about']">
         <pageMeta>
             <xsl:call-template name="copy-attributes"/>
@@ -141,17 +111,6 @@
         <p>
           <xsl:copy-of select="."/>
         </p>
-    </xsl:template>
-
-
-    <xsl:template match="dri:field[@id='aspect.submission.StepTransformer.field.embargo_until_date'][@type='text']">
-
-        <field>
-            <xsl:call-template name="copy-attributes"/>
-            <xsl:attribute name="type">date</xsl:attribute>
-            <xsl:apply-templates/>
-        </field>
-
     </xsl:template>
 
     <!--Table cells check. Some rows are missing some cells. Only for tables without rowspan and colspan-->
@@ -199,9 +158,4 @@
             </xsl:call-template>
         </xsl:if>
     </xsl:template>
-
-    <!--remove the static jquery loader, Mirage 2 already contains jquery-->
-    <xsl:template match="dri:metadata[@element='javascript'][@qualifier='static'][text() = 'loadJQuery.js']"/>
-
-
 </xsl:stylesheet>
