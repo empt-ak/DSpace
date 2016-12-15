@@ -8,63 +8,72 @@ and open the template in the editor.
 
 <catalogue xml:lang="en" xmlns:i18n="http://apache.org/cocoon/i18n/2.1">
     <!--<message key="navigation.main.button.about">DSpace Home</message>-->
-    
+
     <message key="xmlui.general.go">Go</message>
-    <message key="xmlui.general.dspace_home">DML-CZ</message> 
-		<message key="xmlui.general.untitled"></message>
+    <message key="xmlui.general.dspace_home">DML-CZ</message>
+    <message key="xmlui.general.untitled">Untitled</message>
 
     <message key="navigation.main.button.aboutus">About us</message>
     <message key="navigation.main.button.news">News</message>
-    <message key="navigation.main.button.faq">FAQ</message>    
-    <message key="navigation.main.button.terms">Conditions of Use</message>
+    <message key="navigation.main.button.faq">FAQ</message>
+    <message key="navigation.main.button.terms">Conditions of use</message>
     <message key="navigation.main.button.matharchives">Math archives</message>
-    <message key="navigation.main.button.contactus">Contact Us</message>
+    <message key="navigation.main.button.contactus">Contact us</message>
     <message key="navigation.main.button.search">Search ...</message>
     <message key="navigation.main.button.toggle">Toggle navigation</message>
     <message key="navigation.breadcrumb.viewitem">View item</message>
+    <message key="navigation.search.advanced">Advanced search</message>
     <message key="navigation.pun.previous">Previous</message>
     <message key="navigation.pun.up">Up</message>
     <message key="navigation.pun.next">Next</message>
     <message key="navigation.next">Next</message>
     <message key="navigation.previous">Previous</message>
-    
+
     <message key="page.head.title">Czech Digital Mathematics Library</message>
     <message key="page.title">dml.cz</message>
-    
-    <message key="page.sidebar.left.quickstats">Quick statistics</message>
-    <message key="page.sidebar.left.quickstats.more">More statistics</message>
-    <message key="page.sidebar.left.browseby">Browse in DSpace</message>
-    <message key="page.sidebar.left.projects">Projects and partners</message>
-    <message key="page.sidebar.left.rss">RSS channels</message>
-    <message key="page.sidebar.left.count.author">Total authors:</message>
-    <message key="page.sidebar.left.count.article">Total articles:</message>
-    <message key="page.sidebar.right.discovery.keyword">Keywords</message>
-    <message key="page.sidebar.right.discovery.author">Authors</message>
-    <message key="page.sidebar.right.discovery.msc">MSC</message>
-    <message key="page.sidebar.right.discovery.more">View More</message>
-    <message key="page.sidebar.right.related.items">Related items</message>
-    
+    <message key="page.general.close">Close</message>
+
+
+    <message key="page.sidebar.discovery.keyword">Keywords</message>
+    <message key="page.sidebar.discovery.author">Authors</message>
+    <message key="page.sidebar.discovery.msc">MSC</message>
+    <message key="page.sidebar.discovery.more">View More</message>
+    <message key="page.sidebar.related.items">Related items</message>
+    <message key="page.sidebar.noinfo">Unfortunately there are no additional information for this view. To be updated
+        about changes subscribe to RSS.
+    </message>
+    <message key="page.sidebar.random">Random articles</message>
+
     <message key="page.footer.partners.title">Partners</message>
     <message key="page.footer.partners.ascr">ASCR</message>
-    <message key="page.footer.partners.eudml">eudml</message>
+    <message key="page.footer.partners.eudml">EuDML</message>
     <message key="page.footer.partners.ics">ics@mu</message>
     <message key="page.footer.partners.fimu">fi@mu</message>
     <message key="page.footer.partners.ficuni">fi@cuni</message>
     <message key="page.footer.partners.libprague">lib@prague</message>
+    <message key="page.fotter.powered.title">Powered by</message>
+    <message key="page.fotter.powered.mias">MIaS</message>
+    <message key="page.fotter.powered.dspace">DSpace</message>
     <message key="page.footer.links.title">Links</message>
     <message key="page.footer.links.sitemap">Sitemap</message>
     <message key="page.footer.links.aboutus">About us</message>
     <message key="page.footer.links.news">News</message>
-    <message key="page.footer.links.faq">FAQ</message>    
+    <message key="page.footer.links.faq">FAQ</message>
     <message key="page.footer.links.terms">Conditions of Use</message>
     <message key="page.footer.links.matharchives">Math archives</message>
-    <message key="page.footer.links.contactus">Contact Us</message>
+    <message key="page.footer.links.contactus">. Contact us at</message>
+    <message key="page.footer.links.contactus2">, or using</message>
+    <message key="page.footer.links.contactus3.form">Contact form</message>
     <message key="page.footer.social.title">Social media</message>
     <message key="page.footer.copyright.text">Institute of Mathematics ASCR</message>
     <message key="page.footer.contact">Contact:</message>
     <message key="page.footer.contact.javascript">Please enable javascript to see contact email</message>
-    
-    
+    <message key="page.footer.backtotop">Back to top</message>
+    <message key="page.footer.description">is offering an open access to the metadata and fulltext of mathematical
+        journals, proceedings and books published throughout history in the Czech lands.
+    </message>
+
+
     <message key="page.landing.thumbnail">Thumbnail of this entry</message>
     <message key="page.landing.category.serial">Journals</message>
     <message key="page.landing.category.monograph">Monographs</message>
@@ -72,12 +81,15 @@ and open the template in the editor.
     <message key="page.landing.ellipsis">...</message>
     <message key="page.landing.category.celebrity">Eminent Czech mathematicians</message>
     <message key="page.landing.more">Read more</message>
-    <message key="page.landing.jubotron">Welcome to DML-CZ (Czech Digital Mathematics Library), the website offering an open access to the metadata and fulltext of mathematical journals, proceedings and books published throughout history in the Czech lands.</message>
+    <message key="page.landing.jubotron">Welcome to DML-CZ (Czech Digital Mathematics Library), the website offering an
+        open access to the metadata and fulltext of mathematical journals, proceedings and books published throughout
+        history in the Czech lands.
+    </message>
 
 
     <message key="page.community.published.untilnow">now</message>
     <message key="page.community.unknown.head">Unrecognized</message>
-    <message key="page.community.noentry.head">There are no entries for this </message>
+    <message key="page.community.noentry.head">There are no entries for this</message>
     <message key="page.community.noentry.body">Unrecognized</message>
 
     <message key="page.community.serial.thumbnail">Thumbnail of this serial</message>
@@ -93,12 +105,12 @@ and open the template in the editor.
     <message key="page.community.serial.volume.thumbnail">Thumbnail of this volume</message>
     <message key="page.community.serial.volume.issue">Issue</message>
     <message key="page.community.serial.volume.volume">Volume</message>
-    
+
     <message key="page.community.monograph.archive">Archive</message>
     <message key="page.community.proceedings.archive">Archive</message>
     <message key="page.community.celebrity.collections">Collections</message>
     <message key="page.community.celebrity.volume.archive">Archive</message>
-    
+
     <message key="page.collection.proceedings.thumbnail">Thumbnail of this collection.</message>
     <message key="page.collection.proceedings.editors">Editors:</message>
     <message key="page.collection.proceedings.organized">Organized by:</message>
@@ -119,7 +131,7 @@ and open the template in the editor.
     <message key="page.collection.monograph.note">Note:</message>
     <message key="page.collection.monograph.msc">MSC:</message>
     <message key="page.collection.monograph.toc">Table of contents</message>
-    
+
     <message key="page.item.view">View/Open</message>
     <message key="page.item.fulltext">Full-text</message>
     <message key="page.item.authors">Authors</message>
@@ -143,46 +155,70 @@ and open the template in the editor.
     <message key="page.item.missing.title">This item has no title</message>
     <message key="page.item.date.lastupdate">Last updated:</message>
     <message key="page.item.similar.lsi.title">Method LSI</message>
-    <message key="page.item.similar.lsi.description">
-        <mark>Latent Semantic Indexing</mark> improves on TFIDF by taking into account the similarity between different words. This is accomplished by Singular Value Decomposion (a linear algebra method) of the term-document matrix.</message>
+    <message key="page.item.similar.lsi.description">Latent Semantic Indexingimproves on TFIDF by taking into account
+        the similarity between different words. This is accomplished by Singular Value Decomposion (a linear algebra
+        method) of the term-document matrix.
+    </message>
     <message key="page.item.similar.rpi.title">Random Projection Method</message>
-    <message key="page.item.similar.rpi.description">The <mark>Random Projections</mark> method builds on the TFIDF method. It simplifies the computations by projecting vectors onto a subspace of lower dimensionality.</message>
+    <message key="page.item.similar.rpi.description">The Random Projections method builds on the TFIDF method. It
+        simplifies the computations by projecting vectors onto a subspace of lower dimensionality.
+    </message>
     <message key="page.item.similar.tfidf.title">TFIDF Method</message>
-    <message key="page.item.similar.tfidf.description">
-        <mark>Term Frequency - Inverse Document Frequency</mark> is a method which quantifies the amount of vocabulary overlap between two articles. Texts of the articles are represented as vectors in a vector space and the similarity is measured by their cosine angle.</message>
-    
+    <message key="page.item.similar.tfidf.description">Term Frequency - Inverse Document Frequency is a method which
+        quantifies the amount of vocabulary overlap between two articles. Texts of the articles are represented as
+        vectors in a vector space and the similarity is measured by their cosine angle.
+    </message>
+
     <message key="page.search.table.occurences">Number of occurences</message>
     <message key="page.general.thumbnail">Thumbnail</message>
     <message key="page.general.banner">DSpace banner</message>
-    
+
     <message key="page.discovery.filters-in-use">Current filters in use:</message>
-    
+
     <message key="page.contact.help">Choose one of the following forms of contact.</message>
-    
-    <message key="page.error.error">ERROR: </message>
+
+    <message key="page.error.error">ERROR:</message>
     <message key="page.error.unknowntype">Unknown type</message>
-    <message key="page.error.noentries">Subcommunites and subcollections has to be imported first in order to display them</message>
-    
+    <message key="page.error.noentries">Subcommunites and subcollections has to be imported first in order to display
+        them
+    </message>
+
+
+    <message key="discovery.math.text"><b>Search is now math aware!</b> You can now narrow you search result using math formulas.</message>
+    <message key="discovery.math.text.help.tooltip">Click for detailed help.</message>
+    <message key="discovery.math.input">$\LaTeXTeX$ or MathML</message>
+    <message key="discovery.math.input.placeholder">Try entering quadratic formula $x^2+bx+c=0$</message>
+    <message key="discovery.math.output">Rendered preview</message>
+    <message key="math.help.modal.title">Math help</message>
+    <message key="math.help.modal.text">Math formulae can be entered either in TeX or MathML notation (format will be
+        autodetected). LaTeX math within $ or $$, including AMS packages, is supported. Matching is by similarity, which
+        includes exact matches. Bear in mind that math metadata and full-text are not available for all papers, and
+        hence matching on such papers is limited.
+    </message>
+    <message key="math.help.modal.examples">Math input examples:</message>
+    <message key="math.help.modal.input">Input</message>
+    <message key="math.help.modal.output">Rendered output</message>
+
     <message key="file.extension.size.bytes">B</message>
     <message key="file.extension.size.kbytes">kB</message>
     <message key="file.extension.size.mbytes">MB</message>
     <message key="file.extension.size.gbytes">GB</message>
     <message key="file.image.nopreview">No Thumbnail</message>
-    
+
     <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.math">Math</message>
     <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.msc">MSC</message>
     <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.button.apply">Apply filters</message>
     <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.button.add">Add filter</message>
     <message key="xmlui.ArtifactBrowser.SimpleSearch.filter.button.reset">Reset filters</message>
-    
-    
+
+
     <message key="xmlui.ArtifactBrowser.AbstractSearch.result_query">Your query "{0}" produced {1} result(s).</message>
     <message key="xmlui.ArtifactBrowser.AbstractSearch.head2">Communities or Collections matching your query</message>
     <message key="xmlui.ArtifactBrowser.AbstractSearch.head3">Items matching your query</message>
     <message key="xmlui.ArtifactBrowser.AbstractSearch.no_results">Search produced no results.</message>
     <message key="xmlui.ArtifactBrowser.AbstractSearch.all_of_dspace">All of DSpace</message>
     <message key="xmlui.ArtifactBrowser.SimpleSearch.head">Search</message>
-		<message key="xmlui.ArtifactBrowser.SimpleSearch.trail">Search</message>
+    <message key="xmlui.ArtifactBrowser.SimpleSearch.trail">Search</message>
     <message key="xmlui.mirage2.discovery.showAdvancedFilters">Show Advanced Filters</message>
     <message key="xmlui.mirage2.discovery.hideAdvancedFilters">Hide Advanced Filters</message>
     <message key="xmlui.Discovery.SimpleSearch.filter_head">Filters</message>
@@ -198,19 +234,25 @@ and open the template in the editor.
     <message key="xmlui.ArtifactBrowser.Navigation.browse_dateaccessioned">By Submit Date</message>
     <message key="xmlui.ArtifactBrowser.Navigation.head_this_collection">This Collection</message>
     <message key="xmlui.ArtifactBrowser.Navigation.head_this_community">This Community</message>
-    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.general.starts_with">Or enter first few letters:</message>    
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.general.starts_with">Or enter first few letters:</message>
     <message key="xmlui.dri2xhtml.structural.pagination-info">Now showing items {0}-{1} of {2}</message>
     <message key="xmlui.dri2xhtml.structural.pagination-info.nototal">Now showing items {0}-{1}</message>
     <message key="xmlui.Discovery.AbstractSearch.head2">Communities or Collections matching your query</message>
     <message key="xmlui.Discovery.AbstractSearch.head3">Items matching your query</message>
-    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.general.starts_with_help">Browse for items that begin with these letters</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.general.starts_with_help">Browse for items that begin with
+        these letters
+    </message>
     <message key="xmlui.Discovery.AbstractSearch.sort_by.head">Sort Options:</message>
     <message key="xmlui.Discovery.AbstractSearch.sort_by.relevance">Relevance</message>
     <message key="xmlui.Discovery.AbstractSearch.sort_by.dc.title_sort_asc">Title Asc</message>
     <message key="xmlui.Discovery.AbstractSearch.sort_by.dc.title_sort_desc">Title Desc</message>
     <message key="xmlui.Discovery.AbstractSearch.sort_by.dc.date.issued_dt_asc">Issue Date Asc</message>
     <message key="xmlui.Discovery.AbstractSearch.sort_by.dc.date.issued_dt_desc">Issue Date Desc</message>
+    <message key="xmlui.Discovery.AbstractSearch.type_subject">Subjects</message>
+    <message key="xmlui.Discovery.AbstractSearch.type_author">Author names</message>
+    <message key="xmlui.Discovery.AbstractSearch.type_msc">Mathematics Subject classifications</message>
     <message key="xmlui.Discovery.AbstractSearch.rpp">Results/page</message>
+    <message key="xmlui.Discovery.AbstractSearch.occurences">Number of occurences</message>
     <message key="xmlui.ArtifactBrowser.Navigation.head_this_community">Browse this Community</message>
     <message key="xmlui.ArtifactBrowser.Navigation.head_this_collection">Browse this Collection</message>
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.item.dateissued">Browsing by Issue Date</message>
@@ -221,18 +263,20 @@ and open the template in the editor.
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.metadata.author">Browsing by Author</message>
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.item.title">Browsing by Title</message>
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.metadata.subject">Browsing by Subject</message>
- 
+
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.subject.column_heading">Subjects</message>
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.author.column_heading">Authors</message>
     <message key="xmlui.ArtifactBrowser.Contact.head">Contact us</message>
     <message key="xmlui.ArtifactBrowser.Contact.feedback_label">On-line form:</message>
-    <message key="xmlui.ArtifactBrowser.Contact.email">Email: </message>
+    <message key="xmlui.ArtifactBrowser.Contact.email">Email:</message>
     <message key="xmlui.ArtifactBrowser.Contact.feedback_link">Feedback</message>
     <message key="xmlui.ArtifactBrowser.Contact.trail">Contact us</message>
     <message key="xmlui.ArtifactBrowser.FeedbackForm.email">Your Email:</message>
-    <message key="xmlui.ArtifactBrowser.FeedbackForm.email_help">This address will be used to follow up on your feedback.</message>
-    <message key="xmlui.ArtifactBrowser.FeedbackForm.comments">Comments: </message>
-    <message key="xmlui.ArtifactBrowser.FeedbackForm.submit">Send Feedback</message>    
+    <message key="xmlui.ArtifactBrowser.FeedbackForm.email_help">This address will be used to follow up on your
+        feedback.
+    </message>
+    <message key="xmlui.ArtifactBrowser.FeedbackForm.comments">Comments:</message>
+    <message key="xmlui.ArtifactBrowser.FeedbackForm.submit">Send Feedback</message>
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.general.sort_by">Sort by</message>
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.sort_by.title">Title</message>
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.sort_by.dateissued">Issue date</message>

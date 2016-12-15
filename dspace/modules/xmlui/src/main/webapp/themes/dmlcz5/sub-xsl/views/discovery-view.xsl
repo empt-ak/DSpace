@@ -311,10 +311,6 @@
                         <xsl:text>/mets.xml</xsl:text>
                         <!-- Since this is a summary only grab the descriptive metadata, and the thumbnails -->
                         <xsl:text>?sections=dmdSec,fileSec&amp;fileGrpTypes=THUMBNAIL</xsl:text>
-                        <!-- An example of requesting a specific metadata standard (MODS and QDC crosswalks only work for items)->
-                        <xsl:if test="@type='DSpace Item'">
-                            <xsl:text>&amp;dmdTypes=DC</xsl:text>
-                        </xsl:if>-->
                     </xsl:variable>
                     <xsl:variable name="extMets" select="document($extMetsURL)"/>
                     <div class="media">
@@ -442,29 +438,32 @@
             <fieldset>
                 <div class="form-group row math-row">
                     <div class="col-xl-3">
-                        <b>!Search is now math aware!</b>
-                        !You can now narrow you search result using math
-                        <mark data-toggle="tooltip" data-placement="bottom"
-                              title="!Try entering quadratic formula $x^2+bx+c=0$">
-                            <xsl:text>formulas.</xsl:text>
-                        </mark>
+                        <i18n:text>discovery.math.text</i18n:text>
                         <a href="#" class="show-math-help" data-toggle="tooltip" data-placement="top"
-                           title="!Click for detailed help.">
+                           title="discovery.math.text.help.tooltip"
+                           i18n:attr="title">
                             <i class="fa fa-question-circle-o" aria-hidden="true"></i>
                         </a>
                     </div>
                     <div class="col-xl-4">
-                        <label class="h3">!LaTeX or Mathml input</label>
-                        <textarea class="form-control" placeholder="!Enter formula" rows="5" name="filter_1"
-                                  id="MathInput"></textarea>
+                        <label class="h3">
+                            <i18n:text>discovery.math.input</i18n:text>
+                        </label>
+                        <textarea class="form-control"
+                                  placeholder="discovery.math.input.placeholder"
+                                  rows="5"
+                                  name="filter_1"
+                                  id="MathInput"
+                                  i18n:attr="placeholder"
+                        ></textarea>
                         <div id="mathbuffer" style="visibility: hidden">
                             <xsl:text>${}$</xsl:text>
                         </div>
-                        <input type="hidden" name="filter_relational_operator_1" value="contains" />
-                        <input type="hidden" name="filtertype_1" value="math" />
+                        <input type="hidden" name="filter_relational_operator_1" value="contains"/>
+                        <input type="hidden" name="filtertype_1" value="math"/>
                     </div>
                     <div class="col-xl-5">
-                        <span class="h3">!Preview</span>
+                        <span class="h3"><i18n:text>discovery.math.output</i18n:text></span>
                         <div id="mathpreview"></div>
                     </div>
                 </div>
@@ -516,7 +515,8 @@
             match="dri:div[@rend='clearfix']/dri:p[@rend='pull-right']/dri:xref"
     >
         <button type="button" class="btn btn-primary {concat('cursor-pointer ',@rend)}">
-            <i class="fa fa-sort" aria-hidden="true"></i> Toggle additional filters
+            <i class="fa fa-sort" aria-hidden="true"></i>
+            Toggle additional filters
         </button>
     </xsl:template>
 
