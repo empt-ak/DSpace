@@ -21,6 +21,7 @@ and open the template in the editor.
     <message key="navigation.main.button.contactus">Contact us</message>
     <message key="navigation.main.button.search">Search ...</message>
     <message key="navigation.main.button.toggle">Toggle navigation</message>
+    <message key="navigation.main.button.browse">Browse by</message>
     <message key="navigation.breadcrumb.viewitem">View item</message>
     <message key="navigation.search.advanced">Advanced search</message>
     <message key="navigation.pun.previous">Previous</message>

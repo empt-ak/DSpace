@@ -27,7 +27,7 @@
             <nav class="navbar navbar-light bg-faded">
                 <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse"
                         data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-                        aria-label="Toggle navigation"></button>
+                        aria-label="navigation.main.button.toggle" i18n:attr="aria-label"></button>
                 <a class="navbar-brand"
                    href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']}">
                     <!--<img src="{concat($resourcePath,'/img/dml-logo.gif')}" alt="page.general.banner"-->
@@ -39,7 +39,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="supportedContentDropdown"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i18n:text>page.sidebar.left.browseby</i18n:text>
+                                <i18n:text>navigation.main.button.browse</i18n:text>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="supportedContentDropdown">
                                 <xsl:for-each
@@ -399,7 +399,7 @@
                             <i class="fa fa-rss"/>
                             <xsl:text> </xsl:text>
                             <i18n:text>page.footer.subscribe</i18n:text>
-                        </h3>rss
+                        </h3>
                         <ul class="list-unstyled">
                             <xsl:for-each
                                     select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='feed']"
@@ -479,6 +479,7 @@
                     <a href="#">
                         <i18n:text>page.footer.copyright.text</i18n:text>
                     </a>
+                    <xsl:text> </xsl:text>
                     <i18n:text>page.footer.links.contactus</i18n:text>
                     <xsl:text> </xsl:text>
                     <a href="#">

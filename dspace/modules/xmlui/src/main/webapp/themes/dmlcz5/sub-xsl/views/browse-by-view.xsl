@@ -23,7 +23,7 @@
     <xsl:output method="xml" encoding="UTF-8" indent="no"/>
 
     <xsl:template
-            match="dri:body[dri:div[starts-with(@id,'aspect.discovery.SearchFacetFilter.div.browse-by-')]]"
+            match="dri:body[dri:div[starts-with(@id,'aspect.discovery.SearchFacetFilter.div.browse-by-') or starts-with(@id,'aspect.artifactbrowser.ConfigurableBrowse.div.browse-by-author')]]"
             priority="100000"
     >
         <h1>
@@ -31,13 +31,14 @@
                 <xsl:value-of select="dri:div/dri:head"/>
             </i18n:text>
         </h1>
-        <xsl:apply-templates select="dri:div/dri:div[@id='aspect.discovery.SearchFacetFilter.div.filter-navigation']"/>
+        <xsl:apply-templates select="dri:div/dri:div[@id='aspect.discovery.SearchFacetFilter.div.filter-navigation' or @id='aspect.artifactbrowser.ConfigurableBrowse.div.browse-navigation']"/>
         <xsl:apply-templates
-                select="./dri:div[starts-with(@id,'aspect.discovery.SearchFacetFilter.div.browse-by-') and @pagination='simple']"/>
+                select="./dri:div[(starts-with(@id,'aspect.discovery.SearchFacetFilter.div.browse-by-') or starts-with(@id,'aspect.artifactbrowser.ConfigurableBrowse.div.browse-by-')) and @pagination='simple']"/>
+
     </xsl:template>
 
     <xsl:template
-            match="dri:div[@id='aspect.discovery.SearchFacetFilter.div.filter-navigation']"
+            match="dri:div[@id='aspect.discovery.SearchFacetFilter.div.filter-navigation' or @id='aspect.artifactbrowser.ConfigurableBrowse.div.browse-navigation']"
     >
         <form method="{@method}" action="{@action}">
             <xsl:for-each select="./dri:p/dri:field[@type='hidden']">
@@ -156,7 +157,7 @@
                                 </xsl:otherwise>
                             </xsl:choose>
                         </td>
-                        <td>
+                        <td class="text-left">
                             <xsl:call-template name="browse-by-row">
                                 <xsl:with-param name="text" select=". | ./dri:xref"/>
                             </xsl:call-template>
@@ -195,6 +196,7 @@
                         </xsl:choose>
                     </xsl:attribute>
                     <i class="fa fa-arrow-left"></i>
+                    <xsl:text> </xsl:text>
                     <span class="hidden-sm-down">
                         <xsl:text> </xsl:text>
                         <i18n:text>navigation.previous</i18n:text>
@@ -231,6 +233,7 @@
                         <xsl:text> </xsl:text>
                         <i18n:text>navigation.next</i18n:text>
                     </span>
+                    <xsl:text> </xsl:text>
                     <i class="fa fa-arrow-right"></i>
                 </a>
             </div>
@@ -241,7 +244,7 @@
             name="browse-by-row"
     >
         <xsl:param name="text"/>
-        <span class="badge badge-info float-right">
+        <span class="badge badge-info">
             <xsl:variable
                     name="badge"
             >
