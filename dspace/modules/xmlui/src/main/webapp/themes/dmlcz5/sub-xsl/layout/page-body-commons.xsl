@@ -84,7 +84,7 @@
                         <li class="nav-item">
                             <a class="nav-link"
                                href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='search' and @qualifier='advancedURL']}">
-                                !Advanced Search
+                                <i18n:text>navigation.search.advanced</i18n:text>
                             </a>
                         </li>
                     </ul>
@@ -118,23 +118,28 @@
                                 <i class="fa fa-times" aria-hidden="true"></i>
                             </span>
                         </button>
-                        <h4 class="modal-title" id="myModalLabel">Math help</h4>
+                        <h4 class="modal-title" id="myModalLabel">
+                            <i18n:text>math.help.modal.title</i18n:text>
+                        </h4>
                     </div>
                     <div class="modal-body">
                         <div class="row mb-3">
                             <div class="col-12 disable-math">
-                                <xsl:text>!Math formulae can be entered either in TeX or MathML notation (format will be autodetected).
-                                                LaTeX math within $ or $$, including AMS packages, is supported. Matching is by similarity,
-                                                which includes exact matches. Bear in mind that math metadata and full-text are not available
-                                                for all papers, and hence matching on such papers is limited.</xsl:text>
+                                <i18n:text>math.help.modal.text</i18n:text>
                             </div>
                         </div>
-                        <xhtml:h3>!Examples:</xhtml:h3>
+                        <xhtml:h3>
+                            <i18n:text>math.help.modal.examples</i18n:text>
+                        </xhtml:h3>
                         <xhtml:table class="table">
                             <xhtml:thead>
                                 <xhtml:tr>
-                                    <xhtml:th>!Input</xhtml:th>
-                                    <xhtml:th>!Rendered output</xhtml:th>
+                                    <xhtml:th>
+                                        <i18n:text>math.help.modal.input</i18n:text>
+                                    </xhtml:th>
+                                    <xhtml:th>
+                                        <i18n:text>math.help.modal.output</i18n:text>
+                                    </xhtml:th>
                                 </xhtml:tr>
                             </xhtml:thead>
                             <xhtml:tbody>
@@ -158,7 +163,9 @@
                         </xhtml:table>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">!Close</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            <i18n:text>page.general.close</i18n:text>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -182,7 +189,7 @@
                             test="/dri:document/dri:options/dri:list[@id='aspect.discovery.Navigation.list.discovery']/dri:list[@id='aspect.discovery.SidebarFacetsTransformer.list.subject']/dri:item"
                     >
                         <div class="card-header">
-                            <i18n:text>page.sidebar.right.discovery.keyword</i18n:text>
+                            <i18n:text>page.sidebar.discovery.keyword</i18n:text>
                         </div>
                         <ul class="list-group list-group-flush">
                             <xsl:for-each
@@ -196,7 +203,7 @@
                             test="/dri:document/dri:options/dri:list[@id='aspect.discovery.Navigation.list.discovery']/dri:list[@id='aspect.discovery.SidebarFacetsTransformer.list.author']/dri:item"
                     >
                         <div class="card-header">
-                            <i18n:text>page.sidebar.right.discovery.author</i18n:text>
+                            <i18n:text>page.sidebar.discovery.author</i18n:text>
                         </div>
                         <ul class="list-group list-group-flush">
                             <xsl:for-each
@@ -210,7 +217,7 @@
                             test="/dri:document/dri:options/dri:list[@id='aspect.discovery.Navigation.list.discovery']/dri:list[@id='aspect.discovery.SidebarFacetsTransformer.list.msc']/dri:item"
                     >
                         <div class="card-header">
-                            <i18n:text>page.sidebar.right.discovery.msc</i18n:text>
+                            <i18n:text>page.sidebar.discovery.msc</i18n:text>
                         </div>
                         <ul class="list-group list-group-flush">
                             <xsl:for-each
@@ -224,7 +231,7 @@
                             test="/dri:document/dri:body/dri:div[@id='aspect.discovery.RelatedItems.div.item-related-container']/dri:div[@id='aspect.discovery.RelatedItems.div.item-related']/dri:referenceSet[@id='aspect.discovery.RelatedItems.referenceSet.item-related-items']"
                     >
                         <div class="card-header">
-                            <i18n:text>page.sidebar.right.related.items</i18n:text>
+                            <i18n:text>page.sidebar.related.items</i18n:text>
                         </div>
                         <ul class="list-group list-group-flush">
                             <xsl:for-each
@@ -252,24 +259,29 @@
                 </xsl:when>
                 <xsl:otherwise>
                     <xhtml:div class="card-block text-muted">
-                        !Unfortunately there are no additional information for this view. To be updated about changes
-                        subscribe to RSS.
+                        <i18n:text>page.sidebar.noinfo</i18n:text>
                         <xhtml:div class="dropdown ">
                             <xhtml:button class="btn btn-secondary dropdown-toggle" id="rss-subscribe"
                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-rss"/>
-                                !RSS
+                                <xsl:text>RSS</xsl:text>
                             </xhtml:button>
 
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" href="#"><xsl:text>RSS 1.0</xsl:text></a>
-                                <a class="dropdown-item" href="#"><xsl:text>RSS 2.0</xsl:text></a>
-                                <a class="dropdown-item" href="#"><xsl:text>Atom</xsl:text></a>
+                                <a class="dropdown-item" href="#">
+                                    <xsl:text>RSS 1.0</xsl:text>
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <xsl:text>RSS 2.0</xsl:text>
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <xsl:text>Atom</xsl:text>
+                                </a>
                             </div>
                         </xhtml:div>
                     </xhtml:div>
                     <xhtml:div class="card-header">
-                        !Random articles
+                        <i18n:text>page.sidebar.random</i18n:text>
                     </xhtml:div>
                     <xhtml:ul class="list-group list-group-flush">
                         <xhtml:li class="list-group-item">
@@ -296,7 +308,7 @@
                     <xsl:when
                             test="./dri:xref/i18n:text"
                     >
-                        <i18n:text>page.sidebar.right.discovery.more</i18n:text>
+                        <i18n:text>page.sidebar.discovery.more</i18n:text>
                     </xsl:when>
                     <xsl:otherwise>
                         <span class="badge badge-info float-right">
@@ -329,11 +341,11 @@
         <div class="container-fluid footer-container pt-4">
             <xhtml:footer class="row">
                 <xhtml:div class="offset-lg-2 offset-md-3 col-lg-2 col-12 hidden-md-down">
-                    <xhtml:h3>!DML-CZ</xhtml:h3>
-                    <xsl:text>
-                        !is offering an open access to the metadata and fulltext of mathematical journals, proceedings and
-                        books published throughout history in the Czech lands.
-                    </xsl:text>
+                    <xhtml:h3>
+                        <i18n:text>xmlui.general.dspace_home</i18n:text>
+                    </xhtml:h3>
+                    <xsl:text> </xsl:text>
+                    <i18n:text>page.footer.description</i18n:text>
                 </xhtml:div>
                 <xhtml:nav class="col-md-2 col-12">
                     <h3>
@@ -385,8 +397,9 @@
                     <xhtml:div class="col-md-2 col-12">
                         <h3>
                             <i class="fa fa-rss"/>
-                            <i18n:text>page.sidebar.left.rss</i18n:text>
-                        </h3>
+                            <xsl:text> </xsl:text>
+                            <i18n:text>page.footer.subscribe</i18n:text>
+                        </h3>rss
                         <ul class="list-unstyled">
                             <xsl:for-each
                                     select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='feed']"
@@ -424,44 +437,60 @@
                 </xsl:if>
 
                 <xhtml:div class="col-md-2 col-12">
-                    <h3>!Powered by:</h3>
+                    <xhtml:h3>
+                        <i18n:text>page.fotter.powered.title</i18n:text>
+                    </xhtml:h3>
                     <ul class="list-unstyled">
                         <li>
-                            <a href="https://mir.fi.muni.cz/mias/">!MIaS</a>
+                            <a href="https://mir.fi.muni.cz/mias/">
+                                <i18n:text>page.fotter.powered.mias</i18n:text>
+                            </a>
                         </li>
                         <li>
-                            <a href="http://www.dspace.org/">!DSpace</a>
+                            <a href="http://www.dspace.org/">
+                                <i18n:text>page.fotter.powered.dspace</i18n:text>
+                            </a>
                         </li>
                     </ul>
-                    <h3>!Partners:</h3>
+                    <h3>
+                        <i18n:text>page.footer.partners.title</i18n:text>
+                    </h3>
                     <ul class="list-unstyled">
                         <li>
-                            <a href="https://eudml.org/">!EuDML</a>
+                            <a href="https://eudml.org/">
+                                <i18n:text>page.footer.partners.eudml</i18n:text>
+                            </a>
                         </li>
                     </ul>
                 </xhtml:div>
                 <xhtml:div class="col-md-1 col-12 hidden-xl-down">
                     <button type="button" class="btn btn-lg btn-outline-danger rounded-circle" data-toggle="tooltip"
                             data-placement="bottom" id="scroll-top"
-                            title="!Back to top">
+                            title="page.footer.backtotop"
+                            i18n:attr="title">
                         <i class="fa fa-chevron-up" aria-hidden="true"></i>
                     </button>
                 </xhtml:div>
             </xhtml:footer>
             <xhtml:footer class="row">
                 <div class="col-12 text-center">
-                    &#169; 2010&#8211;
+                    <xsl:text>&#169; 2010&#8211; </xsl:text>
                     <span class="copyright-date"></span>
-                    <a href="#">!Institute of Mathematics ASCR</a>. !Contact us at
+                    <a href="#">
+                        <i18n:text>page.footer.copyright.text</i18n:text>
+                    </a>
+                    <i18n:text>page.footer.links.contactus</i18n:text>
+                    <xsl:text> </xsl:text>
                     <a href="#">
                         <span class="contact-email">
                             <i18n:text>page.footer.contact.javascript</i18n:text>
                         </span>
                     </a>
-                    !, or using
+                    <i18n:text>page.footer.links.contactus2</i18n:text>
+                    <xsl:text> </xsl:text>
                     <a class="nav-link"
                        href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='page' and @qualifier='contactURL']}">
-                        !form
+                        <i18n:text>page.footer.links.contactus3.form</i18n:text>
                     </a>
                 </div>
             </xhtml:footer>

@@ -125,10 +125,12 @@
             <thead class="thead-default">
                 <tr>
                     <th>
-                        <xsl:value-of select="./preceding-sibling::dri:head/i18n:text"/>
+                        <i18n:text>
+                            <xsl:value-of select="./preceding-sibling::dri:head/i18n:text"/>
+                        </i18n:text>
                     </th>
                     <th>
-                        <xsl:text>!number of occurences</xsl:text>
+                        <i18n:text>xmlui.Discovery.AbstractSearch.occurences</i18n:text>
                     </th>
                 </tr>
             </thead>
