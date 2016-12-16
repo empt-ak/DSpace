@@ -34,68 +34,69 @@
         <xsl:apply-templates
                 select="dri:div/dri:div[@id='aspect.discovery.SearchFacetFilter.div.filter-navigation' or @id='aspect.artifactbrowser.ConfigurableBrowse.div.browse-navigation']"/>
         <xsl:apply-templates
-            select="./dri:div/dri:div[@n='browse-controls']" />
+                select="./dri:div/dri:div[@n='browse-controls']"/>
         <xsl:apply-templates
                 select="./dri:div[starts-with(@id,'aspect.discovery.SearchFacetFilter.div.browse-by-') and @pagination='simple'] | ./dri:div/dri:div[starts-with(@id,'aspect.artifactbrowser.ConfigurableBrowse.div.browse-by-') and @pagination='simple']"/>
     </xsl:template>
 
 
     <xsl:template
-        match="dri:div[@id='aspect.artifactbrowser.ConfigurableBrowse.div.browse-controls']"
+            match="dri:div[@id='aspect.artifactbrowser.ConfigurableBrowse.div.browse-controls']"
     >
-        <!-- TODO -->
-        <!--<div class="dropdown" id="{translate(@id,'.','_')}">-->
-            <!--<button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true"-->
-                    <!--aria-expanded="false">-->
-                <!--<i class="fa fa-cog"></i>-->
-            <!--</button>-->
-            <!--<div class="dropdown-menu">-->
-                <!--<xsl:for-each-->
-                        <!--select="./dri:list/dri:item"-->
-                <!--&gt;-->
-                    <!--<xsl:choose>-->
-                        <!--<xsl:when-->
-                                <!--test="./i18n:text"-->
-                        <!--&gt;-->
-                            <!--<h6 class="dropdown-header">-->
-                                <!--<i18n:text>-->
-                                    <!--<xsl:value-of-->
-                                            <!--select="."-->
-                                    <!--/>-->
-                                <!--</i18n:text>-->
-                            <!--</h6>-->
-                        <!--</xsl:when>-->
-                        <!--<xsl:otherwise>-->
-                            <!--<a class="dropdown-item {@rend}" href="{./dri:xref/@target}">-->
-                                <!--<span class="btn-xs invisible">-->
-                                    <!--<xsl:if-->
-                                            <!--test="@rend='gear-option gear-option-selected'"-->
-                                    <!--&gt;-->
-                                        <!--<xsl:attribute-->
-                                                <!--name="class"-->
-                                        <!--&gt;-->
-                                            <!--<xsl:text>btn-xs</xsl:text>-->
-                                        <!--</xsl:attribute>-->
-                                    <!--</xsl:if>-->
-                                    <!--<i class="fa fa-check"></i>-->
-                                <!--</span>-->
-                                <!--<i18n:text>-->
-                                    <!--<xsl:value-of-->
-                                            <!--select="./dri:xref"-->
-                                    <!--/>-->
-                                <!--</i18n:text>-->
-                            <!--</a>-->
-                        <!--</xsl:otherwise>-->
-                    <!--</xsl:choose>-->
-                <!--</xsl:for-each>-->
-            <!--</div>-->
-        <!--</div>-->
+        <form action="{@action}" method="{@method}" id="{translate(@id,'.','_')}">
+            <xsl:for-each select="./dri:p[@id='aspect.artifactbrowser.ConfigurableBrowse.p.hidden-fields']/dri:field">
+                <input type="hidden" value="{dri:value}" name="{@n}" />
+            </xsl:for-each>
+            <!-- TODO -->
+            <div class="dropdown" >
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false">
+                    <i class="fa fa-cog"></i>
+                </button>
+                <div class="dropdown-menu">
+                    <xsl:for-each select="dri:p[not(@id) and not(dri:field[@id='aspect.artifactbrowser.ConfigurableBrowse.field.update'])]">
+                        <xsl:choose>
+                            <xsl:when test="i18n:text">
+                                <h6 class="dropdown-header">
+                                    <i18n:text>
+                                        <xsl:value-of select="i18n:text" />
+                                    </i18n:text>
+                                </h6>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:apply-templates select="dri:field" mode="cog-wheel" />
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:for-each>
+                </div>
+            </div>
+        </form>
+    </xsl:template>
+
+    <xsl:template match="dri:field[@type='select']/dri:option" mode="cog-wheel">
+        <xsl:variable name="checked" select="following-sibling::dri:value/@option = @returnValue" />
+        <a class="dropdown-item" href="#" data-value="{@returnValue}" data-chosen="{$checked}" data-name="{parent::dri:field/@n}">
+            <xsl:if test="$checked">
+                <i class="fa fa-check pull-right"></i>
+            </xsl:if>
+            <xsl:choose>
+                <xsl:when test="i18n:text">
+                    <i18n:text>
+                        <xsl:value-of select="i18n:text" />
+                    </i18n:text>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="." />
+                </xsl:otherwise>
+            </xsl:choose>
+        </a>
     </xsl:template>
 
     <xsl:template
             match="dri:div[@id='aspect.discovery.SearchFacetFilter.div.filter-navigation' or @id='aspect.artifactbrowser.ConfigurableBrowse.div.browse-navigation']"
     >
-        <form method="{@method}" action="{@action}">
+        <form method="{@method}" action="{@action}" id="{translate(@id,'.','_')}">
             <xsl:for-each select="./dri:p/dri:field[@type='hidden']">
                 <input type="hidden" name="{@n}" value="{./dri:value}"/>
             </xsl:for-each>
@@ -116,7 +117,7 @@
             match="dri:list[@n='jump-list']"
             mode="select"
     >
-        <select class="form-control hidden-md-up" name="{@n}">
+        <select class="form-control hidden-md-up" name="{@n}" id="jump-select">
             <xsl:for-each select="./dri:item/dri:xref">
                 <option value="{@target}">
                     <xsl:value-of select="."/>
@@ -273,7 +274,8 @@
                                 <xsl:choose>
                                     <xsl:when
                                             test="document($entry)//mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title'][1]">
-                                        <xsl:value-of select="document($entry)//mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title'][1]"/>
+                                        <xsl:value-of
+                                                select="document($entry)//mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title'][1]"/>
                                     </xsl:when>
                                     <xsl:otherwise>
                                         <i18n:text>page.item.missing.title</i18n:text>

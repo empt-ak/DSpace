@@ -89,26 +89,40 @@ $(function () {
         $row.insertBefore(".button-row");
     });
 
-    $("#aspect_discovery_SimpleSearch_div_search-controls-gear a.gear-option").on("click", function (e) {
-        e.stopPropagation();
-        if ($(this).not(".gear-option-selected").length) {
-            var params = $(this).attr("href").split("&");
-            var form = $("#aspect_discovery_SimpleSearch_div_main-form");
-            $.each(params, function (i, val) {
-                var param = val.split("=")[0];
-                var value = val.split("=")[1];
-                form.find("input[name='" + param + "']").val(value);
-            });
-            form.submit();
+
+    // because of mobile layout form contains select which shouldn't be submited by default
+    // TODO handle mobile submit
+    $("form#aspect_artifactbrowser_ConfigurableBrowse_div_browse-navigation").on("submit",function (event) {
+        var $select = $(this).find("select#jump-select");
+        if(!$select.is(":visible")){
+            $select.attr("disabled","disabled");
         }
-        e.preventDefault();
     });
 
-    $("#aspect_artifactbrowser_ConfigurableBrowse_div_browse-controls a").on("click", function () {
-        var name = $(this).data("name");
-        var val = $(this).data("value");
-        $("#aspect_artifactbrowser_ConfigurableBrowse_div_browse-controls select[name='" + name + "']").val(val).change();
-        $("#aspect_artifactbrowser_ConfigurableBrowse_div_browse-controls").submit();
+
+    $("select#jump-select").on('change',function () {
+       $("<form/>").attr({
+           "action" : $(this).val(),
+           "method" : "get",
+       }).submit();
+    });
+
+    $("form#aspect_artifactbrowser_ConfigurableBrowse_div_browse-controls a").on("click", function () {
+        var $form = $(this).closest("form");
+
+        var $input = $form.find("input[name='" + $(this).data("name") + "']");
+
+        if ($input.length) {
+            $input.val($(this).data("value"));
+        } else {
+            $("<input/>").attr({
+                "name": $(this).data("name"),
+                "type": "hidden",
+                "value": $(this).data("value")
+            }).appendTo($form);
+        }
+
+        $form.submit();
     });
 
     $(".used-filters span.badge i.fa-close").on("click", function () {

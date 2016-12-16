@@ -254,6 +254,7 @@ and open the template in the editor.
     <message key="xmlui.Discovery.AbstractSearch.type_msc">Mathematics Subject classifications</message>
     <message key="xmlui.Discovery.AbstractSearch.type_title">Titles</message>
     <message key="xmlui.Discovery.AbstractSearch.rpp">Results/page</message>
+    <message key="xmlui.Discovery.AbstractSearch.type_title">Title</message>
     <message key="xmlui.Discovery.AbstractSearch.occurences">Number of occurences</message>
     <message key="xmlui.ArtifactBrowser.Navigation.head_this_community">Browse this Community</message>
     <message key="xmlui.ArtifactBrowser.Navigation.head_this_collection">Browse this Collection</message>
@@ -265,6 +266,8 @@ and open the template in the editor.
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.metadata.author">Browsing by Author</message>
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.item.title">Browsing by Title</message>
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.metadata.subject">Browsing by Subject</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.item.dateaccessioned">Browse by submit date</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.general.jump_year">Jump to year</message>
 
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.subject.column_heading">Subjects</message>
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.author.column_heading">Authors</message>
