@@ -55,7 +55,13 @@ $(function () {
 
     var copyRendered = function () {
         $("#mathpreview").html($("#mathbuffer").html());
+        console.log("copied");
     };
+
+    // this is because if user has requested any math it is copied into
+    // #mathbuffer, so we trigger fake typing which will copy buffer
+    // into render field.
+    doneTyping();
 
     $("span.copyright-date").text(new Date().getFullYear());
 
@@ -63,8 +69,9 @@ $(function () {
         $("div#math-help").modal("toggle");
     });
 
-    $(".show-advanced-filters, .hide-advanced-filters").on("click", function () {
-        $(".filters-hidden-section").toggle();
+
+    $(".toggle-filters").on('click',function () {
+        $(".filters-hidden-section").toggleClass('hidden-xs-up');
     });
 
     $("[data-toggle='tooltip']").tooltip({
@@ -125,15 +132,14 @@ $(function () {
         $form.submit();
     });
 
-    $(".used-filters span.badge i.fa-close").on("click", function () {
+    $(".used-filters span.badge i.fa-close").on("click", function (event) {
         var removeID = $(this).data("remove-input");
 
         $(".used-filters input").each(function () {
-            if ($(this).data("remove") == removeID) {
+            if ($(this).data("remove") === removeID) {
                 $(this).remove();
             }
         });
-
         $("#aspect_discovery_SimpleSearch_div_general-query").submit();
     });
 
@@ -156,6 +162,35 @@ $(function () {
         $("html,body").animate({
             scrollTop: 0
         }, 400);
+    });
+
+    $("form#aspect_discovery_SimpleSearch_div_search-filters").on('submit',function(event){
+        event.preventDefault();
+
+        var $form = $(this).clone();
+
+        // first fix selects because if they are removed
+        // matching would be hard (e.g. done by finding
+        // by name value)
+        var $selects = $(this).find("select");
+
+        $selects.each(function(i){
+            var select = this;
+            $form.find("select").eq(i).val($(select).val());
+        });
+
+        // find empty <input type="text" />
+        $form.find("input:not([type=hidden])").filter(function(){
+            return !this.value;
+        }).closest("div.row").remove(); //and remove those rows
+
+        // check if user has added any math, if not remove it
+        if(!$.trim($form.find("#MathInput").val())){
+            $form.find(".math-row").remove();
+        }
+
+        console.log($form.serialize());
+        $form.submit();
     });
 });
 

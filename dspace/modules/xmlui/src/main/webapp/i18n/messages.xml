@@ -187,6 +187,7 @@ and open the template in the editor.
     </message>
 
 
+    <message key="discovery.filters.toggle">Toggle additional filters</message>
     <message key="discovery.math.text"><b>Search is now math aware!</b> You can now narrow you search result using math formulas.</message>
     <message key="discovery.math.text.help.tooltip">Click for detailed help.</message>
     <message key="discovery.math.input">$\LaTeX$ or MathML</message>

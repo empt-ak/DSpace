@@ -73,57 +73,63 @@
                         </div>
                     </div>
                 </div>
-                <div class="row used-filters">
-                    <div class="col-sm-12">
-                        <p>
-                            <i18n:text>page.discovery.filters-in-use</i18n:text>
-                            <xsl:text> </xsl:text>
-                            <xsl:for-each
-                                    select="./dri:p/dri:field"
-                            >
-                                <xsl:variable
-                                        name="dataID"
-                                >
-                                    <xsl:call-template
-                                            name="substring-after-last"
-                                    >
-                                        <xsl:with-param
-                                                name="string"
-                                                select="@n"
-                                        />
-                                        <xsl:with-param
-                                                name="delimiter"
-                                                select="'_'"
-                                        />
-                                    </xsl:call-template>
-                                </xsl:variable>
-                                <input
-                                        type="hidden"
-                                        name="{@n}"
-                                        value="{./dri:value}"
-                                        data-remove="{$dataID}"
-                                />
-                                <xsl:if
-                                        test="starts-with(@n,'filter_') and not(contains(@n,'relational'))"
-                                >
-                                    <span class="badge badge-default" data-remove-input="{$dataID}">
-                                        <xsl:value-of select="./dri:value"/>
-
-                                        <xsl:text> </xsl:text>
-                                        <i class="fa fa-times drop-badge"></i>
-                                    </span>
-                                    <xsl:if
-                                            test="position() != last()"
-                                    >
-                                        <xsl:text> </xsl:text>
-                                    </xsl:if>
-                                </xsl:if>
-                            </xsl:for-each>
-                        </p>
-                    </div>
-                </div>
+                <xsl:apply-templates select="dri:p[@id='aspect.discovery.SimpleSearch.p.hidden-fields']"/>
             </fieldset>
         </form>
+    </xsl:template>
+
+    <xsl:template
+            match="dri:p[@id='aspect.discovery.SimpleSearch.p.hidden-fields']"
+    >
+        <div class="row used-filters">
+            <div class="col-sm-12">
+                <p>
+                    <i18n:text>page.discovery.filters-in-use</i18n:text>
+                    <xsl:text> </xsl:text>
+                    <xsl:for-each
+                            select="dri:field"
+                    >
+                        <xsl:variable
+                                name="dataID"
+                        >
+                            <xsl:call-template
+                                    name="substring-after-last"
+                            >
+                                <xsl:with-param
+                                        name="string"
+                                        select="@n"
+                                />
+                                <xsl:with-param
+                                        name="delimiter"
+                                        select="'_'"
+                                />
+                            </xsl:call-template>
+                        </xsl:variable>
+                        <input
+                                type="hidden"
+                                name="{@n}"
+                                value="{./dri:value}"
+                                data-remove="{$dataID}"
+                        />
+                        <xsl:if
+                                test="starts-with(@n,'filter_') and not(contains(@n,'relational'))"
+                        >
+                            <span class="badge badge-default">
+                                <xsl:value-of select="./dri:value"/>
+
+                                <xsl:text> </xsl:text>
+                                <i class="fa fa-close drop-badge" data-remove-input="{$dataID}"></i>
+                            </span>
+                            <xsl:if
+                                    test="position() != last()"
+                            >
+                                <xsl:text> </xsl:text>
+                            </xsl:if>
+                        </xsl:if>
+                    </xsl:for-each>
+                </p>
+            </div>
+        </div>
     </xsl:template>
 
     <!-- hides text from input field-->
@@ -449,21 +455,34 @@
                         <label class="h3">
                             <i18n:text>discovery.math.input</i18n:text>
                         </label>
+                        <xsl:variable name="math-input" select="dri:div[@id='aspect.discovery.SimpleSearch.div.discovery-filters-wrapper']/
+                           dri:table[@id='aspect.discovery.SimpleSearch.table.discovery-filters']/
+                            dri:row/dri:cell[dri:field/dri:value[@type='option' and @option='math']]/following-sibling::dri:cell[2]/dri:field/dri:value"
+                        />
                         <textarea class="form-control"
                                   placeholder="discovery.math.input.placeholder"
                                   rows="5"
-                                  name="filter_1"
                                   id="MathInput"
+                                  name="filter_0"
                                   i18n:attr="placeholder"
-                        ></textarea>
+                        ><xsl:value-of select="$math-input"/></textarea>
                         <div id="mathbuffer" style="visibility: hidden">
-                            <xsl:text>${}$</xsl:text>
+                            <xsl:choose>
+                                <xsl:when test="$math-input">
+                                    <xsl:value-of select="$math-input" />
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:text>${}$</xsl:text>
+                                </xsl:otherwise>
+                            </xsl:choose>
                         </div>
-                        <input type="hidden" name="filter_relational_operator_1" value="contains"/>
-                        <input type="hidden" name="filtertype_1" value="math"/>
+                        <input type="hidden" name="filter_relational_operator_0" value="contains"/>
+                        <input type="hidden" name="filtertype_0" value="math"/>
                     </div>
                     <div class="col-xl-5">
-                        <span class="h3"><i18n:text>discovery.math.output</i18n:text></span>
+                        <span class="h3">
+                            <i18n:text>discovery.math.output</i18n:text>
+                        </span>
                         <div id="mathpreview"></div>
                     </div>
                 </div>
@@ -471,14 +490,16 @@
                     <div class="col-12">
                         <!--<div class="float-right">-->
                         <p class="form-control-static">
-                            <xsl:apply-templates
-                                    select="./dri:div[@rend='clearfix']/dri:p[@rend='pull-right']/dri:xref[@rend='show-advanced-filters']"
-                            />
+                            <button type="button" class="btn btn-primary toggle-filters">
+                                <i class="fa fa-sort" aria-hidden="true"></i>
+                                <xsl:text> </xsl:text>
+                                <i18n:text>discovery.filters.toggle</i18n:text>
+                            </button>
                         </p>
                         <!--</div>-->
                     </div>
                 </div>
-                <div class="row hidden filters-hidden-section">
+                <div class="row hidden-xs-up filters-hidden-section">
                     <div class="col-12">
                         <input type="hidden" name="query" value="{./dri:p/dri:field/dri:value}"/>
                         <input type="hidden" name="scope" value="{./dri:p/dri:field/dri:value}"/>
@@ -512,53 +533,53 @@
     </xsl:template>
 
     <xsl:template
-            match="dri:div[@rend='clearfix']/dri:p[@rend='pull-right']/dri:xref"
-    >
-        <button type="button" class="btn btn-primary {concat('cursor-pointer ',@rend)}">
-            <i class="fa fa-sort" aria-hidden="true"></i>
-            Toggle additional filters
-        </button>
-    </xsl:template>
-
-    <xsl:template
             match="dri:table[@id='aspect.discovery.SimpleSearch.table.discovery-filters']"
     >
         <xsl:apply-templates/>
     </xsl:template>
 
-    <xsl:template
-            match="dri:row[@rend='search-filter used-filter']"
-    >
-        <xsl:if test="./dri:cell[1]/dri:field/dri:value[@type='option' and @option!='math']">
-            <div class="form-group row in-use">
-                <div class="col-4 col-sm-2">
-                    <xsl:apply-templates
-                            select="./dri:cell[1]/dri:field"
-                    />
-                </div>
-                <div class="col-4 col-sm-2">
-                    <xsl:apply-templates
-                            select="./dri:cell[2]/dri:field"
-                    />
-                </div>
-                <div class="col-4 col-sm-6">
-                    <xsl:apply-templates
-                            select="./dri:cell[3]/dri:field"
-                    />
-                </div>
-                <div class="col-sm-2 hidden-xs-down">
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                        <button type="button" class="btn btn-secondary filter-add">
-                            <i class="fa fa-plus"></i>
-                        </button>
-                        <button type="button" class="btn btn-secondary filter-remove">
-                            <i class="fa fa-minus"></i>
-                        </button>
-                    </div>
-                </div>
+    <xsl:template match="dri:row[@role='data' and not(@n='filler-row')]">
+        <div class="form-group row in-use">
+            <div class="col-4 col-sm-2">
+                <xsl:apply-templates
+                        select="./dri:cell[1]/dri:field"
+                />
             </div>
-        </xsl:if>
+            <div class="col-4 col-sm-2">
+                <xsl:apply-templates
+                        select="./dri:cell[2]/dri:field"
+                />
+            </div>
+            <div class="col-4 col-sm-6">
+                <xsl:apply-templates
+                        select="./dri:cell[3]/dri:field"
+                />
+            </div>
+            <div class="col-sm-2 hidden-xs-down">
+                <xsl:choose>
+                    <xsl:when test="contains(@rend,'used-filter')">
+                        <button class="btn btn-danger filter-remove">
+                            <i class="fa fa-ban" aria-hidden="true"></i>
+                        </button>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button class="btn btn-danger filter-remove">
+                                <i class="fa fa-ban" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="btn btn-secondary filter-add">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </div>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </div>
+        </div>
     </xsl:template>
+
+    <!-- this templates disables math row as used filter -->
+    <xsl:template
+            match="dri:row[@role='data' and contains(@rend,'used-filter') and dri:cell/dri:field[starts-with(@n,'filtertype_')]/dri:value[@option='math']]"/>
 
     <xsl:template
             match="dri:row[@id='aspect.discovery.SimpleSearch.row.filter-controls']"
@@ -579,42 +600,6 @@
     </xsl:template>
 
     <xsl:template
-            match="dri:row[@rend='search-filter' and contains(@n,'filter-new')]"
-    >
-        <xsl:if
-                test="count(parent::node()/dri:row[@rend='search-filter used-filter']) &lt; 1"
-        >
-            <div class="form-group row in-use">
-                <div class="col-4 col-sm-2">
-                    <xsl:apply-templates
-                            select="./dri:cell[1]/dri:field"
-                    />
-                </div>
-                <div class="col-4 col-sm-2">
-                    <xsl:apply-templates
-                            select="./dri:cell[2]/dri:field"
-                    />
-                </div>
-                <div class="col-4 col-sm-6">
-                    <xsl:apply-templates
-                            select="./dri:cell[3]/dri:field"
-                    />
-                </div>
-                <div class="col-sm-2 hidden-xs-down">
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                        <button type="button" class="btn btn-secondary filter-add">
-                            <i class="fa fa-plus"></i>
-                        </button>
-                        <button type="button" class="btn btn-secondary filter-remove">
-                            <i class="fa fa-minus"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </xsl:if>
-    </xsl:template>
-
-    <xsl:template
             match="dri:div[@id='aspect.discovery.SimpleSearch.div.search-controls-gear']"
             mode="gear-button"
     >
@@ -624,43 +609,26 @@
                 <i class="fa fa-cog"></i>
             </button>
             <div class="dropdown-menu">
-                <xsl:for-each
-                        select="./dri:list/dri:item"
-                >
-                    <xsl:choose>
-                        <xsl:when
-                                test="./i18n:text"
-                        >
-                            <h6 class="dropdown-header">
-                                <i18n:text>
-                                    <xsl:value-of
-                                            select="."
-                                    />
-                                </i18n:text>
-                            </h6>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <a class="dropdown-item {@rend}" href="{./dri:xref/@target}">
-                                <span class="btn-xs invisible">
-                                    <xsl:if
-                                            test="@rend='gear-option gear-option-selected'"
-                                    >
-                                        <xsl:attribute
-                                                name="class"
-                                        >
-                                            <xsl:text>btn-xs</xsl:text>
-                                        </xsl:attribute>
-                                    </xsl:if>
-                                    <i class="fa fa-check"></i>
-                                </span>
-                                <i18n:text>
-                                    <xsl:value-of
-                                            select="./dri:xref"
-                                    />
-                                </i18n:text>
-                            </a>
-                        </xsl:otherwise>
-                    </xsl:choose>
+                <xsl:for-each select="dri:list/dri:item">
+                    <h6 class="dropdown-header">
+                        <i18n:text>
+                            <xsl:value-of
+                                    select="i18n:text"
+                            />
+                        </i18n:text>
+                    </h6>
+                    <xsl:for-each
+                            select="following-sibling::dri:list[1]/dri:item"
+                    >
+                        <a class="dropdown-item" href="#">
+                            <xsl:apply-templates select="dri:xref"/>
+                            <xsl:if
+                                    test="contains(@rend,'gear-option-selected')"
+                            >
+                                <i class="fa fa-check pull-right"></i>
+                            </xsl:if>
+                        </a>
+                    </xsl:for-each>
                 </xsl:for-each>
             </div>
         </div>
