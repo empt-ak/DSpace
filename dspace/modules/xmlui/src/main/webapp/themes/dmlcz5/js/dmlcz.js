@@ -34,35 +34,6 @@ $(function () {
         $(this).parent().hide();
     });
 
-    var typingTimer;
-    var $input = $("#MathInput");
-
-    $input.on("keyup", function () {
-        clearTimeout(typingTimer);
-
-        typingTimer = setTimeout(doneTyping, 800);
-    });
-
-    $input.on("keydown", function () {
-        clearTimeout(typingTimer);
-    });
-
-    var doneTyping = function () {
-        $("#mathbuffer").text($input.val());
-
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub, "mathbuffer"], copyRendered);
-    };
-
-    var copyRendered = function () {
-        $("#mathpreview").html($("#mathbuffer").html());
-        console.log("copied");
-    };
-
-    // this is because if user has requested any math it is copied into
-    // #mathbuffer, so we trigger fake typing which will copy buffer
-    // into render field.
-    doneTyping();
-
     $("span.copyright-date").text(new Date().getFullYear());
 
     $("a.show-math-help").on("click", function () {

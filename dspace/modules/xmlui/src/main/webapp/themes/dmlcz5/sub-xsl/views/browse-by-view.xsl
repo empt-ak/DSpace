@@ -45,27 +45,28 @@
     >
         <form action="{@action}" method="{@method}" id="{translate(@id,'.','_')}">
             <xsl:for-each select="./dri:p[@id='aspect.artifactbrowser.ConfigurableBrowse.p.hidden-fields']/dri:field">
-                <input type="hidden" value="{dri:value}" name="{@n}" />
+                <input type="hidden" value="{dri:value}" name="{@n}"/>
             </xsl:for-each>
             <!-- TODO -->
-            <div class="dropdown" >
+            <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown"
                         aria-haspopup="true"
                         aria-expanded="false">
                     <i class="fa fa-cog"></i>
                 </button>
                 <div class="dropdown-menu">
-                    <xsl:for-each select="dri:p[not(@id) and not(dri:field[@id='aspect.artifactbrowser.ConfigurableBrowse.field.update'])]">
+                    <xsl:for-each
+                            select="dri:p[not(@id) and not(dri:field[@id='aspect.artifactbrowser.ConfigurableBrowse.field.update'])]">
                         <xsl:choose>
                             <xsl:when test="i18n:text">
                                 <h6 class="dropdown-header">
                                     <i18n:text>
-                                        <xsl:value-of select="i18n:text" />
+                                        <xsl:value-of select="i18n:text"/>
                                     </i18n:text>
                                 </h6>
                             </xsl:when>
                             <xsl:otherwise>
-                                <xsl:apply-templates select="dri:field" mode="cog-wheel" />
+                                <xsl:apply-templates select="dri:field" mode="cog-wheel"/>
                             </xsl:otherwise>
                         </xsl:choose>
                     </xsl:for-each>
@@ -75,19 +76,20 @@
     </xsl:template>
 
     <xsl:template match="dri:field[@type='select']/dri:option" mode="cog-wheel">
-        <xsl:variable name="checked" select="following-sibling::dri:value/@option = @returnValue" />
-        <a class="dropdown-item" href="#" data-value="{@returnValue}" data-chosen="{$checked}" data-name="{parent::dri:field/@n}">
+        <xsl:variable name="checked" select="following-sibling::dri:value/@option = @returnValue"/>
+        <a class="dropdown-item" href="#" data-value="{@returnValue}" data-chosen="{$checked}"
+           data-name="{parent::dri:field/@n}">
             <xsl:if test="$checked">
                 <i class="fa fa-check pull-right"></i>
             </xsl:if>
             <xsl:choose>
                 <xsl:when test="i18n:text">
                     <i18n:text>
-                        <xsl:value-of select="i18n:text" />
+                        <xsl:value-of select="i18n:text"/>
                     </i18n:text>
                 </xsl:when>
                 <xsl:otherwise>
-                    <xsl:value-of select="." />
+                    <xsl:value-of select="."/>
                 </xsl:otherwise>
             </xsl:choose>
         </a>
@@ -170,7 +172,7 @@
             match="dri:div[@pagination='simple']"
     >
         <xsl:apply-templates
-                select="./dri:table[starts-with(@id,'aspect.discovery.SearchFacetFilter.table.browse-by-') or starts-with(@id,'aspect.artifactbrowser.ConfigurableBrowse.table.browse-by-')] | ./dri:referenceSet[@id='aspect.artifactbrowser.ConfigurableBrowse.referenceSet.browse-by-title']"
+                select="./dri:table[starts-with(@id,'aspect.discovery.SearchFacetFilter.table.browse-by-') or starts-with(@id,'aspect.artifactbrowser.ConfigurableBrowse.table.browse-by-')] | ./dri:referenceSet[starts-with(@n,'browse-by-')]"
         />
         <div class="row">
             <div class="col-12">
@@ -297,7 +299,7 @@
                 <tr>
                     <th>
                         <i18n:text>
-                            <xsl:value-of select="./preceding-sibling::dri:head/i18n:text"/>
+                            <xsl:value-of select="dri:row[@role='header']/dri:cell/i18n:text"/>
                         </i18n:text>
                     </th>
                     <th>
@@ -306,44 +308,92 @@
                 </tr>
             </thead>
             <tbody>
-                <xsl:for-each
-                        select="./dri:row[not(@role)]/dri:cell[not(@role)]"
-                >
-                    <tr>
-                        <xsl:if test="not(./dri:xref)">
-                            <xsl:attribute name="class">
-                                <xsl:text>table-info</xsl:text> <!-- selected browse by has no xref so we highlight it -->
-                            </xsl:attribute>
-                        </xsl:if>
-                        <td>
-                            <xsl:choose>
-                                <xsl:when test="not(./dri:xref)">
-                                    <xsl:value-of select="."/>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <a href="{./dri:xref/@target}">
-                                        <xsl:value-of select="./dri:xref"/>
-                                    </a>
-                                </xsl:otherwise>
-                            </xsl:choose>
-                        </td>
-                        <td class="text-left">
-                            <xsl:call-template name="browse-by-row">
-                                <xsl:with-param name="text" select="."/>
-                            </xsl:call-template>
-                        </td>
-                    </tr>
-                </xsl:for-each>
+                <xsl:choose>
+                    <xsl:when test="starts-with(normalize-space(dri:row[not(@role)][1]/dri:cell[not(@role)]/text()),'[')">
+                        <xsl:apply-templates select="dri:row[not(@role)]" mode="variant-square"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:apply-templates select="dri:row[not(@role)]" mode="variant-round"/>
+                    </xsl:otherwise>
+                </xsl:choose>
             </tbody>
         </table>
     </xsl:template>
 
-    <xsl:template
-            name="browse-by-row"
-    >
-        <xsl:param name="text"/>
-        <span class="badge badge-info">
-            <xsl:value-of select="substring-before(substring-after(.,'['),']')"/>
-        </span>
+
+    <!-- this is when <cell><xref>John Doe</xref>[4]</cell>-->
+    <xsl:template match="dri:row" mode="variant-square">
+        <tr>
+            <!--<xsl:if test="not(dri:cell/dri:xref)">-->
+                <!--<xsl:attribute name="class">-->
+                    <!--<xsl:text>table-info</xsl:text> &lt;!&ndash; selected browse by has no xref so we highlight it &ndash;&gt;-->
+                <!--</xsl:attribute>-->
+            <!--</xsl:if>-->
+            <td>
+                <xsl:choose>
+                    <xsl:when test="not(dri:cell/dri:xref)">
+                        <xsl:value-of select="dri:cell" />?
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <a href="{dri:cell/dri:xref/@target}">
+                            <xsl:value-of
+                                    select="dri:cell/dri:xref"
+                            />
+                        </a>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </td>
+            <td class="text-left">
+                <span class="badge badge-info">
+                    <xsl:value-of select="dri:cell/text()" />
+                </span>
+            </td>
+        </tr>
+    </xsl:template>
+
+    <!-- this is when <cell><xref>John Doe (4)</xref></cell>-->
+    <xsl:template match="dri:row" mode="variant-round">
+        <tr>
+            <xsl:if test="not(dri:cell/dri:xref)">
+                <xsl:attribute name="class">
+                    <xsl:text>table-info</xsl:text> <!-- selected browse by has no xref so we highlight it -->
+                </xsl:attribute>
+            </xsl:if>
+            <td>
+                <xsl:choose>
+                    <xsl:when test="not(dri:cell/dri:xref)">
+                        <xsl:value-of
+                                select="substring-before(.,' (')"
+                        />
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <a href="{dri:cell/dri:xref/@target}">
+                            <xsl:value-of
+                                    select="substring-before(.,' (')"
+                            />
+                        </a>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </td>
+            <td class="text-left">
+                <span class="badge badge-info">
+                    <xsl:variable
+                            name="badge"
+                    >
+                        <!-- if ./rend='selected' == true then this node has no xref children
+                         so we pass value of this node like | ./text()
+                         -->
+                        <xsl:call-template name="substring-after-last">
+                            <xsl:with-param name="string" select="."/>
+                            <xsl:with-param name="delimiter" select="'('"/>
+                        </xsl:call-template>
+                    </xsl:variable>
+
+                    <xsl:value-of
+                            select="substring-before($badge,')')"
+                    />
+                </span>
+            </td>
+        </tr>
     </xsl:template>
 </xsl:stylesheet>

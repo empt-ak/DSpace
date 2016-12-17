@@ -70,19 +70,6 @@
         </xsl:choose>
     </xsl:template>
 
-    <xsl:template match="dri:pageMeta[dri:metadata[@element = 'request'][@qualifier = 'URI']/text() = 'page/about']">
-        <pageMeta>
-            <xsl:call-template name="copy-attributes"/>
-            <xsl:apply-templates select="*[not(self::dri:trail)]"/>
-            <trail target="{$context-path}/">
-                <i18n:text catalogue="default">xmlui.general.dspace_home</i18n:text>
-            </trail>
-            <trail>
-                <xsl:text>About This Repository</xsl:text>
-            </trail>
-        </pageMeta>
-    </xsl:template>
-
     <xsl:template match="dri:pageMeta">
     <pageMeta>
         <xsl:call-template name="copy-attributes"/>
@@ -99,18 +86,6 @@
             </trail>
         </xsl:if>
     </pageMeta>
-    </xsl:template>
-
-    <xsl:template match="dri:meta/dri:pageMeta/dri:metadata[@element='javascript'][@qualifier='static'][text()='static/js/choice-support.js']"/>
-    <xsl:template match="dri:meta/dri:pageMeta/dri:metadata[@element='javascript'][@qualifier='static'][text()='static/js/vocabulary-support.js']"/>
-    <xsl:template match="dri:meta/dri:pageMeta/dri:metadata[@element='javascript'][@qualifier='static'][text()='static/js/accessFormUtil.js']"/>
-
-
-    <xsl:template match="dri:list[not(@type)]/dri:item/dri:field">
-        <p><hi></hi></p>
-        <p>
-          <xsl:copy-of select="."/>
-        </p>
     </xsl:template>
 
     <!--Table cells check. Some rows are missing some cells. Only for tables without rowspan and colspan-->

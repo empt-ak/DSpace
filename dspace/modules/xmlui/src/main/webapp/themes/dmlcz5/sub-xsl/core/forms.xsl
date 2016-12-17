@@ -130,38 +130,9 @@
             <xsl:attribute name="disabled">disabled</xsl:attribute>
         </xsl:if>
         <xsl:if test="@type != 'checkbox' and @type != 'radio' and @n != 'submit'">
-            <!--<xsl:attribute name="name">-->
-                <!--<xsl:choose>-->
-                    <!--<xsl:when-->
-                            <!--test="starts-with(@n,'filter_relational_operator_')"-->
-                    <!--&gt;-->
-                        <!--<xsl:value-of-->
-                                <!--select="concat('filter_relational_operator_',substring-after(@n,'filter_relational_operator_') + 1)"-->
-                        <!--/>-->
-                    <!--</xsl:when>-->
-                    <!--<xsl:when-->
-                            <!--test="starts-with(@n,'filtertype_')"-->
-                    <!--&gt;-->
-                        <!--<xsl:value-of select="concat('filtertype_',substring-after(@n,'filtertype_') + 1)"/>-->
-                    <!--</xsl:when>-->
-                    <!--&lt;!&ndash;-->
-                        <!--the issue here is that filter_relational_operator_X and filter_X starts with same prefix-->
-                       <!--so we remove number from filter_X which results in filter_. then we check if this is equal-->
-                       <!--to filter_ if so then previous string was filter_X not filter_relational_operator_X-->
-                    <!--&ndash;&gt;-->
-                    <!--<xsl:when test="translate(@n,'1234567890','') = 'filter_'">-->
-                        <!--<xsl:value-of select="concat('filter_',substring-after(@n,'filter_') + 1)"/>-->
-                    <!--</xsl:when>-->
-                    <!--<xsl:otherwise>-->
-                        <!--<xsl:value-of select="@n"/>-->
-                    <!--</xsl:otherwise>-->
-                <!--</xsl:choose>-->
-
             <xsl:attribute name="name">
                 <xsl:value-of select="@n" />
             </xsl:attribute>
-                <!--<xsl:value-of select="@n"/>-->
-            <!--</xsl:attribute>-->
         </xsl:if>
         <xsl:if test="@type != 'select' and @type != 'textarea' and @type != 'checkbox' and @type != 'radio' ">
             <xsl:attribute name="type">

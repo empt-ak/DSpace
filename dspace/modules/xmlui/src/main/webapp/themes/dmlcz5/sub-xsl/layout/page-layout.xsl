@@ -17,7 +17,7 @@
 
     <xsl:template match="dri:document">
         <xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html&gt;</xsl:text>
-        <html>
+        <html lang="{dri:meta/dri:pageMeta/dri:metadata[@qualifier='currentLocale' and @element='page']}">
             <head>
                 <!-- in page-html-head.xsl -->
                 <xsl:call-template name="buildHTMLHead"/>

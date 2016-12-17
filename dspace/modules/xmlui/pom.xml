@@ -24,6 +24,7 @@
         <org.webjars.holder.version>2.5.2</org.webjars.holder.version>
         <org.webjars.bootstrap.version>4.0.0-alpha.5</org.webjars.bootstrap.version>
         <org.webjars.tether.version>1.3.7</org.webjars.tether.version>
+        <org.webjars.mathjax.version>2.7.0</org.webjars.mathjax.version>
     </properties>
 
     <build>
@@ -216,6 +217,11 @@
             <groupId>org.webjars</groupId>
             <artifactId>holderjs</artifactId>
             <version>${org.webjars.holder.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>mathjax</artifactId>
+            <version>${org.webjars.mathjax.version}</version>
         </dependency>
         <dependency>
             <groupId>org.webjars.bower</groupId>

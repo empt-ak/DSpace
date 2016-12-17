@@ -31,7 +31,7 @@
                 exclude-result-prefixes="xsl dri i18n">
 
     <xsl:import href="preprocess/general.xsl"/>
-    <xsl:import href="preprocess/communitylist.xsl"/>
+    <!--<xsl:import href="preprocess/communitylist.xsl"/>-->
     <xsl:import href="preprocess/itemview.xsl"/>
     <xsl:output indent="yes"/>
 

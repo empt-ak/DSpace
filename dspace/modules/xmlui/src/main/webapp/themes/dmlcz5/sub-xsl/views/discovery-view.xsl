@@ -466,10 +466,13 @@
                                   name="filter_0"
                                   i18n:attr="placeholder"
                         ><xsl:value-of select="$math-input"/></textarea>
+                        <div class="has-danger mathjax-error-row mt-1">
+                            <input type="text" class="form-control form-control-danger mathjax-error"/>
+                        </div>
                         <div id="mathbuffer" style="visibility: hidden">
                             <xsl:choose>
                                 <xsl:when test="$math-input">
-                                    <xsl:value-of select="$math-input" />
+                                    <xsl:value-of select="$math-input"/>
                                 </xsl:when>
                                 <xsl:otherwise>
                                     <xsl:text>${}$</xsl:text>
