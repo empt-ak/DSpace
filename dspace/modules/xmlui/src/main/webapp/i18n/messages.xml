@@ -10,6 +10,7 @@ and open the template in the editor.
     <!--<message key="navigation.main.button.about">DSpace Home</message>-->
 
     <message key="xmlui.general.go">Go</message>
+    <message key="xmlui.general.update">Update</message>
     <message key="xmlui.general.dspace_home">DML-CZ</message>
     <message key="xmlui.general.untitled">Untitled</message>
 
@@ -259,15 +260,24 @@ and open the template in the editor.
     <message key="xmlui.Discovery.AbstractSearch.occurences">Number of occurences</message>
     <message key="xmlui.ArtifactBrowser.Navigation.head_this_community">Browse this Community</message>
     <message key="xmlui.ArtifactBrowser.Navigation.head_this_collection">Browse this Collection</message>
-    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.item.dateissued">Browsing by Issue Date</message>
-    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.metadata.author">Browsing by Author</message>
-    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.item.title">Browsing by Title</message>
-    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.metadata.subject">Browsing by Subject</message>
-    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.item.dateissued">Browsing by Issue Date</message>
-    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.metadata.author">Browsing by Author</message>
-    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.item.title">Browsing by Title</message>
-    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.metadata.subject">Browsing by Subject</message>
-    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.item.dateaccessioned">Browse by submit date</message>
+
+
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.metadata.author">Browsing {0} by Author {1}</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.metadata.author">Browsing {0} by Author</message>
+
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.metadata.subject">Browsing {0} by Subject {1}</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.metadata.subject">Browsing {0} by Subject</message>
+
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.item.title">Browsing {0} by Title {1}</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.item.title">Browsing {0} by Title</message>
+
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.item.dateissued">Browsing {0} by Issue Date {1}</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.item.dateissued">Browsing {0} by Issue Date</message>
+
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.title.item.dateaccessioned">Browsing {0} by Submit Date {1}</message>
+    <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.trail.item.dateaccessioned">Browsing {0} by Submit Date</message>
+
+
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.general.jump_year">Jump to year</message>
 
     <message key="xmlui.ArtifactBrowser.ConfigurableBrowse.subject.column_heading">Subjects</message>

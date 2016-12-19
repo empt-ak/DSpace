@@ -85,21 +85,10 @@ $(function () {
        }).submit();
     });
 
-    $("form#aspect_artifactbrowser_ConfigurableBrowse_div_browse-controls a").on("click", function () {
+    $("form#aspect_artifactbrowser_ConfigurableBrowse_div_browse-controls a").on("click", function (event) {
         var $form = $(this).closest("form");
 
-        var $input = $form.find("input[name='" + $(this).data("name") + "']");
-
-        if ($input.length) {
-            $input.val($(this).data("value"));
-        } else {
-            $("<input/>").attr({
-                "name": $(this).data("name"),
-                "type": "hidden",
-                "value": $(this).data("value")
-            }).appendTo($form);
-        }
-
+        $form.find("[name="+$(this).data("name")+"]").val($(this).data("option"));
         $form.submit();
     });
 
