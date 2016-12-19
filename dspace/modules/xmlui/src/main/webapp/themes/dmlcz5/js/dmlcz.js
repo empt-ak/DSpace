@@ -140,7 +140,7 @@ $(function () {
         });
 
         // find empty <input type="text" />
-        $form.find("input:not([type=hidden])").filter(function(){
+        $form.find("input:not([type=hidden],[class~=mathjax-error])").filter(function(){
             return !this.value;
         }).closest("div.row").remove(); //and remove those rows
 
