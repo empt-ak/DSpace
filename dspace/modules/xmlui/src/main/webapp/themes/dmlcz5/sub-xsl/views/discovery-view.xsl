@@ -465,7 +465,9 @@
                                   id="MathInput"
                                   name="filter_0"
                                   i18n:attr="placeholder"
-                        ><xsl:value-of select="$math-input"/></textarea>
+                        >
+                            <xsl:value-of select="$math-input"/>
+                        </textarea>
                         <div class="has-danger mathjax-error-row mt-1">
                             <input type="text" class="form-control form-control-danger mathjax-error"/>
                         </div>
@@ -489,25 +491,36 @@
                         <div id="mathpreview"></div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-12">
-                        <!--<div class="float-right">-->
-                        <p class="form-control-static">
-                            <button type="button" class="btn btn-primary toggle-filters">
-                                <i class="fa fa-sort" aria-hidden="true"></i>
-                                <xsl:text> </xsl:text>
-                                <i18n:text>discovery.filters.toggle</i18n:text>
-                            </button>
-                        </p>
-                        <!--</div>-->
-                    </div>
-                </div>
-                <div class="row hidden-xs-up filters-hidden-section">
+                <!--<div class="row">-->
+                    <!--<div class="col-12">-->
+                        <!--&lt;!&ndash;<div class="float-right">&ndash;&gt;-->
+                        <!--<p class="form-control-static">-->
+                            <!--<button type="button" class="btn btn-primary toggle-filters">-->
+                                <!--<i class="fa fa-sort" aria-hidden="true"></i>-->
+                                <!--<xsl:text> </xsl:text>-->
+                                <!--<i18n:text>discovery.filters.toggle</i18n:text>-->
+                            <!--</button>-->
+                        <!--</p>-->
+                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <!--<div class="row hidden-xs-up filters-hidden-section">-->
+                <div class="row hidden-xs-upn">
                     <div class="col-12">
                         <input type="hidden" name="query" value="{./dri:p/dri:field/dri:value}"/>
                         <input type="hidden" name="scope" value="{./dri:p/dri:field/dri:value}"/>
                         <xsl:apply-templates
                                 select="./dri:div[@id='aspect.discovery.SimpleSearch.div.discovery-filters-wrapper']"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-lg btn-success">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                            <xsl:text> </xsl:text>
+                            <i18n:text>discovery.button.search</i18n:text>
+                        </button>
                     </div>
                 </div>
             </fieldset>
@@ -592,12 +605,12 @@
                 <button type="button" class="btn btn-secondary filter-add hidden-sm-up">
                     <i18n:text>xmlui.ArtifactBrowser.SimpleSearch.filter.button.add</i18n:text>
                 </button>
-                <button type="submit" class="btn btn-secondary">
-                    <i18n:text>xmlui.ArtifactBrowser.SimpleSearch.filter.button.apply</i18n:text>
-                </button>
-                <button type="reset" class="btn btn-secondary" value="reset">
-                    <i18n:text>xmlui.ArtifactBrowser.SimpleSearch.filter.button.reset</i18n:text>
-                </button>
+                <!--<button type="submit" class="btn btn-secondary">-->
+                    <!--<i18n:text>xmlui.ArtifactBrowser.SimpleSearch.filter.button.apply</i18n:text>-->
+                <!--</button>-->
+                <!--<button type="reset" class="btn btn-secondary" value="reset">-->
+                    <!--<i18n:text>xmlui.ArtifactBrowser.SimpleSearch.filter.button.reset</i18n:text>-->
+                <!--</button>-->
             </div>
         </div>
     </xsl:template>

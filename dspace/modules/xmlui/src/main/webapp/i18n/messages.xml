@@ -194,6 +194,7 @@ and open the template in the editor.
     <message key="discovery.math.input">$\LaTeX$ or MathML</message>
     <message key="discovery.math.input.placeholder">Try entering quadratic formula $x^2+bx+c=0$</message>
     <message key="discovery.math.output">Rendered preview</message>
+    <message key="discovery.button.search">Search in DML-CZ</message>
     <message key="math.help.modal.title">Math help</message>
     <message key="math.help.modal.text">Math formulae can be entered either in TeX or MathML notation (format will be
         autodetected). LaTeX math within $ or $$, including AMS packages, is supported. Matching is by similarity, which
