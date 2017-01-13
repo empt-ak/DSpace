@@ -28,12 +28,27 @@
                 <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse"
                         data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
                         aria-label="navigation.main.button.toggle" i18n:attr="aria-label"></button>
-                <a class="navbar-brand"
-                   href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']}">
-                    <!--<img src="{concat($resourcePath,'/img/dml-logo.gif')}" alt="page.general.banner"-->
-                    <!--i18n:attribute="alt" width="30" height="30"/>-->
-                    <i18n:text>page.head.title</i18n:text>
-                </a>
+
+											<xsl:variable name="contextPath" select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']" />
+											<xsl:choose>
+												<xsl:when test="$contextPath != ''">
+	                				<a class="navbar-brand"
+                   					href="{/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath']}">
+                    				<!--<img src="{concat($resourcePath,'/img/dml-logo.gif')}" alt="page.general.banner"-->
+                    				<!--i18n:attribute="alt" width="30" height="30"/>-->
+                    				<i18n:text>page.head.title</i18n:text>
+                					</a>
+												
+												</xsl:when>
+												<xsl:otherwise>
+								        	<a class="navbar-brand" href="/">
+                    			<!--<img src="{concat($resourcePath,'/img/dml-logo.gif')}" alt="page.general.banner"-->
+                    			<!--i18n:attribute="alt" width="30" height="30"/>-->
+                    			<i18n:text>page.head.title</i18n:text>
+                					</a>
+
+												</xsl:otherwise>
+											</xsl:choose>
                 <div class="collapse navbar-toggleable-md" id="navbarResponsive">
                     <ul class="nav navbar-nav">
                         <li class="nav-item dropdown">
