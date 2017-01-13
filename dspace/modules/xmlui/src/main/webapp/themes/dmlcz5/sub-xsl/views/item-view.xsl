@@ -180,8 +180,26 @@
                                     </xsl:if>
                                     <div class="card-block">
                                         <h5 class="card-title">
-                                            <i18n:text>page.item.citation</i18n:text>
+																					<i18n:text>page.item.citation</i18n:text>
+																					<xsl:text>: </xsl:text>
+																					<xsl:choose>
+																						<xsl:when test="($communityType = 'serial') or ($communityType = 'proceedings')">
+																							<i18n:text>page.item.citation.article</i18n:text>
+																						</xsl:when>
+																						<xsl:when test="$communityType = 'monograph'">
+																							<i18n:text>page.item.citation.monograph</i18n:text>
+																						</xsl:when>
+																						<xsl:otherwise>
+																						</xsl:otherwise>
+																					</xsl:choose>
                                         </h5>
+																				<xsl:for-each select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='contributor' and @qualifier='author']">
+																					<i><xsl:value-of select='.' /></i>
+																					<xsl:choose>
+																						<xsl:when test="position() != last()">, </xsl:when>
+																						<xsl:otherwise>: </xsl:otherwise>
+																					</xsl:choose>
+																				</xsl:for-each>
                                         <b>
                                             <xsl:value-of
                                                     select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title']"/>
@@ -195,6 +213,27 @@
                                             </xsl:with-param>
                                         </xsl:call-template>
                                         <xsl:text>). </xsl:text>
+
+																					<xsl:choose>
+																						<xsl:when test="$communityType = 'serial'">
+																							<xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:trail[2]" />
+																							<xsl:text>, vol.</xsl:text>
+																				<xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:trail[3]" />
+																						</xsl:when>
+																						<xsl:when test="$communityType = 'proceedings'">
+																							<xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:trail[3]" />
+																						</xsl:when>																							
+																						<xsl:when test="$communityType = 'monograph'">
+																							<xsl:value-of select="/dri:document/dri:meta/dri:pageMeta/dri:trail[3]" />
+																						</xsl:when>
+																						<xsl:otherwise>
+																						</xsl:otherwise>
+																					</xsl:choose>
+
+																					<xsl:if test="$communityType != 'celebrity'">
+																						<xsl:text>, pp. </xsl:text>
+																						<xsl:value-of select="document($itemMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='format' and @qualifier='extent']" />
+																					</xsl:if>
                                         <!--
                                         <xsl:text>In: </xsl:text> 
                                         Collection#editors: 

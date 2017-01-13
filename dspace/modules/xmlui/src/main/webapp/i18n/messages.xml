@@ -144,6 +144,8 @@ and open the template in the editor.
     <message key="page.item.idmr">Mathematical Reviews&#174;</message>
     <message key="page.item.keywords">Keywords</message>
     <message key="page.item.citation">Citation</message>
+		<message key="page.item.citation.article">Article</message>
+		<message key="page.item.citation.chapter">Chapter</message>
     <message key="page.item.abstract">Abstract(s)</message>
     <message key="page.item.entry">Entry</message>
     <message key="page.item.fullentry">Full-entry</message>
