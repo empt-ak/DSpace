@@ -41,7 +41,7 @@ $(function () {
     });
 
 
-    $(".toggle-filters").on('click',function () {
+    $(".toggle-filters").on('click', function () {
         $(".filters-hidden-section").toggleClass('hidden-xs-up');
     });
 
@@ -70,25 +70,25 @@ $(function () {
 
     // because of mobile layout form contains select which shouldn't be submited by default
     // TODO handle mobile submit
-    $("form#aspect_artifactbrowser_ConfigurableBrowse_div_browse-navigation").on("submit",function (event) {
+    $("form#aspect_artifactbrowser_ConfigurableBrowse_div_browse-navigation").on("submit", function (event) {
         var $select = $(this).find("select#jump-select");
-        if(!$select.is(":visible")){
-            $select.attr("disabled","disabled");
+        if (!$select.is(":visible")) {
+            $select.attr("disabled", "disabled");
         }
     });
 
 
-    $("select#jump-select").on('change',function () {
-       $("<form/>").attr({
-           "action" : $(this).val(),
-           "method" : "get",
-       }).submit();
+    $("select#jump-select").on('change', function () {
+        $("<form/>").attr({
+            "action": $(this).val(),
+            "method": "get",
+        }).submit();
     });
 
     $("form#aspect_artifactbrowser_ConfigurableBrowse_div_browse-controls a").on("click", function (event) {
         var $form = $(this).closest("form");
 
-        $form.find("[name="+$(this).data("name")+"]").val($(this).data("option"));
+        $form.find("[name=" + $(this).data("name") + "]").val($(this).data("option"));
         $form.submit();
     });
 
@@ -124,32 +124,42 @@ $(function () {
         }, 400);
     });
 
-    $("form#aspect_discovery_SimpleSearch_div_search-filters").on('submit',function(event){
+    $("form#aspect_discovery_SimpleSearch_div_search-filters").on('submit', function (event) {
         event.preventDefault();
-
-        var $form = $(this).clone();
+        var $this = $(this);
+        var $form = $this.clone();
+        // FF has issues with duplicate ids,
+        // so before we can append form to DOM, we need to modify id
+        $form.attr("id", [$this.attr("id"), "_cloned"].join(""));
+        // also we want to hide fake form
+        $form.css("display", "none");
 
         // first fix selects because if they are removed
         // matching would be hard (e.g. done by finding
         // by name value)
-        var $selects = $(this).find("select");
+        var $selects = $this.find("select");
 
-        $selects.each(function(i){
+        $selects.each(function (i) {
             var select = this;
             $form.find("select").eq(i).val($(select).val());
         });
 
         // find empty <input type="text" />
-        $form.find("input:not([type=hidden],[class~=mathjax-error])").filter(function(){
+        $form.find("input:not([type=hidden],[class~=mathjax-error])").filter(function () {
             return !this.value;
         }).closest("div.row").remove(); //and remove those rows
 
         // check if user has added any math, if not remove it
-        if(!$.trim($form.find("#MathInput").val())){
+        if (!$.trim($form.find("#MathInput").val())) {
             $form.find(".math-row").remove();
         }
 
-        console.log($form.serialize());
+        // console.log($form.serialize());
+
+        // now because FF (and maybe IE) has issues with form that are not in DOM
+        // so we add our $form into DOM and submit it. Without it it only works in chrome
+
+        $this.parent().append($form);
         $form.submit();
     });
 });
