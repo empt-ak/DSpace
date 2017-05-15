@@ -109,12 +109,14 @@
                                         </xsl:when>
                                         <xsl:otherwise>
                                             <!-- TODO -->
+																						<!--
                                             <img alt="page.general.thumbnail" class="img-fluid" i18n:attribute="alt">
                                                 <xsl:attribute name="data-src">
                                                     <xsl:text>holder.js/100x100</xsl:text>
                                                     <xsl:text>?text=No Thumbnail</xsl:text>
                                                 </xsl:attribute>
-                                            </img>
+																						</img>
+																						-->
                                         </xsl:otherwise>
                                     </xsl:choose> 
                                 </div>

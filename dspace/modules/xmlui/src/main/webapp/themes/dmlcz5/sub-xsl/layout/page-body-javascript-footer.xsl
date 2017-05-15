@@ -73,8 +73,17 @@
             </xsl:attribute>
             &#160;
         </script>
-        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
-            &#160;</script>
+        <script>
+            <xsl:attribute
+                    name="src"
+            >
+                <xsl:value-of
+                        select="$contextPath"
+                />
+                <xsl:text>/webjars/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML</xsl:text>
+            </xsl:attribute>
+            &#160;
+        </script>
         <script type="text/x-mathjax-config">
             MathJax.Hub.Config({
                 tex2jax: {
@@ -88,6 +97,21 @@
                 }
             });
         </script>
+        <script>
+            <xsl:attribute
+                    name="src"
+            >
+                <xsl:value-of
+                        select="$contextPath"
+                />
+                <xsl:text>/themes/</xsl:text>
+                <xsl:value-of
+                        select="$theme"
+                />
+                <xsl:text>/js/dmlcz.js</xsl:text>
+            </xsl:attribute>
+            &#160;
+        </script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script>
             <xsl:attribute
@@ -100,7 +124,7 @@
                 <xsl:value-of
                         select="$theme"
                 />
-                <xsl:text>/js/dmlcz5.js</xsl:text>
+                <xsl:text>/js/dmlcz.math.js</xsl:text>
             </xsl:attribute>
             &#160;
         </script>
@@ -115,11 +139,16 @@
             </xsl:attribute>
             &#160;
         </script>
-
         <script>
-            $(function () {
-
-            });
+            <xsl:attribute
+                    name="src"
+            >
+                <xsl:value-of
+                        select="$contextPath"
+                />
+                <xsl:text>/webjars/cookieconsent/3.0.3/build/cookieconsent.min.js</xsl:text>
+            </xsl:attribute>
+            &#160;
         </script>
     </xsl:template>
 

@@ -155,7 +155,7 @@
             <xsl:when
                 test="./dri:div[@id='cz.muni.ics.dmlcz5.aspects.CommunityAspect.div.sub-table' and @rend='left']"
             >
-                <h3>
+                <h3 class="vol-issue-mono-listing">
                     <i18n:text>page.community.serial.label.volumes</i18n:text>
                 </h3>
                 <div class="row">
@@ -287,7 +287,7 @@
                 test="./dri:referenceSet[@id='cz.muni.ics.dmlcz5.aspects.CommunityAspect.referenceSet.community-volumes']"
             >
                 <!-- for celebrity -->
-                <h3>
+                <h3 class="vol-issue-mono-listing">
                     <i18n:text>page.community.celebrity.collections</i18n:text>
                 </h3>
                 <div class="row">
@@ -336,7 +336,7 @@
                     <xsl:when
                         test="$communityType='monograph'"
                     >
-                        <h3>
+                        <h3 class="vol-issue-mono-listing">
                             <i18n:text>page.community.monograph.archive</i18n:text>
                         </h3>
                         <div class="row">
@@ -358,6 +358,7 @@
                                                     <xsl:value-of
                                                         select="document($collectionMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title' and @language]"
                                                     />
+																									<xsl:text> </xsl:text>
                                                     <xsl:value-of
                                                         select="document($collectionMetadata)/mets:METS/mets:dmdSec/mets:mdWrap/mets:xmlData/dim:dim/dim:field[@element='title' and @qualifier='alternative' and @language]"
                                                     />
@@ -373,7 +374,7 @@
                     <xsl:when
                         test="$communityType='proceedings'"
                     >
-                        <h3>
+                        <h3 class="vol-issue-mono-listing">
                             <i18n:text>page.community.proceedings.archive</i18n:text>
                         </h3>
                         <div class="row">
@@ -486,13 +487,15 @@
                                     </xsl:attribute>
                                 </img>
                             </xsl:when>
-                            <xsl:otherwise>
+														<xsl:otherwise>
+															<!--
                                 <img class="img-fluid" alt="page.general.thumbnail" i18n:attribute="alt">
                                     <xsl:attribute name="data-src">
                                         <xsl:text>holder.js/100px200</xsl:text>
                                         <xsl:text>?text=No Thumbnail</xsl:text>
                                     </xsl:attribute>
-                                </img>
+																</img>
+																-->
                             </xsl:otherwise>
                         </xsl:choose>
                     </div>
@@ -539,12 +542,14 @@
                                 </img>
                             </xsl:when>
                             <xsl:otherwise>
+															<!--
                                 <img alt="page.general.thumbnail" i18n:attribute="alt" class="img-fluid">
                                     <xsl:attribute name="data-src">
                                         <xsl:text>holder.js/100px200</xsl:text>
                                         <xsl:text>?text=No Thumbnail</xsl:text>
                                     </xsl:attribute>
-                                </img>
+																</img>
+																-->
                             </xsl:otherwise>
                         </xsl:choose>
                     </div>
@@ -580,7 +585,7 @@
                         </xsl:if>
                     </div>
                 </div>
-                <h3>
+                <h3 class="vol-issue-mono-listing">
                     <i18n:text>page.community.celebrity.volume.archive</i18n:text>
                 </h3>
                 <div class="row">
