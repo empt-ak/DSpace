@@ -69,6 +69,11 @@
             name="getMovingWallCommandLine"
             bean="movingWallCommandLine"
         />
+        <lookup-method 
+            name="getInitCommandLine"
+            bean="initCommandLine"
+        />
+        
     </bean>
     
     <bean
@@ -210,6 +215,28 @@
                     <property name="argName" value=" method"/> 
                 </bean>
             </util:list>
+        </property>
+    </bean>
+    
+    <bean
+        id="initCommandLine"
+        class="cz.muni.ics.digilaw.services.io.InitCommandLine"
+        p:subClass="cz.muni.ics.dspace5.Init">
+    
+        <property name="options">
+            <list>
+                <ref bean="userOption" />
+                <bean
+                    class="org.apache.commons.cli.Option"
+                    c:opt="#{null}"
+                    c:longOpt="init"
+                    c:hasArg="true"
+                    c:description="OPTIONAL. Init params. TODO"
+                >
+                    <property name="required" value="false" />
+                    <property name="argName" value="init" />
+                </bean>                
+            </list>
         </property>
     </bean>
     
@@ -421,6 +448,10 @@
         class="cz.muni.ics.dspace5.impl.io.ImportAndMovingWallObjectService"
     />
     
+    <bean 
+        id="initObjectService"
+        class= "cz.muni.ics.dspace5.impl.io.InitObjectService" />
+    
     <bean
         id="dspaceExecutor"
         class="cz.muni.ics.dspace5.impl.io.DSpaceExecutorImpl"
@@ -430,6 +461,7 @@
                 <entry key="delete" value-ref="deleteObjectService" />
                 <entry key="import" value-ref="importAndMovingWallObjectService" />
                 <entry key="movingwall" value-ref="importAndMovingWallObjectService" />
+                <entry key="init" value-ref="initObjectService" />
             </map>
         </property>
     </bean>
