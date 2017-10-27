@@ -19,12 +19,14 @@ import org.springframework.stereotype.Component;
 /**
  *
  * @author Dominik Szalai - emptulik at gmail.com
+ * @author Vlastimil krejcir - krejcir at ics.muni.cz
  */
 @Component(value = "groupService")
 public class DSpaceGroupServiceImpl implements DSpaceGroupService
 {
     private static final Logger logger = Logger.getLogger(DSpaceGroupServiceImpl.class);    
     private static final String[] builtInGroupNames = new String[]{"Anonymous","Administrator"};
+    private static final String embargoAccessGroupName = "EMBARGO_ACCESS";
     private String[] customMadeGroups;
     
     @Autowired
@@ -105,6 +107,22 @@ public class DSpaceGroupServiceImpl implements DSpaceGroupService
     public Group getAnonymousGroup()
     {
         return getGroupByName(builtInGroupNames[0]);
+    }
+    
+    @Override
+    public Group getEmbargoGroup() {
+        return getGroupByName(embargoAccessGroupName);
+    }
+
+    @Override
+    public void createEmbargoGroup() {
+        
+        try {
+            createGroup(embargoAccessGroupName);
+        }
+        catch (GroupAlreadyExistException e) {
+            logger.info("Embargo access " + embargoAccessGroupName + " group has already been created.");
+        }
     }
     
     private int getNumberOfGroups()
