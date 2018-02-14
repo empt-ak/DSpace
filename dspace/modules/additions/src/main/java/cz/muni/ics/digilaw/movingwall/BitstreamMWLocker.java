@@ -21,8 +21,13 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- *
+ * Locking bitstream according to the moving wall. 
+ * 
+ * Also special group to allow access for logged users who are members of this
+ * group is added.
+ * 
  * @author Dominik Szalai - emptulik at gmail.com
+ * @author Vlastimil Krejcir - krejcir at ics.muni.cz
  */
 public class BitstreamMWLocker implements MWLocker
 {
@@ -48,6 +53,8 @@ public class BitstreamMWLocker implements MWLocker
             try
             {
                 Group anonGroup = dSpaceGroupService.getAnonymousGroup();
+                Group embargoGroup = dSpaceGroupService.getEmbargoGroup();
+                boolean embargoGroupSet = false;
 
                 List<ResourcePolicy> currentPolicies = resourcePolicyService.getPolicies(dSpaceObject);
 
@@ -63,7 +70,16 @@ public class BitstreamMWLocker implements MWLocker
                                 "embargo")                        
                                 .update();
                     }
+                    
+                    if (rp.getGroupID() == embargoGroup.getID()) {                        
+                        embargoGroupSet = true;
+                    }
                 }
+                
+                if (! embargoGroupSet) {
+                    resourcePolicyService.createReadGroupPolicy(dSpaceObject, embargoGroup);
+                }
+                
             }
             catch (SQLException | AuthorizeException ex)
             {
@@ -80,6 +96,8 @@ public class BitstreamMWLocker implements MWLocker
     public void unlockObject(DSpaceObject dSpaceObject, MovingWall movingWall) throws IllegalArgumentException, MovingWallException
     {
         Group anonymousGroup = dSpaceGroupService.getAnonymousGroup();
+        Group embargoGroup = dSpaceGroupService.getEmbargoGroup();
+        
         for(ResourcePolicy rp : resourcePolicyService.getPolicies(dSpaceObject))
         {
             if(rp.getGroupID() == anonymousGroup.getID())
@@ -95,6 +113,17 @@ public class BitstreamMWLocker implements MWLocker
                 {
                     logger.error(ex,ex.getCause());
                 }
+            }
+            
+            if (rp.getGroupID() == embargoGroup.getID()) {
+            
+                try {
+                    resourcePolicyService.removeReadGroupPolicy(dSpaceObject, embargoGroup);                    
+                }
+                catch (SQLException ex) {
+                    logger.error(ex,ex.getCause());
+                }
+                    
             }
         }
     }

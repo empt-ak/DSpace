@@ -12,6 +12,7 @@ import org.dspace.eperson.Group;
 /**
  *
  * @author Dominik Szalai - emptulik at gmail.com
+ * @author Vlastimil Krejcir - krejcir @ ics.muni.cz
  */
 public interface DSpaceGroupService
 {
@@ -56,4 +57,19 @@ public interface DSpaceGroupService
      * @return anonymous group.
      */
     Group getAnonymousGroup();
+    
+    /**
+     * Method return the special group intended to handle access for authorized 
+     * users to the embargoed content.
+     * 
+     * @return  embargo access group
+     */
+    Group getEmbargoGroup();
+    
+    /**
+     * Method creates the special embargo access group used to handle access
+     * for authorized users to the embargoed content.
+     */
+    void createEmbargoGroup();
+    
 }

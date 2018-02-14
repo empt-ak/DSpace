@@ -209,7 +209,7 @@
                     c:opt="#{null}"
                     c:longOpt="method"
                     c:hasArg="true"
-                    c:description="k"
+                    c:description="not implemented yet"
                 >
                     <property name="required" value="false" />
                     <property name="argName" value=" method"/> 

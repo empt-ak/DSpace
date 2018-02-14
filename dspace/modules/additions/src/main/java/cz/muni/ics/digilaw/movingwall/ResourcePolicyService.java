@@ -15,6 +15,7 @@ import org.dspace.authorize.AuthorizeException;
 import org.dspace.authorize.AuthorizeManager;
 import org.dspace.authorize.ResourcePolicy;
 import org.dspace.content.DSpaceObject;
+import org.dspace.eperson.Group;
 import org.dspace.core.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,6 +23,8 @@ import org.springframework.stereotype.Component;
 /**
  *
  * @author Dominik Szalai - emptulik at gmail.com
+ * @author Vlastimil Krejcir - krejcir at ics.muni.cz
+ * 
  */
 @Component
 public class ResourcePolicyService
@@ -70,6 +73,32 @@ public class ResourcePolicyService
         }
         
         return rp;
+    }
+    
+    
+    /**
+     * Method creates READ policy for the group and object.
+     * 
+     * @param object DSpace object for with the policy is created
+     * @param g Group for policy
+     * @throws AuthorizeException if {@link AuthorizeManager#createOrModifyPolicy(org.dspace.authorize.ResourcePolicy, org.dspace.core.Context, java.lang.String, int, org.dspace.eperson.EPerson, java.util.Date, int, java.lang.String, org.dspace.content.DSpaceObject) } throws one
+     * @throws SQLException same as AuthorizeException
+     */
+    public void createReadGroupPolicy(DSpaceObject object, Group group) throws AuthorizeException, SQLException {
+        
+        AuthorizeManager.addPolicy(
+                contextWrapper.getContext(), 
+                object,
+                Constants.READ,
+                group,
+                ResourcePolicy.TYPE_CUSTOM);
+    } 
+    
+    public void removeReadGroupPolicy(DSpaceObject object, Group group) throws SQLException {
+        
+        AuthorizeManager.removeGroupPolicies(contextWrapper.getContext(),
+                object,
+                group);
     }
     
     /**

@@ -67,8 +67,8 @@
         <field custom-converter-id="simpleconverter" custom-converter-param="dc.language">
             <a>language</a>
             <b>metadata</b>
-						</field>        
-				<field custom-converter-id="simpleconverter" custom-converter-param="dc.description.edition">
+        </field>        
+	<field custom-converter-id="simpleconverter" custom-converter-param="dc.description.edition">
             <a>edition</a>
             <b>metadata</b>
         </field>
@@ -107,12 +107,16 @@
         <field custom-converter-id="simpleconverter" custom-converter-param="dc.identifier">
             <a>alephSysno</a>
             <b>metadata</b>
-					</field>
+	</field>
         <field custom-converter-id="simpleconverter" custom-converter-param="dc.rights.openaccess">
-            <a>formatExtent</a>
+            <a>openAccess</a>
             <b>metadata</b>
         </field>
-				<field custom-converter-id="composedconverter" custom-converter-param="dc.description.note">
+        <field custom-converter-id="simpleconverter" custom-converter-param="dc.date.embargoend">
+            <a>embargoEndDate</a>
+            <b>metadata</b>
+        </field>
+        <field custom-converter-id="composedconverter" custom-converter-param="dc.description.note">
             <a>note</a>
             <b>metadata</b>
         </field>

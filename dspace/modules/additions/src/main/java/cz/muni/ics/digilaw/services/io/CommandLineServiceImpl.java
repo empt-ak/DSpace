@@ -17,6 +17,7 @@ public abstract class CommandLineServiceImpl implements CommandLineService
     protected abstract CommandLine getImportCommandLine();
     protected abstract CommandLine getDeleteCommandLine();
     protected abstract CommandLine getMovingWallCommandLine();
+    protected abstract CommandLine getInitCommandLine();
 
     @Override
     public CommandLine getCommandLine(String type) throws IllegalArgumentException, UnsupportedOperationException
@@ -34,8 +35,10 @@ public abstract class CommandLineServiceImpl implements CommandLineService
                 return getDeleteCommandLine();
             case "movingwall":
                 return getMovingWallCommandLine();
+            case "init":
+                return getInitCommandLine();
             default:
-                throw new UnsupportedOperationException("Given type does not exist possible values are [import/delete,movingwall] but was ["+type+"]");
+                throw new UnsupportedOperationException("Given type does not exist possible values are [import/delete,movingwall,init] but was ["+type+"]");
         }
     }    
 }
