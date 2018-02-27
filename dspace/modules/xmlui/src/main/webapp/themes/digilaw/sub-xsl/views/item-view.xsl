@@ -46,18 +46,17 @@
             <xsl:text>?sections=dmdSec,fileSec</xsl:text>
         </xsl:variable>
 
-		<xsl:variable name="collectionMetadataLink">
-			<xsl:value-of select="../../dri:referenceSet[@n='current-collection']/dri:reference/@url" />
-		</xsl:variable>
+        <xsl:variable name="collectionMetadataLink">
+            <xsl:value-of select="../../dri:referenceSet[@n='current-collection']/dri:reference/@url" />
+        </xsl:variable>
 
-		<xsl:variable name="collectionMetadata">
-			<xsl:text>cocoon://</xsl:text>
-			<xsl:value-of select="$collectionMetadataLink" />
-			<xsl:text>?sections=fileSec</xsl:text>
-		</xsl:variable>
+        <xsl:variable name="collectionMetadata">
+            <xsl:text>cocoon://</xsl:text>
+            <xsl:value-of select="$collectionMetadataLink" />
+            <xsl:text>?sections=fileSec</xsl:text>
+        </xsl:variable>
 
 
-		<h1 id="test2" style="display: none"><xsl:value-of select="$collectionMetadataLink" /></h1>
         <div class="col-xs-12">
             <ul class="nav nav-tabs pull-sm-left pull-md-right" role="tablist">
                 <li class="nav-item">
@@ -112,24 +111,23 @@
                             <div class="col-xs-12 col-md-6 col-xl-3">
                                 <div class="card">
                                     <xsl:choose>
-                                        <xsl:when test="document($itemMetadata)/mets:fileSec/mets:fileGrp[@USE='THUMBNAIL']/
-                        mets:file[@GROUPID=current()/@GROUPID]">
-                                            <img alt="page.general.thumbnail" i18n:attribute="alt" class="card-img-top hidden-xs-down">
+                                        <xsl:when test="document($collectionMetadata)/mets:METS/mets:fileSec/mets:fileGrp[@USE='LOGO']">
+																					<xsl:variable name="myurl" select="document($collectionMetadata)/mets:METS/mets:fileSec/mets:fileGrp[@USE='LOGO']/mets:file/mets:FLocat/@xlink:href" />
+                                            <img i18n:attribute="alt" alt="page.general.thumbnail" class="card-img-top hidden-xs-down">
                                                 <xsl:attribute name="src">
-                                                    <xsl:value-of select="document($itemMetadata)/mets:fileSec/mets:fileGrp[@USE='THUMBNAIL']/
-                                    mets:file[@GROUPID=current()/@GROUPID]/mets:FLocat[@LOCTYPE='URL']/@xlink:href"/>
+                                                    <xsl:value-of select="string($myurl)"/>
                                                 </xsl:attribute>
                                             </img>
                                         </xsl:when>
                                         <xsl:otherwise>
-											<!--
-                                            <img alt="page.general.thumbnail" i18n:attribute="alt" class="card-img-top hidden-xs-down">
-                                                <xsl:attribute name="data-src">
-                                                    <xsl:text>holder.js/100px200</xsl:text>
-                                                    <xsl:text>?text=No Thumbnail</xsl:text>
-                                                </xsl:attribute>
-											</img>
-											-->
+                                            <!--
+<img alt="page.general.thumbnail" i18n:attribute="alt" class="card-img-top hidden-xs-down">
+    <xsl:attribute name="data-src">
+        <xsl:text>holder.js/100px200</xsl:text>
+        <xsl:text>?text=No Thumbnail</xsl:text>
+    </xsl:attribute>
+                                            </img>
+                                            -->
                                         </xsl:otherwise>
                                     </xsl:choose>
                                     <div class="card-block card-block-reduced">
@@ -266,17 +264,17 @@
                                             </ul> 
                                         </div>
                                     </xsl:if>
-									<div class="card-block">
-										<!--
-                                        <h5 class="card-title">
-                                            <i18n:text>page.item.citation</i18n:text>
-										</h5>
-										-->
-										<!--
-										[mono]<b>Item#title</b>. (Item#language). In: Collection#editors: Collection#title. Collection#publisher, Collection#publisher#place, Collection#date. pp. Item#extent
-										-->
+                                    <div class="card-block">
+                                        <!--
+<h5 class="card-title">
+    <i18n:text>page.item.citation</i18n:text>
+                                        </h5>
+                                        -->
+                                        <!--
+                                        [mono]<b>Item#title</b>. (Item#language). In: Collection#editors: Collection#title. Collection#publisher, Collection#publisher#place, Collection#date. pp. Item#extent
+                                        -->
 
-									</div>
+                                    </div>
                                 </div>
                             </div>                                          
                         </div>
