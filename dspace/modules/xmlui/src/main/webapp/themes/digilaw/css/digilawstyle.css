@@ -214,3 +214,10 @@ li.list-inline-item:not(:last-of-type):after
     display: table-cell;
     vertical-align: middle;
 }
+
+.mono-cover
+{
+    margin: 1rem;
+    border: 0.1rem solid black;
+    padding: 0.3rem;
+}
