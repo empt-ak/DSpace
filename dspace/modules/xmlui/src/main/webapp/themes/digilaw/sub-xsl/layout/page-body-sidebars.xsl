@@ -30,15 +30,18 @@
                 <xsl:for-each
                     select="/dri:document/dri:options/dri:list[@id='aspect.viewArtifacts.Navigation.list.browse']/dri:list[@id='aspect.browseArtifacts.Navigation.list.global']/dri:item"
                 >
-                    <li class="list-group-item">
-                        <a href="{./dri:xref/@target}">
-                            <i18n:text>
-                                <xsl:value-of
-                                    select="./dri:xref"
-                                />
-                            </i18n:text>
-                        </a>
-                    </li>
+                    <xsl:variable name="xrefcontent" select="./dri:xref/@target" />
+                    <xsl:if test="not(contains($xrefcontent, 'community-list'))">
+                        <li class="list-group-item">
+                            <a href="{./dri:xref/@target}">
+                                <i18n:text>
+                                    <xsl:value-of
+                                        select="./dri:xref"
+                                    />
+                                </i18n:text>
+                            </a>
+                        </li>
+                    </xsl:if>
                 </xsl:for-each>
             </ul> 
             <xsl:if
@@ -124,7 +127,7 @@
                 </div>
                 <ul class="list-group list-group-flush">              
                     <li class="list-group-item">
-                        <i18n:text>page.sidebar.left.count.author </i18n:text>
+                        <i18n:text>page.sidebar.left.count.author</i18n:text>
                         <xsl:text> </xsl:text>
                         <xsl:value-of
                             select="document(concat($solrServer,'select?q=*%3A*&amp;fl=author_keyword&amp;wt=xml&amp;rows=0'))/response/result/@numFound"
@@ -141,8 +144,8 @@
                         <i18n:text>page.sidebar.left.quickstats.more</i18n:text>
                     </li>
                 </ul>
-            </div> 
-            -->       
+            </div>
+            -->        
         </div>
     </xsl:template>
     
