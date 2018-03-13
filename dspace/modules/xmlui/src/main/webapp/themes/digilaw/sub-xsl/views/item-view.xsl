@@ -112,7 +112,7 @@
                                 <div class="card">
                                     <xsl:choose>
                                         <xsl:when test="document($collectionMetadata)/mets:METS/mets:fileSec/mets:fileGrp[@USE='LOGO']">
-																					<xsl:variable name="myurl" select="document($collectionMetadata)/mets:METS/mets:fileSec/mets:fileGrp[@USE='LOGO']/mets:file/mets:FLocat/@xlink:href" />
+                                            <xsl:variable name="myurl" select="document($collectionMetadata)/mets:METS/mets:fileSec/mets:fileGrp[@USE='LOGO']/mets:file/mets:FLocat/@xlink:href" />
                                             <img i18n:attribute="alt" alt="page.general.thumbnail" class="mono-cover card-img-top hidden-xs-down">
                                                 <xsl:attribute name="src">
                                                     <xsl:value-of select="string($myurl)"/>
