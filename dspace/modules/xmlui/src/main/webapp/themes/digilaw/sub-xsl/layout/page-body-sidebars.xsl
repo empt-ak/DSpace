@@ -117,13 +117,14 @@
                     </ul>
                 </xsl:if>
             </div>
+            <!--
             <div class="hidden-sm-down">
                 <div class="card-header">
                     <i18n:text>page.sidebar.left.quickstats</i18n:text>
                 </div>
                 <ul class="list-group list-group-flush">              
                     <li class="list-group-item">
-                        <i18n:text>page.sidebar.left.count.author</i18n:text>
+                        <i18n:text>page.sidebar.left.count.author </i18n:text>
                         <xsl:text> </xsl:text>
                         <xsl:value-of
                             select="document(concat($solrServer,'select?q=*%3A*&amp;fl=author_keyword&amp;wt=xml&amp;rows=0'))/response/result/@numFound"
@@ -140,7 +141,8 @@
                         <i18n:text>page.sidebar.left.quickstats.more</i18n:text>
                     </li>
                 </ul>
-            </div>        
+            </div> 
+            -->       
         </div>
     </xsl:template>
     
