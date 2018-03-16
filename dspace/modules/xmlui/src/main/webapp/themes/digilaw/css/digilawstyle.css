@@ -221,3 +221,16 @@ li.list-inline-item:not(:last-of-type):after
     border: 0.1rem solid black;
     padding: 0.3rem;
 }
+
+.mono-cover-search
+{
+    width: auto;
+    height: 100px;
+    margin-right: 1rem;
+    border: 1px solid black;
+}
+
+h4.publication-head
+{
+    margin-top: 1rem;
+}

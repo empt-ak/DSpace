@@ -197,13 +197,15 @@
     <xsl:template
         match="dri:list[@n='comm-coll-result-list']"
     >
+        <!--
         <h4>
-            <i18n:text>
+            <i18n:text> 
                 <xsl:value-of
                     select="./dri:head"
                 />
             </i18n:text>
         </h4>
+        -->
         <xsl:for-each
             select="./dri:list"
         >
@@ -236,13 +238,30 @@
             
             <div class="media">
                 <div class="media-left hidden-sm-down">
-                    <img alt="page.general.thumbnail" class="img-responsive" i18n:attribute="alt">
-                        <xsl:attribute name="data-src">
-                            <xsl:text>holder.js/100x100</xsl:text>
-                            <xsl:text>?text=No Thumbnail</xsl:text>
-                        </xsl:attribute>
-                    </img>
-                </div>
+                    <xsl:choose>
+                        <xsl:when test="document($extMetsURL)/mets:METS/mets:fileSec/mets:fileGrp[@USE='LOGO']">
+                            <xsl:variable name="myurl" select="document($extMetsURL)/mets:METS/mets:fileSec/mets:fileGrp[@USE='LOGO']/mets:file/mets:FLocat/@xlink:href" />
+                            <img i18n:attribute="alt" alt="page.general.thumbnail" class="mono-cover-search card-img-top hidden-xs-down">
+                                <xsl:attribute name="src">
+                                    <xsl:value-of select="string($myurl)"/>
+                                </xsl:attribute>
+                            </img>
+                        </xsl:when>
+                        <xsl:otherwise>
+                        
+                    
+                
+                
+                            <img alt="page.general.thumbnail" class="img-responsive" i18n:attribute="alt">
+                                <xsl:attribute name="data-src">
+                                    <xsl:text>holder.js/100x100</xsl:text>
+                                    <xsl:text>?text=No Thumbnail</xsl:text>
+                                </xsl:attribute>
+                            </img>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </div>                    
+                    
                 <div class="media-body">
                     <h5 class="media-heading">
                         <a href="{$extMets/mets:METS/@OBJID}">
@@ -291,7 +310,7 @@
     >
         <div class="row">
             <div class="col-sm-12">
-                <h4>
+                <h4 class="publication-head">
                     <i18n:text>
                         <xsl:value-of
                             select="./dri:head"
@@ -306,6 +325,9 @@
                         name="h"
                         select="substring-before(@n,':item')"
                     />
+                    
+                    
+                    
                     <xsl:variable name="extMetsURL">
                         <xsl:text>cocoon://metadata/handle/</xsl:text>
                         <xsl:value-of select="$h"/>
@@ -318,14 +340,46 @@
                         </xsl:if>-->
                     </xsl:variable> 
                     <xsl:variable name="extMets" select="document($extMetsURL)" />
+                    
+                    
+                    <xsl:variable name="collectionMetadataLink">
+                        <xsl:value-of select="./dri:list[@n=concat($h,':owningCollection')]/dri:item" />
+                    </xsl:variable>
+                    
+
+                    
+                    <xsl:variable name="collectionMetadata">
+                        <xsl:text>cocoon://metadata/handle/</xsl:text>
+                        <xsl:value-of select="$collectionMetadataLink" />
+                        <xsl:text>/mets.xml</xsl:text>
+                        <xsl:text>?sections=fileSec</xsl:text>
+                    </xsl:variable>
+                    
+                    
                     <div class="media">
+                        
                         <div class="media-left hidden-sm-down">
-                            <img alt="page.general.thumbnail" class="img-responsive" i18n:attribute="alt">
-                                <xsl:attribute name="data-src">
-                                    <xsl:text>holder.js/100x100</xsl:text>
-                                    <xsl:text>?text=No Thumbnail</xsl:text>
-                                </xsl:attribute>
-                            </img>
+                            <xsl:choose>
+                                <xsl:when test="document($collectionMetadata)/mets:METS/mets:fileSec/mets:fileGrp[@USE='LOGO']">
+                                    <xsl:variable name="myurl" select="document($collectionMetadata)/mets:METS/mets:fileSec/mets:fileGrp[@USE='LOGO']/mets:file/mets:FLocat/@xlink:href" />
+                                    <img i18n:attribute="alt" alt="page.general.thumbnail" class="mono-cover-search card-img-top hidden-xs-down">
+                                        <xsl:attribute name="src">
+                                            <xsl:value-of select="string($myurl)"/>
+                                        </xsl:attribute>
+                                    </img>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    
+                                    <img alt="page.general.thumbnail" class="img-responsive" i18n:attribute="alt">
+                                        <xsl:attribute name="data-src">
+                                            <xsl:text>holder.js/100x100</xsl:text>
+                                            <xsl:text>?text=No Thumbnail</xsl:text>
+                                        </xsl:attribute>
+                                    </img>
+                                    
+                                    <!-- <xsl:copy-of select="string($collectionMetadata)" /> -->
+                                </xsl:otherwise>
+                            </xsl:choose>
                         </div>
                         <div class="media-body disable-math">
                             <h5 class="media-heading">
