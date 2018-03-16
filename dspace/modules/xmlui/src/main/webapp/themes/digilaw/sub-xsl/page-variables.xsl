@@ -34,8 +34,8 @@
     <xsl:variable 
         name="homePage">
         <xsl:choose>
-            <xsl:when test="string-length($rawContext) != 0">
-                <xsl:value-of select="$rawContext" />
+            <xsl:when test="string-length($contextPath) != 0">
+                <xsl:value-of select="$contextPath" />
             </xsl:when>
             <xsl:otherwise>
                 <xsl:text>/</xsl:text>
