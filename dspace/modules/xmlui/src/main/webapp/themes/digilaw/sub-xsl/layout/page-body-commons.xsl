@@ -314,7 +314,7 @@
     >        
         <div class="row">
             <div class="col-sm-2 hidden-sm-down">
-                <a href="{$contextPath}" >
+                <a href="{$homePage}" >
                     <img alt="page.general.banner" i18n:attr="alt" class="dspace-banner">
                         <xsl:attribute
                             name="src"
@@ -330,7 +330,7 @@
             <div class="col-sm-10">
                 <div class="vertical-wrapper">
                     <h1 class="vertical-align">
-                        <a href="{$contextPath}" class="page-header">
+                        <a href="{$homePage}" class="page-header">
                             <h1>
                                 <i18n:text>page.head.title</i18n:text>
                             </h1>
