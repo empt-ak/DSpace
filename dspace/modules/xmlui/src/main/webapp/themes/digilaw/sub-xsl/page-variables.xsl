@@ -29,10 +29,19 @@
         <xsl:text>digilaw</xsl:text>
     </xsl:variable>
      
+    <xsl:variable name="rawContext" select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]" />
+     
     <xsl:variable 
-        name="contextPath" 
-        select="/dri:document/dri:meta/dri:pageMeta/dri:metadata[@element='contextPath'][not(@qualifier)]" 
-    />
+        name="contextPath">
+        <xsl:choose>
+            <xsl:when test="string-length($rawContext) != 0">
+                <xsl:value-of select="$rawContext" />
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:text>/</xsl:text>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:variable>
     
     <xsl:variable
         name="resourcePath"
